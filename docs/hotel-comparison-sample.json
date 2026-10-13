@@ -1,0 +1,641 @@
+{
+ "nights_used": 1,
+ "nights_source": "default (days - 1)",
+ "value_of_time_per_hour": 1000,
+ "missed_preference_penalty_jpy": 3000,
+ "results": [
+  {
+   "hotel_id": "hotel_kitsune_shinjuku",
+   "hotel_name": "Hotel Kitsune Shinjuku (fictional)",
+   "area": "Shinjuku",
+   "nightly_rate_jpy": 14000,
+   "status": "feasible",
+   "feasible": true,
+   "solver_status": "OPTIMAL",
+   "proven_optimal": true,
+   "runtime_seconds": 0.1052,
+   "conflicts": [],
+   "itinerary": {
+    "status": "feasible",
+    "hotel_id": "hotel_kitsune_shinjuku",
+    "days": [
+     {
+      "day": 1,
+      "weekday": "sat",
+      "stops": [
+       {
+        "attraction_id": "senso_ji",
+        "start": "09:45",
+        "end": "11:15",
+        "travel_minutes_from_previous": 45,
+        "transport_jpy_from_previous": 380,
+        "cost": 0,
+        "cost_status": "known",
+        "is_must_visit": true,
+        "uncertainty_flags": []
+       },
+       {
+        "attraction_id": "tsukiji_outer_market",
+        "start": "11:49",
+        "end": "13:19",
+        "travel_minutes_from_previous": 34,
+        "transport_jpy_from_previous": 310,
+        "cost": 0,
+        "cost_status": "known",
+        "is_must_visit": false,
+        "uncertainty_flags": []
+       },
+       {
+        "attraction_id": "imperial_palace_east_gardens",
+        "start": "13:40",
+        "end": "15:10",
+        "travel_minutes_from_previous": 21,
+        "transport_jpy_from_previous": 220,
+        "cost": 0,
+        "cost_status": "known",
+        "is_must_visit": false,
+        "uncertainty_flags": []
+       }
+      ],
+      "hotel_departure": "09:00",
+      "hotel_return": "15:38",
+      "return_travel_minutes": 28,
+      "return_transport_jpy": 270
+     },
+     {
+      "day": 2,
+      "weekday": "sun",
+      "stops": [
+       {
+        "attraction_id": "shinjuku_gyoen",
+        "start": "09:15",
+        "end": "11:15",
+        "travel_minutes_from_previous": 15,
+        "transport_jpy_from_previous": 180,
+        "cost": 500,
+        "cost_status": "known",
+        "is_must_visit": false,
+        "uncertainty_flags": []
+       },
+       {
+        "attraction_id": "shibuya_sky",
+        "start": "11:37",
+        "end": "12:52",
+        "travel_minutes_from_previous": 22,
+        "transport_jpy_from_previous": 230,
+        "cost": 2200,
+        "cost_status": "known",
+        "is_must_visit": true,
+        "uncertainty_flags": []
+       },
+       {
+        "attraction_id": "meiji_jingu",
+        "start": "13:10",
+        "end": "14:40",
+        "travel_minutes_from_previous": 18,
+        "transport_jpy_from_previous": 200,
+        "cost": 0,
+        "cost_status": "known",
+        "is_must_visit": false,
+        "uncertainty_flags": []
+       }
+      ],
+      "hotel_departure": "09:00",
+      "hotel_return": "14:58",
+      "return_travel_minutes": 18,
+      "return_transport_jpy": 200
+     }
+    ],
+    "totals": {
+     "travel_minutes": 201,
+     "admissions_jpy": 2700,
+     "transport_jpy": 1990,
+     "total_jpy": 4690,
+     "unknown_cost_items": [],
+     "attractions_scheduled": 6
+    },
+    "conflicts": [],
+    "alternatives": [],
+    "notes": [
+     "max_walking_minutes_per_day is not enforced in this version."
+    ],
+    "missed_preferences": [
+     "tokyo_skytree",
+     "teamlab_planets",
+     "tokyo_national_museum",
+     "tokyo_tower",
+     "ghibli_museum"
+    ],
+    "solver_meta": {
+     "solver": "ortools-cp-sat",
+     "solver_status": "OPTIMAL",
+     "runtime_seconds": 0.1052,
+     "seed": 42,
+     "objective": 1382400.0
+    }
+   },
+   "breakdown": {
+    "nights": 1,
+    "nightly_rate_jpy": 14000,
+    "rooms_jpy": 14000,
+    "admissions_jpy": 2700,
+    "transport_jpy": 1990,
+    "travel_minutes": 201,
+    "travel_hours": 3.35,
+    "value_of_time_per_hour": 1000,
+    "time_cost_jpy": 3350,
+    "missed_preferences": {
+     "count": 5,
+     "attraction_ids": [
+      "tokyo_skytree",
+      "teamlab_planets",
+      "tokyo_national_museum",
+      "tokyo_tower",
+      "ghibli_museum"
+     ],
+     "names": [
+      "Tokyo Skytree",
+      "teamLab Planets",
+      "Tokyo National Museum",
+      "Tokyo Tower",
+      "Ghibli Museum"
+     ],
+     "penalty_per_item_jpy": 3000,
+     "penalty_jpy": 15000
+    },
+    "unknown_price_items": [],
+    "optimisation_placeholder_jpy": 500,
+    "optimisation_placeholder_total_jpy": 0,
+    "true_cost_jpy": 37040
+   },
+   "validator_overall": "pass_with_warnings",
+   "note": null
+  },
+  {
+   "hotel_id": "hotel_lantern_asakusa",
+   "hotel_name": "Asakusa Lantern Inn (fictional)",
+   "area": "Asakusa",
+   "nightly_rate_jpy": 10500,
+   "status": "feasible",
+   "feasible": true,
+   "solver_status": "OPTIMAL",
+   "proven_optimal": true,
+   "runtime_seconds": 0.2028,
+   "conflicts": [],
+   "itinerary": {
+    "status": "feasible",
+    "hotel_id": "hotel_lantern_asakusa",
+    "days": [
+     {
+      "day": 1,
+      "weekday": "sat",
+      "stops": [
+       {
+        "attraction_id": "tsukiji_outer_market",
+        "start": "09:33",
+        "end": "11:03",
+        "travel_minutes_from_previous": 33,
+        "transport_jpy_from_previous": 300,
+        "cost": 0,
+        "cost_status": "known",
+        "is_must_visit": false,
+        "uncertainty_flags": []
+       },
+       {
+        "attraction_id": "imperial_palace_east_gardens",
+        "start": "11:24",
+        "end": "12:54",
+        "travel_minutes_from_previous": 21,
+        "transport_jpy_from_previous": 220,
+        "cost": 0,
+        "cost_status": "known",
+        "is_must_visit": false,
+        "uncertainty_flags": []
+       },
+       {
+        "attraction_id": "senso_ji",
+        "start": "13:25",
+        "end": "14:55",
+        "travel_minutes_from_previous": 31,
+        "transport_jpy_from_previous": 280,
+        "cost": 0,
+        "cost_status": "known",
+        "is_must_visit": true,
+        "uncertainty_flags": []
+       }
+      ],
+      "hotel_departure": "09:00",
+      "hotel_return": "15:07",
+      "return_travel_minutes": 12,
+      "return_transport_jpy": 160
+     },
+     {
+      "day": 2,
+      "weekday": "sun",
+      "stops": [
+       {
+        "attraction_id": "shinjuku_gyoen",
+        "start": "09:44",
+        "end": "11:44",
+        "travel_minutes_from_previous": 43,
+        "transport_jpy_from_previous": 370,
+        "cost": 500,
+        "cost_status": "known",
+        "is_must_visit": false,
+        "uncertainty_flags": []
+       },
+       {
+        "attraction_id": "meiji_jingu",
+        "start": "12:00",
+        "end": "13:30",
+        "travel_minutes_from_previous": 16,
+        "transport_jpy_from_previous": 190,
+        "cost": 0,
+        "cost_status": "known",
+        "is_must_visit": false,
+        "uncertainty_flags": []
+       },
+       {
+        "attraction_id": "shibuya_sky",
+        "start": "13:48",
+        "end": "15:03",
+        "travel_minutes_from_previous": 18,
+        "transport_jpy_from_previous": 200,
+        "cost": 2200,
+        "cost_status": "known",
+        "is_must_visit": true,
+        "uncertainty_flags": []
+       }
+      ],
+      "hotel_departure": "09:01",
+      "hotel_return": "15:54",
+      "return_travel_minutes": 51,
+      "return_transport_jpy": 420
+     }
+    ],
+    "totals": {
+     "travel_minutes": 225,
+     "admissions_jpy": 2700,
+     "transport_jpy": 2140,
+     "total_jpy": 4840,
+     "unknown_cost_items": [],
+     "attractions_scheduled": 6
+    },
+    "conflicts": [],
+    "alternatives": [],
+    "notes": [
+     "max_walking_minutes_per_day is not enforced in this version."
+    ],
+    "missed_preferences": [
+     "tokyo_skytree",
+     "teamlab_planets",
+     "tokyo_national_museum",
+     "tokyo_tower",
+     "ghibli_museum"
+    ],
+    "solver_meta": {
+     "solver": "ortools-cp-sat",
+     "solver_status": "OPTIMAL",
+     "runtime_seconds": 0.2028,
+     "seed": 42,
+     "objective": 1415400.0
+    }
+   },
+   "breakdown": {
+    "nights": 1,
+    "nightly_rate_jpy": 10500,
+    "rooms_jpy": 10500,
+    "admissions_jpy": 2700,
+    "transport_jpy": 2140,
+    "travel_minutes": 225,
+    "travel_hours": 3.75,
+    "value_of_time_per_hour": 1000,
+    "time_cost_jpy": 3750,
+    "missed_preferences": {
+     "count": 5,
+     "attraction_ids": [
+      "tokyo_skytree",
+      "teamlab_planets",
+      "tokyo_national_museum",
+      "tokyo_tower",
+      "ghibli_museum"
+     ],
+     "names": [
+      "Tokyo Skytree",
+      "teamLab Planets",
+      "Tokyo National Museum",
+      "Tokyo Tower",
+      "Ghibli Museum"
+     ],
+     "penalty_per_item_jpy": 3000,
+     "penalty_jpy": 15000
+    },
+    "unknown_price_items": [],
+    "optimisation_placeholder_jpy": 500,
+    "optimisation_placeholder_total_jpy": 0,
+    "true_cost_jpy": 34090
+   },
+   "validator_overall": "pass_with_warnings",
+   "note": null
+  },
+  {
+   "hotel_id": "hotel_harbour_odaiba",
+   "hotel_name": "Odaiba Harbour Stay (fictional)",
+   "area": "Odaiba",
+   "nightly_rate_jpy": 8500,
+   "status": "feasible",
+   "feasible": true,
+   "solver_status": "OPTIMAL",
+   "proven_optimal": true,
+   "runtime_seconds": 0.1316,
+   "conflicts": [],
+   "itinerary": {
+    "status": "feasible",
+    "hotel_id": "hotel_harbour_odaiba",
+    "days": [
+     {
+      "day": 1,
+      "weekday": "sat",
+      "stops": [
+       {
+        "attraction_id": "teamlab_planets",
+        "start": "09:32",
+        "end": "11:32",
+        "travel_minutes_from_previous": 32,
+        "transport_jpy_from_previous": 290,
+        "cost": 0,
+        "cost_status": "unknown",
+        "is_must_visit": false,
+        "uncertainty_flags": [
+         "price_unknown",
+         "advance_booking_required"
+        ]
+       },
+       {
+        "attraction_id": "tsukiji_outer_market",
+        "start": "11:52",
+        "end": "13:22",
+        "travel_minutes_from_previous": 20,
+        "transport_jpy_from_previous": 220,
+        "cost": 0,
+        "cost_status": "known",
+        "is_must_visit": false,
+        "uncertainty_flags": []
+       },
+       {
+        "attraction_id": "senso_ji",
+        "start": "13:56",
+        "end": "15:26",
+        "travel_minutes_from_previous": 34,
+        "transport_jpy_from_previous": 310,
+        "cost": 0,
+        "cost_status": "known",
+        "is_must_visit": true,
+        "uncertainty_flags": []
+       }
+      ],
+      "hotel_departure": "09:00",
+      "hotel_return": "16:22",
+      "return_travel_minutes": 56,
+      "return_transport_jpy": 460
+     },
+     {
+      "day": 2,
+      "weekday": "sun",
+      "stops": [
+       {
+        "attraction_id": "shibuya_sky",
+        "start": "10:00",
+        "end": "11:15",
+        "travel_minutes_from_previous": 60,
+        "transport_jpy_from_previous": 480,
+        "cost": 2200,
+        "cost_status": "known",
+        "is_must_visit": true,
+        "uncertainty_flags": []
+       },
+       {
+        "attraction_id": "meiji_jingu",
+        "start": "11:33",
+        "end": "13:03",
+        "travel_minutes_from_previous": 18,
+        "transport_jpy_from_previous": 200,
+        "cost": 0,
+        "cost_status": "known",
+        "is_must_visit": false,
+        "uncertainty_flags": []
+       },
+       {
+        "attraction_id": "imperial_palace_east_gardens",
+        "start": "13:33",
+        "end": "15:03",
+        "travel_minutes_from_previous": 30,
+        "transport_jpy_from_previous": 280,
+        "cost": 0,
+        "cost_status": "known",
+        "is_must_visit": false,
+        "uncertainty_flags": []
+       }
+      ],
+      "hotel_departure": "09:00",
+      "hotel_return": "15:55",
+      "return_travel_minutes": 52,
+      "return_transport_jpy": 430
+     }
+    ],
+    "totals": {
+     "travel_minutes": 302,
+     "admissions_jpy": 2200,
+     "transport_jpy": 2670,
+     "total_jpy": 4870,
+     "unknown_cost_items": [
+      "teamlab_planets"
+     ],
+     "attractions_scheduled": 6
+    },
+    "conflicts": [],
+    "alternatives": [],
+    "notes": [
+     "Prices unknown for teamlab_planets: excluded from total (unknown).",
+     "max_walking_minutes_per_day is not enforced in this version."
+    ],
+    "missed_preferences": [
+     "tokyo_skytree",
+     "tokyo_national_museum",
+     "shinjuku_gyoen",
+     "tokyo_tower",
+     "ghibli_museum"
+    ],
+    "solver_meta": {
+     "solver": "ortools-cp-sat",
+     "solver_status": "OPTIMAL",
+     "runtime_seconds": 0.1316,
+     "seed": 42,
+     "objective": 1524200.0
+    }
+   },
+   "breakdown": {
+    "nights": 1,
+    "nightly_rate_jpy": 8500,
+    "rooms_jpy": 8500,
+    "admissions_jpy": 2200,
+    "transport_jpy": 2670,
+    "travel_minutes": 302,
+    "travel_hours": 5.03,
+    "value_of_time_per_hour": 1000,
+    "time_cost_jpy": 5033,
+    "missed_preferences": {
+     "count": 5,
+     "attraction_ids": [
+      "tokyo_skytree",
+      "tokyo_national_museum",
+      "shinjuku_gyoen",
+      "tokyo_tower",
+      "ghibli_museum"
+     ],
+     "names": [
+      "Tokyo Skytree",
+      "Tokyo National Museum",
+      "Shinjuku Gyoen",
+      "Tokyo Tower",
+      "Ghibli Museum"
+     ],
+     "penalty_per_item_jpy": 3000,
+     "penalty_jpy": 15000
+    },
+    "unknown_price_items": [
+     "teamlab_planets"
+    ],
+    "optimisation_placeholder_jpy": 500,
+    "optimisation_placeholder_total_jpy": 500,
+    "true_cost_jpy": 33403
+   },
+   "validator_overall": "pass_with_warnings",
+   "note": null
+  }
+ ],
+ "cheapest_by_rate": "hotel_harbour_odaiba",
+ "best_by_true_cost": "hotel_harbour_odaiba",
+ "ranking": [
+  {
+   "rank": 1,
+   "hotel_id": "hotel_harbour_odaiba",
+   "true_cost_jpy": 33403,
+   "gap_to_winner_jpy": 0,
+   "gap_to_winner_travel_hours": 0.0
+  },
+  {
+   "rank": 2,
+   "hotel_id": "hotel_lantern_asakusa",
+   "true_cost_jpy": 34090,
+   "gap_to_winner_jpy": 687,
+   "gap_to_winner_travel_hours": -1.28
+  },
+  {
+   "rank": 3,
+   "hotel_id": "hotel_kitsune_shinjuku",
+   "true_cost_jpy": 37040,
+   "gap_to_winner_jpy": 3637,
+   "gap_to_winner_travel_hours": -1.68
+  }
+ ],
+ "rate_winner_differs_from_true_winner": false,
+ "insight": "Odaiba Harbour Stay (fictional) is both the cheapest per night and the best by true cost; it is 687 JPY cheaper in total than Asakusa Lantern Inn (fictional).",
+ "warnings": [
+  "Odaiba Harbour Stay (fictional): price unknown for teamlab_planets; excluded from totals, so true cost is understated by an unknown amount (the optimiser assumed a placeholder of 500 JPY each, not included in the totals shown).",
+  "Not like-for-like: hotels schedule different nice-to-have attractions (Hotel Kitsune Shinjuku (fictional): misses Tokyo Skytree, teamLab Planets, Tokyo National Museum, Tokyo Tower, Ghibli Museum; Asakusa Lantern Inn (fictional): misses Tokyo Skytree, teamLab Planets, Tokyo National Museum, Tokyo Tower, Ghibli Museum; Odaiba Harbour Stay (fictional): misses Tokyo Skytree, Tokyo National Museum, Shinjuku Gyoen, Tokyo Tower, Ghibli Museum). Compare missed preferences side by side."
+ ],
+ "approximate": false,
+ "partial": false,
+ "elapsed_seconds": 1.149,
+ "time_limit_seconds": 120.0,
+ "sensitivity": {
+  "vot_min": 0,
+  "vot_max": 3000,
+  "grid": [
+   {
+    "value_of_time_per_hour": 0,
+    "winner": "hotel_harbour_odaiba",
+    "true_cost_jpy": {
+     "hotel_kitsune_shinjuku": 33690,
+     "hotel_lantern_asakusa": 30340,
+     "hotel_harbour_odaiba": 28370
+    },
+    "exact": true
+   },
+   {
+    "value_of_time_per_hour": 500,
+    "winner": "hotel_harbour_odaiba",
+    "true_cost_jpy": {
+     "hotel_kitsune_shinjuku": 35365,
+     "hotel_lantern_asakusa": 32215,
+     "hotel_harbour_odaiba": 30887
+    },
+    "exact": true
+   },
+   {
+    "value_of_time_per_hour": 1000,
+    "winner": "hotel_harbour_odaiba",
+    "true_cost_jpy": {
+     "hotel_kitsune_shinjuku": 37040,
+     "hotel_lantern_asakusa": 34090,
+     "hotel_harbour_odaiba": 33403
+    },
+    "exact": true
+   },
+   {
+    "value_of_time_per_hour": 1500,
+    "winner": "hotel_harbour_odaiba",
+    "true_cost_jpy": {
+     "hotel_kitsune_shinjuku": 38715,
+     "hotel_lantern_asakusa": 35965,
+     "hotel_harbour_odaiba": 35920
+    },
+    "exact": true
+   },
+   {
+    "value_of_time_per_hour": 2000,
+    "winner": "hotel_lantern_asakusa",
+    "true_cost_jpy": {
+     "hotel_kitsune_shinjuku": 40390,
+     "hotel_lantern_asakusa": 37840,
+     "hotel_harbour_odaiba": 38437
+    },
+    "exact": true
+   },
+   {
+    "value_of_time_per_hour": 2500,
+    "winner": "hotel_lantern_asakusa",
+    "true_cost_jpy": {
+     "hotel_kitsune_shinjuku": 42065,
+     "hotel_lantern_asakusa": 39715,
+     "hotel_harbour_odaiba": 40953
+    },
+    "exact": true
+   },
+   {
+    "value_of_time_per_hour": 3000,
+    "winner": "hotel_lantern_asakusa",
+    "true_cost_jpy": {
+     "hotel_kitsune_shinjuku": 43740,
+     "hotel_lantern_asakusa": 41590,
+     "hotel_harbour_odaiba": 43470
+    },
+    "exact": true
+   }
+  ],
+  "flips": [
+   {
+    "from_winner": "hotel_harbour_odaiba",
+    "to_winner": "hotel_lantern_asakusa",
+    "value_of_time_per_hour": 1535.1,
+    "method": "exact_crossing"
+   }
+  ],
+  "flip_summary": "ranking flips from hotel_harbour_odaiba to hotel_lantern_asakusa at about 1,535 JPY/h (exact_crossing)",
+  "approximate": false,
+  "solves": 6,
+  "cache_hits": 0,
+  "warnings": []
+ }
+}

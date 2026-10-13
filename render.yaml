@@ -1,0 +1,35 @@
+# Render Blueprint for the API (one service). Create it from the Render dashboard: New > Blueprint > pick this repo.
+# Secrets (sync: false) are entered in the dashboard and are NEVER stored in this file or in git.
+services:
+  - type: web
+    name: tokyo-trip-planner-api
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: ALLOWED_ORIGINS        # exact frontend origin(s), comma separated, e.g. https://your-app.vercel.app
+        sync: false
+      - key: LLM_API_KEY            # SECRET. Leave unset to run in sample mode.
+        sync: false
+      - key: LLM_MODEL
+        sync: false
+      - key: TRUSTED_PROXY_HOPS     # starting value; VERIFY with the procedure in docs/DEPLOY.md
+        value: "1"
+      - key: LLM_DAILY_CALL_CAP
+        value: "300"
+      - key: RATE_LIMIT_EXPENSIVE_PER_MIN
+        value: "6"
+      - key: RATE_LIMIT_PER_MIN
+        value: "30"
+      - key: RATE_LIMIT_CHEAP_PER_MIN
+        value: "120"
+      - key: REQUEST_DEADLINE_SECONDS
+        value: "25"
+      - key: MAX_INPUT_CHARS
+        value: "2000"
+      - key: ENABLE_DOCS
+        value: "0"

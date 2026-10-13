@@ -1,0 +1,73 @@
+{
+ "result": {
+  "status": "infeasible",
+  "hotel_id": "hotel_lantern_asakusa",
+  "days": [],
+  "totals": {
+   "travel_minutes": 0,
+   "admissions_jpy": 0,
+   "transport_jpy": 0,
+   "total_jpy": 0,
+   "unknown_cost_items": [],
+   "attractions_scheduled": 0
+  },
+  "conflicts": [
+   {
+    "code": "unknown_hours_not_allowed",
+    "message": "Must-visit Akihabara has unknown opening hours, and unknown hours are not allowed (it is never assumed open).",
+    "attraction_ids": [
+     "akihabara"
+    ]
+   }
+  ],
+  "alternatives": [
+   {
+    "kind": "allow_unknown_hours",
+    "message": "Allow attractions with unknown opening hours (they will be flagged): a feasible plan exists.",
+    "details": {
+     "attractions_scheduled": 6,
+     "total_jpy": 2550,
+     "travel_minutes": 210
+    }
+   },
+   {
+    "kind": "demote_must_visit",
+    "message": "Treat Akihabara as nice-to-have instead of must-visit: a feasible plan exists.",
+    "details": {
+     "attractions_scheduled": 6,
+     "total_jpy": 2640,
+     "travel_minutes": 223,
+     "still_scheduled": false
+    }
+   }
+  ],
+  "notes": [],
+  "missed_preferences": [],
+  "solver_meta": {
+   "solver": "ortools-cp-sat",
+   "solver_status": "NOT_RUN",
+   "runtime_seconds": 0.1583,
+   "seed": 42,
+   "objective": null
+  }
+ },
+ "feasibility_report": {
+  "overall": "fail",
+  "checks": [
+   {
+    "id": "plan_exists",
+    "name": "A valid plan exists",
+    "status": "fail",
+    "message": "No feasible plan: Must-visit Akihabara has unknown opening hours, and unknown hours are not allowed (it is never assumed open).",
+    "stop_ids": [
+     "akihabara"
+    ]
+   }
+  ],
+  "data_quality_warnings": [],
+  "summary": "FAIL: no feasible plan. Must-visit Akihabara has unknown opening hours, and unknown hours are not allowed (it is never assumed open)."
+ },
+ "approximate": false,
+ "nights_used": 1,
+ "nights_source": "default (days - 1)"
+}

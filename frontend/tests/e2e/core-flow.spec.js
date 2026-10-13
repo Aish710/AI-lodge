@@ -1,0 +1,120 @@
+import { expect, test } from '@playwright/test'
+import { expectClean, stubTiles, watchConsole } from './helpers.js'
+
+test.beforeEach(async ({ page }) => { await stubTiles(page) })
+
+test('example trip -> compare hotels -> itinerary with map, timeline, feasibility report and not-scheduled panel', async ({ page }) => {
+  const problems = watchConsole(page)
+  await page.goto('/')
+  await expect(page.getByTestId('honesty-banner')).toContainText('Sample data: Tokyo only, fictional hotels, estimated prices and travel times. Not live quotes.')
+  await expect(page.getByTestId('mode-indicator')).toContainText('Sample mode (AI unavailable)')
+
+  await page.getByTestId('load-example').click()
+  await expect(page).toHaveURL(/\/hotels$/)
+  const table = page.getByTestId('comparison-table')
+  await expect(table).toBeVisible()
+  await expect(table).toContainText('Rooms')
+  await expect(table).toContainText('Travel time × value of time')
+  await expect(table).toContainText('Missed preferences')
+  await expect(table).toContainText('True cost')
+  await expect(table).toContainText('OPTIMAL')
+  // the example's value of time is a demo input; the callout is driven by the API flag (pinned by the backend test)
+  await expect(page.getByTestId('callout-differs')).toContainText('The cheapest rate is not the best value for this trip.')
+  await expect(page.getByTestId('sensitivity')).toBeVisible({ timeout: 30_000 })
+
+  // the value-of-time slider reads the already-returned grid: no request when it moves
+  let requests = 0
+  page.on('request', (r) => { if (r.url().includes('/compare-hotels')) requests += 1 })
+  await page.getByLabel(/Value of time:/).fill('3')
+  await expect(page.getByTestId('vot-point')).toContainText('Best at this value of time')
+  expect(requests).toBe(0)
+
+  await page.locator('button.btn-primary', { hasText: 'Use this hotel' }).click()
+  await expect(page).toHaveURL(/\/itinerary$/)
+  await expect(page.getByTestId('trip-map')).toBeVisible()
+  await expect(page.locator('.leaflet-container .pin').first()).toBeVisible()
+  await expect(page.locator('.leaflet-control-attribution')).toContainText('OpenStreetMap')
+  await expect(page.getByTestId('timeline')).toContainText('Day 1')
+  await expect(page.getByTestId('totals')).toContainText('Sights scheduled')
+  const report = page.getByTestId('feasibility-report')
+  await expect(report).toContainText('Trip Feasibility Report')
+  await expect(report.getByTestId('overall')).not.toContainText('Fail')
+  await expect(page.getByTestId('dq-warnings')).toContainText('ESTIMATES')
+  await expect(page.getByTestId('not-scheduled')).toBeVisible()
+  await expect(page.getByTestId('not-scheduled')).toContainText('Skipped because including it would cost more than it is worth for this plan.')
+  await expect(page.getByTestId('error-panel')).toHaveCount(0)
+  expectClean(problems)
+})
+
+test('the manual path works: form -> wishlist cards -> hotels', async ({ page }) => {
+  const problems = watchConsole(page)
+  await page.goto('/')
+  await page.getByLabel('Days').fill('2')
+  await page.getByTestId('next-wishlist').click()
+  await expect(page).toHaveURL(/\/wishlist$/)
+  await expect(page.getByTestId('card-senso_ji')).toBeVisible()
+  await page.getByTestId('card-senso_ji').locator('label', { hasText: 'Must visit' }).click()
+  await expect(page.getByTestId('wish-counts')).toContainText('1 must visit')
+  // unknown values are shown as "unknown", never 0
+  await expect(page.getByTestId('card-teamlab_planets')).toContainText('unknown')
+  await expect(page.getByTestId('card-akihabara').getByTestId('hours-warnings')).toContainText('never assumed open')
+  await page.getByTestId('next-hotels').click()
+  await expect(page.getByTestId('comparison-table')).toBeVisible()
+  expectClean(problems)
+})
+
+test('impossible trip shows the Conflict panel (not the error style) and its alternative really fixes it', async ({ page }) => {
+  const problems = watchConsole(page)
+  await page.goto('/')
+  await page.getByTestId('load-impossible').click()
+  await expect(page).toHaveURL(/\/itinerary$/)
+  const panel = page.getByTestId('conflict-panel')
+  await expect(panel).toBeVisible()
+  await expect(panel).toContainText('No plan satisfies every requirement')
+  await expect(panel).toContainText('unknown opening hours')
+  await expect(page.getByTestId('error-panel')).toHaveCount(0)
+  await expect(page.locator('[role=alert]')).toHaveCount(0)
+  await expect(page.getByTestId('feasibility-report')).toContainText('Fail')
+  await panel.locator('button[data-kind=allow_unknown_hours]').click()
+  await expect(page.getByTestId('conflict-panel')).toHaveCount(0)
+  await expect(page.getByTestId('timeline')).toContainText('Opening hours unknown')
+  await expect(page.getByTestId('feasibility-report').getByTestId('overall')).toContainText('Pass with warnings')
+  expectClean(problems)
+})
+
+test('HTTP 429 shows a countdown and disables the action, then recovers', async ({ page }) => {
+  await page.goto('/')
+  await page.getByTestId('load-impossible').click()
+  await expect(page.getByTestId('conflict-panel')).toBeVisible()
+  await page.route('**/optimise', (r) => r.fulfill({ status: 429, contentType: 'application/json',
+    body: JSON.stringify({ error: { code: 'rate_limited', message: 'Too many requests. Please slow down.', details: { retry_after_seconds: 4 }, request_id: 'r429' } }) }))
+  await page.getByRole('button', { name: 'Recalculate' }).click()
+  const notice = page.getByTestId('rate-limit')
+  await expect(notice).toBeVisible()
+  await expect(notice.getByTestId('countdown')).toHaveText(/^[1-4]$/)
+  await expect(page.getByRole('button', { name: 'Recalculate' })).toBeDisabled()
+  await expect(page.getByTestId('error-panel')).toContainText('request id r429')
+  await expect(notice).toBeHidden({ timeout: 8000 })
+  await expect(page.getByRole('button', { name: 'Recalculate' })).toBeEnabled()
+})
+
+test('cold start: a slow or failing /health shows "Waking the server" (not an error) and then the app', async ({ page }) => {
+  let n = 0
+  await page.route('**/health', (r) => { n += 1; return n <= 2 ? r.abort('failed') : r.continue() })
+  await page.goto('/')
+  await expect(page.getByTestId('cold-start')).toContainText('Waking the server, this can take about a minute.')
+  await expect(page.getByTestId('server-down')).toHaveCount(0)
+  await expect(page.getByRole('heading', { name: 'Plan your trip' })).toBeVisible({ timeout: 15000 })
+  await expect(page.getByTestId('cold-start')).toHaveCount(0)
+  expect(n).toBeGreaterThanOrEqual(3)
+})
+
+test('mobile 375 px: the itinerary page does not scroll sideways', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 800 })
+  await page.goto('/')
+  await page.getByTestId('load-example').click()
+  await page.locator('button.btn-primary', { hasText: 'Use this hotel' }).click()
+  await expect(page.getByTestId('timeline')).toBeVisible()
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
+  expect(overflow).toBeLessThanOrEqual(1)
+})
