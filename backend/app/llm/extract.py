@@ -10,8 +10,10 @@ from pydantic import ValidationError
 from app import config
 from app.data.loader import Dataset
 from app.llm.client import LLMClient
+from app.llm.currency import resolve_currency, to_local
+from app.llm.destination import analyse, build_index, cross_city_hint
 from app.llm.names import resolve_attraction
-from app.llm.prompts import EXTRACT_SYSTEM, PROMPT_VERSION
+from app.llm.prompts import PROMPT_VERSION, extract_system
 from app.llm.runner import call_json
 from app.llm.sanitize import sanitise_user_text
 from app.llm.schemas import (
@@ -19,7 +21,7 @@ from app.llm.schemas import (
 )
 from app.schemas import Preferences
 
-SUPPORTED_CURRENCIES = ("SGD", "JPY")
+from app.llm.currency import SUPPORTED_CODES as SUPPORTED_CURRENCIES  # noqa: E402,F401  (SGD, JPY, KRW, MYR, CNY; plus the city's display currency)
 
 
 def to_jpy(amount: float, currency: str) -> int | None:
@@ -33,31 +35,31 @@ def to_jpy(amount: float, currency: str) -> int | None:
 
 
 def to_city_money(amount: float, currency: str, ds: Dataset) -> int | None:
-    """Convert in CODE using the city's labelled SAMPLE FX rate. Returns local integer currency units."""
-    cur = currency.strip().upper()
-    if cur == ds.city.currency_code:
-        return int(round(amount))
-    if cur == ds.city.display_currency_code:
-        return int(round(amount / ds.city.sample_fx_to_display_currency))
-    # Backwards compatibility for Tokyo tests and existing frontend examples.
-    if ds.city.id == "tokyo":
-        return to_jpy(amount, currency)
+    """Convert in CODE using the city's labelled SAMPLE FX rate. Returns local integer currency units, or None when the currency is
+    ambiguous, unsupported for this city, or has no sample rate (see app/llm/currency.py for the messages)."""
+    res = resolve_currency(currency, ds)
+    return to_local(amount, res.code, ds) if res.status == "ok" else None
+
+
+def resolve_money(amount: float, currency: str, ds: Dataset, what: str, assumptions: dict, clar: list, confirmations: list) -> int | None:
+    """Like to_city_money, but records WHY it could not convert: an ambiguous symbol becomes a confirmation, anything else a clarification."""
+    res = resolve_currency(currency, ds)
+    if res.status == "ok":
+        if res.assumption:
+            assumptions[f"{what}_currency_note"] = res.assumption
+        return to_local(amount, res.code, ds)
+    if res.status == "confirm":
+        confirmations.append({"field": what, "symbol": currency.strip()[:8], "could_mean": list(res.candidates), "city_currency": ds.city.currency_code,
+                              "display_currency": ds.city.display_currency_code, "amount": amount, "message": res.message})
+    clar.append(res.message)
     return None
 
 
 def _other_city_message(raw: str, ds: Dataset, all_datasets: dict[str, Dataset] | None) -> str | None:
     if not all_datasets:
         return None
-    hits = []
-    for cid, other in all_datasets.items():
-        if cid == ds.city.id:
-            continue
-        m = resolve_attraction(raw, other)
-        if m.status == "resolved":
-            hits.append(other.city.display_name)
-    if hits:
-        return f"Not in the {ds.city.display_name} dataset. It appears in {', '.join(hits)}; switch city to plan it."
-    return None
+    hint = cross_city_hint(raw, ds, all_datasets)
+    return hint["message"] if hint else None
 
 
 def resolve_list(names: list[str], ds: Dataset, scope_ids: list[str] | None = None, all_datasets: dict[str, Dataset] | None = None):
@@ -89,17 +91,31 @@ def extract_preferences(text: str, ds: Dataset, client: LLMClient | None, *, sta
     if client is None:
         note = unavailable_note or "The language model is not available (sample mode)."
         return _unavailable(san.text, 0, f"{note} Please fill in the trip form instead.")
-    out = call_json(client, EXTRACT_SYSTEM, san.wrapped, ExtractionOut, config.LLM_MAX_TOKENS_EXTRACT,
+    all_datasets = all_datasets or {ds.city.id: ds}
+    index = build_index(all_datasets)
+    city = dict(city_id=ds.city.id, city_name=ds.city.display_name)
+    # Destination check in CODE, before the model is asked anything: a request about another city is never planned (and costs no call).
+    pre = analyse(san.text, None, ds, all_datasets, index)
+    if pre and pre["status"] in ("other_city", "mixed"):
+        return ParseResult(status="needs_clarification", raw_input_echo=san.text, call_count=0, mode="llm", prompt_version=PROMPT_VERSION,
+                           destination=pre, switch_offer=pre["offer"], clarifications=[pre["message"]], **city)
+    out = call_json(client, extract_system(ds), san.wrapped, ExtractionOut, config.LLM_MAX_TOKENS_EXTRACT,
                     config.LLM_MAX_CALLS_PARSE, "parse")
     if out.unavailable:
         return _unavailable(san.text, out.call_count, "The language model could not be reached. Please fill in the trip form instead.")
-    base = dict(raw_input_echo=san.text, call_count=out.call_count, mode="llm", prompt_version=PROMPT_VERSION)
+    base = dict(raw_input_echo=san.text, call_count=out.call_count, mode="llm", prompt_version=PROMPT_VERSION, **city)
     if out.parsed is None:
         return ParseResult(status="needs_clarification", **base,
                            clarifications=["I could not reliably read that request. Please rephrase it or use the form. "
                                            "The number of days is required."])
     ex: ExtractionOut = out.parsed
+    # The model's own report of the destination is checked in code too (free text: Bangkok, Gyeongju, an injected string...).
+    post = analyse(san.text, ex.destination_mentioned, ds, all_datasets, index)
+    if post and post["status"] != "ok":
+        return ParseResult(status="needs_clarification", extracted_json=ex.model_dump(), destination=post, switch_offer=post["offer"],
+                           clarifications=[post["message"]], unclear=ex.unclear, **base)
     clar: list[str] = []
+    confirmations: list[dict] = []
     defaults: list[str] = []
     assumptions: dict = {"fx": ds.city.sample_fx_label, "currency": ds.city.currency_code,
                          "display_currency": ds.city.display_currency_code,
@@ -120,10 +136,8 @@ def extract_preferences(text: str, ds: Dataset, client: LLMClient | None, *, sta
     budget_jpy = None
     strict = False
     if ex.budget is not None:
-        budget_jpy = to_city_money(ex.budget.amount, ex.budget.currency, ds)
-        if budget_jpy is None:
-            clar.append(f"Currency '{ex.budget.currency[:8]}' is not supported; please give the budget in {ds.city.currency_code} or {ds.city.display_currency_code}.")
-        else:
+        budget_jpy = resolve_money(ex.budget.amount, ex.budget.currency, ds, "budget", assumptions, clar, confirmations)
+        if budget_jpy is not None:
             strict = ex.budget.strict
             assumptions["budget_scope"] = config.BUDGET_SCOPE_TEXT
             assumptions["budget_interpreted"] = (f"{ex.budget.amount:g} {ex.budget.currency.upper()} = {budget_jpy:,} {ds.city.currency_code} "
@@ -132,10 +146,8 @@ def extract_preferences(text: str, ds: Dataset, client: LLMClient | None, *, sta
         defaults.append("budget: none (no amount was stated)")
     vot = None
     if ex.value_of_time is not None:
-        vot = to_city_money(ex.value_of_time.amount, ex.value_of_time.currency, ds)
-        if vot is None:
-            clar.append(f"Currency '{ex.value_of_time.currency[:8]}' is not supported for value of time.")
-        else:
+        vot = resolve_money(ex.value_of_time.amount, ex.value_of_time.currency, ds, "value_of_time", assumptions, clar, confirmations)
+        if vot is not None:
             assumptions["value_of_time_interpreted"] = f"{ex.value_of_time.amount:g} {ex.value_of_time.currency.upper()} per hour = {vot:,} {ds.city.currency_code} per hour"
     if vot is None and ex.value_of_time is None:
         vot = ds.city.default_value_of_time_per_hour
@@ -173,6 +185,10 @@ def extract_preferences(text: str, ds: Dataset, client: LLMClient | None, *, sta
         except ValidationError as e:
             clar.append("Some values are out of range: " + "; ".join(f"{'.'.join(str(x) for x in err['loc'])}: {err['msg']}" for err in e.errors()[:6]))
     status = "ok" if (draft is not None and not clar) else "needs_clarification"
+    hints = [h for h in (cross_city_hint(u.input, ds, all_datasets) for u in must_unres + skip_unres) if h]
+    offers = [h["offer"] for h in hints if h.get("offer")]
     return ParseResult(status=status, draft=draft, extracted_json=ex.model_dump(), resolved_names=must + skip,
                        unresolved_names=must_unres + skip_unres, ambiguities=must_amb + skip_amb,
-                       defaults_applied=defaults, clarifications=clar, unclear=ex.unclear, assumptions=assumptions, **base)
+                       defaults_applied=defaults, clarifications=clar, unclear=ex.unclear, assumptions=assumptions,
+                       destination=post, switch_offer=offers[0] if offers and len(offers) == len(hints) and len({o["city_id"] for o in offers}) == 1 else None, currency_confirmations=confirmations,
+                       cross_city_hints=hints, **base)

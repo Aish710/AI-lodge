@@ -1,0 +1,366 @@
+{
+ "wrong_city_destination": {
+  "selected_city": "seoul",
+  "text": "3 days in Tokyo, see Senso-ji and Tokyo Skytree",
+  "result": {
+   "status": "needs_clarification",
+   "draft": null,
+   "raw_input_echo": "3 days in Tokyo, see Senso-ji and Tokyo Skytree",
+   "extracted_json": null,
+   "resolved_names": [],
+   "unresolved_names": [],
+   "ambiguities": [],
+   "defaults_applied": [],
+   "clarifications": [
+    "This looks like a request for Tokyo (you mentioned Tokyo, Senso-ji, Tokyo Skytree), but Seoul is selected. Nothing was planned. Switch city to plan Tokyo."
+   ],
+   "unclear": [],
+   "assumptions": {},
+   "call_count": 0,
+   "mode": "llm",
+   "prompt_version": "2",
+   "city_id": "seoul",
+   "city_name": "Seoul",
+   "destination": {
+    "status": "other_city",
+    "mentioned": [
+     "tokyo"
+    ],
+    "offer": {
+     "city_id": "tokyo",
+     "display_name": "Tokyo",
+     "country": "Japan"
+    },
+    "message": "This looks like a request for Tokyo (you mentioned Tokyo, Senso-ji, Tokyo Skytree), but Seoul is selected. Nothing was planned. Switch city to plan Tokyo."
+   },
+   "switch_offer": {
+    "city_id": "tokyo",
+    "display_name": "Tokyo",
+    "country": "Japan"
+   },
+   "currency_confirmations": [],
+   "cross_city_hints": []
+  }
+ },
+ "ambiguous_cross_city_name": {
+  "selected_city": "singapore",
+  "text": "2 days, I want to see the market",
+  "result": {
+   "status": "needs_clarification",
+   "draft": {
+    "days": 2,
+    "budget": null,
+    "strict_budget": false,
+    "pace": "balanced",
+    "interests": [],
+    "must_visit": [],
+    "day_start": "09:00",
+    "day_end": "19:00",
+    "value_of_time_per_hour": 18,
+    "max_walking_minutes_per_day": 90,
+    "start_weekday": 0,
+    "allow_unknown_hours": false,
+    "skip": [],
+    "nights": null,
+    "locked": []
+   },
+   "raw_input_echo": "2 days, I want to see the market",
+   "extracted_json": {
+    "days": 2,
+    "budget": null,
+    "pace": null,
+    "interests": [],
+    "must_visit_names": [
+     "the market"
+    ],
+    "skip_names": [],
+    "day_start": null,
+    "day_end": null,
+    "value_of_time": null,
+    "max_walking_minutes": null,
+    "destination_mentioned": null,
+    "unclear": []
+   },
+   "resolved_names": [],
+   "unresolved_names": [
+    {
+     "input": "the market",
+     "suggestions": [],
+     "message": "'the market' is not in the Singapore data, and it matches places in several other cities (Kuala Lumpur: Central Market Kuala Lumpur; Seoul: Gwangjang Market; Tokyo: Tsukiji Outer Market). Tell me which city you mean."
+    }
+   ],
+   "ambiguities": [],
+   "defaults_applied": [
+    "budget: none (no amount was stated)",
+    "value of time: 18 SGD/hour (not stated)",
+    "pace: balanced (not stated)",
+    "day start: 09:00 (not stated)",
+    "day end: 19:00 (not stated)",
+    "max walking: 90 min/day (not stated; not enforced by the optimiser yet)"
+   ],
+   "clarifications": [
+    "Some places are not in this dataset and cannot be scheduled: 'the market'."
+   ],
+   "unclear": [],
+   "assumptions": {
+    "fx": "SAMPLE FX rate (approximate, not live): 1 SGD = 0.74 USD",
+    "currency": "SGD",
+    "display_currency": "USD",
+    "sample_fx_to_display_currency": 0.74
+   },
+   "call_count": 1,
+   "mode": "llm",
+   "prompt_version": "2",
+   "city_id": "singapore",
+   "city_name": "Singapore",
+   "destination": {
+    "status": "ok",
+    "mentioned": [],
+    "offer": null,
+    "message": ""
+   },
+   "switch_offer": null,
+   "currency_confirmations": [],
+   "cross_city_hints": [
+    {
+     "cities": [
+      "kuala_lumpur",
+      "seoul",
+      "tokyo"
+     ],
+     "offer": null,
+     "message": "'the market' is not in the Singapore data, and it matches places in several other cities (Kuala Lumpur: Central Market Kuala Lumpur; Seoul: Gwangjang Market; Tokyo: Tsukiji Outer Market). Tell me which city you mean."
+    }
+   ]
+  }
+ },
+ "ambiguous_in_selected_city": {
+  "selected_city": "tokyo",
+  "text": "2 days, I want to see the museum",
+  "result": {
+   "status": "needs_clarification",
+   "draft": {
+    "days": 2,
+    "budget": null,
+    "strict_budget": false,
+    "pace": "balanced",
+    "interests": [],
+    "must_visit": [],
+    "day_start": "09:00",
+    "day_end": "19:00",
+    "value_of_time_per_hour": 1000,
+    "max_walking_minutes_per_day": 90,
+    "start_weekday": 0,
+    "allow_unknown_hours": false,
+    "skip": [],
+    "nights": null,
+    "locked": []
+   },
+   "raw_input_echo": "2 days, I want to see the museum",
+   "extracted_json": {
+    "days": 2,
+    "budget": null,
+    "pace": null,
+    "interests": [],
+    "must_visit_names": [
+     "the museum"
+    ],
+    "skip_names": [],
+    "day_start": null,
+    "day_end": null,
+    "value_of_time": null,
+    "max_walking_minutes": null,
+    "destination_mentioned": null,
+    "unclear": []
+   },
+   "resolved_names": [],
+   "unresolved_names": [],
+   "ambiguities": [
+    {
+     "input": "the museum",
+     "candidates": [
+      {
+       "id": "tokyo_national_museum",
+       "name": "Tokyo National Museum"
+      },
+      {
+       "id": "ghibli_museum",
+       "name": "Ghibli Museum"
+      }
+     ]
+    }
+   ],
+   "defaults_applied": [
+    "budget: none (no amount was stated)",
+    "value of time: 1,000 JPY/hour (not stated)",
+    "pace: balanced (not stated)",
+    "day start: 09:00 (not stated)",
+    "day end: 19:00 (not stated)",
+    "max walking: 90 min/day (not stated; not enforced by the optimiser yet)"
+   ],
+   "clarifications": [
+    "Some names match more than one place; please pick one: 'the museum' could be Tokyo National Museum or Ghibli Museum."
+   ],
+   "unclear": [],
+   "assumptions": {
+    "fx": "SAMPLE FX rate (approximate, not live): 1 SGD = 110 JPY",
+    "currency": "JPY",
+    "display_currency": "SGD",
+    "sample_fx_to_display_currency": 0.00909090909090909
+   },
+   "call_count": 1,
+   "mode": "llm",
+   "prompt_version": "2",
+   "city_id": "tokyo",
+   "city_name": "Tokyo",
+   "destination": {
+    "status": "ok",
+    "mentioned": [],
+    "offer": null,
+    "message": ""
+   },
+   "switch_offer": null,
+   "currency_confirmations": [],
+   "cross_city_hints": []
+  }
+ },
+ "currency_confirmation": {
+  "selected_city": "seoul",
+  "text": "2 days in Seoul, budget ¥30000",
+  "result": {
+   "status": "needs_clarification",
+   "draft": {
+    "days": 2,
+    "budget": null,
+    "strict_budget": false,
+    "pace": "balanced",
+    "interests": [],
+    "must_visit": [],
+    "day_start": "09:00",
+    "day_end": "19:00",
+    "value_of_time_per_hour": 15000,
+    "max_walking_minutes_per_day": 90,
+    "start_weekday": 0,
+    "allow_unknown_hours": false,
+    "skip": [],
+    "nights": null,
+    "locked": []
+   },
+   "raw_input_echo": "2 days in Seoul, budget ¥30000",
+   "extracted_json": {
+    "days": 2,
+    "budget": {
+     "amount": 30000.0,
+     "currency": "¥",
+     "strict": false
+    },
+    "pace": null,
+    "interests": [],
+    "must_visit_names": [],
+    "skip_names": [],
+    "day_start": null,
+    "day_end": null,
+    "value_of_time": null,
+    "max_walking_minutes": null,
+    "destination_mentioned": "Seoul",
+    "unclear": []
+   },
+   "resolved_names": [],
+   "unresolved_names": [],
+   "ambiguities": [],
+   "defaults_applied": [
+    "value of time: 15,000 KRW/hour (not stated)",
+    "pace: balanced (not stated)",
+    "day start: 09:00 (not stated)",
+    "day end: 19:00 (not stated)",
+    "max walking: 90 min/day (not stated; not enforced by the optimiser yet)"
+   ],
+   "clarifications": [
+    "You wrote '¥', which can mean JPY or CNY. This trip is in Seoul (KRW); I can convert KRW or USD. Which did you mean? Please restate the amount in KRW or USD."
+   ],
+   "unclear": [],
+   "assumptions": {
+    "fx": "SAMPLE FX rate (approximate, not live): 1 KRW = 0.00074 USD",
+    "currency": "KRW",
+    "display_currency": "USD",
+    "sample_fx_to_display_currency": 0.00074
+   },
+   "call_count": 1,
+   "mode": "llm",
+   "prompt_version": "2",
+   "city_id": "seoul",
+   "city_name": "Seoul",
+   "destination": {
+    "status": "ok",
+    "mentioned": [
+     "seoul"
+    ],
+    "offer": null,
+    "message": ""
+   },
+   "switch_offer": null,
+   "currency_confirmations": [
+    {
+     "field": "budget",
+     "symbol": "¥",
+     "could_mean": [
+      "JPY",
+      "CNY"
+     ],
+     "city_currency": "KRW",
+     "display_currency": "USD",
+     "amount": 30000.0,
+     "message": "You wrote '¥', which can mean JPY or CNY. This trip is in Seoul (KRW); I can convert KRW or USD. Which did you mean? Please restate the amount in KRW or USD."
+    }
+   ],
+   "cross_city_hints": []
+  }
+ },
+ "unsupported_city": {
+  "selected_city": "tokyo",
+  "text": "a week in Bangkok",
+  "result": {
+   "status": "needs_clarification",
+   "draft": null,
+   "raw_input_echo": "a week in Bangkok",
+   "extracted_json": {
+    "days": 7,
+    "budget": null,
+    "pace": null,
+    "interests": [],
+    "must_visit_names": [],
+    "skip_names": [],
+    "day_start": null,
+    "day_end": null,
+    "value_of_time": null,
+    "max_walking_minutes": null,
+    "destination_mentioned": "Bangkok",
+    "unclear": []
+   },
+   "resolved_names": [],
+   "unresolved_names": [],
+   "ambiguities": [],
+   "defaults_applied": [],
+   "clarifications": [
+    "'Bangkok' is not available yet. Available cities: Kuala Lumpur (Malaysia), Seoul (South Korea), Singapore (Singapore), Tokyo (Japan)."
+   ],
+   "unclear": [],
+   "assumptions": {},
+   "call_count": 1,
+   "mode": "llm",
+   "prompt_version": "2",
+   "city_id": "tokyo",
+   "city_name": "Tokyo",
+   "destination": {
+    "status": "unsupported",
+    "mentioned": [],
+    "offer": null,
+    "unsupported_place": "Bangkok",
+    "message": "'Bangkok' is not available yet. Available cities: Kuala Lumpur (Malaysia), Seoul (South Korea), Singapore (Singapore), Tokyo (Japan)."
+   },
+   "switch_offer": null,
+   "currency_confirmations": [],
+   "cross_city_hints": []
+  }
+ }
+}

@@ -23,5 +23,16 @@
   "default_day_end": "19:00",
   "default_value_of_time_per_hour": 45,
   "closing_day_conventions_note": "Sample weekly closures are encoded per attraction; verify current days before relying on them.",
-  "provenance": "Kuala Lumpur sample pack for Malaysia. All figures are approximate and must be verified; hotels are fictional."
+  "provenance": "Kuala Lumpur sample pack for Malaysia. All figures are approximate and must be verified; hotels are fictional.",
+  "aliases": [
+    "KL",
+    "吉隆坡",
+    "쿠알라룸푸르"
+  ],
+  "country_aliases": [
+    "Malaysia",
+    "Malaysian",
+    "马来西亚",
+    "말레이시아"
+  ]
 }

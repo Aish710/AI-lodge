@@ -1,12 +1,10 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import NlParsePanel from '../components/NlParsePanel.vue'
-import ConfirmDialog from '../components/ConfirmDialog.vue'
-import { clearedOnCitySwitch } from '../lib/names.js'
 import examples from '../lib/examples.json'
 import { exampleLabel } from '../lib/rules.js'
-import { store, currentPrefs, loadExample, selectCity, resetAll } from '../store.js'
+import { store, currentPrefs, loadExample, requestCitySwitch, resetAll } from '../store.js'
 import { nightsUsed } from '../lib/prefs.js'
 import { budgetInJpy } from '../lib/prefs.js'
 import { formatLocalMoney, WEEKDAY_NAMES, WEEKDAYS } from '../lib/format.js'
@@ -27,19 +25,7 @@ function startOver() {
   resetAll()
   router.push('/')
 }
-const pendingCity = ref(null)
-const toClear = computed(() => clearedOnCitySwitch(store))
-const pendingName = computed(() => store.cities.find((c) => c.id === pendingCity.value)?.display_name ?? '')
-async function pickCity(id) {
-  if (id === store.cityId) return
-  if (toClear.value.length) { pendingCity.value = id; return }  // nothing to lose: switch at once; otherwise ask first
-  await selectCity(id)
-}
-async function confirmSwitch() {
-  const id = pendingCity.value
-  pendingCity.value = null
-  if (id) await selectCity(id)
-}
+const pickCity = requestCitySwitch
 </script>
 <template>
   <div class="stack">
@@ -63,10 +49,6 @@ async function confirmSwitch() {
       </div>
       <p v-if="city" class="small mb-0 mt-3"><strong>Using {{ city.display_name }}.</strong> {{ city.sample_fx_label }}</p>
     </section>
-    <ConfirmDialog :open="!!pendingCity" :title="`Switch to ${pendingName}?`" confirm-label="Switch and clear" cancel-label="Keep current city" @confirm="confirmSwitch" @cancel="pendingCity = null">
-      <p class="mb-2">One trip covers one city, so switching to {{ pendingName }} will clear:</p>
-      <ul class="mb-0" data-testid="switch-clears"><li v-for="item in toClear" :key="item">{{ item }}</li></ul>
-    </ConfirmDialog>
 
     <div class="card-soft d-flex flex-wrap gap-2 align-items-center" data-testid="demo-helpers">
       <strong class="me-2">Quick demo:</strong>

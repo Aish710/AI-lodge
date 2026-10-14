@@ -69,7 +69,9 @@
     "aliases": [
       "Petronas Towers",
       "KLCC Twin Towers",
-      "Twin Towers"
+      "Twin Towers",
+      "双子塔",
+      "Menara Berkembar Petronas"
     ]
   },
   {
@@ -146,7 +148,9 @@
     },
     "aliases": [
       "Batu Cave",
-      "Batu Caves Temple"
+      "Batu Caves Temple",
+      "黑风洞",
+      "Gua Batu"
     ]
   },
   {
@@ -218,7 +222,8 @@
     },
     "aliases": [
       "Islamic Arts Museum",
-      "IAMM"
+      "IAMM",
+      "Muzium Kesenian Islam Malaysia"
     ]
   },
   {
@@ -295,7 +300,8 @@
     },
     "aliases": [
       "Dataran Merdeka",
-      "Independence Square"
+      "Independence Square",
+      "独立广场"
     ]
   },
   {
@@ -372,7 +378,8 @@
     },
     "aliases": [
       "Central Market",
-      "Pasar Seni Market"
+      "Pasar Seni Market",
+      "中央市场"
     ]
   },
   {
@@ -449,7 +456,8 @@
     },
     "aliases": [
       "Jalan Alor Food Street",
-      "Alor Street"
+      "Alor Street",
+      "阿罗街"
     ]
   },
   {
@@ -526,7 +534,9 @@
     },
     "aliases": [
       "Menara KL",
-      "Kuala Lumpur Tower"
+      "Kuala Lumpur Tower",
+      "吉隆坡塔",
+      "Menara Kuala Lumpur"
     ]
   },
   {
@@ -603,7 +613,8 @@
     },
     "aliases": [
       "Lake Gardens",
-      "Perdana Gardens"
+      "Perdana Gardens",
+      "Taman Botani Perdana"
     ]
   },
   {
@@ -679,7 +690,8 @@
       "last_checked": null
     },
     "aliases": [
-      "Thean Hou"
+      "Thean Hou",
+      "天后宫"
     ]
   },
   {
@@ -721,7 +733,8 @@
     },
     "aliases": [
       "Masjid Negara",
-      "National Mosque"
+      "National Mosque",
+      "国家清真寺"
     ]
   }
 ]

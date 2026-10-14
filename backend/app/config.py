@@ -108,7 +108,7 @@ LLM_MAX_CALLS_EXPLAIN = 1
 LLM_MAX_NAMES = 20                    # cap on names per extraction
 EXPLAIN_MAX_WORDS = 200               # prompt asks for ~120; longer output is rejected
 NAME_SUGGESTION_RATIO = 0.92          # difflib ratio for "did you mean" (never auto-accepted)
-LIVE_EVAL_MAX_CALLS = 80
+LIVE_EVAL_MAX_CALLS = 150
 
 # Defaults for low-stakes fields (always disclosed in `defaults_applied`). `days` is NEVER defaulted.
 DEFAULT_PACE = "balanced"

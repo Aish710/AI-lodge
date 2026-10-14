@@ -74,7 +74,8 @@
     "aliases": [
       "Sensoji",
       "Senso ji",
-      "Asakusa Temple"
+      "Asakusa Temple",
+      "浅草寺"
     ]
   },
   {
@@ -151,7 +152,8 @@
     },
     "aliases": [
       "Meiji Shrine",
-      "Meiji Jingu Shrine"
+      "Meiji Jingu Shrine",
+      "明治神宮"
     ]
   },
   {
@@ -228,7 +230,9 @@
     },
     "aliases": [
       "Skytree",
-      "Sky Tree"
+      "Sky Tree",
+      "東京スカイツリー",
+      "东京晴空塔"
     ]
   },
   {
@@ -305,7 +309,8 @@
     },
     "aliases": [
       "team Lab Planets",
-      "teamLab Planets Tokyo"
+      "teamLab Planets Tokyo",
+      "チームラボプラネッツ"
     ]
   },
   {
@@ -373,7 +378,8 @@
     "aliases": [
       "Tsukiji Market",
       "Tsukiji Fish Market",
-      "Tsukiji"
+      "Tsukiji",
+      "築地場外市場"
     ]
   },
   {
@@ -449,7 +455,8 @@
       "last_checked": null
     },
     "aliases": [
-      "Shibuya Sky Deck"
+      "Shibuya Sky Deck",
+      "渋谷スカイ"
     ]
   },
   {
@@ -519,7 +526,9 @@
       "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
       "last_checked": null
     },
-    "aliases": []
+    "aliases": [
+      "東京国立博物館"
+    ]
   },
   {
     "id": "akihabara",
@@ -560,7 +569,8 @@
     },
     "aliases": [
       "Akiba",
-      "Akihabara Electric Town"
+      "Akihabara Electric Town",
+      "秋葉原"
     ]
   },
   {
@@ -628,7 +638,8 @@
     "aliases": [
       "Imperial Palace Gardens",
       "Imperial Palace East Garden",
-      "Kokyo Higashi Gyoen"
+      "Kokyo Higashi Gyoen",
+      "皇居東御苑"
     ]
   },
   {
@@ -699,7 +710,8 @@
       "last_checked": null
     },
     "aliases": [
-      "Shinjuku Gyoen National Garden"
+      "Shinjuku Gyoen National Garden",
+      "新宿御苑"
     ]
   },
   {
@@ -774,7 +786,10 @@
       "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
       "last_checked": null
     },
-    "aliases": []
+    "aliases": [
+      "東京タワー",
+      "东京塔"
+    ]
   },
   {
     "id": "ghibli_museum",
@@ -846,7 +861,9 @@
     "aliases": [
       "Ghibli",
       "Studio Ghibli Museum",
-      "Mitaka Ghibli Museum"
+      "Mitaka Ghibli Museum",
+      "三鷹の森ジブリ美術館",
+      "吉卜力美术馆"
     ]
   }
 ]

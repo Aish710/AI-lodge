@@ -68,7 +68,9 @@
     },
     "aliases": [
       "Gyeongbok Palace",
-      "Gyeongbokgung Palace"
+      "Gyeongbokgung Palace",
+      "경복궁",
+      "景福宫"
     ]
   },
   {
@@ -141,7 +143,8 @@
     "aliases": [
       "Changdeok Palace",
       "Changdeokgung Palace",
-      "Secret Garden palace"
+      "Secret Garden palace",
+      "창덕궁"
     ]
   },
   {
@@ -218,7 +221,9 @@
     },
     "aliases": [
       "Bukchon",
-      "Hanok Village"
+      "Hanok Village",
+      "북촌한옥마을",
+      "북촌"
     ]
   },
   {
@@ -295,7 +300,9 @@
     },
     "aliases": [
       "Namsan Tower",
-      "Seoul Tower"
+      "Seoul Tower",
+      "N서울타워",
+      "남산타워"
     ]
   },
   {
@@ -372,7 +379,8 @@
     },
     "aliases": [
       "Gwangjang",
-      "Kwangjang Market"
+      "Kwangjang Market",
+      "광장시장"
     ]
   },
   {
@@ -449,7 +457,8 @@
     },
     "aliases": [
       "DDP",
-      "Dongdaemun Plaza"
+      "Dongdaemun Plaza",
+      "동대문디자인플라자"
     ]
   },
   {
@@ -521,7 +530,8 @@
     },
     "aliases": [
       "National Museum",
-      "NMK"
+      "NMK",
+      "국립중앙박물관"
     ]
   },
   {
@@ -599,7 +609,9 @@
     "aliases": [
       "Seoul Sky",
       "Lotte Tower observatory",
-      "Lotte World Tower"
+      "Lotte World Tower",
+      "서울스카이",
+      "롯데월드타워"
     ]
   },
   {
@@ -675,7 +687,8 @@
       "last_checked": null
     },
     "aliases": [
-      "Insa-dong"
+      "Insa-dong",
+      "인사동"
     ]
   },
   {
@@ -716,7 +729,8 @@
       "last_checked": null
     },
     "aliases": [
-      "Myeong-dong"
+      "Myeong-dong",
+      "명동"
     ]
   }
 ]

@@ -3,6 +3,8 @@
 import { computed, ref } from 'vue'
 import NameResolution from './NameResolution.vue'
 import ErrorPanel from './ErrorPanel.vue'
+import SwitchOffer from './SwitchOffer.vue'
+import CurrencyConfirm from './CurrencyConfirm.vue'
 import { store, runParse, chooseName, rateLimited, maxInputChars } from '../store.js'
 import { originOf, parseState } from '../lib/rules.js'
 import { titleCase } from '../lib/format.js'
@@ -43,6 +45,8 @@ const unresolved = computed(() => (r.value?.unresolved_names ?? []).filter((u) =
         <template v-if="state.kind === 'ok'">The form below has been filled in from this draft. Review and edit it before you continue.</template>
         <template v-else>The assistant needs more information. {{ r.draft ? 'What it understood is in the form below; please check it.' : 'Nothing was filled in.' }}</template></span></div>
       <div v-if="r.clarifications.length" class="notice notice-warn" role="note" data-testid="nl-clarifications"><span class="glyph" aria-hidden="true">?</span><ul class="mb-0"><li v-for="c in r.clarifications" :key="c">{{ c }}</li></ul></div>
+      <SwitchOffer :offer="r.switch_offer" />
+      <CurrencyConfirm :items="r.currency_confirmations ?? []" />
       <div class="row g-3">
         <div class="col-12 col-md-5"><h3 class="h6">What you wrote</h3><div class="json-box" data-testid="nl-raw">{{ r.raw_input_echo }}</div></div>
         <div class="col-12 col-md-7"><h3 class="h6">What the assistant extracted (before checking)</h3><pre class="json-box mb-0" data-testid="nl-json">{{ json ?? 'nothing extracted' }}</pre></div>

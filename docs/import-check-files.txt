@@ -1,4 +1,4 @@
-# Files checked by scripts/check_tracked_imports.py (113 imported files from 111 source files)
+# Files checked by scripts/check_tracked_imports.py (119 imported files from 119 source files)
 backend/app/__init__.py
 backend/app/city_guard.py
 backend/app/config.py
@@ -20,7 +20,10 @@ backend/app/hardening/llm_scope.py
 backend/app/hardening/logging_setup.py
 backend/app/hardening/middleware.py
 backend/app/hardening/solver_capacity.py
+backend/app/llm/__init__.py
 backend/app/llm/client.py
+backend/app/llm/currency.py
+backend/app/llm/destination.py
 backend/app/llm/explain.py
 backend/app/llm/extract.py
 backend/app/llm/grounding.py
@@ -54,6 +57,7 @@ frontend/src/components/BarRow.vue
 frontend/src/components/CityChip.vue
 frontend/src/components/ConfirmDialog.vue
 frontend/src/components/ConflictPanel.vue
+frontend/src/components/CurrencyConfirm.vue
 frontend/src/components/DayTimeline.vue
 frontend/src/components/DiffView.vue
 frontend/src/components/ErrorPanel.vue
@@ -73,6 +77,7 @@ frontend/src/components/SettingsSummaryStrip.vue
 frontend/src/components/Skeleton.vue
 frontend/src/components/SourceBadge.vue
 frontend/src/components/StopActions.vue
+frontend/src/components/SwitchOffer.vue
 frontend/src/components/TripMap.vue
 frontend/src/lib/daypart.json
 frontend/src/lib/evidence.js
@@ -104,6 +109,7 @@ frontend/tests/fixtures/compare-differs-false.json
 frontend/tests/fixtures/compare-differs-true.json
 frontend/tests/fixtures/optimise-feasible.json
 frontend/tests/fixtures/optimise-infeasible.json
+frontend/tests/fixtures/parse-examples.json
 frontend/tests/fixtures/places-kuala_lumpur.json
 frontend/tests/fixtures/places-seoul.json
 frontend/tests/fixtures/places-singapore.json

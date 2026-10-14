@@ -38,6 +38,7 @@ class ExtractionOut(_LLMOut):
     day_end: str | None = Field(default=None, max_length=5)
     value_of_time: MoneyOut | None = None
     max_walking_minutes: int | None = None
+    destination_mentioned: str | None = Field(default=None, max_length=80)  # free text; code (not the model) decides what it means
     unclear: list[Annotated[str, Field(max_length=200)]] = Field(default_factory=list, max_length=10)
 
 
@@ -105,6 +106,12 @@ class ParseResult(_R):
     call_count: int = 0
     mode: Literal["llm", "sample"] = "sample"
     prompt_version: str = ""
+    city_id: str = ""
+    city_name: str = ""
+    destination: dict | None = None            # the code-side destination check (status, mentioned cities, message)
+    switch_offer: dict | None = None           # {city_id, display_name, country}: the CLIENT may offer a button; nothing is ever switched here
+    currency_confirmations: list[dict] = []    # ambiguous amounts the user must confirm (never guessed)
+    cross_city_hints: list[dict] = []          # names that exist only in other cities
 
 
 class ProposedOperations(_R):
@@ -126,6 +133,12 @@ class ProposedOperations(_R):
     call_count: int = 0
     mode: Literal["llm", "sample"] = "sample"
     prompt_version: str = ""
+    city_id: str = ""
+    city_name: str = ""
+    destination: dict | None = None            # the code-side destination check (status, mentioned cities, message)
+    switch_offer: dict | None = None           # {city_id, display_name, country}: the CLIENT may offer a button; nothing is ever switched here
+    currency_confirmations: list[dict] = []    # ambiguous amounts the user must confirm (never guessed)
+    cross_city_hints: list[dict] = []          # names that exist only in other cities
 
 
 class GroundingReport(_R):

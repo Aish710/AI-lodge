@@ -3,7 +3,7 @@
 import { reactive, computed } from 'vue'
 import * as api from './api/routes.js'
 import { abortKey, ApiError, isAborted, setCityProvider, setRateLimitHandler, waitForServer } from './api/client.js'
-import { cleanHotelText } from './lib/names.js'
+import { cleanHotelText, clearedOnCitySwitch } from './lib/names.js'
 import { applyPatch, buildPreferences, DEFAULT_FORM, formFromDraft } from './lib/prefs.js'
 import { addOp, buildReplanArgs, proposalToOps, removeOpAt } from './lib/replan.js'
 import limits from './lib/limits.json'
@@ -28,6 +28,7 @@ export const store = reactive({
   parseResult: null, parseError: null, proposal: null, proposalError: null,
   explanations: { optimise: null, compare: null, replan: null }, explainError: null, explaining: null,
   rateLimitUntil: 0, now: Date.now(),
+  pendingCity: null,             // a city the user asked to switch to; the confirmation dialog (App.vue) lists what will be cleared
 })
 
 // ---- the selected city is ONE value (store.cityId); the API client discards any response that names a different city ----
@@ -140,6 +141,13 @@ export async function selectCity(cityId) {
   store.hotelsById = {}
   clearComputedResults()
   await loadPlaces()
+}
+
+/** The ONLY way a screen asks for another city. It never switches by itself when there is work to lose: it opens the confirmation. */
+export async function requestCitySwitch(cityId) {
+  if (cityId === store.cityId) return
+  if (clearedOnCitySwitch(store).length) { store.pendingCity = cityId; return }
+  await selectCity(cityId)
 }
 
 // ---- trip input ----

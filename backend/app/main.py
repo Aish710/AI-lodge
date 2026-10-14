@@ -182,7 +182,7 @@ def compare_hotels_route(req: CompareRequest, request: Request, client: LLMClien
         for r in comp.results if r.breakdown
     }
     if req.explain:
-        out["explanation"] = explain(comp, ds, client, request.state.llm_note).model_dump()
+        out["explanation"] = explain(comp, ds, client, request.state.llm_note, request.app.state.datasets).model_dump()
     return out
 
 
@@ -209,7 +209,7 @@ def replan_route(req: ReplanRequest, request: Request, client: LLMClient | None 
     out = result.model_dump()
     out["city_id"] = ds.city.id
     if req.explain:  # built from the result just computed here, never from client-supplied results
-        out["explanation"] = explain(result, ds, client, request.state.llm_note).model_dump()
+        out["explanation"] = explain(result, ds, client, request.state.llm_note, request.app.state.datasets).model_dump()
     return out
 
 
@@ -240,7 +240,7 @@ def optimise_route(req: OptimiseRequest, request: Request, client: LLMClient | N
         if approximate:
             out["approximate_note"] = "The solver stopped at its time limit without proving optimality: this plan is good but may not be the best."
     if req.explain:
-        out["explanation"] = explain(OptimiseView(res, rep, req.hotel_id, approximate, nights), ds, client, request.state.llm_note).model_dump()
+        out["explanation"] = explain(OptimiseView(res, rep, req.hotel_id, approximate, nights), ds, client, request.state.llm_note, request.app.state.datasets).model_dump()
     return out
 
 
@@ -274,7 +274,8 @@ def parse_replan_route(req: ParseReplanRequest, request: Request, client: LLMCli
     _check_city_ids(request, ds, prefs=req.preferences, part="early")
     current = rebuild_client_schedule(req.preferences, req.current_result, ds, request.app.state.datasets,
                                       after_structure=lambda: _check_city_ids(request, ds, prefs=req.preferences, part="late"))
-    out = parse_replan(req.text, current, req.preferences, ds, client, unavailable_note=request.state.llm_note).model_dump()
+    out = parse_replan(req.text, current, req.preferences, ds, client, unavailable_note=request.state.llm_note,
+                       all_datasets=request.app.state.datasets).model_dump()
     return {**out, "city_id": ds.city.id}
 
 

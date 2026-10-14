@@ -73,7 +73,8 @@
     },
     "aliases": [
       "Gardens",
-      "Supertree Grove"
+      "Supertree Grove",
+      "滨海湾花园"
     ]
   },
   {
@@ -151,7 +152,8 @@
     "aliases": [
       "MBS SkyPark",
       "SkyPark observation deck",
-      "Marina Bay Sands observation deck"
+      "Marina Bay Sands observation deck",
+      "滨海湾金沙空中花园"
     ]
   },
   {
@@ -228,7 +230,9 @@
     },
     "aliases": [
       "Botanic Gardens",
-      "Singapore Botanical Gardens"
+      "Singapore Botanical Gardens",
+      "新加坡植物园",
+      "Taman Botani Singapura"
     ]
   },
   {
@@ -300,7 +304,8 @@
     },
     "aliases": [
       "Buddha Tooth Temple",
-      "BTRT"
+      "BTRT",
+      "佛牙寺"
     ]
   },
   {
@@ -372,7 +377,8 @@
     },
     "aliases": [
       "National Gallery",
-      "NGS"
+      "NGS",
+      "新加坡国家美术馆"
     ]
   },
   {
@@ -450,7 +456,8 @@
     "aliases": [
       "Sultan Mosque",
       "Haji Lane",
-      "Kampong Glam"
+      "Kampong Glam",
+      "苏丹回教堂"
     ]
   },
   {
@@ -527,7 +534,8 @@
     },
     "aliases": [
       "Maxwell",
-      "Maxwell Hawker Centre"
+      "Maxwell Hawker Centre",
+      "麦士威熟食中心"
     ]
   },
   {
@@ -605,7 +613,8 @@
     "aliases": [
       "Jewel",
       "Jewel Changi Airport",
-      "Rain Vortex"
+      "Rain Vortex",
+      "星耀樟宜"
     ]
   },
   {
@@ -676,7 +685,8 @@
       "last_checked": null
     },
     "aliases": [
-      "Art Science Museum"
+      "Art Science Museum",
+      "艺术科学博物馆"
     ]
   },
   {
@@ -717,7 +727,8 @@
       "last_checked": null
     },
     "aliases": [
-      "Sentosa Island"
+      "Sentosa Island",
+      "圣淘沙"
     ]
   }
 ]

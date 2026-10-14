@@ -18,7 +18,7 @@ def normalise(s: str) -> str:
     s = unicodedata.normalize("NFKD", s)
     s = "".join(c for c in s if not unicodedata.combining(c)).casefold()
     s = re.sub(r"\(.*?\)", " ", s)          # drop "(fictional)" style suffixes
-    s = re.sub(r"[^0-9a-z぀-ヿ一-鿿]+", " ", s).strip()
+    s = re.sub(r"[^0-9a-z぀-ヿ一-鿿가-힣ᄀ-ᇿ㄰-㆏]+", " ", s).strip()  # Latin, kana, Han and Hangul
     s = re.sub(r"^the\s+", "", s)
     return s
 

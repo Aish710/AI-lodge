@@ -1,16 +1,24 @@
 <script setup>
-import { onBeforeUnmount, onMounted } from 'vue'
+import { computed, onBeforeUnmount, onMounted } from 'vue'
 import HonestyBanner from './components/HonestyBanner.vue'
 import ModeIndicator from './components/ModeIndicator.vue'
 import CityChip from './components/CityChip.vue'
 import ServerStatus from './components/ServerStatus.vue'
 import RateLimitNotice from './components/RateLimitNotice.vue'
 import { useRouter } from 'vue-router'
-import { boot, store, resetAll } from './store.js'
+import ConfirmDialog from './components/ConfirmDialog.vue'
+import { boot, store, resetAll, selectCity } from './store.js'
+import { clearedOnCitySwitch } from './lib/names.js'
 import { hasUnsavedWork } from './lib/tripSummary.js'
 import { PROJECT_NAME, REPO_URL } from './brand.js'
 const router = useRouter()
 function reset() { resetAll(); router.push('/') }
+const pendingName = computed(() => store.cities.find((c) => c.id === store.pendingCity)?.display_name ?? '')
+async function confirmSwitch() {
+  const id = store.pendingCity
+  store.pendingCity = null
+  if (id) { await selectCity(id); router.push('/') }
+}
 function beforeUnload(e) {
   if (!hasUnsavedWork(store)) return
   e.preventDefault()
@@ -49,6 +57,10 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload))
     <router-view v-if="store.server === 'ready'" />
     <p v-else-if="store.server !== 'down'" class="muted" aria-live="polite">The planner will appear as soon as the server answers.</p>
   </main>
+  <ConfirmDialog v-if="store.pendingCity" :open="true" :title="`Switch to ${pendingName}?`" confirm-label="Switch and clear" cancel-label="Keep current city" @confirm="confirmSwitch" @cancel="store.pendingCity = null">
+    <p class="mb-2">One trip covers one city, so switching to {{ pendingName }} will clear:</p>
+    <ul class="mb-0" data-testid="switch-clears"><li v-for="item in clearedOnCitySwitch(store)" :key="item">{{ item }}</li></ul>
+  </ConfirmDialog>
   <footer class="page site-footer" data-testid="footer">
     <p class="mb-1"><strong>Privacy:</strong> what you type stays in this page's memory. It is sent to the planner's server only to compute results, and the server does not store it. No cookies, no analytics, no third-party scripts. The map loads tiles from OpenStreetMap, which sees your IP address and the map area you view.</p>
     <p class="mb-1">All places, prices, hours and travel times are samples or estimates. Hotels are fictional. Details: <router-link to="/about#privacy">About and privacy</router-link> · <router-link to="/evidence">Evidence</router-link></p>

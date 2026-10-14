@@ -4,6 +4,8 @@
 import { computed, ref, watch } from 'vue'
 import NameResolution from './NameResolution.vue'
 import ErrorPanel from './ErrorPanel.vue'
+import SwitchOffer from './SwitchOffer.vue'
+import CurrencyConfirm from './CurrencyConfirm.vue'
 import { store, runProposal, discardProposal, queueProposal, rateLimited, maxInputChars } from '../store.js'
 import { parseState } from '../lib/rules.js'
 
@@ -44,6 +46,8 @@ function queue() { queueProposal([...include.value]); text.value = '' }
         </li>
       </ul>
       <p v-else class="mb-0">No operations were proposed.</p>
+      <SwitchOffer :offer="p.switch_offer" />
+      <CurrencyConfirm :items="p.currency_confirmations ?? []" />
       <div v-if="p.clarifications.length" class="notice notice-warn" data-testid="proposal-clarifications"><span class="glyph" aria-hidden="true">?</span><ul class="mb-0"><li v-for="c in p.clarifications" :key="c">{{ c }}</li></ul></div>
       <div v-if="p.unclear.length" class="small"><strong>The assistant was unsure about:</strong> {{ p.unclear.join('; ') }}</div>
       <NameResolution :unresolved="p.unresolved_names" :ambiguities="p.ambiguities" @pick="pick" />

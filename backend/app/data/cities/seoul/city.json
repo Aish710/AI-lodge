@@ -23,5 +23,19 @@
   "default_day_end": "19:00",
   "default_value_of_time_per_hour": 15000,
   "closing_day_conventions_note": "Sample weekly closures are encoded per attraction; verify current days before relying on them.",
-  "provenance": "Seoul sample pack. All figures are approximate and must be verified; hotels are fictional."
+  "provenance": "Seoul sample pack. All figures are approximate and must be verified; hotels are fictional.",
+  "aliases": [
+    "서울",
+    "서울특별시",
+    "首尔",
+    "首爾"
+  ],
+  "country_aliases": [
+    "대한민국",
+    "한국",
+    "Korea",
+    "Republic of Korea",
+    "韩国",
+    "韓國"
+  ]
 }

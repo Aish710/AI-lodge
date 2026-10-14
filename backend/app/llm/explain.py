@@ -11,9 +11,10 @@ from dataclasses import dataclass, field
 from app import config
 from app.data.loader import Dataset
 from app.llm.client import LLMClient, LLMUnavailable
+from app.llm.destination import _generic_tokens
 from app.llm.grounding import check_grounding
 from app.llm.names import normalise
-from app.llm.prompts import EXPLAIN_SYSTEM
+from app.llm.prompts import explain_system
 from app.llm.schemas import Explanation, GroundingReport
 from app.money import display_amount, money, signed
 from app.optimiser.hotel_compare import HotelComparison
@@ -170,9 +171,11 @@ def _compare_facts(c: HotelComparison, ds: Dataset) -> ExplainFacts:
     return ExplainFacts("compare", lines, ids, hotels, warnings, tmpl)
 
 
-def _forms(ds: Dataset, facts_text: str):
+def _forms(ds: Dataset, facts_text: str, all_datasets: dict[str, Dataset] | None = None):
     """allowed = every name/alias of each place whose name or alias already appears in the facts text.
-    every = all dataset place forms (for detecting names the model should not mention)."""
+    every = all place forms of the selected city AND of every other city (so a Seoul sight in a Tokyo explanation is rejected).
+    Single words that name several different places across cities ('gardens', 'museum', 'tower') are not treated as names of another
+    city: they are ordinary words, and the full names (which are what an invented place would use) are still rejected."""
     ntext = normalise(facts_text)
 
     def present(form: str) -> bool:
@@ -192,21 +195,39 @@ def _forms(ds: Dataset, facts_text: str):
         every[f] = h.name
         if present(f):
             allowed.add(f)
+    if all_datasets:
+        generic = _generic_tokens(all_datasets)
+        for cid, other in all_datasets.items():
+            if other is ds or cid == ds.city.id:
+                continue
+            for a in other.attractions.values():
+                for n in [a.name] + list(a.aliases):
+                    f = normalise(n)
+                    if f and f not in every and (len(f.split()) > 1 or (len(f) >= 6 and f not in generic) or re.search(r"[぀-ヿ一-鿿가-힣]", f)):
+                        every[f] = a.name
+            for h in other.hotels.values():
+                f = normalise(h.name)
+                if f and f not in every:
+                    every[f] = h.name
     return allowed, every
 
 
-def _finish(body: str, warnings: list[str]) -> str:
-    return body + ("\n\nWarnings:\n" + "\n".join(f"- {w}" for w in warnings) if warnings else "")
+def _finish(body: str, warnings: list[str], ds: Dataset | None = None) -> str:
+    """The city is always stated, by code (not by the model): 'Destination: Seoul, South Korea.', after the body and before the warnings.
+    Warnings are appended once, by code, last."""
+    city = f"\n\nDestination: {ds.city.display_name}, {ds.city.country}." if ds is not None else ""
+    return body + city + ("\n\nWarnings:\n" + "\n".join(f"- {w}" for w in warnings) if warnings else "")
 
 
-def explain(result, ds: Dataset, client: LLMClient | None, sample_reason: str | None = None) -> Explanation:
+def explain(result, ds: Dataset, client: LLMClient | None, sample_reason: str | None = None,
+            all_datasets: dict[str, Dataset] | None = None) -> Explanation:
     facts = build_facts(result, ds)
-    tmpl = Explanation(text=_finish(facts.template, facts.warnings), source="template", warnings=facts.warnings)
+    tmpl = Explanation(text=_finish(facts.template, facts.warnings, ds), source="template", warnings=facts.warnings)
     if client is None:
         tmpl.reason = sample_reason or "sample mode: no language model configured"
         return tmpl
     try:
-        resp = client.complete(EXPLAIN_SYSTEM, [{"role": "user", "content": facts.prompt_block()}], config.LLM_MAX_TOKENS_EXPLAIN)
+        resp = client.complete(explain_system(ds), [{"role": "user", "content": facts.prompt_block()}], config.LLM_MAX_TOKENS_EXPLAIN)
     except LLMUnavailable as e:
         tmpl.call_count = 0
         tmpl.reason = f"language model unavailable ({e.category})"
@@ -219,7 +240,7 @@ def explain(result, ds: Dataset, client: LLMClient | None, sample_reason: str | 
         tmpl.grounding = GroundingReport(checked=0, rejected_tokens=["length"])
         log.info("llm_call", extra={"op": "explain", "outcome": "rejected_length", "calls": 1})
         return tmpl
-    allowed, every = _forms(ds, facts.allowed_text())
+    allowed, every = _forms(ds, facts.allowed_text(), all_datasets)
     g = check_grounding(text, facts.allowed_text(), facts.values, allowed, every)
     log.info("llm_call", extra={"op": "explain", "outcome": "grounded" if g.ok else "rejected_grounding", "calls": 1,
                                 "in_tokens": resp.input_tokens, "out_tokens": resp.output_tokens, "latency": resp.latency_seconds})
@@ -227,5 +248,5 @@ def explain(result, ds: Dataset, client: LLMClient | None, sample_reason: str | 
         tmpl.grounding = GroundingReport(checked=g.checked, rejected_tokens=g.rejected_tokens)
         tmpl.reason = "grounding check failed; template used"
         return tmpl
-    return Explanation(text=_finish(text, facts.warnings), source="llm", grounding=GroundingReport(checked=g.checked),
+    return Explanation(text=_finish(text, facts.warnings, ds), source="llm", grounding=GroundingReport(checked=g.checked),
                        warnings=facts.warnings, call_count=1)

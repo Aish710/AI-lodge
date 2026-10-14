@@ -104,6 +104,8 @@ class CityMeta(_Strict):
     default_value_of_time_per_hour: int = Field(ge=0)
     closing_day_conventions_note: str = Field(min_length=1)
     provenance: str = Field(min_length=1)
+    aliases: list[str] = Field(default_factory=list, max_length=12)          # the city's name in other scripts/spellings (destination check)
+    country_aliases: list[str] = Field(default_factory=list, max_length=12)  # the country's name in other scripts/spellings
 
     @model_validator(mode="after")
     def _checks(self):

@@ -23,5 +23,13 @@
   "default_day_end": "19:00",
   "default_value_of_time_per_hour": 18,
   "closing_day_conventions_note": "Sample weekly closures are encoded per attraction; verify current days before relying on them.",
-  "provenance": "Singapore sample pack. All figures are approximate and must be verified; hotels are fictional."
+  "provenance": "Singapore sample pack. All figures are approximate and must be verified; hotels are fictional.",
+  "aliases": [
+    "Singapura",
+    "新加坡",
+    "싱가포르"
+  ],
+  "country_aliases": [
+    "Republic of Singapore"
+  ]
 }

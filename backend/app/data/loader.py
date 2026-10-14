@@ -73,6 +73,8 @@ def _default_city_meta() -> CityMeta:
         default_value_of_time_per_hour=config.DEFAULT_VALUE_OF_TIME_JPY_PER_HOUR,
         closing_day_conventions_note="Sample weekly closures follow each attraction record; verify before relying on them.",
         provenance="Tokyo sample pack. Figures are approximate and must be verified; hotels are fictional.",
+        aliases=["東京", "とうきょう"],
+        country_aliases=["日本", "Nippon", "Nihon"],
     )
 
 

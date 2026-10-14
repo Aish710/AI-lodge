@@ -9,9 +9,10 @@ from app import config
 from app.config import get_settings
 from app.data.loader import Dataset
 from app.llm.client import LLMClient
-from app.llm.extract import resolve_list, to_city_money
+from app.llm.destination import analyse, build_index, cross_city_hint
+from app.llm.extract import resolve_money
 from app.llm.names import resolve_attraction, resolve_hotel
-from app.llm.prompts import PARSE_REPLAN_SYSTEM, PROMPT_VERSION
+from app.llm.prompts import PROMPT_VERSION, parse_replan_system
 from app.llm.runner import call_json
 from app.llm.sanitize import sanitise_user_text
 from app.llm.schemas import (
@@ -32,13 +33,20 @@ def _itinerary_block(res: SolveResult, ds: Dataset) -> str:
 
 
 def parse_replan(text: str, current: SolveResult, prefs: Preferences, ds: Dataset, client: LLMClient | None,
-                 *, max_input_chars: int | None = None, unavailable_note: str | None = None) -> ProposedOperations:
+                 *, max_input_chars: int | None = None, unavailable_note: str | None = None,
+                 all_datasets: dict[str, Dataset] | None = None) -> ProposedOperations:
     san = sanitise_user_text(text, max_input_chars or get_settings().max_input_chars)
-    base = dict(raw_input_echo=san.text, prompt_version=PROMPT_VERSION)
+    base = dict(raw_input_echo=san.text, prompt_version=PROMPT_VERSION, city_id=ds.city.id, city_name=ds.city.display_name)
+    all_datasets = all_datasets or {ds.city.id: ds}
     if client is None:
         return ProposedOperations(status="llm_unavailable", mode="sample", **base,
                                   clarifications=[f"{unavailable_note or 'The language model is not available (sample mode).'} Use the re-optimise controls instead."])
-    out = call_json(client, PARSE_REPLAN_SYSTEM, _itinerary_block(current, ds) + "\n" + san.wrapped, ReplanOut,
+    # Destination check in CODE before the model is asked anything: a request about another city is never turned into operations.
+    pre = analyse(san.text, None, ds, all_datasets, build_index(all_datasets))
+    if pre["status"] in ("other_city", "mixed"):
+        return ProposedOperations(status="needs_clarification", mode="llm", call_count=0, **base, destination=pre, switch_offer=pre["offer"],
+                                  clarifications=[pre["message"] + " Switching city starts a new trip: the current plan is not carried over."])
+    out = call_json(client, parse_replan_system(ds), _itinerary_block(current, ds) + "\n" + san.wrapped, ReplanOut,
                     config.LLM_MAX_TOKENS_EXTRACT, config.LLM_MAX_CALLS_PARSE, "parse_replan")
     if out.unavailable:
         return ProposedOperations(status="llm_unavailable", mode="sample", call_count=out.call_count, **base,
@@ -56,15 +64,16 @@ def parse_replan(text: str, current: SolveResult, prefs: Preferences, ds: Datase
     ambiguities: list[Ambiguity] = []
     confirm_reasons: list[str] = []
     assumptions: dict = {}
+    confirmations: list[dict] = []
+    hints: list[dict] = []
 
     for o in parsed.operations:
         if o.op == "change_budget":
             if o.budget is None:
                 clar.append("Budget change: no amount was given.")
                 continue
-            jpy = to_city_money(o.budget.amount, o.budget.currency, ds)
+            jpy = resolve_money(o.budget.amount, o.budget.currency, ds, "budget", assumptions, clar, confirmations)
             if jpy is None:
-                clar.append(f"Currency '{o.budget.currency[:8]}' is not supported; use {ds.city.currency_code} or {ds.city.display_currency_code}.")
                 continue
             ops.append(ChangeBudgetOp(op="change_budget", budget=jpy, strict=o.budget.strict))
             desc.append(f"change budget to {jpy:,} {ds.city.currency_code} ({'strict' if o.budget.strict else 'soft'})")
@@ -82,8 +91,11 @@ def parse_replan(text: str, current: SolveResult, prefs: Preferences, ds: Datase
             elif m.status == "ambiguous":
                 ambiguities.append(Ambiguity(input=o.hotel_name, candidates=[Candidate(**c) for c in m.candidates]))
             else:
+                hint = cross_city_hint(o.hotel_name, ds, all_datasets)
+                if hint:
+                    hints.append(hint)
                 unresolved.append(UnresolvedName(input=o.hotel_name, suggestions=[SuggestionOut(id=s.id, name=s.name, reason=s.reason) for s in m.suggestions],
-                                                 message="Not a hotel in this dataset."))
+                                                 message=hint["message"] if hint else "Not a hotel in this dataset."))
             continue
         if not o.attraction_name:
             clar.append(f"'{o.op}': no place was named.")
@@ -93,7 +105,11 @@ def parse_replan(text: str, current: SolveResult, prefs: Preferences, ds: Datase
             ambiguities.append(Ambiguity(input=o.attraction_name, candidates=[Candidate(**c) for c in m.candidates]))
             continue
         if m.status != "resolved":
-            unresolved.append(UnresolvedName(input=o.attraction_name, suggestions=[SuggestionOut(id=s.id, name=s.name, reason=s.reason) for s in m.suggestions]))
+            hint = cross_city_hint(o.attraction_name, ds, all_datasets)
+            if hint:
+                hints.append(hint)
+            unresolved.append(UnresolvedName(input=o.attraction_name, suggestions=[SuggestionOut(id=s.id, name=s.name, reason=s.reason) for s in m.suggestions],
+                                             **({"message": hint["message"]} if hint else {})))
             continue
         aid, name = m.id, m.name
         resolved.append(ResolvedName(input=o.attraction_name, id=aid, name=name, matched_as=m.matched_as, from_schedule=m.from_schedule))
@@ -136,4 +152,5 @@ def parse_replan(text: str, current: SolveResult, prefs: Preferences, ds: Datase
     return ProposedOperations(status=status, operations=ops, descriptions=desc, requires_confirmation=bool(confirm_reasons),
                               confirmation_reasons=confirm_reasons, extracted_json=parsed.model_dump(), resolved_names=resolved,
                               unresolved_names=unresolved, ambiguities=ambiguities, defaults_applied=defaults, clarifications=clar,
-                              unclear=parsed.unclear, assumptions=assumptions, **base)
+                              unclear=parsed.unclear, assumptions=assumptions, currency_confirmations=confirmations, cross_city_hints=hints,
+                              switch_offer=(lambda offers: offers[0] if offers and len(offers) == len(hints) and len({o["city_id"] for o in offers}) == 1 else None)([h["offer"] for h in hints if h.get("offer")]), **base)
