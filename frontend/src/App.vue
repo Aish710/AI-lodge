@@ -2,6 +2,7 @@
 import { onBeforeUnmount, onMounted } from 'vue'
 import HonestyBanner from './components/HonestyBanner.vue'
 import ModeIndicator from './components/ModeIndicator.vue'
+import CityChip from './components/CityChip.vue'
 import ServerStatus from './components/ServerStatus.vue'
 import RateLimitNotice from './components/RateLimitNotice.vue'
 import { useRouter } from 'vue-router'
@@ -41,7 +42,7 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload))
   <HonestyBanner />
   <main id="main" class="page pt-3" tabindex="-1">
     <div class="stack mb-3">
-      <div class="d-flex flex-wrap gap-2 align-items-center mode-slot"><ModeIndicator /></div>
+      <div class="d-flex flex-wrap gap-2 align-items-center mode-slot"><CityChip /><ModeIndicator /></div>
       <ServerStatus />
       <RateLimitNotice />
     </div>

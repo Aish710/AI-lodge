@@ -2,7 +2,8 @@
 // Everything lives in memory only: nothing is persisted by the browser (decision 10).
 import { reactive, computed } from 'vue'
 import * as api from './api/routes.js'
-import { abortKey, ApiError, isAborted, setRateLimitHandler, waitForServer } from './api/client.js'
+import { abortKey, ApiError, isAborted, setCityProvider, setRateLimitHandler, waitForServer } from './api/client.js'
+import { cleanHotelText } from './lib/names.js'
 import { applyPatch, buildPreferences, DEFAULT_FORM, formFromDraft } from './lib/prefs.js'
 import { addOp, buildReplanArgs, proposalToOps, removeOpAt } from './lib/replan.js'
 import limits from './lib/limits.json'
@@ -28,6 +29,9 @@ export const store = reactive({
   explanations: { optimise: null, compare: null, replan: null }, explainError: null, explaining: null,
   rateLimitUntil: 0, now: Date.now(),
 })
+
+// ---- the selected city is ONE value (store.cityId); the API client discards any response that names a different city ----
+setCityProvider(() => store.cityId)
 
 // ---- rate limit countdown (decision 9) ----
 let ticker = null
@@ -85,7 +89,7 @@ export async function loadPlaces() {
     const d = await api.getPlaces(store.cityId)
     store.places = d.attractions
     store.placesById = Object.fromEntries(d.attractions.map((a) => [a.id, a]))
-    store.hotelsById = Object.fromEntries(d.hotels.map((h) => [h.id, h]))
+    store.hotelsById = Object.fromEntries(d.hotels.map((h) => [h.id, { ...h, name: cleanHotelText(h.name) }]))
     store.city = { ...(store.city ?? {}), ...(d.city ?? {}), sample_fx_to_display_currency: d.display_fx?.rate ?? store.city?.sample_fx_to_display_currency }
     store.fx = { ...(d.fx ?? {}), ...(d.display_fx ?? {}), currency_code: d.city?.currency_code, display_currency_code: d.display_fx?.currency_code }
     store.placesSource = { travel: d.travel_times_source, disclaimer: d.disclaimer }
@@ -94,11 +98,13 @@ export async function loadPlaces() {
   }
 }
 
+/** Abort every request that could still answer for the previous city. */
+function abortAllInFlight() {
+  for (const k of ['places', 'compare', 'compare-sens', 'optimise', 'replan', 'parse', 'parse-replan', 'summary']) abortKey(k)
+}
+
 function clearComputedResults() {
-  abortKey('compare')
-  abortKey('compare-sens')
-  abortKey('optimise')
-  abortKey('replan')
+  abortAllInFlight()
   store.comparison = null
   store.comparisonKey = null
   store.comparisonError = null
@@ -110,15 +116,23 @@ function clearComputedResults() {
   store.planError = null
   store.hotelIds = []
   store.parseResult = null
+  store.parseError = null
   store.proposal = null
+  store.proposalError = null
   store.explanations = { optimise: null, compare: null, replan: null }
+  store.explainError = null
+  store.explaining = null
+  store.sensitivityCancelled = false
+  store.planFromReplan = false
   resetReplanState()
 }
 
 export async function selectCity(cityId) {
   if (cityId === store.cityId) return
+  abortAllInFlight()
   store.cityId = cityId
   store.city = store.cities.find((c) => c.id === cityId) ?? null
+  store.places = null
   store.form = { ...DEFAULT_FORM(), budgetCurrency: store.city?.currency_code ?? 'JPY',
     valueOfTime: store.city?.id === 'seoul' ? 15000 : store.city?.id === 'singapore' ? 18 : store.city?.id === 'kuala_lumpur' ? 45 : 1000 }
   store.wishlist = {}
@@ -224,7 +238,12 @@ export async function applyAlternative(patch) {
 }
 
 // ---- demo helpers (decision: pre-tested requests, see tests) ----
+/** The examples are Tokyo trips. From another city this switches to Tokyo first (clearing that city's state), then loads. */
 export function loadExample(kind) {
+  if (store.cityId !== 'tokyo') return selectCity('tokyo').then(() => applyExample(kind))
+  applyExample(kind)
+}
+function applyExample(kind) {
   const ex = examples[kind]
   store.form = { ...DEFAULT_FORM(), ...ex.form }
   store.cityId = 'tokyo'
@@ -240,6 +259,7 @@ export function loadExample(kind) {
 }
 
 export function resetAll() {
+  abortAllInFlight()
   store.planFromReplan = false
   store.parseResult = null
   store.proposal = null

@@ -10,6 +10,7 @@ import Skeleton from '../components/Skeleton.vue'
 import { store, runCompare, ensureComparison, chooseHotel, rateLimited, currentPrefs, cancelSensitivity, explain } from '../store.js'
 import { hotelCallout } from '../lib/rules.js'
 import { formatDisplayMoney, formatLocalMoney, minutesToHm, UNKNOWN } from '../lib/format.js'
+import { cleanHotelText as ct } from '../lib/names.js'
 
 const router = useRouter()
 const comp = computed(() => store.comparison)
@@ -19,12 +20,16 @@ const fx = computed(() => store.fx)
 const money = (v) => formatLocalMoney(v, store.city?.currency_code ?? 'JPY')
 const display = (v) => formatDisplayMoney(v, store.city)
 // the server's summary sentences mention hotel ids; show names instead (numbers untouched)
-const pretty = (t) => Object.entries(store.hotelsById).reduce((acc, [id, h]) => acc.split(id).join(h.name), t)
+const pretty = (t) => ct(Object.entries(store.hotelsById).reduce((acc, [id, h]) => acc.split(id).join(h.name), t))
 const results = computed(() => comp.value?.results ?? [])
 const rank = (id) => comp.value?.ranking.find((r) => r.hotel_id === id)
 const isBest = (id) => comp.value?.best_by_true_cost === id
 const displayCost = (id) => comp.value?.display_values?.[id]?.true_cost
 
+const hotels = computed(() => Object.values(store.hotelsById))
+const selected = computed(() => store.hotelIds.length)
+const needMore = computed(() => selected.value < 2)
+const selectionText = computed(() => `${selected.value} of ${hotels.value.length} selected, choose 2 or 3`)
 function toggle(id) {
   const i = store.hotelIds.indexOf(id)
   if (i >= 0) store.hotelIds.splice(i, 1)
@@ -38,7 +43,7 @@ watch(grid, (g) => { const i = g.findIndex((x) => x.value_of_time_per_hour === N
 const point = computed(() => grid.value[Math.min(gridIdx.value, Math.max(grid.value.length - 1, 0))] ?? null)
 function use(id) { chooseHotel(id); router.push('/itinerary') }
 onMounted(async () => {
-  if (!store.hotelIds.length && store.hotelsById) store.hotelIds.push(...Object.keys(store.hotelsById))
+  if (!store.hotelIds.length && store.hotelsById) store.hotelIds.push(...Object.keys(store.hotelsById).slice(0, 3))  // the API compares at most 3
   await ensureComparison()
   const i = grid.value.findIndex((g) => g.value_of_time_per_hour === Number(store.form.valueOfTime))
   gridIdx.value = i >= 0 ? i : 0
@@ -56,22 +61,29 @@ onBeforeUnmount(() => clearInterval(timer))
   <div class="stack">
     <div>
       <h1>Compare hotels by true cost</h1>
-      <p class="muted mb-0">True cost = rooms + admissions + estimated transport + travel time × the value you put on an hour + a charge for each optional sight left out. Hotels and rates are fictional.</p>
+      <p class="muted mb-0">True cost = rooms + admissions + estimated transport + travel time × the value you put on an hour + a charge for each optional sight left out.</p>
     </div>
     <SettingsSummaryStrip />
 
-    <fieldset class="card-soft">
-      <legend class="h6">Hotels to compare (choose 2 or 3)</legend>
-      <div class="d-flex flex-wrap gap-3">
-        <div v-for="h in Object.values(store.hotelsById)" :key="h.id" class="form-check">
-          <input :id="`h-${h.id}`" class="form-check-input" type="checkbox" :checked="store.hotelIds.includes(h.id)" @change="toggle(h.id)" />
-          <label class="form-check-label" :for="`h-${h.id}`">{{ h.name }} <span class="muted">· {{ h.area }} · {{ money(h.nightly_rate) }}/night</span> <SourceBadge :status="h.source.record" what="rate" /></label>
-        </div>
-      </div>
+    <fieldset class="card-soft hotel-list" data-testid="hotel-list">
+      <legend class="h6">Hotels to compare</legend>
+      <p class="small muted mb-2" data-testid="hotel-note">Hotels are made-up examples with sample prices.</p>
+      <ul class="list-unstyled hotel-rows mb-0">
+        <li v-for="h in hotels" :key="h.id" class="hotel-row" data-testid="hotel-row">
+          <input :id="`h-${h.id}`" class="form-check-input hotel-check" type="checkbox" :checked="store.hotelIds.includes(h.id)" :disabled="!store.hotelIds.includes(h.id) && selected >= 3" @change="toggle(h.id)" />
+          <label class="hotel-name" :for="`h-${h.id}`"><span class="hotel-title">{{ h.name }}</span> <span class="muted hotel-area">{{ h.area }}</span></label>
+          <span class="hotel-price">{{ money(h.nightly_rate) }}/night <span class="muted">(≈ {{ display(h.nightly_rate) }})</span></span>
+          <span class="pill hotel-tag" :title="`Made-up hotel. Rate is a sample (source status: ${h.source?.record ?? 'sample'}), not a quote.`">Demo hotel</span>
+        </li>
+      </ul>
       <div v-if="errorsNow.length" class="notice notice-warn mt-2" role="alert"><span class="glyph" aria-hidden="true">!</span><span>{{ errorsNow.join(' ') }} <router-link to="/">Fix the trip details</router-link></span></div>
-      <button class="btn btn-primary mt-3" :disabled="store.busy.compare || rateLimited || store.hotelIds.length < 2 || errorsNow.length > 0" @click="runCompare" data-testid="compare">
-        {{ store.busy.compare ? 'Comparing…' : comp ? 'Compare again' : 'Compare hotels' }}
-      </button>
+      <div class="d-flex flex-wrap align-items-center gap-3 mt-3">
+        <button class="btn btn-primary" :disabled="store.busy.compare || rateLimited || needMore || errorsNow.length > 0" :aria-describedby="needMore ? 'compare-reason' : undefined" @click="runCompare" data-testid="compare">
+          {{ store.busy.compare ? 'Comparing…' : comp ? 'Compare again' : 'Compare hotels' }}
+        </button>
+        <span class="small" :class="needMore ? 'text-danger-emphasis' : 'muted'" aria-live="polite" data-testid="selected-count">{{ selectionText }}</span>
+        <span v-if="needMore" id="compare-reason" class="small" data-testid="compare-reason"><span aria-hidden="true">!</span> Choose at least 2 hotels to compare.</span>
+      </div>
     </fieldset>
 
     <ErrorPanel v-if="store.comparisonError" :error="store.comparisonError" />
@@ -86,7 +98,7 @@ onBeforeUnmount(() => clearInterval(timer))
       <div v-else-if="callout.kind === 'same'" class="notice notice-info" role="status" data-testid="callout-same">
         <span class="glyph" aria-hidden="true">i</span><span>{{ callout.text }} ({{ hotelName(comp.best_by_true_cost) }})</span>
       </div>
-      <p v-if="comp.insight" class="mb-0" data-testid="insight">{{ comp.insight }}</p>
+      <p v-if="comp.insight" class="mb-0" data-testid="insight">{{ pretty(comp.insight) }}</p>
 
       <div class="notice notice-warn" v-if="comp.approximate || comp.partial" role="status" data-testid="approximate">
         <span class="glyph" aria-hidden="true">!</span>
@@ -99,7 +111,7 @@ onBeforeUnmount(() => clearInterval(timer))
           <thead>
             <tr><th scope="col">Line</th>
               <th v-for="r in results" :key="r.hotel_id" scope="col" class="num" :class="{ winner: isBest(r.hotel_id) }">
-                {{ r.hotel_name }}
+                {{ ct(r.hotel_name) }}
                 <div class="fw-normal small">
                   <span v-if="isBest(r.hotel_id)" class="pill pill-must">Best overall</span>
                   <span v-if="comp.cheapest_by_rate === r.hotel_id" class="pill">Cheapest rate</span>
@@ -145,15 +157,15 @@ onBeforeUnmount(() => clearInterval(timer))
 
       <div v-for="r in results.filter((x) => !x.feasible)" :key="r.hotel_id" class="notice notice-info" data-testid="hotel-infeasible">
         <span class="glyph" aria-hidden="true">i</span>
-        <span><strong>{{ r.hotel_name }}:</strong> {{ r.status }}.
-          <template v-if="r.conflicts?.length"><span v-for="(c, i) in r.conflicts" :key="i"> {{ c.message }}</span></template>
-          <template v-else-if="r.note"> {{ r.note }}</template></span>
+        <span><strong>{{ ct(r.hotel_name) }}:</strong> {{ r.status }}.
+          <template v-if="r.conflicts?.length"><span v-for="(c, i) in r.conflicts" :key="i"> {{ pretty(c.message) }}</span></template>
+          <template v-else-if="r.note"> {{ pretty(r.note) }}</template></span>
       </div>
 
       <ExplainBlock :explanation="store.explanations.compare" :busy="store.explaining === 'compare'" :disabled="rateLimited || !!store.explaining" :error="store.explainError" @explain="explain('compare')" />
       <section v-if="comp.warnings?.length" class="card-soft" aria-labelledby="warn-h" data-testid="warnings">
         <h2 id="warn-h" class="h6">Warnings from the planner (verbatim)</h2>
-        <ul class="mb-0"><li v-for="w in comp.warnings" :key="w">{{ w }}</li></ul>
+        <ul class="mb-0"><li v-for="w in comp.warnings" :key="w">{{ pretty(w) }}</li></ul>
       </section>
 
       <div v-if="store.busy.sensitivity && !comp.sensitivity" class="notice notice-info" role="status" aria-live="polite" data-testid="sens-progress">

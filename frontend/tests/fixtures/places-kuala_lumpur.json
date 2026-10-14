@@ -1,0 +1,640 @@
+{
+ "city_id": "kuala_lumpur",
+ "attractions": [
+  {
+   "id": "petronas_twin_towers",
+   "name": "Petronas Twin Towers",
+   "area": "KLCC",
+   "lat": 3.1579,
+   "lon": 101.7116,
+   "category": "viewpoint",
+   "priority": "must_visit",
+   "duration_minutes": 120,
+   "admission_cost": 98,
+   "indoor": true,
+   "advance_booking_required": true,
+   "opening_hours": {
+    "mon": null,
+    "tue": [
+     [
+      "09:00",
+      "21:00"
+     ]
+    ],
+    "wed": [
+     [
+      "09:00",
+      "21:00"
+     ]
+    ],
+    "thu": [
+     [
+      "09:00",
+      "21:00"
+     ]
+    ],
+    "fri": [
+     [
+      "09:00",
+      "21:00"
+     ]
+    ],
+    "sat": [
+     [
+      "09:00",
+      "21:00"
+     ]
+    ],
+    "sun": [
+     [
+      "09:00",
+      "21:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "batu_caves",
+   "name": "Batu Caves",
+   "area": "Gombak",
+   "lat": 3.2379,
+   "lon": 101.684,
+   "category": "temple",
+   "priority": "nice_to_have",
+   "duration_minutes": 150,
+   "admission_cost": 0,
+   "indoor": false,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "07:00",
+      "21:00"
+     ]
+    ],
+    "tue": [
+     [
+      "07:00",
+      "21:00"
+     ]
+    ],
+    "wed": [
+     [
+      "07:00",
+      "21:00"
+     ]
+    ],
+    "thu": [
+     [
+      "07:00",
+      "21:00"
+     ]
+    ],
+    "fri": [
+     [
+      "07:00",
+      "21:00"
+     ]
+    ],
+    "sat": [
+     [
+      "07:00",
+      "21:00"
+     ]
+    ],
+    "sun": [
+     [
+      "07:00",
+      "21:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "islamic_arts_museum_malaysia",
+   "name": "Islamic Arts Museum Malaysia",
+   "area": "Lake Gardens",
+   "lat": 3.1419,
+   "lon": 101.689,
+   "category": "museum",
+   "priority": "nice_to_have",
+   "duration_minutes": 120,
+   "admission_cost": 14,
+   "indoor": true,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "09:30",
+      "18:00"
+     ]
+    ],
+    "tue": null,
+    "wed": [
+     [
+      "09:30",
+      "18:00"
+     ]
+    ],
+    "thu": [
+     [
+      "09:30",
+      "18:00"
+     ]
+    ],
+    "fri": [
+     [
+      "09:30",
+      "18:00"
+     ]
+    ],
+    "sat": [
+     [
+      "09:30",
+      "18:00"
+     ]
+    ],
+    "sun": [
+     [
+      "09:30",
+      "18:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "merdeka_square",
+   "name": "Merdeka Square",
+   "area": "City Centre",
+   "lat": 3.1478,
+   "lon": 101.6932,
+   "category": "landmark",
+   "priority": "nice_to_have",
+   "duration_minutes": 60,
+   "admission_cost": 0,
+   "indoor": false,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "08:00",
+      "22:00"
+     ]
+    ],
+    "tue": [
+     [
+      "08:00",
+      "22:00"
+     ]
+    ],
+    "wed": [
+     [
+      "08:00",
+      "22:00"
+     ]
+    ],
+    "thu": [
+     [
+      "08:00",
+      "22:00"
+     ]
+    ],
+    "fri": [
+     [
+      "08:00",
+      "22:00"
+     ]
+    ],
+    "sat": [
+     [
+      "08:00",
+      "22:00"
+     ]
+    ],
+    "sun": [
+     [
+      "08:00",
+      "22:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "central_market_kl",
+   "name": "Central Market Kuala Lumpur",
+   "area": "Pasar Seni",
+   "lat": 3.144,
+   "lon": 101.695,
+   "category": "market",
+   "priority": "nice_to_have",
+   "duration_minutes": 75,
+   "admission_cost": 0,
+   "indoor": true,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "10:00",
+      "21:30"
+     ]
+    ],
+    "tue": [
+     [
+      "10:00",
+      "21:30"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "21:30"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "21:30"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "21:30"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "21:30"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
+      "21:30"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "jalan_alor",
+   "name": "Jalan Alor",
+   "area": "Bukit Bintang",
+   "lat": 3.1466,
+   "lon": 101.7088,
+   "category": "food",
+   "priority": "nice_to_have",
+   "duration_minutes": 90,
+   "admission_cost": null,
+   "indoor": false,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "17:00",
+      "23:30"
+     ]
+    ],
+    "tue": [
+     [
+      "17:00",
+      "23:30"
+     ]
+    ],
+    "wed": [
+     [
+      "17:00",
+      "23:30"
+     ]
+    ],
+    "thu": [
+     [
+      "17:00",
+      "23:30"
+     ]
+    ],
+    "fri": [
+     [
+      "17:00",
+      "23:30"
+     ]
+    ],
+    "sat": [
+     [
+      "17:00",
+      "23:30"
+     ]
+    ],
+    "sun": [
+     [
+      "17:00",
+      "23:30"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "kl_tower",
+   "name": "KL Tower",
+   "area": "Bukit Nanas",
+   "lat": 3.1528,
+   "lon": 101.7037,
+   "category": "viewpoint",
+   "priority": "nice_to_have",
+   "duration_minutes": 90,
+   "admission_cost": 60,
+   "indoor": true,
+   "advance_booking_required": true,
+   "opening_hours": {
+    "mon": [
+     [
+      "09:00",
+      "22:00"
+     ]
+    ],
+    "tue": [
+     [
+      "09:00",
+      "22:00"
+     ]
+    ],
+    "wed": [
+     [
+      "09:00",
+      "22:00"
+     ]
+    ],
+    "thu": [
+     [
+      "09:00",
+      "22:00"
+     ]
+    ],
+    "fri": [
+     [
+      "09:00",
+      "22:00"
+     ]
+    ],
+    "sat": [
+     [
+      "09:00",
+      "22:00"
+     ]
+    ],
+    "sun": [
+     [
+      "09:00",
+      "22:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "perdana_botanical_garden",
+   "name": "Perdana Botanical Garden",
+   "area": "Lake Gardens",
+   "lat": 3.1423,
+   "lon": 101.6841,
+   "category": "garden",
+   "priority": "nice_to_have",
+   "duration_minutes": 120,
+   "admission_cost": 0,
+   "indoor": false,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "07:00",
+      "20:00"
+     ]
+    ],
+    "tue": [
+     [
+      "07:00",
+      "20:00"
+     ]
+    ],
+    "wed": [
+     [
+      "07:00",
+      "20:00"
+     ]
+    ],
+    "thu": [
+     [
+      "07:00",
+      "20:00"
+     ]
+    ],
+    "fri": [
+     [
+      "07:00",
+      "20:00"
+     ]
+    ],
+    "sat": [
+     [
+      "07:00",
+      "20:00"
+     ]
+    ],
+    "sun": [
+     [
+      "07:00",
+      "20:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "thean_hou_temple",
+   "name": "Thean Hou Temple",
+   "area": "Robson Heights",
+   "lat": 3.1217,
+   "lon": 101.6873,
+   "category": "temple",
+   "priority": "nice_to_have",
+   "duration_minutes": 75,
+   "admission_cost": 0,
+   "indoor": false,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "08:00",
+      "20:00"
+     ]
+    ],
+    "tue": [
+     [
+      "08:00",
+      "20:00"
+     ]
+    ],
+    "wed": [
+     [
+      "08:00",
+      "20:00"
+     ]
+    ],
+    "thu": [
+     [
+      "08:00",
+      "20:00"
+     ]
+    ],
+    "fri": [
+     [
+      "08:00",
+      "20:00"
+     ]
+    ],
+    "sat": [
+     [
+      "08:00",
+      "20:00"
+     ]
+    ],
+    "sun": [
+     [
+      "08:00",
+      "20:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "national_mosque_malaysia",
+   "name": "National Mosque of Malaysia",
+   "area": "Lake Gardens",
+   "lat": 3.1412,
+   "lon": 101.6915,
+   "category": "mosque",
+   "priority": "nice_to_have",
+   "duration_minutes": 75,
+   "admission_cost": 0,
+   "indoor": true,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": "unknown",
+    "tue": "unknown",
+    "wed": "unknown",
+    "thu": "unknown",
+    "fri": "unknown",
+    "sat": "unknown",
+    "sun": "unknown"
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  }
+ ],
+ "hotels": [
+  {
+   "id": "hotel_klcc_lantern",
+   "name": "KLCC Lantern Hotel (fictional)",
+   "area": "KLCC",
+   "lat": 3.1587,
+   "lon": 101.713,
+   "nightly_rate": 320,
+   "source": {
+    "record": "sample"
+   }
+  },
+  {
+   "id": "hotel_bukit_bintang_lane",
+   "name": "Bukit Bintang Lane Stay (fictional)",
+   "area": "Bukit Bintang",
+   "lat": 3.1469,
+   "lon": 101.7113,
+   "nightly_rate": 220,
+   "source": {
+    "record": "sample"
+   }
+  },
+  {
+   "id": "hotel_bangsar_edge",
+   "name": "Bangsar Edge Inn (fictional)",
+   "area": "Bangsar",
+   "lat": 3.129,
+   "lon": 101.671,
+   "nightly_rate": 140,
+   "source": {
+    "record": "sample"
+   }
+  }
+ ],
+ "travel_times_source": "estimated",
+ "fx": {
+  "jpy_per_sgd": 110.0,
+  "label": "SAMPLE FX rate (approximate, not live): 1 SGD = 110 JPY"
+ },
+ "city": {
+  "id": "kuala_lumpur",
+  "display_name": "Kuala Lumpur",
+  "country": "Malaysia",
+  "currency_code": "MYR",
+  "display_currency_code": "USD",
+  "sample_fx_label": "SAMPLE FX rate (approximate, not live): 1 MYR = 0.21 USD",
+  "provenance": "Kuala Lumpur sample pack for Malaysia. All figures are approximate and must be verified; hotels are fictional.",
+  "counts": {
+   "attractions": 10,
+   "hotels": 3,
+   "matrix_nodes": 13
+  }
+ },
+ "display_fx": {
+  "currency_code": "USD",
+  "rate": 0.21,
+  "label": "SAMPLE FX rate (approximate, not live): 1 MYR = 0.21 USD"
+ },
+ "disclaimer": "Sample data, not live prices. Hotels are fictional. Travel times are estimates."
+}

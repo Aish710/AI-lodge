@@ -32,9 +32,9 @@ function draw() {
   if (hp) {
     pts.push(hp)
     const marker = L.marker(hp, { icon: L.divIcon({ className: '', html: '<div class="pin pin-hotel" style="width:56px;height:56px"><span>H</span></div>', iconSize: [56, 56], iconAnchor: [28, 28], popupAnchor: [0, -28] }),
-      title: `Hotel: ${hotel.name} (fictional)`, alt: `Hotel ${hotel.name}`, keyboard: true })
-      .bindPopup(popup([hotel.name, 'Hotel (fictional)'])).addTo(layer)
-    marker.on('add', () => marker.getElement()?.setAttribute('aria-label', `Hotel: ${hotel.name} (fictional)`))
+      title: `Hotel: ${hotel.name} (demo hotel)`, alt: `Hotel ${hotel.name}`, keyboard: true })
+      .bindPopup(popup([hotel.name, 'Demo hotel'])).addTo(layer)
+    marker.on('add', () => marker.getElement()?.setAttribute('aria-label', `Hotel: ${hotel.name} (demo hotel)`))
   }
   for (const d of props.days) {
     const color = dayColor(d.day)

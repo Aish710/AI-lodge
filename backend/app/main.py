@@ -11,6 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app import config
+from app.city_guard import reject_foreign_ids
 from app.config import FX_LABEL, SAMPLE_FX_JPY_PER_SGD, get_settings
 from app.data.loader import DEFAULT_CITY_ID, Dataset, load_all_city_datasets, load_dataset
 from app.hardening.config import HConfig
@@ -56,6 +57,16 @@ def _dataset(request: Request, city_id: str = DEFAULT_CITY_ID) -> Dataset:
         raise ApiError(422, "unknown_city", f"Unknown city id '{city_id[:64]}'.")
 
 
+def _check_city_ids(request: Request, ds: Dataset, *, hotels=(), prefs: Preferences | None = None, op_list=()) -> None:
+    attractions = [l.attraction_id for l in prefs.locked] if prefs else []
+    for op in op_list:
+        if getattr(op, "attraction_id", None):
+            attractions.append(op.attraction_id)
+        if getattr(op, "hotel_id", None):
+            hotels = [*hotels, op.hotel_id]
+    reject_foreign_ids(ds, request.app.state.datasets, hotels=hotels, attractions=attractions)
+
+
 def _display_money(ds: Dataset, value: int) -> float:
     return round(value * ds.city.sample_fx_to_display_currency, 2)
 
@@ -84,6 +95,7 @@ def data_summary(request: Request, city_id: str = Query(DEFAULT_CITY_ID, max_len
     ds = _dataset(request, city_id)
     atts = list(ds.attractions.values())
     return {
+        "city_id": ds.city.id,
         "counts": {"attractions": len(atts), "hotels": len(ds.hotels), "matrix_nodes": len(ds.minutes)},
         "provenance": {
             "attractions": dict(Counter(a.provenance.source_status for a in atts)),
@@ -109,6 +121,7 @@ def data_places(request: Request, city_id: str = Query(DEFAULT_CITY_ID, max_leng
     ds = _dataset(request, city_id)
     src = lambda p: p.source_status
     return {
+        "city_id": ds.city.id,
         "attractions": [
             {"id": a.id, "name": a.name, "area": a.area, "lat": a.lat, "lon": a.lon, "category": a.category, "priority": a.priority,
              "duration_minutes": a.duration_minutes, "admission_cost": a.admission_cost, "indoor": a.indoor,
@@ -139,6 +152,7 @@ class CompareRequest(_Req):
 @router.post("/compare-hotels")
 def compare_hotels_route(req: CompareRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
     ds, cfg = _dataset(request, req.city_id), request.app.state.hconf
+    _check_city_ids(request, ds, hotels=req.hotel_ids, prefs=req.preferences)
     with request.app.state.solver_capacity.claim():
         vot_range = (req.vot_min if req.vot_min is not None else config.VOT_RANGE_DEFAULT[0],
                      req.vot_max if req.vot_max is not None else config.VOT_RANGE_DEFAULT[1])
@@ -152,6 +166,7 @@ def compare_hotels_route(req: CompareRequest, request: Request, client: LLMClien
                      "rooms_sgd": round(r.breakdown.rooms_jpy / SAMPLE_FX_JPY_PER_SGD, 2)}
         for r in comp.results if r.breakdown
     }
+    out["city_id"] = ds.city.id
     out["city"] = _city_payload(ds)
     out["display_currency"] = ds.city.display_currency_code
     out["display_fx_label"] = ds.city.sample_fx_label
@@ -178,12 +193,14 @@ class ReplanRequest(_Req):
 def replan_route(req: ReplanRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
     """Stateless: nothing from the request is stored. The supplied schedule is UNTRUSTED: it is rebuilt and validated first."""
     ds, cfg = _dataset(request, req.city_id), request.app.state.hconf
+    _check_city_ids(request, ds, prefs=req.preferences, op_list=req.operations)
     with request.app.state.solver_capacity.claim():
-        current = rebuild_client_schedule(req.preferences, req.current_result, ds)
+        current = rebuild_client_schedule(req.preferences, req.current_result, ds, request.app.state.datasets)
         result = replan(req.preferences, current, req.operations, ds,
                         confirm_remove_must_visit=req.confirm_remove_must_visit,
                         max_seconds=cfg.replan_time_limit_seconds)
     out = result.model_dump()
+    out["city_id"] = ds.city.id
     if req.explain:  # built from the result just computed here, never from client-supplied results
         out["explanation"] = explain(result, ds, client, request.state.llm_note).model_dump()
     return out
@@ -200,6 +217,7 @@ class OptimiseRequest(_Req):
 def optimise_route(req: OptimiseRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
     """Best feasible itinerary for ONE hotel (true-cost objective, same as the hotel comparison), always validated."""
     ds, cfg = _dataset(request, req.city_id), request.app.state.hconf
+    _check_city_ids(request, ds, hotels=[req.hotel_id], prefs=req.preferences)
     with request.app.state.solver_capacity.claim():
         if req.hotel_id not in ds.hotels:
             raise ApiError(422, "unknown_hotel", f"Unknown hotel id '{req.hotel_id[:64]}'.")
@@ -210,7 +228,7 @@ def optimise_route(req: OptimiseRequest, request: Request, client: LLMClient | N
         rep = build_report(res, ds, p, req.hotel_id)  # a failing report is returned as-is, never hidden
         nights, src = nights_for(p)
         approximate = res.status == "feasible" and res.solver_meta.solver_status != "OPTIMAL"
-        out = {"result": res.model_dump(), "feasibility_report": rep.model_dump(), "approximate": approximate,
+        out = {"city_id": ds.city.id, "result": res.model_dump(), "feasibility_report": rep.model_dump(), "approximate": approximate,
                "nights_used": nights, "nights_source": src}
         if approximate:
             out["approximate_note"] = "The solver stopped at its time limit without proving optimality: this plan is good but may not be the best."
@@ -232,7 +250,7 @@ def parse_route(req: ParseRequest, request: Request, client: LLMClient | None = 
     r = extract_preferences(req.text, _dataset(request, req.city_id), client, start_weekday=req.start_weekday,
                             all_datasets=request.app.state.datasets,
                             unavailable_note=request.state.llm_note)
-    return r.model_dump()
+    return {**r.model_dump(), "city_id": req.city_id}
 
 
 class ParseReplanRequest(_Req):
@@ -246,8 +264,10 @@ class ParseReplanRequest(_Req):
 def parse_replan_route(req: ParseReplanRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
     """Free text -> PROPOSED operations. Nothing is executed; the client must confirm and call /replan."""
     ds = _dataset(request, req.city_id)
-    current = rebuild_client_schedule(req.preferences, req.current_result, ds)
-    return parse_replan(req.text, current, req.preferences, ds, client, unavailable_note=request.state.llm_note).model_dump()
+    _check_city_ids(request, ds, prefs=req.preferences)
+    current = rebuild_client_schedule(req.preferences, req.current_result, ds, request.app.state.datasets)
+    out = parse_replan(req.text, current, req.preferences, ds, client, unavailable_note=request.state.llm_note).model_dump()
+    return {**out, "city_id": ds.city.id}
 
 
 # ---- app factory ------------------------------------------------------------------------------------------------------

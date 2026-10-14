@@ -47,6 +47,11 @@ export function normaliseError({ status, body, requestId = null }) {
   return new ApiError({ code: 'unexpected_response', message: `Unexpected response from the server (HTTP ${status}).`, status, requestId })
 }
 
+let cityProvider = null
+/** The store registers a function returning the CURRENT city id. A response that names a different city is a stale answer
+ *  to a question asked before a city switch: it is discarded (the caller sees an 'aborted' error and ignores it). */
+export function setCityProvider(fn) { cityProvider = fn }
+
 let rateLimitHandler = () => {}
 /** The store registers a function that starts a visible countdown when the server answers 429. */
 export function setRateLimitHandler(fn) { rateLimitHandler = fn }
@@ -94,6 +99,12 @@ export async function request(method, path, { body, key, timeoutMs = SOLVE_TIMEO
       throw err
     }
     if (parsed === null || typeof parsed !== 'object') throw new ApiError({ code: 'unexpected_response', message: 'The server sent a response the app could not read.', status: res.status })
+    const current = cityProvider?.()
+    if (current && typeof parsed.city_id === 'string' && parsed.city_id !== current) {
+      // metadata only: no response content is logged
+      console.warn('Discarded a response for another city', { path, response_city: parsed.city_id, current_city: current })
+      throw new ApiError({ code: 'aborted', message: 'Discarded a response for a city that is no longer selected.' })
+    }
     return parsed
   } finally {
     clearTimeout(timer)

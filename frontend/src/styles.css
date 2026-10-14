@@ -155,3 +155,18 @@ a { text-underline-offset: 2px; }
 .bar-fill { height: 100%; background: var(--teal); }
 .bar-fill.bar-bad { background: var(--red); }
 .bar-fill.bar-warn { background: #b07a10; }
+
+/* city chip and hotel list (stacked rows at every width: never side by side, never wrapping into columns) */
+.city-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; font-size: .9rem; }
+.hotel-rows { display: flex; flex-direction: column; }
+.hotel-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; column-gap: 12px; row-gap: 2px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+.hotel-row:last-child { border-bottom: 0; }
+.hotel-name { margin: 0; overflow-wrap: anywhere; }
+.hotel-title { font-weight: 600; }
+.hotel-price { font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+.hotel-tag { white-space: nowrap; }
+@media (max-width: 575px) {
+  .hotel-row { grid-template-columns: auto minmax(0, 1fr); }
+  .hotel-price { grid-column: 2; text-align: left; white-space: normal; }
+  .hotel-tag { grid-column: 2; justify-self: start; }
+}

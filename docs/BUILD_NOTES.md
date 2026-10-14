@@ -318,3 +318,23 @@ No other test was touched.
 - State is still intentionally memory-only: no localStorage, sessionStorage, cookies or analytics.
 - The frontend data endpoint does not expose the travel fare matrix, so the budget hint uses the currently loaded dataset cost fields available to the frontend and stays advisory.
 - Follow-up check: the budget hint's sights-per-day numbers now live in `frontend/src/lib/pacecaps.json`, pinned to `PACE_MAX_PER_DAY` by `test_pace_caps_match_the_backend` (a test only; no backend behaviour changed). The hint counts admissions only (transport is not exposed to the frontend), so it understates cost; the 20x margin absorbs that. Counts at this check: backend 302 passed, Vitest 127 passed, Playwright 17 passed. Screenshot: `docs/screenshots/12-settings-strip.png`.
+
+## Phase 9c, Parts 1 and 2: stacked hotel list and one city per trip (2026-10-14)
+
+**Housekeeping found first**
+- The Python-template `lib/` rule in `.gitignore` had been hiding the whole `frontend/src/lib/` folder, so every earlier commit was missing `format.js`, `rules.js`, `replan.js` and the JSON mirrors and could not build from a clean clone. Fixed with `!frontend/src/lib/`; a fresh clone now installs, builds and passes Vitest (checked in a scratch clone).
+
+**Backend (no existing test changed)**
+- Every response echoes `city_id` (`/data/summary`, `/data/places`, `/optimise`, `/compare-hotels`, `/replan`, `/parse`, `/parse-replan`).
+- New `app/city_guard.py`: a hotel id, locked stop or replan target that belongs to another city gets a 422 `wrong_city` naming the id and its real city. Schedules from another city keep the existing `invalid_schedule` code and now name the city.
+- `tests/test_city_isolation.py` (52 tests): echo for all 4 cities, and every route x every ordered city pair (12).
+- NOT done: `must_visit` / `skip` ids from another city. The existing test `test_cross_city_ids_are_rejected_by_optimise_and_replan` asserts HTTP 200 with an infeasible plan for that case, so changing it needs the owner's approval first.
+
+**Frontend**
+- Hotels are stacked rows (checkbox, name, area, local price with display approximation, "Demo hotel" tag), one slim "made-up examples" line, "n of m selected, choose 2 or 3", and a disabled Compare button with a visible reason. "(fictional)" is removed from every displayed name and server sentence (`lib/names.js`); the data field keeps it.
+- The selected city is one store value. The API client refuses to build a request without a city, aborts everything in flight on a switch, and discards any response naming a different city (metadata-only console warning). A persistent city chip shows on every step and in the summary strip. Switching city after choices exist shows a confirmation listing what will be cleared.
+- Found on the way: the honesty banner said "Tokyo only" for every city (now city-aware, identical text for Tokyo); selecting hotels pre-ticked all hotels even beyond the API's maximum of 3 (now capped at 3); loading the Tokyo example from another city left that city's data in place (now switches city first).
+- Tests: Vitest 137 (9 new: payload ids for all 4 cities, switch leaves nothing behind, stale response, no-city refusal, name cleaning); Playwright 24 (7 new: stacked layout for each city at 320/375/768/1280 px with long, Korean, Chinese and Malay names, Compare-button reason, Seoul-to-Tokyo switch, keyboard map pin). A deliberate layout break was confirmed to fail the layout test.
+
+**Known gap found**
+- Server sentences (for example the hotel-comparison insight) print amounts labelled "JPY" for every city, so a Seoul trip says "100,000 JPY cheaper". The solver's cost lines are in the city's own units; only the label is wrong. Part 3 (currency precision) covers it. SAFETY_LOG row 91 corrected accordingly.

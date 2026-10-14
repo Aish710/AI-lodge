@@ -5,6 +5,7 @@ recomputing travel, fares, admissions, flags, totals and missed sights from the 
 fields are ignored); (c) the independent validator runs on the rebuilt schedule. A schedule whose structure or times are
 altered (negative or changed durations, unknown ids, bad days) or that fails the validator is rejected with HTTP 422
 and the findings. Explanations are always built from server-computed results, never from client-supplied figures."""
+from app.city_guard import _owner
 from app.data.loader import Dataset
 from app.hardening.errors import ApiError
 from app.optimiser.schedule import assemble
@@ -23,12 +24,19 @@ def _t(hhmm: str):
         return None
 
 
-def rebuild_client_schedule(prefs: Preferences, current: SolveResult, ds: Dataset) -> SolveResult:
+def rebuild_client_schedule(prefs: Preferences, current: SolveResult, ds: Dataset, all_datasets: dict | None = None) -> SolveResult:
+    others = all_datasets or {}
+
+    def where(kind: str, item_id: str) -> str:
+        o = _owner(kind, item_id, ds, others)
+        return f" (it belongs to {o[1]}, not {ds.city.display_name}; one trip covers one city)" if o else ""
+
     findings: list[dict] = []
     if current.status != "feasible":
         raise ApiError(422, "invalid_schedule", "The supplied schedule must be a feasible plan.")
     if current.hotel_id not in ds.hotels:
-        raise ApiError(422, "invalid_schedule", "The supplied schedule names an unknown hotel.", [{"check": "hotel", "message": "unknown hotel id"}])
+        raise ApiError(422, "invalid_schedule", "The supplied schedule names an unknown hotel.",
+                       [{"check": "hotel", "message": "unknown hotel id" + where("hotel", current.hotel_id), "stop_ids": [current.hotel_id[:64]]}])
     plan: list[list[tuple[str, int]]] = [[] for _ in range(prefs.days)]
     seen_days: set[int] = set()
     for dp in current.days:
@@ -40,7 +48,7 @@ def rebuild_client_schedule(prefs: Preferences, current: SolveResult, ds: Datase
             att = ds.attractions.get(s.attraction_id)
             start, end = _t(s.start), _t(s.end)
             if att is None:
-                findings.append({"check": "known_items", "message": "unknown attraction id", "stop_ids": [s.attraction_id[:64]]})
+                findings.append({"check": "known_items", "message": "unknown attraction id" + where("attraction", s.attraction_id), "stop_ids": [s.attraction_id[:64]]})
             elif start is None or end is None:
                 findings.append({"check": "times", "message": f"{att.name}: start/end must be HH:MM", "stop_ids": [s.attraction_id]})
             elif end - start != att.duration_minutes:

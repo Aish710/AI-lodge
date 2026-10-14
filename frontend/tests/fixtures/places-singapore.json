@@ -1,0 +1,635 @@
+{
+ "city_id": "singapore",
+ "attractions": [
+  {
+   "id": "gardens_by_the_bay",
+   "name": "Gardens by the Bay",
+   "area": "Marina Bay",
+   "lat": 1.2816,
+   "lon": 103.8636,
+   "category": "garden",
+   "priority": "must_visit",
+   "duration_minutes": 150,
+   "admission_cost": 12,
+   "indoor": false,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "09:00",
+      "21:00"
+     ]
+    ],
+    "tue": [
+     [
+      "09:00",
+      "21:00"
+     ]
+    ],
+    "wed": [
+     [
+      "09:00",
+      "21:00"
+     ]
+    ],
+    "thu": [
+     [
+      "09:00",
+      "21:00"
+     ]
+    ],
+    "fri": [
+     [
+      "09:00",
+      "21:00"
+     ]
+    ],
+    "sat": [
+     [
+      "09:00",
+      "21:00"
+     ]
+    ],
+    "sun": [
+     [
+      "09:00",
+      "21:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "mbs_skypark",
+   "name": "Marina Bay Sands SkyPark observation deck",
+   "area": "Marina Bay",
+   "lat": 1.2839,
+   "lon": 103.8607,
+   "category": "viewpoint",
+   "priority": "nice_to_have",
+   "duration_minutes": 90,
+   "admission_cost": 32,
+   "indoor": false,
+   "advance_booking_required": true,
+   "opening_hours": {
+    "mon": [
+     [
+      "11:00",
+      "21:00"
+     ]
+    ],
+    "tue": [
+     [
+      "11:00",
+      "21:00"
+     ]
+    ],
+    "wed": [
+     [
+      "11:00",
+      "21:00"
+     ]
+    ],
+    "thu": [
+     [
+      "11:00",
+      "21:00"
+     ]
+    ],
+    "fri": [
+     [
+      "11:00",
+      "21:00"
+     ]
+    ],
+    "sat": [
+     [
+      "11:00",
+      "21:00"
+     ]
+    ],
+    "sun": [
+     [
+      "11:00",
+      "21:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "singapore_botanic_gardens",
+   "name": "Singapore Botanic Gardens",
+   "area": "Tanglin",
+   "lat": 1.3138,
+   "lon": 103.8159,
+   "category": "garden",
+   "priority": "nice_to_have",
+   "duration_minutes": 120,
+   "admission_cost": 0,
+   "indoor": false,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "05:00",
+      "23:00"
+     ]
+    ],
+    "tue": [
+     [
+      "05:00",
+      "23:00"
+     ]
+    ],
+    "wed": [
+     [
+      "05:00",
+      "23:00"
+     ]
+    ],
+    "thu": [
+     [
+      "05:00",
+      "23:00"
+     ]
+    ],
+    "fri": [
+     [
+      "05:00",
+      "23:00"
+     ]
+    ],
+    "sat": [
+     [
+      "05:00",
+      "23:00"
+     ]
+    ],
+    "sun": [
+     [
+      "05:00",
+      "23:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "buddha_tooth_relic_temple",
+   "name": "Buddha Tooth Relic Temple",
+   "area": "Chinatown",
+   "lat": 1.2815,
+   "lon": 103.8443,
+   "category": "temple",
+   "priority": "nice_to_have",
+   "duration_minutes": 75,
+   "admission_cost": 0,
+   "indoor": true,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": null,
+    "tue": [
+     [
+      "09:00",
+      "17:00"
+     ]
+    ],
+    "wed": [
+     [
+      "09:00",
+      "17:00"
+     ]
+    ],
+    "thu": [
+     [
+      "09:00",
+      "17:00"
+     ]
+    ],
+    "fri": [
+     [
+      "09:00",
+      "17:00"
+     ]
+    ],
+    "sat": [
+     [
+      "09:00",
+      "17:00"
+     ]
+    ],
+    "sun": [
+     [
+      "09:00",
+      "17:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "national_gallery_singapore",
+   "name": "National Gallery Singapore",
+   "area": "Civic District",
+   "lat": 1.2906,
+   "lon": 103.8518,
+   "category": "museum",
+   "priority": "nice_to_have",
+   "duration_minutes": 150,
+   "admission_cost": 20,
+   "indoor": true,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "10:00",
+      "19:00"
+     ]
+    ],
+    "tue": null,
+    "wed": [
+     [
+      "10:00",
+      "19:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "19:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "19:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "19:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
+      "19:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "sultan_mosque_haji_lane",
+   "name": "Sultan Mosque and Haji Lane",
+   "area": "Kampong Glam",
+   "lat": 1.302,
+   "lon": 103.859,
+   "category": "neighbourhood",
+   "priority": "nice_to_have",
+   "duration_minutes": 90,
+   "admission_cost": 0,
+   "indoor": false,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "tue": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "maxwell_food_centre",
+   "name": "Maxwell Food Centre",
+   "area": "Chinatown",
+   "lat": 1.2803,
+   "lon": 103.8448,
+   "category": "food",
+   "priority": "nice_to_have",
+   "duration_minutes": 60,
+   "admission_cost": null,
+   "indoor": true,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "tue": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "jewel_changi",
+   "name": "Jewel Changi",
+   "area": "Changi",
+   "lat": 1.3602,
+   "lon": 103.9894,
+   "category": "mall",
+   "priority": "nice_to_have",
+   "duration_minutes": 120,
+   "admission_cost": 0,
+   "indoor": true,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "tue": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "artscience_museum",
+   "name": "ArtScience Museum",
+   "area": "Marina Bay",
+   "lat": 1.2863,
+   "lon": 103.8593,
+   "category": "museum",
+   "priority": "nice_to_have",
+   "duration_minutes": 120,
+   "admission_cost": 25,
+   "indoor": true,
+   "advance_booking_required": true,
+   "opening_hours": {
+    "mon": [
+     [
+      "10:00",
+      "19:00"
+     ]
+    ],
+    "tue": [
+     [
+      "10:00",
+      "19:00"
+     ]
+    ],
+    "wed": null,
+    "thu": [
+     [
+      "10:00",
+      "19:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "19:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "19:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
+      "19:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "sentosa",
+   "name": "Sentosa",
+   "area": "Sentosa",
+   "lat": 1.2494,
+   "lon": 103.8303,
+   "category": "island",
+   "priority": "nice_to_have",
+   "duration_minutes": 180,
+   "admission_cost": 6,
+   "indoor": false,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": "unknown",
+    "tue": "unknown",
+    "wed": "unknown",
+    "thu": "unknown",
+    "fri": "unknown",
+    "sat": "unknown",
+    "sun": "unknown"
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  }
+ ],
+ "hotels": [
+  {
+   "id": "hotel_river_rochore",
+   "name": "Rochor River Hotel (fictional)",
+   "area": "Rochor",
+   "lat": 1.3037,
+   "lon": 103.852,
+   "nightly_rate": 185,
+   "source": {
+    "record": "sample"
+   }
+  },
+  {
+   "id": "hotel_bay_lantern",
+   "name": "Bay Lantern Stay (fictional)",
+   "area": "Marina Bay",
+   "lat": 1.2835,
+   "lon": 103.8585,
+   "nightly_rate": 260,
+   "source": {
+    "record": "sample"
+   }
+  },
+  {
+   "id": "hotel_east_coast_pier",
+   "name": "East Coast Pier Inn (fictional)",
+   "area": "East Coast",
+   "lat": 1.305,
+   "lon": 103.912,
+   "nightly_rate": 125,
+   "source": {
+    "record": "sample"
+   }
+  }
+ ],
+ "travel_times_source": "estimated",
+ "fx": {
+  "jpy_per_sgd": 110.0,
+  "label": "SAMPLE FX rate (approximate, not live): 1 SGD = 110 JPY"
+ },
+ "city": {
+  "id": "singapore",
+  "display_name": "Singapore",
+  "country": "Singapore",
+  "currency_code": "SGD",
+  "display_currency_code": "USD",
+  "sample_fx_label": "SAMPLE FX rate (approximate, not live): 1 SGD = 0.74 USD",
+  "provenance": "Singapore sample pack. All figures are approximate and must be verified; hotels are fictional.",
+  "counts": {
+   "attractions": 10,
+   "hotels": 3,
+   "matrix_nodes": 13
+  }
+ },
+ "display_fx": {
+  "currency_code": "USD",
+  "rate": 0.74,
+  "label": "SAMPLE FX rate (approximate, not live): 1 SGD = 0.74 USD"
+ },
+ "disclaimer": "Sample data, not live prices. Hotels are fictional. Travel times are estimates."
+}

@@ -1,0 +1,635 @@
+{
+ "city_id": "seoul",
+ "attractions": [
+  {
+   "id": "gyeongbokgung",
+   "name": "Gyeongbokgung",
+   "area": "Jongno",
+   "lat": 37.5796,
+   "lon": 126.977,
+   "category": "palace",
+   "priority": "must_visit",
+   "duration_minutes": 120,
+   "admission_cost": 3000,
+   "indoor": false,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "tue": null,
+    "wed": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "thu": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "fri": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "sat": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ],
+    "sun": [
+     [
+      "09:00",
+      "18:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "changdeokgung",
+   "name": "Changdeokgung",
+   "area": "Jongno",
+   "lat": 37.5794,
+   "lon": 126.991,
+   "category": "palace",
+   "priority": "nice_to_have",
+   "duration_minutes": 120,
+   "admission_cost": 3000,
+   "indoor": false,
+   "advance_booking_required": true,
+   "opening_hours": {
+    "mon": null,
+    "tue": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "wed": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "thu": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "fri": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "sat": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ],
+    "sun": [
+     [
+      "09:00",
+      "17:30"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "bukchon_hanok_village",
+   "name": "Bukchon Hanok Village",
+   "area": "Jongno",
+   "lat": 37.5826,
+   "lon": 126.983,
+   "category": "neighbourhood",
+   "priority": "nice_to_have",
+   "duration_minutes": 90,
+   "admission_cost": 0,
+   "indoor": false,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "10:00",
+      "17:00"
+     ]
+    ],
+    "tue": [
+     [
+      "10:00",
+      "17:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "17:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "17:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "17:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "17:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
+      "17:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "n_seoul_tower",
+   "name": "N Seoul Tower",
+   "area": "Namsan",
+   "lat": 37.5512,
+   "lon": 126.9882,
+   "category": "viewpoint",
+   "priority": "nice_to_have",
+   "duration_minutes": 90,
+   "admission_cost": 21000,
+   "indoor": false,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "tue": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
+      "22:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "gwangjang_market",
+   "name": "Gwangjang Market",
+   "area": "Jongno",
+   "lat": 37.57,
+   "lon": 126.9996,
+   "category": "food",
+   "priority": "nice_to_have",
+   "duration_minutes": 75,
+   "admission_cost": null,
+   "indoor": true,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "09:00",
+      "22:00"
+     ]
+    ],
+    "tue": [
+     [
+      "09:00",
+      "22:00"
+     ]
+    ],
+    "wed": [
+     [
+      "09:00",
+      "22:00"
+     ]
+    ],
+    "thu": [
+     [
+      "09:00",
+      "22:00"
+     ]
+    ],
+    "fri": [
+     [
+      "09:00",
+      "22:00"
+     ]
+    ],
+    "sat": [
+     [
+      "09:00",
+      "22:00"
+     ]
+    ],
+    "sun": [
+     [
+      "09:00",
+      "22:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "dongdaemun_design_plaza",
+   "name": "Dongdaemun Design Plaza",
+   "area": "Dongdaemun",
+   "lat": 37.5665,
+   "lon": 127.0093,
+   "category": "architecture",
+   "priority": "nice_to_have",
+   "duration_minutes": 90,
+   "admission_cost": 0,
+   "indoor": true,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "10:00",
+      "20:00"
+     ]
+    ],
+    "tue": [
+     [
+      "10:00",
+      "20:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "20:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "20:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "20:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "20:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
+      "20:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "national_museum_korea",
+   "name": "National Museum of Korea",
+   "area": "Yongsan",
+   "lat": 37.5238,
+   "lon": 126.9804,
+   "category": "museum",
+   "priority": "nice_to_have",
+   "duration_minutes": 150,
+   "admission_cost": 0,
+   "indoor": true,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "tue": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "wed": null,
+    "thu": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
+      "18:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "lotte_world_tower_observatory",
+   "name": "Lotte World Tower observatory",
+   "area": "Jamsil",
+   "lat": 37.5125,
+   "lon": 127.1025,
+   "category": "viewpoint",
+   "priority": "nice_to_have",
+   "duration_minutes": 120,
+   "admission_cost": 31000,
+   "indoor": true,
+   "advance_booking_required": true,
+   "opening_hours": {
+    "mon": [
+     [
+      "10:30",
+      "22:00"
+     ]
+    ],
+    "tue": [
+     [
+      "10:30",
+      "22:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:30",
+      "22:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:30",
+      "22:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:30",
+      "22:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:30",
+      "22:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:30",
+      "22:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "insadong",
+   "name": "Insadong",
+   "area": "Jongno",
+   "lat": 37.574,
+   "lon": 126.9853,
+   "category": "neighbourhood",
+   "priority": "nice_to_have",
+   "duration_minutes": 90,
+   "admission_cost": 0,
+   "indoor": false,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": [
+     [
+      "10:00",
+      "20:00"
+     ]
+    ],
+    "tue": [
+     [
+      "10:00",
+      "20:00"
+     ]
+    ],
+    "wed": [
+     [
+      "10:00",
+      "20:00"
+     ]
+    ],
+    "thu": [
+     [
+      "10:00",
+      "20:00"
+     ]
+    ],
+    "fri": [
+     [
+      "10:00",
+      "20:00"
+     ]
+    ],
+    "sat": [
+     [
+      "10:00",
+      "20:00"
+     ]
+    ],
+    "sun": [
+     [
+      "10:00",
+      "20:00"
+     ]
+    ]
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  },
+  {
+   "id": "myeongdong",
+   "name": "Myeongdong",
+   "area": "Jung",
+   "lat": 37.5637,
+   "lon": 126.985,
+   "category": "shopping",
+   "priority": "nice_to_have",
+   "duration_minutes": 90,
+   "admission_cost": 0,
+   "indoor": false,
+   "advance_booking_required": false,
+   "opening_hours": {
+    "mon": "unknown",
+    "tue": "unknown",
+    "wed": "unknown",
+    "thu": "unknown",
+    "fri": "unknown",
+    "sat": "unknown",
+    "sun": "unknown"
+   },
+   "source": {
+    "record": "sample",
+    "hours": "sample",
+    "cost": "sample"
+   }
+  }
+ ],
+ "hotels": [
+  {
+   "id": "hotel_jongno_garden",
+   "name": "Jongno Garden Hotel (fictional)",
+   "area": "Jongno",
+   "lat": 37.5725,
+   "lon": 126.985,
+   "nightly_rate": 135000,
+   "source": {
+    "record": "sample"
+   }
+  },
+  {
+   "id": "hotel_myeongdong_sky",
+   "name": "Myeongdong Sky Stay (fictional)",
+   "area": "Myeongdong",
+   "lat": 37.5635,
+   "lon": 126.9828,
+   "nightly_rate": 165000,
+   "source": {
+    "record": "sample"
+   }
+  },
+  {
+   "id": "hotel_guro_river",
+   "name": "Guro River Inn (fictional)",
+   "area": "Guro",
+   "lat": 37.5,
+   "lon": 126.887,
+   "nightly_rate": 85000,
+   "source": {
+    "record": "sample"
+   }
+  }
+ ],
+ "travel_times_source": "estimated",
+ "fx": {
+  "jpy_per_sgd": 110.0,
+  "label": "SAMPLE FX rate (approximate, not live): 1 SGD = 110 JPY"
+ },
+ "city": {
+  "id": "seoul",
+  "display_name": "Seoul",
+  "country": "South Korea",
+  "currency_code": "KRW",
+  "display_currency_code": "USD",
+  "sample_fx_label": "SAMPLE FX rate (approximate, not live): 1 KRW = 0.00074 USD",
+  "provenance": "Seoul sample pack. All figures are approximate and must be verified; hotels are fictional.",
+  "counts": {
+   "attractions": 10,
+   "hotels": 3,
+   "matrix_nodes": 13
+  }
+ },
+ "display_fx": {
+  "currency_code": "USD",
+  "rate": 0.00074,
+  "label": "SAMPLE FX rate (approximate, not live): 1 KRW = 0.00074 USD"
+ },
+ "disclaimer": "Sample data, not live prices. Hotels are fictional. Travel times are estimates."
+}

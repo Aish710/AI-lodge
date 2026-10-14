@@ -47,7 +47,7 @@ const replan = computed(() => store.lastReplan)
     <div class="d-flex flex-wrap justify-content-between align-items-end gap-2">
       <div>
         <h1>Your itinerary</h1>
-        <p class="muted mb-0" v-if="hotel">Base: <strong>{{ hotel.name }}</strong> <span class="pill">fictional hotel</span> · {{ hotel.area }}</p>
+        <p class="muted mb-0" v-if="hotel">Base: <strong>{{ hotel.name }}</strong> <span class="pill" title="A made-up hotel with a sample price">Demo hotel</span> · {{ hotel.area }}</p>
       </div>
       <div class="d-flex gap-2">
         <button class="btn btn-outline-secondary btn-sm" @click="router.push('/hotels')">Change hotel</button>

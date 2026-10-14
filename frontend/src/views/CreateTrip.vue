@@ -1,7 +1,9 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import NlParsePanel from '../components/NlParsePanel.vue'
+import ConfirmDialog from '../components/ConfirmDialog.vue'
+import { clearedOnCitySwitch } from '../lib/names.js'
 import examples from '../lib/examples.json'
 import { exampleLabel } from '../lib/rules.js'
 import { store, currentPrefs, loadExample, selectCity, resetAll } from '../store.js'
@@ -19,17 +21,24 @@ const budgetHint = computed(() => budgetSanityHint(store))
 const vot = computed(() => Number(store.form.valueOfTime))
 const exLabel = exampleLabel(examples.valid)
 function next() { if (!errors.value.length) router.push('/wishlist') }
-function example(kind) { loadExample(kind); router.push(kind === 'valid' ? '/hotels' : '/itinerary') }
+async function example(kind) { await loadExample(kind); router.push(kind === 'valid' ? '/hotels' : '/itinerary') }
 function startOver() {
   if (!window.confirm('Clear this trip and start over?')) return
   resetAll()
   router.push('/')
 }
+const pendingCity = ref(null)
+const toClear = computed(() => clearedOnCitySwitch(store))
+const pendingName = computed(() => store.cities.find((c) => c.id === pendingCity.value)?.display_name ?? '')
 async function pickCity(id) {
   if (id === store.cityId) return
-  const hasWork = Object.keys(store.wishlist).length || store.chosenHotel || store.comparison || store.plan
-  if (hasWork && !window.confirm('Changing city clears your wishlist, hotel choice, comparison and itinerary because the data is different. Continue?')) return
+  if (toClear.value.length) { pendingCity.value = id; return }  // nothing to lose: switch at once; otherwise ask first
   await selectCity(id)
+}
+async function confirmSwitch() {
+  const id = pendingCity.value
+  pendingCity.value = null
+  if (id) await selectCity(id)
 }
 </script>
 <template>
@@ -48,12 +57,16 @@ async function pickCity(id) {
             <span class="city-name">{{ c.display_name }}</span>
             <span class="muted d-block">{{ c.country }}</span>
             <span class="badge-src badge-sample mt-2">sample data</span>
-            <span class="d-block small mt-2">{{ c.currency_code }} · {{ c.counts.attractions }} sights · {{ c.counts.hotels }} fictional hotels</span>
+            <span class="d-block small mt-2">{{ c.currency_code }} · {{ c.counts.attractions }} sights · {{ c.counts.hotels }} demo hotels</span>
           </button>
         </div>
       </div>
       <p v-if="city" class="small mb-0 mt-3"><strong>Using {{ city.display_name }}.</strong> {{ city.sample_fx_label }}</p>
     </section>
+    <ConfirmDialog :open="!!pendingCity" :title="`Switch to ${pendingName}?`" confirm-label="Switch and clear" cancel-label="Keep current city" @confirm="confirmSwitch" @cancel="pendingCity = null">
+      <p class="mb-2">One trip covers one city, so switching to {{ pendingName }} will clear:</p>
+      <ul class="mb-0" data-testid="switch-clears"><li v-for="item in toClear" :key="item">{{ item }}</li></ul>
+    </ConfirmDialog>
 
     <div class="card-soft d-flex flex-wrap gap-2 align-items-center" data-testid="demo-helpers">
       <strong class="me-2">Quick demo:</strong>
