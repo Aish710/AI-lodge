@@ -2,7 +2,7 @@
 import re
 from typing import Annotated, Literal, Union
 
-from pydantic import AfterValidator, BaseModel, ConfigDict, Field, model_validator
+from pydantic import AfterValidator, BaseModel, ConfigDict, Field, ValidationInfo, model_validator
 
 Weekday = Literal["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
 WEEKDAYS: tuple[str, ...] = ("mon", "tue", "wed", "thu", "fri", "sat", "sun")
@@ -10,7 +10,8 @@ SourceStatus = Literal["verified", "estimated", "sample"]
 Priority = Literal["must_visit", "nice_to_have", "skip"]
 Pace = Literal["relaxed", "balanced", "packed"]
 
-# Rough bounding box around Greater Tokyo.
+# Rough bounding box around Greater Tokyo. This remains the default so direct
+# Attraction/Hotel validation keeps the original Tokyo-only behaviour.
 TOKYO_LAT = (35.4, 35.95)
 TOKYO_LON = (139.3, 140.0)
 
@@ -73,9 +74,56 @@ class Provenance(_Strict):
         return self
 
 
-def _check_latlon(lat: float, lon: float) -> None:
-    if not (TOKYO_LAT[0] <= lat <= TOKYO_LAT[1] and TOKYO_LON[0] <= lon <= TOKYO_LON[1]):
-        raise ValueError(f"coordinates ({lat}, {lon}) are outside the Tokyo region")
+class CoordinateBounds(_Strict):
+    lat_min: float
+    lat_max: float
+    lon_min: float
+    lon_max: float
+
+
+class TransitModel(_Strict):
+    detour_factor: float = Field(gt=0)
+    speed_kmh: float = Field(gt=0)
+    per_leg_overhead_min: int = Field(ge=0)
+    base_fare: int = Field(ge=0)
+    fare_per_km: float = Field(ge=0)
+
+
+class CityMeta(_Strict):
+    id: str = Field(min_length=1, max_length=32)
+    display_name: str = Field(min_length=1)
+    country: str = Field(min_length=1)
+    currency_code: str = Field(min_length=3, max_length=3)
+    display_currency_code: str = Field(min_length=3, max_length=3)
+    sample_fx_to_display_currency: float = Field(gt=0)
+    sample_fx_label: str = Field(min_length=1)
+    coordinate_bounds: CoordinateBounds
+    transit_model: TransitModel
+    default_day_start: HHMM
+    default_day_end: HHMM
+    default_value_of_time_per_hour: int = Field(ge=0)
+    closing_day_conventions_note: str = Field(min_length=1)
+    provenance: str = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def _checks(self):
+        if self.coordinate_bounds.lat_max <= self.coordinate_bounds.lat_min:
+            raise ValueError("coordinate_bounds lat_max must be greater than lat_min")
+        if self.coordinate_bounds.lon_max <= self.coordinate_bounds.lon_min:
+            raise ValueError("coordinate_bounds lon_max must be greater than lon_min")
+        return self
+
+
+def _bbox_from_info(info: ValidationInfo | None) -> CoordinateBounds:
+    if info and isinstance(info.context, dict) and isinstance(info.context.get("coordinate_bounds"), CoordinateBounds):
+        return info.context["coordinate_bounds"]
+    return CoordinateBounds(lat_min=TOKYO_LAT[0], lat_max=TOKYO_LAT[1], lon_min=TOKYO_LON[0], lon_max=TOKYO_LON[1])
+
+
+def _check_latlon(lat: float, lon: float, info: ValidationInfo | None = None) -> None:
+    b = _bbox_from_info(info)
+    if not (b.lat_min <= lat <= b.lat_max and b.lon_min <= lon <= b.lon_max):
+        raise ValueError(f"coordinates ({lat}, {lon}) are outside the city bounding box")
 
 
 class Attraction(_Strict):
@@ -98,8 +146,8 @@ class Attraction(_Strict):
     cost_provenance: Provenance
 
     @model_validator(mode="after")
-    def _checks(self):
-        _check_latlon(self.lat, self.lon)
+    def _checks(self, info: ValidationInfo):
+        _check_latlon(self.lat, self.lon, info)
         missing = set(WEEKDAYS) - set(self.opening_hours)
         if missing:
             raise ValueError(f"opening_hours missing weekdays: {sorted(missing)}")
@@ -116,8 +164,8 @@ class Hotel(_Strict):
     provenance: Provenance
 
     @model_validator(mode="after")
-    def _checks(self):
-        _check_latlon(self.lat, self.lon)
+    def _checks(self, info: ValidationInfo):
+        _check_latlon(self.lat, self.lon, info)
         return self
 
 

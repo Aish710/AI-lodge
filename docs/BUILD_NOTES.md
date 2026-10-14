@@ -258,3 +258,27 @@ No other test was touched.
 - The remaining Lighthouse itinerary warning is Leaflet marker target spacing. The timeline/list is still the accessible equivalent, and markers themselves now expose keyboard labels.
 
 **Simplified / not done:** no live deployment; no live AI evaluation; Docker image still untested here; solver capacity is per process rather than cross-replica; cancelling a browser request does not stop a solve that has already started.
+
+## Phase 9b, Milestone 1: multi-city backend packs (2026-10-14)
+
+**Built**
+- City packs under `backend/app/data/cities/<id>/` with `city.json`, attractions, fictional hotels and generated travel matrices for Tokyo, Singapore and Seoul. The original root Tokyo files remain in place for legacy tests and compatibility; `cities/tokyo` is a copied pack with identical records and matrix.
+- Context-aware coordinate validation: direct `Attraction` / `Hotel` validation still defaults to the original Tokyo bounds, while city-pack loading validates against each pack's own bounds.
+- `load_all_city_datasets()`, `GET /data/cities`, and `city_id` support on data-dependent routes. Existing clients default to `tokyo`.
+- Per-city display FX metadata. The optimiser still works in local integer currency units; display conversion uses the labelled sample rate from `city.json`.
+- Per-city name resolution for `/parse`; cross-city names are unresolved with a "switch city" hint, never silently mapped. Descriptions still do not enter prompts.
+- `scripts/build_travel_matrix.py --city <id>` so new matrices are generated from each city's transit constants, not hand-edited.
+- `scripts/run_city_evaluation.py` for smaller Singapore/Seoul samples plus per-city data-integrity outputs in `docs/city-eval-results.*`.
+- `docs/CITIES.md`, a six-step scale-out guide.
+
+**Verification**
+- Full backend suite: 301 passed, 1 warning. Existing test source files were not changed; new coverage is in `tests/test_city_packs.py`.
+- Tokyo full evaluation: 15/15 scenarios PASS, 60 trips. Claim-safe headline sentences are identical to the committed baseline; only generated timestamp/hash changed.
+- Added-city evaluation: Singapore and Seoul, 20 seeded trips each, written separately and labelled smaller sample.
+
+**Notable**
+- The non-Tokyo data is intentionally small and sample-labelled. It is useful for scale-out and grounded behaviour testing, not real travel advice.
+- Existing Tokyo route behaviour is preserved for old clients because every new request field defaults to `city_id="tokyo"`.
+- The old result field names still say `*_jpy` for compatibility, even when a non-Tokyo city uses SGD or KRW internally. New responses include city/currency metadata so the frontend can label values honestly in Milestone 2.
+
+**Simplified / not done:** frontend flow is unchanged until Milestone 2; Singapore/Seoul evaluation is smaller and not pooled into any headline; live LLM evaluation was not run; non-Tokyo sample facts, prices, hours and durations still need human verification before public claims.

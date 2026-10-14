@@ -1,0 +1,723 @@
+[
+  {
+    "id": "gardens_by_the_bay",
+    "name": "Gardens by the Bay",
+    "area": "Marina Bay",
+    "lat": 1.2816,
+    "lon": 103.8636,
+    "duration_minutes": 150,
+    "opening_hours": {
+      "mon": [
+        [
+          "09:00",
+          "21:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "21:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "21:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "21:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "21:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "21:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "21:00"
+        ]
+      ]
+    },
+    "admission_cost": 12,
+    "category": "garden",
+    "priority": "must_visit",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Sample description for Gardens by the Bay; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Gardens",
+      "Supertree Grove"
+    ]
+  },
+  {
+    "id": "mbs_skypark",
+    "name": "Marina Bay Sands SkyPark observation deck",
+    "area": "Marina Bay",
+    "lat": 1.2839,
+    "lon": 103.8607,
+    "duration_minutes": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "11:00",
+          "21:00"
+        ]
+      ],
+      "tue": [
+        [
+          "11:00",
+          "21:00"
+        ]
+      ],
+      "wed": [
+        [
+          "11:00",
+          "21:00"
+        ]
+      ],
+      "thu": [
+        [
+          "11:00",
+          "21:00"
+        ]
+      ],
+      "fri": [
+        [
+          "11:00",
+          "21:00"
+        ]
+      ],
+      "sat": [
+        [
+          "11:00",
+          "21:00"
+        ]
+      ],
+      "sun": [
+        [
+          "11:00",
+          "21:00"
+        ]
+      ]
+    },
+    "admission_cost": 32,
+    "category": "viewpoint",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": true,
+    "description": "Sample description for Marina Bay Sands SkyPark observation deck; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "MBS SkyPark",
+      "SkyPark observation deck",
+      "Marina Bay Sands observation deck"
+    ]
+  },
+  {
+    "id": "singapore_botanic_gardens",
+    "name": "Singapore Botanic Gardens",
+    "area": "Tanglin",
+    "lat": 1.3138,
+    "lon": 103.8159,
+    "duration_minutes": 120,
+    "opening_hours": {
+      "mon": [
+        [
+          "05:00",
+          "23:00"
+        ]
+      ],
+      "tue": [
+        [
+          "05:00",
+          "23:00"
+        ]
+      ],
+      "wed": [
+        [
+          "05:00",
+          "23:00"
+        ]
+      ],
+      "thu": [
+        [
+          "05:00",
+          "23:00"
+        ]
+      ],
+      "fri": [
+        [
+          "05:00",
+          "23:00"
+        ]
+      ],
+      "sat": [
+        [
+          "05:00",
+          "23:00"
+        ]
+      ],
+      "sun": [
+        [
+          "05:00",
+          "23:00"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "garden",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Sample description for Singapore Botanic Gardens; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Botanic Gardens",
+      "Singapore Botanical Gardens"
+    ]
+  },
+  {
+    "id": "buddha_tooth_relic_temple",
+    "name": "Buddha Tooth Relic Temple",
+    "area": "Chinatown",
+    "lat": 1.2815,
+    "lon": 103.8443,
+    "duration_minutes": 75,
+    "opening_hours": {
+      "mon": null,
+      "tue": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "temple",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Sample description for Buddha Tooth Relic Temple; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Buddha Tooth Temple",
+      "BTRT"
+    ]
+  },
+  {
+    "id": "national_gallery_singapore",
+    "name": "National Gallery Singapore",
+    "area": "Civic District",
+    "lat": 1.2906,
+    "lon": 103.8518,
+    "duration_minutes": 150,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "tue": null,
+      "wed": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ]
+    },
+    "admission_cost": 20,
+    "category": "museum",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Sample description for National Gallery Singapore; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "National Gallery",
+      "NGS"
+    ]
+  },
+  {
+    "id": "sultan_mosque_haji_lane",
+    "name": "Sultan Mosque and Haji Lane",
+    "area": "Kampong Glam",
+    "lat": 1.302,
+    "lon": 103.859,
+    "duration_minutes": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "neighbourhood",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Sample description for Sultan Mosque and Haji Lane; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Sultan Mosque",
+      "Haji Lane",
+      "Kampong Glam"
+    ]
+  },
+  {
+    "id": "maxwell_food_centre",
+    "name": "Maxwell Food Centre",
+    "area": "Chinatown",
+    "lat": 1.2803,
+    "lon": 103.8448,
+    "duration_minutes": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ]
+    },
+    "admission_cost": null,
+    "category": "food",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Sample description for Maxwell Food Centre; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Maxwell",
+      "Maxwell Hawker Centre"
+    ]
+  },
+  {
+    "id": "jewel_changi",
+    "name": "Jewel Changi",
+    "area": "Changi",
+    "lat": 1.3602,
+    "lon": 103.9894,
+    "duration_minutes": 120,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "mall",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Sample description for Jewel Changi; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Jewel",
+      "Jewel Changi Airport",
+      "Rain Vortex"
+    ]
+  },
+  {
+    "id": "artscience_museum",
+    "name": "ArtScience Museum",
+    "area": "Marina Bay",
+    "lat": 1.2863,
+    "lon": 103.8593,
+    "duration_minutes": 120,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "wed": null,
+      "thu": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ]
+    },
+    "admission_cost": 25,
+    "category": "museum",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": true,
+    "description": "Sample description for ArtScience Museum; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Art Science Museum"
+    ]
+  },
+  {
+    "id": "sentosa",
+    "name": "Sentosa",
+    "area": "Sentosa",
+    "lat": 1.2494,
+    "lon": 103.8303,
+    "duration_minutes": 180,
+    "opening_hours": {
+      "mon": "unknown",
+      "tue": "unknown",
+      "wed": "unknown",
+      "thu": "unknown",
+      "fri": "unknown",
+      "sat": "unknown",
+      "sun": "unknown"
+    },
+    "admission_cost": 6,
+    "category": "island",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Sample description for Sentosa; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Sentosa Island"
+    ]
+  }
+]

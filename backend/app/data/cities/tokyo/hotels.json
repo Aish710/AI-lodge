@@ -1,0 +1,41 @@
+[
+  {
+    "id": "hotel_kitsune_shinjuku",
+    "name": "Hotel Kitsune Shinjuku (fictional)",
+    "area": "Shinjuku",
+    "lat": 35.6938,
+    "lon": 139.7034,
+    "nightly_rate": 14000,
+    "provenance": {
+      "source_status": "sample",
+      "note": "FICTIONAL hotel. Name and rate are invented for this demo; location is only an approximate area. Central and pricey.",
+      "last_checked": null
+    }
+  },
+  {
+    "id": "hotel_lantern_asakusa",
+    "name": "Asakusa Lantern Inn (fictional)",
+    "area": "Asakusa",
+    "lat": 35.7125,
+    "lon": 139.796,
+    "nightly_rate": 10500,
+    "provenance": {
+      "source_status": "sample",
+      "note": "FICTIONAL hotel. Name and rate are invented for this demo; location is only an approximate area. Mid-range.",
+      "last_checked": null
+    }
+  },
+  {
+    "id": "hotel_harbour_odaiba",
+    "name": "Odaiba Harbour Stay (fictional)",
+    "area": "Odaiba",
+    "lat": 35.613,
+    "lon": 139.831,
+    "nightly_rate": 8500,
+    "provenance": {
+      "source_status": "sample",
+      "note": "Fictional hotel; rate and location adjusted to illustrate the trade-off. Name and rate are invented for this demo; location is only an approximate area on the Wakasu/Shin-Kiba shore. Cheap but far from most sights.",
+      "last_checked": null
+    }
+  }
+]

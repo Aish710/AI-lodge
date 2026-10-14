@@ -9,7 +9,7 @@ from app import config
 from app.config import get_settings
 from app.data.loader import Dataset
 from app.llm.client import LLMClient
-from app.llm.extract import resolve_list, to_jpy
+from app.llm.extract import resolve_list, to_city_money
 from app.llm.names import resolve_attraction, resolve_hotel
 from app.llm.prompts import PARSE_REPLAN_SYSTEM, PROMPT_VERSION
 from app.llm.runner import call_json
@@ -62,14 +62,14 @@ def parse_replan(text: str, current: SolveResult, prefs: Preferences, ds: Datase
             if o.budget is None:
                 clar.append("Budget change: no amount was given.")
                 continue
-            jpy = to_jpy(o.budget.amount, o.budget.currency)
+            jpy = to_city_money(o.budget.amount, o.budget.currency, ds)
             if jpy is None:
-                clar.append(f"Currency '{o.budget.currency[:8]}' is not supported; use SGD or JPY.")
+                clar.append(f"Currency '{o.budget.currency[:8]}' is not supported; use {ds.city.currency_code} or {ds.city.display_currency_code}.")
                 continue
             ops.append(ChangeBudgetOp(op="change_budget", budget=jpy, strict=o.budget.strict))
-            desc.append(f"change budget to {jpy:,} JPY ({'strict' if o.budget.strict else 'soft'})")
-            assumptions.update(fx=config.FX_LABEL, budget_scope=config.BUDGET_SCOPE_TEXT,
-                               budget_interpreted=f"{o.budget.amount:g} {o.budget.currency.upper()} = {jpy:,} JPY")
+            desc.append(f"change budget to {jpy:,} {ds.city.currency_code} ({'strict' if o.budget.strict else 'soft'})")
+            assumptions.update(fx=ds.city.sample_fx_label, budget_scope=config.BUDGET_SCOPE_TEXT,
+                               budget_interpreted=f"{o.budget.amount:g} {o.budget.currency.upper()} = {jpy:,} {ds.city.currency_code}")
             continue
         if o.op == "switch_hotel":
             if not o.hotel_name:

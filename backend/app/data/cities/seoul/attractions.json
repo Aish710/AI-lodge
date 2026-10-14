@@ -1,0 +1,722 @@
+[
+  {
+    "id": "gyeongbokgung",
+    "name": "Gyeongbokgung",
+    "area": "Jongno",
+    "lat": 37.5796,
+    "lon": 126.977,
+    "duration_minutes": 120,
+    "opening_hours": {
+      "mon": [
+        [
+          "09:00",
+          "18:00"
+        ]
+      ],
+      "tue": null,
+      "wed": [
+        [
+          "09:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "18:00"
+        ]
+      ]
+    },
+    "admission_cost": 3000,
+    "category": "palace",
+    "priority": "must_visit",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Sample description for Gyeongbokgung; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Gyeongbok Palace",
+      "Gyeongbokgung Palace"
+    ]
+  },
+  {
+    "id": "changdeokgung",
+    "name": "Changdeokgung",
+    "area": "Jongno",
+    "lat": 37.5794,
+    "lon": 126.991,
+    "duration_minutes": 120,
+    "opening_hours": {
+      "mon": null,
+      "tue": [
+        [
+          "09:00",
+          "17:30"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "17:30"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "17:30"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "17:30"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "17:30"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "17:30"
+        ]
+      ]
+    },
+    "admission_cost": 3000,
+    "category": "palace",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": true,
+    "description": "Sample description for Changdeokgung; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Changdeok Palace",
+      "Changdeokgung Palace",
+      "Secret Garden palace"
+    ]
+  },
+  {
+    "id": "bukchon_hanok_village",
+    "name": "Bukchon Hanok Village",
+    "area": "Jongno",
+    "lat": 37.5826,
+    "lon": 126.983,
+    "duration_minutes": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "17:00"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "neighbourhood",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Sample description for Bukchon Hanok Village; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Bukchon",
+      "Hanok Village"
+    ]
+  },
+  {
+    "id": "n_seoul_tower",
+    "name": "N Seoul Tower",
+    "area": "Namsan",
+    "lat": 37.5512,
+    "lon": 126.9882,
+    "duration_minutes": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ]
+    },
+    "admission_cost": 21000,
+    "category": "viewpoint",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Sample description for N Seoul Tower; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Namsan Tower",
+      "Seoul Tower"
+    ]
+  },
+  {
+    "id": "gwangjang_market",
+    "name": "Gwangjang Market",
+    "area": "Jongno",
+    "lat": 37.57,
+    "lon": 126.9996,
+    "duration_minutes": 75,
+    "opening_hours": {
+      "mon": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ]
+    },
+    "admission_cost": null,
+    "category": "food",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Sample description for Gwangjang Market; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Gwangjang",
+      "Kwangjang Market"
+    ]
+  },
+  {
+    "id": "dongdaemun_design_plaza",
+    "name": "Dongdaemun Design Plaza",
+    "area": "Dongdaemun",
+    "lat": 37.5665,
+    "lon": 127.0093,
+    "duration_minutes": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "architecture",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Sample description for Dongdaemun Design Plaza; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "DDP",
+      "Dongdaemun Plaza"
+    ]
+  },
+  {
+    "id": "national_museum_korea",
+    "name": "National Museum of Korea",
+    "area": "Yongsan",
+    "lat": 37.5238,
+    "lon": 126.9804,
+    "duration_minutes": 150,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "wed": null,
+      "thu": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "museum",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Sample description for National Museum of Korea; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "National Museum",
+      "NMK"
+    ]
+  },
+  {
+    "id": "lotte_world_tower_observatory",
+    "name": "Lotte World Tower observatory",
+    "area": "Jamsil",
+    "lat": 37.5125,
+    "lon": 127.1025,
+    "duration_minutes": 120,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:30",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:30",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:30",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:30",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:30",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:30",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:30",
+          "22:00"
+        ]
+      ]
+    },
+    "admission_cost": 31000,
+    "category": "viewpoint",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": true,
+    "description": "Sample description for Lotte World Tower observatory; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Seoul Sky",
+      "Lotte Tower observatory",
+      "Lotte World Tower"
+    ]
+  },
+  {
+    "id": "insadong",
+    "name": "Insadong",
+    "area": "Jongno",
+    "lat": 37.574,
+    "lon": 126.9853,
+    "duration_minutes": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "neighbourhood",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Sample description for Insadong; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Insa-dong"
+    ]
+  },
+  {
+    "id": "myeongdong",
+    "name": "Myeongdong",
+    "area": "Jung",
+    "lat": 37.5637,
+    "lon": 126.985,
+    "duration_minutes": 90,
+    "opening_hours": {
+      "mon": "unknown",
+      "tue": "unknown",
+      "wed": "unknown",
+      "thu": "unknown",
+      "fri": "unknown",
+      "sat": "unknown",
+      "sun": "unknown"
+    },
+    "admission_cost": 0,
+    "category": "shopping",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Sample description for Myeongdong; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Myeong-dong"
+    ]
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "hotel_river_rochore",
+    "name": "Rochor River Hotel (fictional)",
+    "area": "Rochor",
+    "lat": 1.3037,
+    "lon": 103.852,
+    "nightly_rate": 185,
+    "provenance": {
+      "source_status": "sample",
+      "note": "FICTIONAL hotel. Name and rate are invented for this demo; location is only an approximate area. Central and mid-range.",
+      "last_checked": null
+    }
+  },
+  {
+    "id": "hotel_bay_lantern",
+    "name": "Bay Lantern Stay (fictional)",
+    "area": "Marina Bay",
+    "lat": 1.2835,
+    "lon": 103.8585,
+    "nightly_rate": 260,
+    "provenance": {
+      "source_status": "sample",
+      "note": "FICTIONAL hotel. Name and rate are invented for this demo; location is only an approximate area. Expensive and central.",
+      "last_checked": null
+    }
+  },
+  {
+    "id": "hotel_east_coast_pier",
+    "name": "East Coast Pier Inn (fictional)",
+    "area": "East Coast",
+    "lat": 1.305,
+    "lon": 103.912,
+    "nightly_rate": 125,
+    "provenance": {
+      "source_status": "sample",
+      "note": "FICTIONAL hotel. Name and rate are invented for this demo; location is only an approximate area. Cheaper but farther from many sights.",
+      "last_checked": null
+    }
+  }
+]

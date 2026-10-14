@@ -1,0 +1,27 @@
+{
+  "id": "tokyo",
+  "display_name": "Tokyo",
+  "country": "Japan",
+  "currency_code": "JPY",
+  "display_currency_code": "SGD",
+  "sample_fx_to_display_currency": 0.00909090909090909,
+  "sample_fx_label": "SAMPLE FX rate (approximate, not live): 1 SGD = 110 JPY",
+  "coordinate_bounds": {
+    "lat_min": 35.4,
+    "lat_max": 35.95,
+    "lon_min": 139.3,
+    "lon_max": 140.0
+  },
+  "transit_model": {
+    "detour_factor": 1.3,
+    "speed_kmh": 20.0,
+    "per_leg_overhead_min": 10,
+    "base_fare": 150,
+    "fare_per_km": 20.0
+  },
+  "default_day_start": "09:00",
+  "default_day_end": "19:00",
+  "default_value_of_time_per_hour": 1000,
+  "closing_day_conventions_note": "Sample weekly closures follow each attraction record; verify before relying on them.",
+  "provenance": "Tokyo sample pack. Figures are approximate and must be verified; hotels are fictional."
+}

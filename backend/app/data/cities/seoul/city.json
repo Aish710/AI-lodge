@@ -1,0 +1,27 @@
+{
+  "id": "seoul",
+  "display_name": "Seoul",
+  "country": "South Korea",
+  "currency_code": "KRW",
+  "display_currency_code": "USD",
+  "sample_fx_to_display_currency": 0.00074,
+  "sample_fx_label": "SAMPLE FX rate (approximate, not live): 1 KRW = 0.00074 USD",
+  "coordinate_bounds": {
+    "lat_min": 37.4,
+    "lat_max": 37.7,
+    "lon_min": 126.75,
+    "lon_max": 127.2
+  },
+  "transit_model": {
+    "detour_factor": 1.35,
+    "speed_kmh": 23.0,
+    "per_leg_overhead_min": 10,
+    "base_fare": 1400,
+    "fare_per_km": 90.0
+  },
+  "default_day_start": "09:00",
+  "default_day_end": "19:00",
+  "default_value_of_time_per_hour": 15000,
+  "closing_day_conventions_note": "Sample weekly closures are encoded per attraction; verify current days before relying on them.",
+  "provenance": "Seoul sample pack. All figures are approximate and must be verified; hotels are fictional."
+}

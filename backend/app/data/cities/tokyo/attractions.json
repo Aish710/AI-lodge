@@ -1,0 +1,852 @@
+[
+  {
+    "id": "senso_ji",
+    "name": "Senso-ji",
+    "area": "Asakusa",
+    "lat": 35.7148,
+    "lon": 139.7967,
+    "duration_minutes": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "temple",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Tokyo's oldest temple, reached through the Kaminarimon gate and Nakamise shopping street.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Sensoji",
+      "Senso ji",
+      "Asakusa Temple"
+    ]
+  },
+  {
+    "id": "meiji_jingu",
+    "name": "Meiji Jingu",
+    "area": "Harajuku",
+    "lat": 35.6764,
+    "lon": 139.6993,
+    "duration_minutes": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "06:00",
+          "17:00"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "shrine",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Shinto shrine set in a large forest next to Harajuku.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Meiji Shrine",
+      "Meiji Jingu Shrine"
+    ]
+  },
+  {
+    "id": "tokyo_skytree",
+    "name": "Tokyo Skytree",
+    "area": "Sumida",
+    "lat": 35.7101,
+    "lon": 139.8107,
+    "duration_minutes": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "21:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "21:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "21:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "21:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "21:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "21:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "21:00"
+        ]
+      ]
+    },
+    "admission_cost": 2100,
+    "category": "viewpoint",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Broadcast tower with observation decks over the city.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Skytree",
+      "Sky Tree"
+    ]
+  },
+  {
+    "id": "teamlab_planets",
+    "name": "teamLab Planets",
+    "area": "Toyosu",
+    "lat": 35.649,
+    "lon": 139.7897,
+    "duration_minutes": 120,
+    "opening_hours": {
+      "mon": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ]
+    },
+    "admission_cost": null,
+    "category": "museum",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": true,
+    "description": "Immersive digital art museum where visitors walk barefoot through water and light installations.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Price varies by date and time slot, so it is recorded as UNKNOWN rather than guessed. Check the official site.",
+      "last_checked": null
+    },
+    "aliases": [
+      "team Lab Planets",
+      "teamLab Planets Tokyo"
+    ]
+  },
+  {
+    "id": "tsukiji_outer_market",
+    "name": "Tsukiji Outer Market",
+    "area": "Tsukiji",
+    "lat": 35.6655,
+    "lon": 139.7707,
+    "duration_minutes": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "05:00",
+          "14:00"
+        ]
+      ],
+      "tue": [
+        [
+          "05:00",
+          "14:00"
+        ]
+      ],
+      "wed": null,
+      "thu": [
+        [
+          "05:00",
+          "14:00"
+        ]
+      ],
+      "fri": [
+        [
+          "05:00",
+          "14:00"
+        ]
+      ],
+      "sat": [
+        [
+          "05:00",
+          "14:00"
+        ]
+      ],
+      "sun": null
+    },
+    "admission_cost": 0,
+    "category": "market",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Street market of food stalls and shops. Entry is free; food costs extra and is not included.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate. Individual shops vary; many are closed Sundays and some Wednesdays. Verify.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Tsukiji Market",
+      "Tsukiji Fish Market",
+      "Tsukiji"
+    ]
+  },
+  {
+    "id": "shibuya_sky",
+    "name": "Shibuya Sky",
+    "area": "Shibuya",
+    "lat": 35.6585,
+    "lon": 139.7022,
+    "duration_minutes": 75,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "22:00"
+        ]
+      ]
+    },
+    "admission_cost": 2200,
+    "category": "viewpoint",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Rooftop observation deck above Shibuya Scramble Square.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Shibuya Sky Deck"
+    ]
+  },
+  {
+    "id": "tokyo_national_museum",
+    "name": "Tokyo National Museum",
+    "area": "Ueno",
+    "lat": 35.7189,
+    "lon": 139.7765,
+    "duration_minutes": 150,
+    "opening_hours": {
+      "mon": null,
+      "tue": [
+        [
+          "09:30",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:30",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:30",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:30",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:30",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:30",
+          "17:00"
+        ]
+      ]
+    },
+    "admission_cost": 1000,
+    "category": "museum",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Japan's largest collection of art and cultural artefacts.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": []
+  },
+  {
+    "id": "akihabara",
+    "name": "Akihabara",
+    "area": "Akihabara",
+    "lat": 35.6984,
+    "lon": 139.7731,
+    "duration_minutes": 120,
+    "opening_hours": {
+      "mon": "unknown",
+      "tue": "unknown",
+      "wed": "unknown",
+      "thu": "unknown",
+      "fri": "unknown",
+      "sat": "unknown",
+      "sun": "unknown"
+    },
+    "admission_cost": 0,
+    "category": "district",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Electronics, anime and game shopping district.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Shops each set their own hours and there is no single official schedule, so hours are UNKNOWN.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Akiba",
+      "Akihabara Electric Town"
+    ]
+  },
+  {
+    "id": "imperial_palace_east_gardens",
+    "name": "Imperial Palace East Gardens",
+    "area": "Chiyoda",
+    "lat": 35.6852,
+    "lon": 139.7528,
+    "duration_minutes": 90,
+    "opening_hours": {
+      "mon": null,
+      "tue": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "fri": null,
+      "sat": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "16:30"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "garden",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Public gardens on the former grounds of Edo Castle.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate. Closing time changes by season; weekly closing days believed to be Monday and Friday. Verify.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Imperial Palace Gardens",
+      "Imperial Palace East Garden",
+      "Kokyo Higashi Gyoen"
+    ]
+  },
+  {
+    "id": "shinjuku_gyoen",
+    "name": "Shinjuku Gyoen",
+    "area": "Shinjuku",
+    "lat": 35.6852,
+    "lon": 139.71,
+    "duration_minutes": 120,
+    "opening_hours": {
+      "mon": null,
+      "tue": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ]
+    },
+    "admission_cost": 500,
+    "category": "garden",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Large park with Japanese, English and French gardens.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Shinjuku Gyoen National Garden"
+    ]
+  },
+  {
+    "id": "tokyo_tower",
+    "name": "Tokyo Tower",
+    "area": "Minato",
+    "lat": 35.6586,
+    "lon": 139.7454,
+    "duration_minutes": 75,
+    "opening_hours": {
+      "mon": [
+        [
+          "09:00",
+          "23:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "23:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "23:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "23:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "23:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "23:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "23:00"
+        ]
+      ]
+    },
+    "admission_cost": 1500,
+    "category": "viewpoint",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Red-and-white lattice tower with a main observation deck.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": []
+  },
+  {
+    "id": "ghibli_museum",
+    "name": "Ghibli Museum",
+    "area": "Mitaka",
+    "lat": 35.6962,
+    "lon": 139.5704,
+    "duration_minutes": 120,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "tue": null,
+      "wed": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ]
+    },
+    "admission_cost": 1000,
+    "category": "museum",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": true,
+    "description": "Museum of Studio Ghibli animation. Tickets are date-and-time specific and sold in advance.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample figure from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Ghibli",
+      "Studio Ghibli Museum",
+      "Mitaka Ghibli Museum"
+    ]
+  }
+]

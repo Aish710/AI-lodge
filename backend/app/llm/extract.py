@@ -32,7 +32,35 @@ def to_jpy(amount: float, currency: str) -> int | None:
     return None
 
 
-def resolve_list(names: list[str], ds: Dataset, scope_ids: list[str] | None = None):
+def to_city_money(amount: float, currency: str, ds: Dataset) -> int | None:
+    """Convert in CODE using the city's labelled SAMPLE FX rate. Returns local integer currency units."""
+    cur = currency.strip().upper()
+    if cur == ds.city.currency_code:
+        return int(round(amount))
+    if cur == ds.city.display_currency_code:
+        return int(round(amount / ds.city.sample_fx_to_display_currency))
+    # Backwards compatibility for Tokyo tests and existing frontend examples.
+    if ds.city.id == "tokyo":
+        return to_jpy(amount, currency)
+    return None
+
+
+def _other_city_message(raw: str, ds: Dataset, all_datasets: dict[str, Dataset] | None) -> str | None:
+    if not all_datasets:
+        return None
+    hits = []
+    for cid, other in all_datasets.items():
+        if cid == ds.city.id:
+            continue
+        m = resolve_attraction(raw, other)
+        if m.status == "resolved":
+            hits.append(other.city.display_name)
+    if hits:
+        return f"Not in the {ds.city.display_name} dataset. It appears in {', '.join(hits)}; switch city to plan it."
+    return None
+
+
+def resolve_list(names: list[str], ds: Dataset, scope_ids: list[str] | None = None, all_datasets: dict[str, Dataset] | None = None):
     resolved, unresolved, ambiguities = [], [], []
     for n in names:
         m = resolve_attraction(n, ds, scope_ids)
@@ -41,7 +69,8 @@ def resolve_list(names: list[str], ds: Dataset, scope_ids: list[str] | None = No
         elif m.status == "ambiguous":
             ambiguities.append(Ambiguity(input=n, candidates=[Candidate(**c) for c in m.candidates]))
         else:
-            unresolved.append(UnresolvedName(input=n, suggestions=[SuggestionOut(id=s.id, name=s.name, reason=s.reason) for s in m.suggestions]))
+            unresolved.append(UnresolvedName(input=n, suggestions=[SuggestionOut(id=s.id, name=s.name, reason=s.reason) for s in m.suggestions],
+                                             message=_other_city_message(n, ds, all_datasets) or "Not a place in this dataset, so it cannot be scheduled."))
     return resolved, unresolved, ambiguities
 
 
@@ -51,7 +80,8 @@ def _unavailable(echo: str, calls: int, msg: str) -> ParseResult:  # msg: instru
 
 
 def extract_preferences(text: str, ds: Dataset, client: LLMClient | None, *, start_weekday: int | None = None,
-                        max_input_chars: int | None = None, unavailable_note: str | None = None) -> ParseResult:
+                        max_input_chars: int | None = None, unavailable_note: str | None = None,
+                        all_datasets: dict[str, Dataset] | None = None) -> ParseResult:
     from app.config import get_settings
 
     limit = max_input_chars or get_settings().max_input_chars
@@ -71,10 +101,12 @@ def extract_preferences(text: str, ds: Dataset, client: LLMClient | None, *, sta
     ex: ExtractionOut = out.parsed
     clar: list[str] = []
     defaults: list[str] = []
-    assumptions: dict = {"fx": config.FX_LABEL, "fx_jpy_per_sgd": config.SAMPLE_FX_JPY_PER_SGD}
+    assumptions: dict = {"fx": ds.city.sample_fx_label, "currency": ds.city.currency_code,
+                         "display_currency": ds.city.display_currency_code,
+                         "sample_fx_to_display_currency": ds.city.sample_fx_to_display_currency}
 
-    must, must_unres, must_amb = resolve_list(ex.must_visit_names[:config.LLM_MAX_NAMES], ds)
-    skip, skip_unres, skip_amb = resolve_list(ex.skip_names[:config.LLM_MAX_NAMES], ds)
+    must, must_unres, must_amb = resolve_list(ex.must_visit_names[:config.LLM_MAX_NAMES], ds, all_datasets=all_datasets)
+    skip, skip_unres, skip_amb = resolve_list(ex.skip_names[:config.LLM_MAX_NAMES], ds, all_datasets=all_datasets)
     both = {r.id for r in must} & {r.id for r in skip}
     for aid in sorted(both):
         clar.append(f"{ds.attractions[aid].name} is listed as both must-visit and skip. Which do you want?")
@@ -88,36 +120,36 @@ def extract_preferences(text: str, ds: Dataset, client: LLMClient | None, *, sta
     budget_jpy = None
     strict = False
     if ex.budget is not None:
-        budget_jpy = to_jpy(ex.budget.amount, ex.budget.currency)
+        budget_jpy = to_city_money(ex.budget.amount, ex.budget.currency, ds)
         if budget_jpy is None:
-            clar.append(f"Currency '{ex.budget.currency[:8]}' is not supported; please give the budget in SGD or JPY.")
+            clar.append(f"Currency '{ex.budget.currency[:8]}' is not supported; please give the budget in {ds.city.currency_code} or {ds.city.display_currency_code}.")
         else:
             strict = ex.budget.strict
             assumptions["budget_scope"] = config.BUDGET_SCOPE_TEXT
-            assumptions["budget_interpreted"] = (f"{ex.budget.amount:g} {ex.budget.currency.upper()} = {budget_jpy:,} JPY "
+            assumptions["budget_interpreted"] = (f"{ex.budget.amount:g} {ex.budget.currency.upper()} = {budget_jpy:,} {ds.city.currency_code} "
                                                  f"({'strict limit' if strict else 'soft target'})")
     else:
         defaults.append("budget: none (no amount was stated)")
     vot = None
     if ex.value_of_time is not None:
-        vot = to_jpy(ex.value_of_time.amount, ex.value_of_time.currency)
+        vot = to_city_money(ex.value_of_time.amount, ex.value_of_time.currency, ds)
         if vot is None:
             clar.append(f"Currency '{ex.value_of_time.currency[:8]}' is not supported for value of time.")
         else:
-            assumptions["value_of_time_interpreted"] = f"{ex.value_of_time.amount:g} {ex.value_of_time.currency.upper()} per hour = {vot:,} JPY per hour"
+            assumptions["value_of_time_interpreted"] = f"{ex.value_of_time.amount:g} {ex.value_of_time.currency.upper()} per hour = {vot:,} {ds.city.currency_code} per hour"
     if vot is None and ex.value_of_time is None:
-        vot = config.DEFAULT_VALUE_OF_TIME_JPY_PER_HOUR
-        defaults.append(f"value of time: {vot:,} JPY/hour (not stated)")
+        vot = ds.city.default_value_of_time_per_hour
+        defaults.append(f"value of time: {vot:,} {ds.city.currency_code}/hour (not stated)")
     pace = ex.pace
     if pace is None:
         pace = config.DEFAULT_PACE
         defaults.append(f"pace: {pace} (not stated)")
     day_start, day_end = ex.day_start, ex.day_end
     if day_start is None:
-        day_start = config.DEFAULT_DAY_START
+        day_start = ds.city.default_day_start
         defaults.append(f"day start: {day_start} (not stated)")
     if day_end is None:
-        day_end = config.DEFAULT_DAY_END
+        day_end = ds.city.default_day_end
         defaults.append(f"day end: {day_end} (not stated)")
     walking = ex.max_walking_minutes
     if walking is None:

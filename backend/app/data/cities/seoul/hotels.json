@@ -1,0 +1,41 @@
+[
+  {
+    "id": "hotel_jongno_garden",
+    "name": "Jongno Garden Hotel (fictional)",
+    "area": "Jongno",
+    "lat": 37.5725,
+    "lon": 126.985,
+    "nightly_rate": 135000,
+    "provenance": {
+      "source_status": "sample",
+      "note": "FICTIONAL hotel. Name and rate are invented for this demo; location is only an approximate area. Central and mid-range.",
+      "last_checked": null
+    }
+  },
+  {
+    "id": "hotel_myeongdong_sky",
+    "name": "Myeongdong Sky Stay (fictional)",
+    "area": "Myeongdong",
+    "lat": 37.5635,
+    "lon": 126.9828,
+    "nightly_rate": 165000,
+    "provenance": {
+      "source_status": "sample",
+      "note": "FICTIONAL hotel. Name and rate are invented for this demo; location is only an approximate area. Central and pricier.",
+      "last_checked": null
+    }
+  },
+  {
+    "id": "hotel_guro_river",
+    "name": "Guro River Inn (fictional)",
+    "area": "Guro",
+    "lat": 37.5,
+    "lon": 126.887,
+    "nightly_rate": 85000,
+    "provenance": {
+      "source_status": "sample",
+      "note": "FICTIONAL hotel. Name and rate are invented for this demo; location is only an approximate area. Cheaper but farther from many sights.",
+      "last_checked": null
+    }
+  }
+]
