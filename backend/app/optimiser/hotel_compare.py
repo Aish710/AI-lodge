@@ -21,6 +21,7 @@ from dataclasses import dataclass
 from pydantic import BaseModel
 
 from app import config
+from app.money import code, money, per_hour
 from app.data.loader import Dataset, unknown_price_placeholder
 from app.optimiser.solver import ObjectiveSpec, solve
 from app.schemas import Conflict, Preferences, SolveResult, nights_for
@@ -209,18 +210,18 @@ def _insight(ds: Dataset, results: list[HotelResult], cheapest: str, best: str |
         if len(ranked) > 1:
             nxt = ranked[1]
             return (f"{A.hotel_name} is both the cheapest per night and the best by true cost; it is "
-                    f"{nxt.breakdown.true_cost_jpy - A.breakdown.true_cost_jpy:,} JPY cheaper in total than {nxt.hotel_name}.")
+                    f"{money(nxt.breakdown.true_cost_jpy - A.breakdown.true_cost_jpy, ds)} cheaper in total than {nxt.hotel_name}.")
         return f"{A.hotel_name} is the only hotel with a feasible plan."
     if A.breakdown is None:
         why = A.conflicts[0].message if A.conflicts else A.note or A.status
         return (f"{A.hotel_name} has the lowest nightly rate but has no feasible plan ({why}). "
                 f"{B.hotel_name} is the best by true cost.")
     a, b = A.breakdown, B.breakdown
-    return (f"{B.hotel_name} costs {b.nightly_rate_jpy - a.nightly_rate_jpy:,} JPY more per night than {A.hotel_name} "
-            f"(the cheapest by rate) but {a.true_cost_jpy - b.true_cost_jpy:,} JPY less in total once transport and "
-            f"travel time are counted: {A.hotel_name} needs {_more_less(a.transport_jpy - b.transport_jpy, 'JPY', 'more', 'less')} "
+    return (f"{B.hotel_name} costs {money(b.nightly_rate_jpy - a.nightly_rate_jpy, ds)} more per night than {A.hotel_name} "
+            f"(the cheapest by rate) but {money(a.true_cost_jpy - b.true_cost_jpy, ds)} less in total once transport and "
+            f"travel time are counted: {A.hotel_name} needs {_more_less(a.transport_jpy - b.transport_jpy, code(ds), 'more', 'less')} "
             f"in fares and {abs(a.travel_hours - b.travel_hours):.1f} h {'more' if a.travel_hours >= b.travel_hours else 'less'} travel "
-            f"({_more_less(a.time_cost_jpy - b.time_cost_jpy, 'JPY', 'more', 'less')} of time at {a.value_of_time_per_hour:,} JPY/h).")
+            f"({_more_less(a.time_cost_jpy - b.time_cost_jpy, code(ds), 'more', 'less')} of time at {per_hour(a.value_of_time_per_hour, ds)}).")
 
 
 # ---------------------------------------------------------------------------
@@ -355,9 +356,9 @@ def sensitivity(prefs: Preferences, hotel_ids: list[str], ds: Dataset, vot_range
     if state["unrefined"] or state["timed_out"] or state["cap_hit"]:
         warnings.append("Refinement stopped early (depth, solve cap or time limit): values between solved points are upper bounds.")
     if flips:
-        flip_summary = "; ".join(f"ranking flips from {f.from_winner} to {f.to_winner} at about {f.value_of_time_per_hour:,.0f} JPY/h ({f.method})" for f in flips)
+        flip_summary = "; ".join(f"ranking flips from {f.from_winner} to {f.to_winner} at about {per_hour(f.value_of_time_per_hour, ds)} ({f.method})" for f in flips)
     else:
-        flip_summary = f"No flip within {vmin}-{vmax} JPY/h: {grid[0].winner} wins throughout."
+        flip_summary = f"No flip within {vmin}-{vmax} {code(ds)}/h: {grid[0].winner} wins throughout."
     return Sensitivity(vot_min=vmin, vot_max=vmax, grid=grid, flips=flips, flip_summary=flip_summary, approximate=approximate,
                        solves=cache.solves - s0, cache_hits=cache.hits - h0, warnings=warnings)
 
@@ -426,7 +427,7 @@ def compare_hotels(prefs: Preferences, hotel_ids: list[str], ds: Dataset, *, inc
         if r.feasible and r.proven_optimal is False:
             warnings.append(f"{r.hotel_name}: solve ended {r.solver_status} (time-limited), not proven optimal; its true cost may be higher than the best possible plan.")
         if r.breakdown and r.breakdown.unknown_price_items:
-            warnings.append(f"{r.hotel_name}: price unknown for {', '.join(r.breakdown.unknown_price_items)}; excluded from totals, so true cost is understated by an unknown amount (the optimiser assumed a placeholder of {unknown_price_placeholder(ds):,} JPY each, not included in the totals shown).")
+            warnings.append(f"{r.hotel_name}: price unknown for {', '.join(r.breakdown.unknown_price_items)}; excluded from totals, so true cost is understated by an unknown amount (the optimiser assumed a placeholder of {money(unknown_price_placeholder(ds), ds)} each, not included in the totals shown).")
     sets = {r.hotel_id: {s.attraction_id for d in r.itinerary.days for s in d.stops} - set(prefs.must_visit) for r in feasible}
     if len({frozenset(v) for v in sets.values()}) > 1:
         detail = "; ".join(f"{ds.hotels[h].name}: misses {', '.join(r.breakdown.missed_preferences.names) or 'nothing'}" for h, r in ((r.hotel_id, r) for r in feasible))

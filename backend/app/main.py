@@ -57,14 +57,20 @@ def _dataset(request: Request, city_id: str = DEFAULT_CITY_ID) -> Dataset:
         raise ApiError(422, "unknown_city", f"Unknown city id '{city_id[:64]}'.")
 
 
-def _check_city_ids(request: Request, ds: Dataset, *, hotels=(), prefs: Preferences | None = None, op_list=()) -> None:
-    attractions = [l.attraction_id for l in prefs.locked] if prefs else []
-    for op in op_list:
+def _check_city_ids(request: Request, ds: Dataset, *, hotels=(), prefs: Preferences | None = None, op_list=(), part: str = "all") -> None:
+    """Reject ids that belong to another city. On the replan routes the preference lists (must_visit, skip) are checked after the
+    supplied schedule has been validated (part="late"), so a whole schedule from another city is still reported as invalid_schedule."""
+    attractions: list[str] = []
+    if prefs and part in ("all", "early"):
+        attractions += [l.attraction_id for l in prefs.locked]
+    if prefs and part in ("all", "late"):
+        attractions += [*prefs.must_visit, *prefs.skip]
+    for op in op_list if part != "late" else ():
         if getattr(op, "attraction_id", None):
             attractions.append(op.attraction_id)
         if getattr(op, "hotel_id", None):
             hotels = [*hotels, op.hotel_id]
-    reject_foreign_ids(ds, request.app.state.datasets, hotels=hotels, attractions=attractions)
+    reject_foreign_ids(ds, request.app.state.datasets, hotels=hotels if part != "late" else (), attractions=attractions)
 
 
 def _display_money(ds: Dataset, value: int) -> float:
@@ -193,9 +199,10 @@ class ReplanRequest(_Req):
 def replan_route(req: ReplanRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
     """Stateless: nothing from the request is stored. The supplied schedule is UNTRUSTED: it is rebuilt and validated first."""
     ds, cfg = _dataset(request, req.city_id), request.app.state.hconf
-    _check_city_ids(request, ds, prefs=req.preferences, op_list=req.operations)
+    _check_city_ids(request, ds, prefs=req.preferences, op_list=req.operations, part="early")
     with request.app.state.solver_capacity.claim():
-        current = rebuild_client_schedule(req.preferences, req.current_result, ds, request.app.state.datasets)
+        current = rebuild_client_schedule(req.preferences, req.current_result, ds, request.app.state.datasets,
+                                          after_structure=lambda: _check_city_ids(request, ds, prefs=req.preferences, part="late"))
         result = replan(req.preferences, current, req.operations, ds,
                         confirm_remove_must_visit=req.confirm_remove_must_visit,
                         max_seconds=cfg.replan_time_limit_seconds)
@@ -264,8 +271,9 @@ class ParseReplanRequest(_Req):
 def parse_replan_route(req: ParseReplanRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
     """Free text -> PROPOSED operations. Nothing is executed; the client must confirm and call /replan."""
     ds = _dataset(request, req.city_id)
-    _check_city_ids(request, ds, prefs=req.preferences)
-    current = rebuild_client_schedule(req.preferences, req.current_result, ds, request.app.state.datasets)
+    _check_city_ids(request, ds, prefs=req.preferences, part="early")
+    current = rebuild_client_schedule(req.preferences, req.current_result, ds, request.app.state.datasets,
+                                      after_structure=lambda: _check_city_ids(request, ds, prefs=req.preferences, part="late"))
     out = parse_replan(req.text, current, req.preferences, ds, client, unavailable_note=request.state.llm_note).model_dump()
     return {**out, "city_id": ds.city.id}
 

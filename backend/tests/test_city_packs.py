@@ -88,8 +88,8 @@ def test_cross_city_ids_are_rejected_by_optimise_and_replan():
     with TestClient(app) as c:
         tokyo_prefs = {"days": 2, "must_visit": ["gyeongbokgung"], "day_start": "09:00", "day_end": "19:00"}
         bad = c.post("/optimise", json={"city_id": "tokyo", "preferences": tokyo_prefs, "hotel_id": "hotel_lantern_asakusa"})
-        assert bad.status_code == 200
-        assert bad.json()["result"]["status"] == "infeasible"
+        assert bad.status_code == 422
+        assert bad.json()["error"]["code"] == "wrong_city"
 
         seoul_prefs = {"days": 2, "must_visit": ["gyeongbokgung"], "day_start": "09:00", "day_end": "19:00", "value_of_time_per_hour": 15000}
         seoul = c.post("/optimise", json={"city_id": "seoul", "preferences": seoul_prefs, "hotel_id": "hotel_jongno_garden"}).json()["result"]

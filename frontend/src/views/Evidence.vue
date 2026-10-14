@@ -6,7 +6,8 @@ import BarRow from '../components/BarRow.vue'
 import Skeleton from '../components/Skeleton.vue'
 import { loadEvidence, readThisFirst } from '../lib/evidence.js'
 import { parseBlocks } from '../lib/mdparse.js'
-import { formatJpy } from '../lib/format.js'
+import { formatLocalMoney } from '../lib/format.js'
+const formatJpy = (n) => formatLocalMoney(n, 'JPY')  // the evaluation is the Tokyo (JPY) pack
 
 const ev = ref(null)
 const route = useRoute()

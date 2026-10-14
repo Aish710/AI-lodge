@@ -3,7 +3,7 @@
 // the conflict panel explains why.
 import { computed } from 'vue'
 import { notScheduledItems } from '../lib/rules.js'
-import { formatJpy } from '../lib/format.js'
+import { money } from '../lib/money.js'
 const props = defineProps({ missedIds: { type: Array, default: () => [] }, placesById: { type: Object, required: true }, penaltyJpy: { type: Number, default: null } })
 const items = computed(() => notScheduledItems(props.missedIds, props.placesById, props.penaltyJpy))
 </script>
@@ -17,7 +17,7 @@ const items = computed(() => notScheduledItems(props.missedIds, props.placesById
         <li v-for="it in items" :key="it.id"><strong>{{ it.name }}</strong>: {{ it.reason }}</li>
       </ul>
       <p v-if="penaltyJpy !== null" class="small muted mb-0" data-testid="penalty-note">
-        The planner charges {{ formatJpy(penaltyJpy) }} for each optional sight it leaves out and skips one only when visiting it costs more than that in travel time, fares and admission. To include a sight anyway, mark it "Must visit".
+        The planner charges {{ money(penaltyJpy) }} for each optional sight it leaves out and skips one only when visiting it costs more than that in travel time, fares and admission. To include a sight anyway, mark it "Must visit".
       </p>
     </template>
   </section>

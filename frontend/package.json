@@ -16,7 +16,8 @@
     "postbuild": "node scripts/write-host-config.mjs",
     "test:report": "vitest run --reporter=json --outputFile=test-results/vitest.json && PLAYWRIGHT_JSON_OUTPUT_FILE=test-results/playwright.json playwright test --reporter=json",
     "lighthouse": "node scripts/run-lighthouse.mjs",
-    "live-smoke": "node scripts/live-smoke.mjs"
+    "live-smoke": "node scripts/live-smoke.mjs",
+    "verify:clean-clone": "bash ../scripts/verify_clean_clone.sh"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "5.3.0",

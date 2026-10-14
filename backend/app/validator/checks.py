@@ -7,6 +7,7 @@ and cost figure itself from the raw dataset, ignoring the cost/travel numbers th
 """
 from dataclasses import dataclass, field
 
+from app.money import money
 from app.data.loader import Dataset
 from app.schemas import Preferences, SolveResult
 
@@ -158,13 +159,13 @@ def run_checks(schedule: SolveResult, ds: Dataset, prefs: Preferences, hotel_id:
         fare += ds.fare_jpy[prev][hotel_id]
     total = adm + fare
     if prefs.budget is None:
-        checks.append(Check("budget", "Budget", "pass", f"No budget set (recomputed total {total} JPY)."))
+        checks.append(Check("budget", "Budget", "pass", f"No budget set (recomputed total {money(total, ds)})."))
     elif total <= prefs.budget:
-        checks.append(Check("budget", "Budget", "pass", f"Total {total} JPY (admissions {adm} + transport {fare}) is within the budget of {prefs.budget} JPY."))
+        checks.append(Check("budget", "Budget", "pass", f"Total {money(total, ds)} (admissions {adm:,} + transport {fare:,}) is within the budget of {money(prefs.budget, ds)}."))
     else:
         level = "fail" if prefs.strict_budget else "warning"
         kind = "strict" if prefs.strict_budget else "soft"
-        checks.append(Check("budget", "Budget", level, f"Total {total} JPY exceeds the {kind} budget of {prefs.budget} JPY by {total - prefs.budget} JPY."))
+        checks.append(Check("budget", "Budget", level, f"Total {money(total, ds)} exceeds the {kind} budget of {money(prefs.budget, ds)} by {money(total - prefs.budget, ds)}."))
 
     # Data-quality warnings (never a plain pass).
     unk_h = [r[2] for r in known if ds.attractions[r[2]].opening_hours[WD[r[1]]] == "unknown"]

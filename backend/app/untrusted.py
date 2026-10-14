@@ -24,7 +24,7 @@ def _t(hhmm: str):
         return None
 
 
-def rebuild_client_schedule(prefs: Preferences, current: SolveResult, ds: Dataset, all_datasets: dict | None = None) -> SolveResult:
+def rebuild_client_schedule(prefs: Preferences, current: SolveResult, ds: Dataset, all_datasets: dict | None = None, after_structure=None) -> SolveResult:
     others = all_datasets or {}
 
     def where(kind: str, item_id: str) -> str:
@@ -58,6 +58,8 @@ def rebuild_client_schedule(prefs: Preferences, current: SolveResult, ds: Datase
                 plan[dp.day - 1].append((s.attraction_id, start))
     if findings:
         raise ApiError(422, "invalid_schedule", "The supplied schedule is structurally invalid.", findings)
+    if after_structure:
+        after_structure()  # e.g. reject preference ids that belong to another city, before the validator reports them as unscheduled
     for lst in plan:
         lst.sort(key=lambda v: v[1])
     days, totals = assemble(ds, prefs, current.hotel_id, plan)

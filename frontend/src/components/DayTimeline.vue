@@ -2,7 +2,8 @@
 import SourceBadge from './SourceBadge.vue'
 import { dayColor, dayShape } from '../lib/mapstyle.js'
 import { flagText } from '../lib/rules.js'
-import { formatJpy, formatMoney, humanMinutes, WEEKDAY_NAMES, UNKNOWN } from '../lib/format.js'
+import { formatMoney, humanMinutes, WEEKDAY_NAMES, UNKNOWN } from '../lib/format.js'
+import { money } from '../lib/money.js'
 import { toMinutes } from '../lib/time.js'
 defineProps({ days: { type: Array, required: true }, placesById: { type: Object, required: true }, fx: { type: Object, default: null }, hotelName: { type: String, default: 'the hotel' },
   lockedIds: { type: Array, default: () => [] }, votPerHour: { type: Number, default: null } })
@@ -28,7 +29,7 @@ const dur = (s) => toMinutes(s.end) - toMinutes(s.start)
             <div>{{ s.start }}–{{ s.end }} <span class="muted">({{ humanMinutes(dur(s)) }})</span></div>
             <div class="leg">
               {{ humanMinutes(s.travel_minutes_from_previous) }} travel{{ i === 0 ? ' from the hotel' : ' from the previous stop' }},
-              {{ formatJpy(s.transport_jpy_from_previous) }} fare <SourceBadge status="estimated" what="travel" />
+              {{ money(s.transport_jpy_from_previous) }} fare <SourceBadge status="estimated" what="travel" />
             </div>
             <div class="leg">
               Admission:
@@ -41,7 +42,7 @@ const dur = (s) => toMinutes(s.end) - toMinutes(s.start)
             </ul>
           </div>
         </div>
-        <div class="leg">Back at {{ hotelName }} at {{ d.hotel_return }} ({{ humanMinutes(d.return_travel_minutes) }}, {{ formatJpy(d.return_transport_jpy) }} fare, estimated)</div>
+        <div class="leg">Back at {{ hotelName }} at {{ d.hotel_return }} ({{ humanMinutes(d.return_travel_minutes) }}, {{ money(d.return_transport_jpy) }} fare, estimated)</div>
       </template>
     </section>
   </div>

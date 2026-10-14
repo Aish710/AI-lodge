@@ -15,22 +15,16 @@ from app.llm.grounding import check_grounding
 from app.llm.names import normalise
 from app.llm.prompts import EXPLAIN_SYSTEM
 from app.llm.schemas import Explanation, GroundingReport
+from app.money import display_amount, money, signed
 from app.optimiser.hotel_compare import HotelComparison
 from app.optimiser.replan import ReplanResult
 
 log = logging.getLogger("app.llm")
 
 
-def _jpy(n: int) -> str:
-    return f"{n:,} JPY"
-
-
-def _signed(n: int, unit: str = "JPY") -> str:
-    return f"{n:+,} {unit}"
-
-
-def _sgd(jpy: int) -> str:
-    return f"about S${jpy / config.SAMPLE_FX_JPY_PER_SGD:,.0f} at the SAMPLE rate"
+def _fmt(ds: Dataset):
+    """Amount formatters bound to the selected city: its own currency code, never a hardcoded one."""
+    return (lambda n: money(n, ds)), (lambda n, unit=None: signed(n, ds, unit)), (lambda n: display_amount(n, ds))
 
 
 def _hm(minutes: int) -> str:
@@ -66,6 +60,7 @@ class OptimiseView:
 
 
 def _optimise_facts(v: OptimiseView, ds: Dataset) -> ExplainFacts:
+    _jpy, _signed, _sgd = _fmt(ds)
     r, rep = v.result, v.report
     h = ds.hotels[v.hotel_id]
     lines = ["Kind: single-hotel itinerary", f"Hotel: {h.name}, rate {_jpy(h.nightly_rate)} per night, nights used {v.nights}",
@@ -100,6 +95,7 @@ def build_facts(result, ds: Dataset) -> ExplainFacts:
 
 
 def _replan_facts(r: ReplanResult, ds: Dataset) -> ExplainFacts:
+    _jpy, _signed, _sgd = _fmt(ds)
     lines = ["Kind: replanning result", "Operations requested: " + ("; ".join(r.operations_applied) or "none"),
              f"Outcome: {r.status}", f"Solver status: {r.solver_status}" + (" (approximate)" if r.approximate else "")]
     ids: set[str] = set()
@@ -144,6 +140,7 @@ def _replan_facts(r: ReplanResult, ds: Dataset) -> ExplainFacts:
 
 
 def _compare_facts(c: HotelComparison, ds: Dataset) -> ExplainFacts:
+    _jpy, _signed, _sgd = _fmt(ds)
     lines = ["Kind: hotel comparison", f"Nights used for rooms: {c.nights_used} ({c.nights_source})",
              f"Value of time: {_jpy(c.value_of_time_per_hour)} per hour"]
     ids: set[str] = set()

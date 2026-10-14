@@ -72,10 +72,11 @@ export function applyPatch(form, wishlist, patch) {
 }
 
 /** A /parse draft (a PROPOSAL) -> editable form + wishlist. Nothing is submitted; the user reviews and edits first. */
-export function formFromDraft(draft, base = DEFAULT_FORM()) {
+/** `localCurrency` is the city's own currency code: a draft budget is always in local units. */
+export function formFromDraft(draft, base = DEFAULT_FORM(), localCurrency = 'JPY') {
   const form = { ...base, days: draft.days, strictBudget: Boolean(draft.strict_budget), pace: draft.pace, startWeekday: draft.start_weekday,
     dayStart: draft.day_start, dayEnd: draft.day_end, valueOfTime: draft.value_of_time_per_hour, allowUnknownHours: false,
-    budgetAmount: draft.budget === null || draft.budget === undefined ? '' : String(draft.budget), budgetCurrency: 'JPY',
+    budgetAmount: draft.budget === null || draft.budget === undefined ? '' : String(draft.budget), budgetCurrency: localCurrency,
     nightsOverride: draft.nights !== null && draft.nights !== undefined, nights: draft.nights ?? Math.max(draft.days - 1, 0) }
   const wishlist = {}
   for (const id of draft.must_visit ?? []) wishlist[id] = 'must'

@@ -13,6 +13,7 @@ from typing import Annotated, Literal, Union
 from pydantic import BaseModel, ConfigDict, Field
 
 from app import config
+from app.money import money
 from app.data.loader import Dataset, unknown_price_placeholder
 from app.optimiser.hotel_compare import CostBreakdown, _breakdown
 from app.optimiser.schedule import fmt
@@ -234,7 +235,7 @@ def _apply(prefs: Preferences, hotel_id: str, ops: list, ds: Dataset, confirm: b
             desc.append(f"remove {_name(ds, aid)}" + (" (must-visit, confirmed by user)" if aid in removed_must else ""))
         elif o.op == "change_budget":
             budget, strict = o.budget, o.strict
-            desc.append(f"change budget to {budget if budget is not None else 'none'} JPY ({'strict' if strict else 'soft'})")
+            desc.append(f"change budget to {money(budget, ds) if budget is not None else 'none'} ({'strict' if strict else 'soft'})")
         elif o.op == "switch_hotel":
             if o.hotel_id not in ds.hotels:
                 raise ReplanError("unknown_hotel", f"Unknown hotel id '{o.hotel_id}'.")
@@ -297,7 +298,7 @@ def _build_diff(ds, old_prefs, new_prefs, old_res, new_res, old_bd, new_bd, user
     unknown = sorted(a for a in touched if ds.attractions[a].admission_cost is None)
     if unknown:
         warnings.append("Change involves unknown-price attraction(s): " + ", ".join(_name(ds, a) for a in unknown) +
-                        f"; their price is excluded from totals (the optimiser assumed a placeholder of {unknown_price_placeholder(ds):,} JPY), so the cost delta may be misstated.")
+                        f"; their price is excluded from totals (the optimiser assumed a placeholder of {money(unknown_price_placeholder(ds), ds)}), so the cost delta may be misstated.")
     if not solver_ok:
         warnings.append("Approximate: the solver did not prove the new plan optimal (time-limited).")
     for aid in removed_must:
@@ -326,12 +327,12 @@ def _summary(status, desc, diff, new_res, old_hotel, new_hotel, conflicts, ds) -
         return f"Replan NOT applied ({ops}): the independent validator rejected the new plan. Your original plan is unchanged."
     d = diff
     parts = [f"Replan applied ({ops}).",
-             f"True cost {d.true_cost_jpy.before:,} -> {d.true_cost_jpy.after:,} JPY ({d.true_cost_jpy.delta:+,}); "
+             f"True cost {d.true_cost_jpy.before:,} -> {money(d.true_cost_jpy.after, ds)} ({d.true_cost_jpy.delta:+,}); "
              f"travel {d.travel_minutes.before} -> {d.travel_minutes.after} min ({d.travel_minutes.delta:+})."]
     if old_hotel != new_hotel:
-        parts.append(f"Rooms {d.rooms_jpy.before:,} -> {d.rooms_jpy.after:,} JPY ({d.rooms_jpy.delta:+,}).")
+        parts.append(f"Rooms {d.rooms_jpy.before:,} -> {money(d.rooms_jpy.after, ds)} ({d.rooms_jpy.delta:+,}).")
     parts.append(f"{len(d.kept)} activities kept, {len(d.moved)} moved, {len(d.removed)} removed, {len(d.added)} added; "
-                 f"{d.disruption_count} unnecessarily moved ({d.disruption_cost_jpy:,} JPY-equivalent at {d.disruption_jpy_per_move:,} per move).")
+                 f"{d.disruption_count} unnecessarily moved ({money(d.disruption_cost_jpy, ds)}-equivalent at {d.disruption_jpy_per_move:,} per move).")
     if d.moved:
         parts.append("Moved: " + "; ".join(f"{m.name} day {m.from_day} {m.from_start} -> day {m.to_day} {m.to_start} ({m.reason})" for m in d.moved) + ".")
     if d.removed:

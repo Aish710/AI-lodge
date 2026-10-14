@@ -19,7 +19,7 @@ _ONES = {w: i for i, w in enumerate(
 _TENS = {"thirty": 30, "forty": 40, "fifty": 50, "sixty": 60, "seventy": 70, "eighty": 80, "ninety": 90}
 _SCALE = {"hundred": 100, "thousand": 1000, "million": 1_000_000}
 _WORDS = sorted(list(_ONES) + list(_TENS) + list(_SCALE), key=len, reverse=True)
-_UNITS = (r"minutes?|mins?|hours?|hrs?|yen|jpy|sgd|dollars?|days?|nights?|activit(?:y|ies)|stops?|sights?|attractions?|"
+_UNITS = (r"minutes?|mins?|hours?|hrs?|yen|jpy|sgd|krw|won|myr|ringgit|cny|yuan|rmb|usd|dollars?|days?|nights?|activit(?:y|ies)|stops?|sights?|attractions?|"
           r"places?|hotels?|moves?|changes?|percent|per\s*cent")
 _SPELLED = re.compile(r"\b((?:(?:" + "|".join(_WORDS) + r")(?:[\s-]+(?:and\s+)?)?)+)\s+(" + _UNITS + r")\b", re.IGNORECASE)
 

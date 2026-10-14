@@ -1,5 +1,5 @@
 // Small, pure decision rules (unit-tested). The UI shows what these return; it never decides these things inline.
-import { WEEKDAYS, WEEKDAY_NAMES } from './format.js'
+import { formatLocalMoney, WEEKDAYS, WEEKDAY_NAMES } from './format.js'
 
 /**
  * Hotel callout (decision 2). The "cheapest rate is not the best value" message appears ONLY when the API says the rate winner
@@ -109,7 +109,7 @@ export function originOf(input, extracted) {
 
 /** Label for "Load example trip": it must disclose the high value of time the example uses (derived from the example data itself). */
 export function exampleLabel(example) {
-  const vot = `¥${Number(example.form.valueOfTime).toLocaleString('en-US')}`
+  const vot = formatLocalMoney(Number(example.form.valueOfTime), 'JPY')  // the examples are Tokyo trips
   return { vot, text: `Load example trip (high value of time, ${vot}/h)`,
     title: `The example uses a high value of time (${vot} an hour) to illustrate the hotel trade-off. It is not a typical trip.` }
 }

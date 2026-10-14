@@ -18,7 +18,8 @@ import ConfirmDialog from '../components/ConfirmDialog.vue'
 import { store, ensurePlan, runOptimise, applyAlternative, rateLimited, queueOp, unqueue, clearQueue, applyQueue, restorePrevious, explain } from '../store.js'
 import { mustVisitRemovals } from '../lib/replan.js'
 import { isInfeasible } from '../lib/rules.js'
-import { formatJpy, formatMoney, humanMinutes, UNKNOWN } from '../lib/format.js'
+import { formatMoney, humanMinutes, UNKNOWN } from '../lib/format.js'
+import { money } from '../lib/money.js'
 
 const router = useRouter()
 const resp = computed(() => store.plan)
@@ -79,9 +80,9 @@ const replan = computed(() => store.lastReplan)
           <div class="row g-3 text-center text-md-start">
             <div class="col-6 col-md-3"><div class="muted small">Sights scheduled</div><div class="kpi" data-testid="kpi-sights">{{ t.attractions_scheduled }}</div></div>
             <div class="col-6 col-md-3"><div class="muted small">Travel time</div><div class="kpi">{{ humanMinutes(t.travel_minutes) }}</div></div>
-            <div class="col-6 col-md-3"><div class="muted small">Admissions</div><div class="kpi">{{ formatJpy(t.admissions_jpy) }}</div>
+            <div class="col-6 col-md-3"><div class="muted small">Admissions</div><div class="kpi">{{ money(t.admissions_jpy) }}</div>
               <div v-if="t.unknown_cost_items.length" class="small" style="color: var(--amber)">+ {{ t.unknown_cost_items.length }} unknown price(s), not included</div></div>
-            <div class="col-6 col-md-3"><div class="muted small">Transport <span class="badge-src badge-estimated">estimated</span></div><div class="kpi">{{ formatJpy(t.transport_jpy) }}</div></div>
+            <div class="col-6 col-md-3"><div class="muted small">Transport <span class="badge-src badge-estimated">estimated</span></div><div class="kpi">{{ money(t.transport_jpy) }}</div></div>
           </div>
           <p class="mt-3 mb-0 small muted">
             Sights + transport: <strong>{{ formatMoney(t.total_jpy, store.fx) }}</strong>. Rooms are not included here ({{ resp.nights_used }} night(s), {{ resp.nights_source }}); see the hotel comparison.

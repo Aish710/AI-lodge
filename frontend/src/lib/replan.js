@@ -4,7 +4,7 @@
 //  * confirm_remove_must_visit is true ONLY when the user explicitly confirmed in the dialog, and NEVER on the natural-language path
 import daypart from './daypart.json'
 import limits from './limits.json'
-import { formatJpy } from './format.js'
+import { formatLocalMoney } from './format.js'
 
 export const MAX_OPS = limits.max_replan_operations
 export const DAY_PARTS = Object.fromEntries(Object.entries(daypart).filter(([k]) => k !== 'note'))
@@ -30,14 +30,14 @@ export function removeOpAt(queue, index) {
   return queue.filter((_, i) => i !== index)
 }
 
-export function describeOp(op, placesById, hotelsById) {
+export function describeOp(op, placesById, hotelsById, currency = 'JPY') {
   const name = (id) => placesById[id]?.name ?? id
   switch (op.op) {
     case 'lock': return `Lock ${name(op.attraction_id)} on day ${op.day} at ${op.start_time}`
     case 'move': return `Move ${name(op.attraction_id)} to day ${op.day} at ${op.start_time}`
     case 'unlock': return `Unlock ${name(op.attraction_id)}`
     case 'remove': return `Remove ${name(op.attraction_id)}`
-    case 'change_budget': return op.budget === null || op.budget === undefined ? 'Remove the budget' : `Set the budget to ${formatJpy(op.budget)} (${op.strict ? 'strict limit' : 'soft target'})`
+    case 'change_budget': return op.budget === null || op.budget === undefined ? 'Remove the budget' : `Set the budget to ${formatLocalMoney(op.budget, currency)} (${op.strict ? 'strict limit' : 'soft target'})`
     case 'switch_hotel': return `Switch hotel to ${hotelsById[op.hotel_id]?.name ?? op.hotel_id}`
     default: return String(op.op)
   }

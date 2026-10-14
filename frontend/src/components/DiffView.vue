@@ -4,13 +4,14 @@
 import { computed } from 'vue'
 import FeasibilityReport from './FeasibilityReport.vue'
 import { diffRows, trueCostCaveat } from '../lib/replan.js'
-import { formatJpy, minutesToHm } from '../lib/format.js'
+import { minutesToHm } from '../lib/format.js'
+import { money } from '../lib/money.js'
 const props = defineProps({ result: { type: Object, required: true }, placesById: { type: Object, default: () => ({}) } })
 const diff = computed(() => props.result.diff)
 const rows = computed(() => diffRows(diff.value))
 const caveat = computed(() => trueCostCaveat(diff.value))
-const show = (r, v) => (r.unit === 'min' ? minutesToHm(v) : formatJpy(v))
-const signed = (r) => (r.delta === 0 ? '0' : `${r.delta > 0 ? '+' : '−'}${r.unit === 'min' ? minutesToHm(Math.abs(r.delta)) : formatJpy(Math.abs(r.delta))}`)
+const show = (r, v) => (r.unit === 'min' ? minutesToHm(v) : money(v))
+const signed = (r) => (r.delta === 0 ? '0' : `${r.delta > 0 ? '+' : '−'}${r.unit === 'min' ? minutesToHm(Math.abs(r.delta)) : money(Math.abs(r.delta))}`)
 const dayTime = (day, start) => `day ${day}, ${start}`
 </script>
 <template>
@@ -68,7 +69,7 @@ const dayTime = (day, start) => `day ${day}, ${start}`
       <p class="small mb-1">Newly left out: <strong>{{ diff.newly_missed.length ? diff.newly_missed.join(', ') : 'none' }}</strong>. Back in the plan: <strong>{{ diff.no_longer_missed.length ? diff.no_longer_missed.join(', ') : 'none' }}</strong>.</p>
     </div>
     <p class="small mb-3" data-testid="diff-disruption">
-      Disruption: <strong>{{ diff.disruption_count }}</strong> activities moved without you asking, at {{ formatJpy(diff.disruption_jpy_per_move) }} per move = {{ formatJpy(diff.disruption_cost_jpy) }}
+      Disruption: <strong>{{ diff.disruption_count }}</strong> activities moved without you asking, at {{ money(diff.disruption_jpy_per_move) }} per move = {{ money(diff.disruption_cost_jpy) }}
       (informational, not part of true cost). A shift of {{ diff.move_threshold_minutes }} minutes or less does not count.
     </p>
     <FeasibilityReport :report="result.feasibility_report" />

@@ -108,3 +108,15 @@ def test_a_schedule_from_another_city_is_rejected_and_names_the_city(client, a, 
         err = r.json()["error"]
         assert err["code"] == "invalid_schedule"
         assert DATASETS[b].city.display_name in str(err["details"])
+
+
+@pytest.mark.parametrize("a,b", PAIRS)
+def test_foreign_must_visit_and_skip_ids_are_rejected_on_every_route_that_takes_preferences(client, a, b):
+    foreign = _attraction(b)
+    plan = _plan(client, a)["result"]
+    for field in ("must_visit", "skip"):
+        prefs = _prefs(a, **{field: [foreign]})
+        bodies = [("/optimise", {"hotel_id": _hotel(a)}), ("/compare-hotels", {"hotel_ids": list(DATASETS[a].hotels)[:2]}),
+                  ("/replan", {"current_result": plan, "operations": []}), ("/parse-replan", {"text": "x", "current_result": plan})]
+        for route, extra in bodies:
+            _check_wrong_city(client.post(route, json={"city_id": a, "preferences": prefs, **extra}), foreign, b)

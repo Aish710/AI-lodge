@@ -338,3 +338,25 @@ No other test was touched.
 
 **Known gap found**
 - Server sentences (for example the hotel-comparison insight) print amounts labelled "JPY" for every city, so a Seoul trip says "100,000 JPY cheaper". The solver's cost lines are in the city's own units; only the label is wrong. Part 3 (currency precision) covers it. SAFETY_LOG row 91 corrected accordingly.
+
+## Phase 9c: foreign must_visit / skip ids rejected (2026-10-14, owner-approved)
+
+- Behaviour: a `must_visit` or `skip` id that belongs to another city is rejected with 422 `wrong_city` (naming the id and its real city) on `/optimise`, `/compare-hotels`, `/replan` and `/parse-replan`.
+- **One existing assertion changed, with the owner's approval.** `tests/test_city_packs.py::test_cross_city_ids_are_rejected_by_optimise_and_replan`, first request (Tokyo city, Seoul must-visit `gyeongbokgung`):
+  - before: `status_code == 200` and `result.status == "infeasible"`
+  - after: `status_code == 422` and `error.code == "wrong_city"`
+  - why: the old behaviour silently solved a request that mixed two cities and reported it as an infeasible trip; the one-trip-one-city rule requires an explicit error. The second half of that test (a Seoul schedule sent to Tokyo's `/replan` is `invalid_schedule`) is untouched and still passes: on the replan routes the preference-id check runs after the schedule's own structure is validated and before the validator (`after_structure` hook in `app/untrusted.py`).
+- New test: `test_foreign_must_visit_and_skip_ids_are_rejected_on_every_route_that_takes_preferences` (12 city pairs x 2 fields x 4 routes).
+
+## Phase 9c: currency labels and the clean-clone guard (2026-10-14)
+
+**Currency label bug (found in the Seoul screenshot: "100,000 JPY cheaper" for a KRW trip)**
+- New `backend/app/money.py` is the only place server sentences print amounts: the selected city's own code after the number ("1,500 JPY", "135,000 KRW"), `per_hour` ("1,000 JPY/h") and the labelled display conversion ("about S$14 at the SAMPLE rate"; "USD 99" for cities displayed in dollars). Routed through it: hotel insight, flip summary and warnings, validator budget checks, solver conflicts and notes, replan summary/diff warnings/operation descriptions, and the template explanations (`llm/explain.py`).
+- Frontend: Itinerary, day timeline, diff view and not-scheduled panel were printing a hardcoded yen sign for every city; they now use `lib/money.js` (the selected city's currency). A parsed budget draft is kept in the city's currency (it was silently set to JPY). The grounding checker's unit list now includes KRW, won, MYR, ringgit, CNY, yuan, RMB, USD.
+- Format decision: server sentences keep the existing "1,500 JPY" shape (code after the number) because an existing test pins "33,000 JPY"; the UI keeps the symbols (¥, ₩, S$, RM) and prints CNY as "CNY 1,500". The requested "JPY 1,500" style for the UI would change about 15 existing frontend assertions; held for the owner's decision.
+- A regression introduced and caught during this work: grouping digits turned "0-1000" into "0-1,000" in the no-flip sentence (pinned by `test_no_flip_reported_when_one_hotel_dominates`); restored.
+- Tests: backend `test_currency_labels.py` (14; the old code fails 10 of them), frontend `currency.test.js` (7).
+
+**Clean-clone guard**
+- `scripts/check_tracked_imports.py` + `backend/tests/test_tracked_imports.py` (2 tests), `scripts/verify_clean_clone.sh` (npm script `verify:clean-clone`). Verified to fail when the original `lib/` ignore rule is restored. The list of files it checks is `docs/import-check-files.txt` (generated).
+- First real run: backend 381 passed after the fix above, Vitest and `npm run build` passed from the clean clone.

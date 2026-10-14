@@ -352,7 +352,7 @@ export async function runParse(text) {
     const r = await api.parseText(text, Number(store.form.startWeekday), store.cityId)
     store.parseResult = r
     if (r.draft) {
-      const next = formFromDraft(r.draft, store.form)
+      const next = formFromDraft(r.draft, store.form, store.city?.currency_code)
       store.form = next.form
       store.wishlist = next.wishlist
     }

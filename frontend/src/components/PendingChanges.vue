@@ -2,6 +2,7 @@
 // The pending-changes tray: operations queue up here and go to /replan in ONE call when the user clicks "Apply changes".
 import { computed, ref } from 'vue'
 import { describeOp, MAX_OPS } from '../lib/replan.js'
+import { cityCurrency } from '../lib/money.js'
 const props = defineProps({ queue: { type: Array, required: true }, placesById: { type: Object, required: true }, hotelsById: { type: Object, required: true },
   hotelChoices: { type: Array, default: () => [] }, currentHotel: { type: String, default: null }, busy: Boolean, disabled: Boolean, error: { type: String, default: null }, budgetNow: { type: Number, default: null } })
 const emit = defineEmits(['remove', 'clear', 'apply', 'op'])
@@ -21,8 +22,8 @@ function queueHotel() { if (hotel.value) { emit('op', { op: 'switch_hotel', hote
       <p class="mb-1">This is exactly what will be sent to the planner:</p>
       <ol class="mb-2" data-testid="pending-list">
         <li v-for="(o, i) in queue" :key="i" class="mb-1">
-          {{ describeOp(o, placesById, hotelsById) }}
-          <button type="button" class="btn btn-sm btn-link p-0 ms-2" :aria-label="`Remove from queue: ${describeOp(o, placesById, hotelsById)}`" @click="emit('remove', i)" data-testid="unqueue">remove</button>
+          {{ describeOp(o, placesById, hotelsById, cityCurrency()) }}
+          <button type="button" class="btn btn-sm btn-link p-0 ms-2" :aria-label="`Remove from queue: ${describeOp(o, placesById, hotelsById, cityCurrency())}`" @click="emit('remove', i)" data-testid="unqueue">remove</button>
         </li>
       </ol>
     </template>
@@ -35,7 +36,7 @@ function queueHotel() { if (hotel.value) { emit('op', { op: 'switch_hotel', hote
       <summary class="fw-semibold">More changes: budget and hotel</summary>
       <div class="row g-3 mt-1">
         <form class="col-12 col-md-6" @submit.prevent="queueBudget" aria-label="Change budget">
-          <label class="form-label" for="pc-budget">Budget for sights and transport (JPY)</label>
+          <label class="form-label" for="pc-budget">Budget for sights and transport ({{ cityCurrency() }})</label>
           <div class="input-group"><input id="pc-budget" class="form-control" type="number" min="0" v-model="budget" /><button class="btn btn-outline-secondary" type="submit" :disabled="!budgetOk">Queue</button></div>
           <div class="form-check mt-1"><input id="pc-strict" class="form-check-input" type="checkbox" v-model="strict" /><label class="form-check-label" for="pc-strict">Strict limit (never exceed)</label></div>
         </form>

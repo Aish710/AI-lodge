@@ -14,6 +14,7 @@ export function formatLocalMoney(n, currency = 'JPY') {
   if (currency === 'SGD') return `S$${rounded}`
   if (currency === 'MYR') return `RM${rounded}`
   if (currency === 'USD') return `$${rounded}`
+  if (currency === 'CNY') return `CNY ${rounded}`  // never the bare symbol: ¥ is also the yen's, so the code is printed
   return `${rounded} ${currency}`
 }
 

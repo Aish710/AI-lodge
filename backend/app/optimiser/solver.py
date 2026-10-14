@@ -25,6 +25,7 @@ from dataclasses import dataclass, field
 from ortools.sat.python import cp_model
 
 from app import config
+from app.money import money
 from app.data.loader import Dataset, travel_fare, travel_minutes, unknown_price_placeholder
 from app.optimiser.schedule import assemble, fmt, fmt_duration, required_ids, weekday_of
 from app.schemas import (
@@ -187,7 +188,7 @@ def _precheck(c: _Ctx) -> list[Conflict]:
             adm = sum(ds.attractions[a].admission_cost or 0 for a in req)
             fare = sum(min_in(a, travel_fare) for a in req) + min(travel_fare(ds, a, c.hotel_id) for a in others)
             if adm + fare > p.budget:
-                out.append(Conflict(code="budget_too_low", message=f"Cost of must-visits exceeds the strict budget by at least {adm + fare - p.budget} JPY (admissions {adm} + minimum estimated transport {fare} vs budget {p.budget}).", attraction_ids=req))
+                out.append(Conflict(code="budget_too_low", message=f"Cost of must-visits exceeds the strict budget by at least {money(adm + fare - p.budget, ds)} (admissions {adm:,} + minimum estimated transport {fare:,} vs budget {p.budget:,}).", attraction_ids=req))
     # Locked activities on the same day must be reachable from each other.
     by_day: dict[int, list[tuple[int, str]]] = {}
     for a, (ld, ls) in c.locked.items():
@@ -377,7 +378,7 @@ def solve(prefs: Preferences, hotel_id: str, ds: Dataset, *, with_alternatives: 
         if totals.unknown_cost_items:
             notes.append("Prices unknown for " + ", ".join(totals.unknown_cost_items) + ": excluded from total (unknown).")
         if prefs.budget is not None and not prefs.strict_budget and totals.total_jpy > prefs.budget:
-            notes.append(f"Budget (soft) exceeded by {totals.total_jpy - prefs.budget} JPY.")
+            notes.append(f"Budget (soft) exceeded by {money(totals.total_jpy - prefs.budget, ds)}.")
         notes.append("max_walking_minutes_per_day is not enforced in this version.")
         scheduled = {s.attraction_id for dp in days for s in dp.stops}
         eligible = [a for a in c.candidates if a not in c.required and any(_ranges(c, a, d) for d in range(c.D))]
