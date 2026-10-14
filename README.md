@@ -18,7 +18,7 @@ The optimisation engine makes the planning decisions. The LLM interprets natural
 - Itinerary optimisation with must-visits, skips, pace, budget, day window, locked activities, unknown-hour controls, and labelled approximate results.
 - Replanning that queues edits, requires confirmation before removing a must-visit, and shows an explicit diff.
 - Independent feasibility report for opening hours, travel gaps, overlaps, budget, locks, must-visits, and data-quality warnings.
-- Evidence page generated from repository artifacts, including evaluation, hardening, test summaries, and safety risks.
+- Proof page generated from repository artifacts, including evaluation, hardening, test summaries, and safety risks.
 - Keyboard-accessible controls and equivalent list information for the map itinerary.
 
 Screenshots and demo recording live in `docs/screenshots/` after running `cd frontend && node scripts/take-screenshots.mjs`.

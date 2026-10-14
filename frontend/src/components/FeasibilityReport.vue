@@ -1,8 +1,12 @@
 <script setup>
 // The independent validator's checks. A failing check is shown as a failure with text AND an icon, never as OK, and the panel is
 // open by default whenever anything is not "pass".
+import { computed } from 'vue'
 import { checkIcon, checkLabel, overallLabel } from '../lib/rules.js'
-defineProps({ report: { type: Object, required: true } })
+import { topWarnings } from '../lib/band.js'
+const props = defineProps({ report: { type: Object, required: true } })
+const warnings = computed(() => topWarnings(props.report.data_quality_warnings))
+const failed = computed(() => props.report.checks.filter((c) => c.status === 'fail'))
 </script>
 <template>
   <section class="card-soft" data-testid="feasibility-report" aria-labelledby="fr-h">
@@ -13,6 +17,9 @@ defineProps({ report: { type: Object, required: true } })
       </span>
     </h2>
     <p class="mb-2" data-testid="report-summary">{{ report.summary }}</p>
+    <ul v-if="failed.length" class="list-unstyled mb-2" data-testid="failed-checks">
+      <li v-for="c in failed" :key="c.id" class="text-danger fw-semibold"><span aria-hidden="true">✕</span> Fail: {{ c.name }}. {{ c.message }}</li>
+    </ul>
     <details :open="report.overall !== 'pass'">
       <summary class="fw-semibold">All {{ report.checks.length }} checks</summary>
       <ul class="list-unstyled mt-2 mb-0">
@@ -26,7 +33,8 @@ defineProps({ report: { type: Object, required: true } })
     </details>
     <div v-if="report.data_quality_warnings?.length" class="mt-3" data-testid="dq-warnings">
       <h3 class="h6">Data-quality warnings</h3>
-      <ul class="mb-0"><li v-for="w in report.data_quality_warnings" :key="w">{{ w }}</li></ul>
+      <ul class="mb-0"><li v-for="w in warnings.shown" :key="w">{{ w }}</li></ul>
+      <details v-if="warnings.more.length" class="mt-1"><summary>Show {{ warnings.more.length }} more</summary><ul class="mb-0 mt-1"><li v-for="w in warnings.more" :key="w">{{ w }}</li></ul></details>
     </div>
   </section>
 </template>

@@ -1,15 +1,18 @@
 <script setup>
+import { computed } from 'vue'
 import { PROJECT_NAME, REPO_URL } from '../brand.js'
+import { store } from '../store.js'
+const cityNames = computed(() => (store.cities.length ? store.cities.map((c) => c.display_name).join(', ') : 'several sample cities'))
 </script>
 <template>
   <div class="stack">
-    <div><h1>About {{ PROJECT_NAME }}</h1>
-      <p class="muted mb-0">Fitinerary plans Tokyo trips by choosing the hotel and the itinerary together, then showing its working.</p></div>
+    <div><h1>How {{ PROJECT_NAME }} works</h1>
+      <p class="muted mb-0">{{ PROJECT_NAME }} plans a trip to one city at a time ({{ cityNames }}) by choosing the hotel and the itinerary together, then showing its working.</p></div>
 
     <section class="card-soft" aria-labelledby="what-h">
       <h2 id="what-h" class="h5">What it is</h2>
       <p class="mb-2">Hotels that look cheap can cost more once travel time and fares are counted. The app plans the days around each hotel, then compares hotels by <strong>true cost</strong>: rooms + admissions + estimated transport + travel time valued at what an hour of your time is worth + a charge for each optional sight left out. Every line of that calculation is shown.</p>
-      <p class="mb-0">It is a hackathon project built on <strong>sample data</strong>: 12 Tokyo attractions, 3 fictional hotels, and prices, hours and travel times that are samples or estimates. It gives no live quotes and makes no bookings.</p>
+      <p class="mb-0">It is a hackathon project built on <strong>sample data</strong>: 10 to 12 sights and 3 made-up demo hotels per city, with prices, hours and travel times that are samples or estimates. It gives no live quotes and makes no bookings.</p>
     </section>
 
     <section class="card-soft" aria-labelledby="arch-h" data-testid="architecture">
@@ -39,8 +42,8 @@ import { PROJECT_NAME, REPO_URL } from '../brand.js'
         <figcaption class="small muted">Boxes in blue and green are the parts that matter most: the AI never decides the schedule; the optimiser does, and the validator checks it.</figcaption>
       </figure>
       <ol class="mb-0">
-        <li>Your text or form is cleaned. Text is wrapped as data, never mixed into the AI's instructions.</li>
-        <li>The AI assistant (only if configured and available) turns words into a draft you can edit, or into a proposed change you can accept or discard. Names are matched against the dataset; a place that is not in it cannot be scheduled.</li>
+        <li>Your text or form is cleaned. Text is wrapped as data, never mixed into the AI's instructions. One trip covers one city: every request carries it, and a place or hotel from another city is refused.</li>
+        <li>The AI assistant (only if configured and available) turns words into a draft you can edit, or into a proposed change you can accept or discard. Names are matched against the selected city's data; a place that is not in it cannot be scheduled. A request about another city is caught by code (not by the AI) and only offers a switch.</li>
         <li>The optimiser (a constraint solver) builds the best feasible itinerary for each hotel and reports a specific conflict if the request is impossible.</li>
         <li>An independently written validator re-checks every hard rule on the result and reports pass, warning or fail.</li>
         <li>If you ask, the AI writes a short explanation of the computed result. Every number in it is checked against the computed facts; if anything does not match, a template summary is shown instead.</li>
@@ -62,9 +65,10 @@ import { PROJECT_NAME, REPO_URL } from '../brand.js'
     <section class="card-soft" aria-labelledby="lim-h">
       <h2 id="lim-h" class="h5">Limitations</h2>
       <ul class="mb-0">
-        <li>Sample data only: 12 attractions, 3 fictional hotels, estimated prices, hours and travel times (straight-line distance, not real transit). Unknown prices and hours are shown as "unknown" and never assumed.</li>
-        <li>No bookings, no live availability, no walking-distance limit yet.</li>
-        <li>Measured results come from seeded synthetic trips, not from users. See the <router-link to="/evidence">Evidence page</router-link> for what was measured and what it does not show.</li>
+        <li>Sample data only: made-up demo hotels, estimated prices, hours and travel times (straight-line distance, not real transit). Unknown prices and hours are shown as "unknown" and never assumed. No bookings, no live availability, no walking-distance limit yet.</li>
+        <li>Measured results come from seeded synthetic trips, not from users. See the <router-link to="/proof">Proof page</router-link> for what was measured and what it does not show.</li>
+        <li>Detecting an unsupported city depends on the AI reporting it; with no AI, names that aren't in the selected city's data are reported as not found.</li>
+        <li>How well the AI reads real requests has not been measured yet: that evaluation is opt-in and has not been run.</li>
         <li>On a free host the server sleeps when idle, so the first request can take about a minute.</li>
       </ul>
     </section>

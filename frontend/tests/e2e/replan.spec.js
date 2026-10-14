@@ -132,16 +132,16 @@ test('explanations are opt-in; in sample mode they are a template summary with t
   expect(calls.at(-1).explain).toBe(true)
 })
 
-test('evidence page renders the real generated data; example label and note are honest; 404 and About work', async ({ page }) => {
+test('proof page renders the real generated data; example label and note are honest; 404 and How it works work', async ({ page }) => {
   const problems = watchConsole(page)
   await page.goto('/')
   await expect(page.getByTestId('load-example')).toContainText('high value of time')
   await expect(page.getByTestId('load-example')).toContainText('¥3,000')
   await expect(page.getByTestId('example-note')).toContainText('not typical')
-  await page.getByTestId('example-note').getByRole('link', { name: 'Evidence page' }).click()
-  await expect(page).toHaveURL(/\/evidence#hotel-value$/)
+  await page.getByTestId('example-note').getByRole('link', { name: 'Proof page' }).click()
+  await expect(page).toHaveURL(/\/proof#hotel-value$/)
   await expect(page.getByTestId('hotel-value')).toBeInViewport()
-  await expect(page.getByTestId('evidence-meta')).toContainText('Code version')
+  await expect(page.getByTestId('proof-meta')).toContainText('Code version')
   await expect(page.locator('[data-testid^=scn-]')).toHaveCount(15)
   await expect(page.getByTestId('read-first')).toContainText('Small comparable subset')
   await expect(page.getByTestId('not-shown')).toContainText('No significance testing')
@@ -150,7 +150,7 @@ test('evidence page renders the real generated data; example label and note are 
   await page.getByTestId('toggle-risks').click()
   expect(await page.locator('[data-testid=risk-table] tbody tr').count()).toBeGreaterThanOrEqual(74)
 
-  await page.goto('/about')
+  await page.goto('/how-it-works')
   await expect(page.getByTestId('architecture').locator('svg')).toBeVisible()
   await expect(page.getByTestId('privacy')).toContainText('Place descriptions are never sent')
   await page.goto('/no-such-page')
@@ -171,7 +171,7 @@ test('no request leaves the machine except map tiles, and nothing is written to 
   page.on('request', (r) => { const u = new URL(r.url()); if (!['localhost'].includes(u.hostname)) hosts.add(u.hostname) })
   await toItinerary(page)
   await page.getByTestId('explain-button').first().click()
-  await page.goto('/evidence')
+  await page.goto('/proof')
   expect([...hosts].sort()).toEqual(['tile.openstreetmap.org'])
   const stored = await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length, cookies: document.cookie }))
   expect(stored).toEqual({ local: 0, session: 0, cookies: '' })

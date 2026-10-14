@@ -6,16 +6,36 @@ export function formatJpy(n) {
   return missing(n) ? UNKNOWN : `¥${Math.round(n).toLocaleString('en-US')}`
 }
 
+// Currency symbols. RULE: a symbol is printed only if it is unique among the currencies of ALL supported cities; a shared symbol
+// (the yen sign is both JPY and CNY) prints the ISO code instead ("JPY 1,500", "CNY 1,500"). A currency with no known symbol prints
+// "1,500 XYZ". The supported set is registered from /data/cities (see the store); the default is the cities that ship today.
+const SYMBOLS = { JPY: '¥', CNY: '¥', KRW: '₩', SGD: 'S$', MYR: 'RM', USD: '$' }
+let supported = new Set(['JPY', 'KRW', 'SGD', 'MYR'])
+
+/** Replace the registered currencies (the codes of every supported city). Returns a function that restores the previous set. */
+export function setSupportedCurrencies(codes) {
+  const before = supported
+  supported = new Set(codes.filter(Boolean))
+  return () => { supported = before }
+}
+
+/** The symbol to print, `null` when it would be shared (print the code), `undefined` when the currency has no known symbol. */
+export function symbolFor(code) {
+  const sym = SYMBOLS[code]
+  if (!sym) return undefined
+  const sharedWith = [...supported, code].some((c) => c !== code && SYMBOLS[c] === sym)
+  return sharedWith ? null : sym
+}
+
+function withCurrency(text, code) {
+  const sym = symbolFor(code)
+  if (sym === undefined) return `${text} ${code}`
+  return sym === null ? `${code} ${text}` : `${sym}${text}`
+}
+
 export function formatLocalMoney(n, currency = 'JPY') {
   if (missing(n)) return UNKNOWN
-  const rounded = Math.round(n).toLocaleString('en-US')
-  if (currency === 'JPY') return `¥${rounded}`
-  if (currency === 'KRW') return `₩${rounded}`
-  if (currency === 'SGD') return `S$${rounded}`
-  if (currency === 'MYR') return `RM${rounded}`
-  if (currency === 'USD') return `$${rounded}`
-  if (currency === 'CNY') return `CNY ${rounded}`  // never the bare symbol: ¥ is also the yen's, so the code is printed
-  return `${rounded} ${currency}`
+  return withCurrency(Math.round(n).toLocaleString('en-US'), currency)
 }
 
 export function formatDisplayMoney(local, city) {
@@ -23,10 +43,8 @@ export function formatDisplayMoney(local, city) {
   const rate = city?.sample_fx_to_display_currency ?? city?.display_fx?.rate
   const cur = city?.display_currency_code
   if (!rate || !cur) return UNKNOWN
-  const value = local * rate
-  if (cur === 'USD') return `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-  if (cur === 'SGD') return `S$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-  return `${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${cur}`
+  const value = (local * rate).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  return withCurrency(value, cur)
 }
 
 export function jpyToSgd(jpy, jpyPerSgd) {

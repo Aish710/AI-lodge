@@ -19,7 +19,7 @@ JS_DIRS = ["frontend/src", "frontend/scripts", "frontend/tests", "frontend/playw
 PY_DIRS = ["backend/app", "backend/scripts", "backend/tests"]
 SOURCE_FOLDERS = ["frontend/src", "frontend/scripts", "frontend/tests", "frontend/public", "backend/app", "backend/scripts", "backend/tests", "scripts", "docs"]
 # generated on purpose, never imported by source (fetched at runtime or rebuilt by a script): allowed to be git-ignored
-ALLOWED_IGNORED = ("frontend/public/evidence-data", "__pycache__", ".pytest_cache", "node_modules", ".DS_Store", "frontend/tests/e2e/pw-artifacts")
+ALLOWED_IGNORED = ("frontend/public/proof-data", "__pycache__", ".pytest_cache", "node_modules", ".DS_Store", "frontend/tests/e2e/pw-artifacts")
 JS_EXT = ["", ".js", ".mjs", ".vue", ".json", ".css", "/index.js"]
 JS_IMPORT = re.compile(r"""(?:import\s+(?:[^'"]*?\s+from\s+)?|import\(\s*|require\(\s*|export\s+[^'"]*?\s+from\s+)['"]([^'"]+)['"]""")
 

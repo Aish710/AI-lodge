@@ -1,16 +1,8 @@
 {
-  "repeat": 3,
+  "repeat": 1,
   "diagnostics": [
     {
       "run": 1,
-      "status": "pass"
-    },
-    {
-      "run": 2,
-      "status": "pass"
-    },
-    {
-      "run": 3,
       "status": "pass"
     }
   ]

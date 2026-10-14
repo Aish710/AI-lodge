@@ -13,7 +13,7 @@ from typing import Annotated, Literal, Union
 from pydantic import BaseModel, ConfigDict, Field
 
 from app import config
-from app.money import money
+from app.money import missed_preference_penalty, money
 from app.data.loader import Dataset, unknown_price_placeholder
 from app.optimiser.hotel_compare import CostBreakdown, _breakdown
 from app.optimiser.schedule import fmt
@@ -357,10 +357,10 @@ def replan(prefs: Preferences, current: SolveResult, ops: list, ds: Dataset, *, 
     nights, nights_src = nights_for(new_prefs)
 
     reference = ()
-    spec = ObjectiveSpec("true_cost", new_prefs.value_of_time_per_hour, config.MISSED_PREFERENCE_PENALTY_JPY)
+    spec = ObjectiveSpec("true_cost", new_prefs.value_of_time_per_hour, missed_preference_penalty(ds))
     if strategy == "disruption_aware":
         reference = tuple((aid, d - 1, s) for aid, (d, s, _) in _positions(current).items() if aid not in removed_by_user)
-        spec = ObjectiveSpec("true_cost", new_prefs.value_of_time_per_hour, config.MISSED_PREFERENCE_PENALTY_JPY,
+        spec = ObjectiveSpec("true_cost", new_prefs.value_of_time_per_hour, missed_preference_penalty(ds),
                              disruption_jpy=config.W_DISRUPTION, move_threshold_min=config.MOVE_THRESHOLD_MINUTES, reference=reference)
     res = solve(new_prefs, new_hotel, ds, with_alternatives=False,
                 max_seconds=max_seconds or config.REPLAN_TIME_LIMIT_SECONDS, objective=spec)

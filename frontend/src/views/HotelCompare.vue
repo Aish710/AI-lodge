@@ -7,6 +7,9 @@ import SettingsSummaryStrip from '../components/SettingsSummaryStrip.vue'
 import SourceBadge from '../components/SourceBadge.vue'
 import ExplainBlock from '../components/ExplainBlock.vue'
 import Skeleton from '../components/Skeleton.vue'
+import Hint from '../components/Hint.vue'
+import HowMade from '../components/HowMade.vue'
+import { hotelVerdict, topWarnings } from '../lib/band.js'
 import { store, runCompare, ensureComparison, chooseHotel, rateLimited, currentPrefs, cancelSensitivity, explain } from '../store.js'
 import { hotelCallout } from '../lib/rules.js'
 import { formatDisplayMoney, formatLocalMoney, minutesToHm, UNKNOWN } from '../lib/format.js'
@@ -22,6 +25,8 @@ const display = (v) => formatDisplayMoney(v, store.city)
 // the server's summary sentences mention hotel ids; show names instead (numbers untouched)
 const pretty = (t) => ct(Object.entries(store.hotelsById).reduce((acc, [id, h]) => acc.split(id).join(h.name), t))
 const results = computed(() => comp.value?.results ?? [])
+const verdict = computed(() => hotelVerdict(comp.value, money))
+const warnings = computed(() => topWarnings((comp.value?.warnings ?? []).map(pretty)))
 const rank = (id) => comp.value?.ranking.find((r) => r.hotel_id === id)
 const isBest = (id) => comp.value?.best_by_true_cost === id
 const displayCost = (id) => comp.value?.display_values?.[id]?.true_cost
@@ -60,8 +65,8 @@ onBeforeUnmount(() => clearInterval(timer))
 <template>
   <div class="stack">
     <div>
-      <h1>Compare hotels by true cost</h1>
-      <p class="muted mb-0">True cost = rooms + admissions + estimated transport + travel time × the value you put on an hour + a charge for each optional sight left out.</p>
+      <h1>Compare hotels</h1>
+      <p class="muted mb-0">Ranked by true cost. <Hint text="True cost = rooms + admissions + estimated transport + your travel time, priced at what an hour is worth to you, + a charge for each optional sight left out. Every line is shown in the table." label="What is true cost?" /></p>
     </div>
     <SettingsSummaryStrip />
 
@@ -91,14 +96,16 @@ onBeforeUnmount(() => clearInterval(timer))
     <Skeleton v-if="store.busy.compare && !comp" :lines="6" height="1.2rem" />
 
     <template v-if="comp && !store.busy.compare">
+      <section v-if="verdict" class="card-soft" :class="`verdict-${verdict.kind}`" data-testid="verdict" aria-live="polite">
+        <div class="verdict">{{ verdict.headline }}</div>
+        <div class="verdict-detail">{{ verdict.detail }}</div>
+        <HowMade class="mt-2" :explained="store.explanations.compare?.source ?? null" />
+      </section>
       <div v-if="callout.kind === 'differs'" class="notice notice-good" role="status" data-testid="callout-differs">
         <span class="glyph" aria-hidden="true">✓</span>
-        <span><strong>{{ callout.text }}</strong> {{ hotelName(comp.cheapest_by_rate) }} has the lowest nightly rate, but {{ hotelName(comp.best_by_true_cost) }} has the lowest true cost.</span>
+        <span><strong>{{ callout.text }}</strong></span>
       </div>
-      <div v-else-if="callout.kind === 'same'" class="notice notice-info" role="status" data-testid="callout-same">
-        <span class="glyph" aria-hidden="true">i</span><span>{{ callout.text }} ({{ hotelName(comp.best_by_true_cost) }})</span>
-      </div>
-      <p v-if="comp.insight" class="mb-0" data-testid="insight">{{ pretty(comp.insight) }}</p>
+      <details v-if="comp.insight" class="small" data-testid="insight-details"><summary>Why?</summary><p class="mb-0 mt-1" data-testid="insight">{{ pretty(comp.insight) }}</p></details>
 
       <div class="notice notice-warn" v-if="comp.approximate || comp.partial" role="status" data-testid="approximate">
         <span class="glyph" aria-hidden="true">!</span>
@@ -164,13 +171,14 @@ onBeforeUnmount(() => clearInterval(timer))
 
       <ExplainBlock :explanation="store.explanations.compare" :busy="store.explaining === 'compare'" :disabled="rateLimited || !!store.explaining" :error="store.explainError" @explain="explain('compare')" />
       <section v-if="comp.warnings?.length" class="card-soft" aria-labelledby="warn-h" data-testid="warnings">
-        <h2 id="warn-h" class="h6">Warnings from the planner (verbatim)</h2>
-        <ul class="mb-0"><li v-for="w in comp.warnings" :key="w">{{ pretty(w) }}</li></ul>
+        <h2 id="warn-h" class="h6">Warnings from the planner</h2>
+        <ul class="mb-0"><li v-for="w in warnings.shown" :key="w">{{ w }}</li></ul>
+        <details v-if="warnings.more.length" class="mt-1"><summary>Show {{ warnings.more.length }} more</summary><ul class="mb-0 mt-1"><li v-for="w in warnings.more" :key="w">{{ w }}</li></ul></details>
       </section>
 
       <div v-if="store.busy.sensitivity && !comp.sensitivity" class="notice notice-info" role="status" aria-live="polite" data-testid="sens-progress">
         <span class="spinner" aria-hidden="true"></span>
-        <span class="flex-grow-1"><strong>The comparison above is ready.</strong> Now working out how the ranking changes with your value of time. This uses the solver capacity, so choosing a hotel is paused until it finishes or you cancel. This can take up to about 10 seconds or more on a slow server ({{ elapsed }} s so far).
+        <span class="flex-grow-1"><strong>Comparison ready.</strong> Checking how the ranking changes with your value of time… {{ elapsed }} s <Hint text="This uses the solver, so choosing a hotel is paused until it finishes or you cancel. It can take 10 seconds or more on a slow server." />
           <button type="button" class="btn btn-sm btn-outline-secondary ms-2" @click="cancelSensitivity" data-testid="cancel-sens">Cancel</button></span>
       </div>
       <div v-else-if="store.sensitivityCancelled && !comp.sensitivity" class="notice notice-warn" data-testid="sens-cancelled">
@@ -180,7 +188,7 @@ onBeforeUnmount(() => clearInterval(timer))
       </div>
       <section v-if="comp.sensitivity && grid.length" class="card-soft" aria-labelledby="vot-h" data-testid="sensitivity">
         <h2 id="vot-h" class="h5">What if your time is worth more or less?</h2>
-        <p class="muted small">This uses values the server already computed ({{ comp.sensitivity.solves }} solves); moving the slider sends no request.</p>
+        <p class="muted small">Uses values already computed ({{ comp.sensitivity.solves }} solves); the slider sends no request.</p>
         <label class="form-label" for="vot-grid">Value of time: <strong>{{ money(point.value_of_time_per_hour) }} / hour</strong></label>
         <input id="vot-grid" class="form-range" type="range" min="0" :max="grid.length - 1" step="1" v-model.number="gridIdx" :aria-valuetext="`${point.value_of_time_per_hour} ${store.city?.currency_code ?? 'local currency'} per hour`" />
         <div data-testid="vot-point">

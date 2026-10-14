@@ -2,7 +2,7 @@
 // Usage: node scripts/live-smoke.mjs <frontend_url> <backend_url>
 //   e.g. node scripts/live-smoke.mjs https://your-site.netlify.app https://your-api.onrender.com
 // Checks: backend wakes (cold start tolerated up to 150 s) and reports its mode; CORS allows exactly the frontend origin; the page loads with
-// no console errors; the example trip compares hotels and draws the map with tiles; the Evidence page is populated; no storage is written.
+// no console errors; the example trip compares hotels and draws the map with tiles; the Proof page is populated; no storage is written.
 import { chromium } from '@playwright/test'
 
 const [frontendArg, backendArg] = process.argv.slice(2)
@@ -63,11 +63,11 @@ try {
     check('map draws numbered pins', await page.locator('.leaflet-container .pin').first().waitFor({ timeout: 30_000 }).then(() => true).catch(() => false))
     await page.waitForFunction(() => document.querySelectorAll('.leaflet-tile-loaded').length > 0, null, { timeout: 30_000 }).then(() => check('map tiles load', failedTiles.length === 0, failedTiles.length ? `HTTP ${failedTiles[0]}` : '')).catch(() => check('map tiles load', false, 'no tile loaded'))
   }
-  await page.goto(`${frontend}/evidence`)
+  await page.goto(`${frontend}/proof`)
   await page.getByTestId('scn-15').waitFor({ timeout: 30_000 }).catch(() => {})
   const sc = await page.locator('[data-testid^=scn-]').count().catch(() => 0)
-  check('evidence page is populated (15 scenarios)', sc === 15, `${sc} rows`)
-  check('evidence shows its date and git hash', (await page.getByTestId('evidence-commit').innerText().catch(() => '')).length > 0)
+  check('proof page is populated (15 scenarios)', sc === 15, `${sc} rows`)
+  check('proof shows its date and git hash', (await page.getByTestId('proof-commit').innerText().catch(() => '')).length > 0)
   await page.goto(`${frontend}/no-such-page`)
   check('unknown route shows the 404 page (SPA rewrite works)', await page.getByTestId('not-found').isVisible().catch(() => false))
   const stored = await page.evaluate(() => localStorage.length + sessionStorage.length + document.cookie.length)

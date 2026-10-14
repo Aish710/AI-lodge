@@ -1,6 +1,6 @@
 // Lighthouse on the BUILT app (production build served by `vite preview` with a real backend in sample mode). Writes
 // docs/lighthouse-summary.json and docs/lighthouse-results.md. Scores are exactly what Lighthouse reports; nothing is adjusted.
-//   * home and evidence: full navigation audits (performance, accessibility, best practices), mobile preset, simulated throttling
+//   * home and proof: full navigation audits (performance, accessibility, best practices), mobile preset, simulated throttling
 //   * itinerary: the plan lives in memory only, so a fresh navigation would show the empty state. It is measured as a SNAPSHOT of the real
 //     page after the example flow (accessibility and best practices only: Lighthouse cannot measure performance for a snapshot).
 // Usage: node scripts/run-lighthouse.mjs      (starts its own servers on :8011 and :4181)
@@ -29,7 +29,7 @@ const score = (lhr, key) => (lhr.categories[key]?.score === null || lhr.categori
 const out = { generated: new Date().toISOString(), tool: 'lighthouse ' + (await import('lighthouse/package.json', { with: { type: 'json' } })).default.version, preset: 'mobile (default), simulated throttling', pages: [] }
 try {
   run('.venv/bin/uvicorn app.main:app --port 8011 --log-level warning', BACK, { RATE_LIMIT_EXPENSIVE_PER_MIN: '500', RATE_LIMIT_PER_MIN: '1000', RATE_LIMIT_CHEAP_PER_MIN: '5000', SOLVER_CONCURRENCY: '8', ALLOWED_ORIGINS: APP, LLM_API_KEY: '', LLM_MODEL: '' })
-  run(`node scripts/sync-evidence.mjs && VITE_API_BASE_URL=${API} npx vite build --outDir dist-lh && VITE_API_BASE_URL=${API} node scripts/write-host-config.mjs dist-lh && npx vite preview --outDir dist-lh --port 4181 --strictPort`, FRONT)
+  run(`node scripts/sync-proof.mjs && VITE_API_BASE_URL=${API} npx vite build --outDir dist-lh && VITE_API_BASE_URL=${API} node scripts/write-host-config.mjs dist-lh && npx vite preview --outDir dist-lh --port 4181 --strictPort`, FRONT)
   await waitFor(`${API}/health`)
   await waitFor(APP)
 
@@ -37,7 +37,7 @@ try {
   const browser = await puppeteer.connect({ browserURL: 'http://localhost:9334', defaultViewport: null })
   const flags = { logLevel: 'error', onlyCategories: ['performance', 'accessibility', 'best-practices'], port: 9334 }
 
-  for (const [name, path] of [['Home (create trip)', '/'], ['Evidence', '/evidence']]) {
+  for (const [name, path] of [['Home (create trip)', '/'], ['Proof', '/proof']]) {
     const page = await browser.newPage()
     const r = await lighthouse(APP + path, flags, undefined, page)
     const lhr = r.lhr

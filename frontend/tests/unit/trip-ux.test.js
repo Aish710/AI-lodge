@@ -37,7 +37,7 @@ function testRouter() {
       { path: '/', component: CreateTrip },
       { path: '/wishlist', component: Wishlist },
       { path: '/hotels', component: { template: '<SettingsSummaryStrip />', components: { SettingsSummaryStrip } } },
-      { path: '/evidence', component: { template: '<div />' } },
+      { path: '/proof', component: { template: '<div />' } },
     ],
   })
   return router

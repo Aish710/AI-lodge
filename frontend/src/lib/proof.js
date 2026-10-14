@@ -1,43 +1,46 @@
-// Loads the synced evidence files. If anything is missing the page says so; there are no placeholder numbers anywhere.
-import { parseClaims, parseRiskTable, playwrightSummary, sectionBullets, testSummary, vitestSummary } from './mdparse.js'
+// Loads the synced proof files. If anything is missing the page says so; there are no placeholder numbers anywhere.
+import { countUserTestRows, parseClaims, parseRiskTable, playwrightSummary, sectionBullets, testSummary, vitestSummary } from './mdparse.js'
 
-export const EVIDENCE_BASE = '/evidence-data/'   // not '/evidence/': that would collide with the /evidence page route on a static host
+export const PROOF_BASE = '/proof-data/'   // not '/proof/': that would collide with the /proof page route on a static host
 
 async function getText(fetchImpl, name) {
-  const r = await fetchImpl(EVIDENCE_BASE + name, { cache: 'no-store' })
+  const r = await fetchImpl(PROOF_BASE + name, { cache: 'no-store' })
   if (!r.ok) throw new Error(`${name}: HTTP ${r.status}`)
   return r.text()
 }
 
 /** @returns {Promise<{state:'unavailable', reason:string} | {state:'ready', manifest:object, data:object, missing:object[]}>} */
-export async function loadEvidence(fetchImpl = (...a) => fetch(...a)) {
+export async function loadProof(fetchImpl = (...a) => fetch(...a)) {
   let manifest
   try {
-    const r = await fetchImpl(EVIDENCE_BASE + 'manifest.json', { cache: 'no-store' })
+    const r = await fetchImpl(PROOF_BASE + 'manifest.json', { cache: 'no-store' })
     if (!r.ok) throw new Error(`HTTP ${r.status}`)
     manifest = await r.json()
     if (!Array.isArray(manifest?.copied)) throw new Error('manifest has no file list')
   } catch (e) {
-    return { state: 'unavailable', reason: `The evidence files are not part of this build (${e.message}). Run "npm run sync-evidence" after generating them, then build again.` }
+    return { state: 'unavailable', reason: `The proof files are not part of this build (${e.message}). Run "npm run sync-proof" after generating them, then build again.` }
   }
   const has = (n) => manifest.copied.includes(n)
   const text = async (n) => (has(n) ? getText(fetchImpl, n) : null)
   const json = async (n) => { const t = await text(n); return t === null ? null : JSON.parse(t) }
   try {
-    const [results, resultsMd, claimsMd, hardening, safety, backendTests, latestBackendTests, live, vitest, pw, lh] = await Promise.all([
+    const [results, resultsMd, claimsMd, hardening, safety, backendTests, latestBackendTests, live, vitest, pw, lh, utCsv, utSummary] = await Promise.all([
       json('eval-results.json'), text('eval-results.md'), text('README-claims.md'), text('hardening-results.md'), text('SAFETY_LOG.md'),
-      text('backend-tests-full.md'), text('backend-tests-latest.md'), text('llm-live-eval.md'), json('frontend-vitest.json'), json('frontend-playwright.json'), json('lighthouse-summary.json')])
+      text('backend-tests-full.md'), text('backend-tests-latest.md'), text('llm-live-eval.md'), json('frontend-vitest.json'), json('frontend-playwright.json'), json('lighthouse-summary.json'),
+      text('user-test-results.csv'), text('user-test-summary.md')])
     return { state: 'ready', manifest, missing: manifest.missing ?? [], data: {
       results, claims: claimsMd ? parseClaims(claimsMd) : null, notShown: resultsMd ? sectionBullets(resultsMd, 'WHAT THESE NUMBERS DO NOT SHOW') : null,
       hardeningMd: hardening, risks: safety ? parseRiskTable(safety) : null, live,
       tests: { backend: backendTests ? testSummary(backendTests) : null, backendLatest: latestBackendTests ? testSummary(latestBackendTests) : null,
-        vitest: vitestSummary(vitest), playwright: playwrightSummary(pw) }, lighthouse: lh } }
+        vitest: vitestSummary(vitest), playwright: playwrightSummary(pw) }, lighthouse: lh,
+      // the card is shown with results ONLY when the CSV has participant rows; otherwise it says "not run yet"
+      userTest: { rows: utCsv ? countUserTestRows(utCsv) : 0, summary: utSummary } } }
   } catch (e) {
-    return { state: 'unavailable', reason: `An evidence file could not be read (${e.message}).` }
+    return { state: 'unavailable', reason: `A proof file could not be read (${e.message}).` }
   }
 }
 
-// ---- derived "read this first" notes. Every number comes from the evidence JSON; the thresholds below are judgement calls. ----
+// ---- derived "read this first" notes. Every number comes from the proof JSON; the thresholds below are judgement calls. ----
 export const THRESHOLDS = { smallSubsetShare: 0.5, tieShare: 0.25, rareEffectShare: 0.25 }
 
 export function readThisFirst(metrics, n) {

@@ -120,3 +120,29 @@ def test_foreign_must_visit_and_skip_ids_are_rejected_on_every_route_that_takes_
                   ("/replan", {"current_result": plan, "operations": []}), ("/parse-replan", {"text": "x", "current_result": plan})]
         for route, extra in bodies:
             _check_wrong_city(client.post(route, json={"city_id": a, "preferences": prefs, **extra}), foreign, b)
+
+
+@pytest.mark.parametrize("city", CITIES)
+def test_the_default_sensitivity_range_scales_with_the_cities_own_value_of_time(client, city):
+    ds = DATASETS[city]
+    body = {"city_id": city, "preferences": _prefs(city), "hotel_ids": list(ds.hotels)[:2], "include_sensitivity": True}
+    out = client.post("/compare-hotels", json=body).json()
+    sens = out["sensitivity"]
+    assert sens["vot_min"] == 0 and sens["vot_max"] == 3 * ds.city.default_value_of_time_per_hour
+    assert f"{ds.city.currency_code}/h" in sens["flip_summary"]
+
+
+@pytest.mark.parametrize("city", CITIES)
+def test_the_missed_sight_charge_scales_with_the_city_and_a_default_trip_is_not_nearly_empty(client, city):
+    """A fixed 3,000 in every city's own currency made the Seoul planner skip almost every sight (3,000 KRW is about 2 US dollars)."""
+    from app import config
+    from app.money import missed_preference_penalty
+
+    ds = DATASETS[city]
+    assert missed_preference_penalty(ds) == 3 * ds.city.default_value_of_time_per_hour
+    if city == "tokyo":
+        assert missed_preference_penalty(ds) == config.MISSED_PREFERENCE_PENALTY_JPY  # Tokyo is unchanged
+    out = client.post("/optimise", json={"city_id": city, "preferences": _prefs(city, days=3), "hotel_id": _hotel(city)}).json()
+    assert out["result"]["totals"]["attractions_scheduled"] >= 0.6 * len(ds.attractions)
+    cmp_ = client.post("/compare-hotels", json={"city_id": city, "preferences": _prefs(city, days=3), "hotel_ids": list(ds.hotels)[:2]}).json()
+    assert cmp_["missed_preference_penalty_jpy"] == missed_preference_penalty(ds)

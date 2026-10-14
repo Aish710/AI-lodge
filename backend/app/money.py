@@ -29,3 +29,10 @@ def display_amount(local: int | float, ds: Dataset) -> str:
     cur = ds.city.display_currency_code
     amount = f"S${value:,.0f}" if cur == "SGD" else f"{cur} {value:,.0f}"
     return f"about {amount} at the SAMPLE rate"
+
+
+def missed_preference_penalty(ds: Dataset) -> int:
+    """What leaving out one optional sight is charged in true cost: the value of THREE hours of time at the city's own default value of time.
+    For Tokyo (1,000 JPY/h) this is exactly the old constant 3,000 JPY; for Seoul it is 45,000 KRW. A fixed 3,000 in every city's own currency
+    was about 20 US dollars in Tokyo but about 2 in Seoul, which made the Seoul planner skip almost every sight."""
+    return 3 * ds.city.default_value_of_time_per_hour

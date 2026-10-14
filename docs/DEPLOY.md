@@ -63,7 +63,7 @@ Render dashboard > service > Logs. After a smoke test, search for: your key pref
 ## Frontend deployment (addendum, Netlify)
 **Why Netlify:** its docs confirm the two things this app needs from a static host: a `_headers` file in the publish directory for response headers, and a `/*  /index.html  200` rewrite for single-page-app routes (https://docs.netlify.com/manage/routing/headers/ and .../redirects/rewrites-proxies/). Its pricing page lists the Free plan as "$0 forever" with a 300-credit limit; that page does not state build minutes or whether a card is required, so check both when you sign up. Vercel was not evaluated.
 
-**What the build writes for you.** `npm run build` (in `frontend/`) first copies the generated evidence files into the build (`scripts/sync-evidence.mjs`), then writes `dist/_headers` and `dist/_redirects` (`scripts/write-host-config.mjs`). The headers carry a Content-Security-Policy that allows only this site, `https://tile.openstreetmap.org` for map tiles, and the API origin taken from `VITE_API_BASE_URL`, plus `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: DENY`. `style-src` includes `'unsafe-inline'` because Leaflet and Vue set inline style attributes; scripts are `'self'` only. `tests/e2e/csp.spec.js` serves the real build with these exact headers and checks there are no violations.
+**What the build writes for you.** `npm run build` (in `frontend/`) first copies the generated proof files into the build (`scripts/sync-proof.mjs`), then writes `dist/_headers` and `dist/_redirects` (`scripts/write-host-config.mjs`). The headers carry a Content-Security-Policy that allows only this site, `https://tile.openstreetmap.org` for map tiles, and the API origin taken from `VITE_API_BASE_URL`, plus `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: DENY`. `style-src` includes `'unsafe-inline'` because Leaflet and Vue set inline style attributes; scripts are `'self'` only. `tests/e2e/csp.spec.js` serves the real build with these exact headers and checks there are no violations.
 
 **Release build gate.** Use `npm run build:release` for submission builds. It requires the full-suite backend evidence file, an HTTPS non-local `VITE_API_BASE_URL`, required evidence artifacts in `dist`, matching evaluation Git revision, and no obvious API-key patterns in built assets. Normal `npm run build` stays usable for development and preview builds.
 
@@ -72,7 +72,7 @@ Render dashboard > service > Logs. After a smoke test, search for: your key pref
 2. Netlify: **Add new site > Import from Git**, pick the repo. `netlify.toml` at the repo root already sets base `frontend`, command `npm ci && npm run build`, publish `dist`, Node 22.
 3. Site configuration > Environment variables: set `VITE_API_BASE_URL` to the backend URL (no trailing slash). It is a public URL, not a secret. Never put an LLM key here. Deploy.
 4. Note the production origin, e.g. `https://<site>.netlify.app` (or your custom domain). **Set `ALLOWED_ORIGINS` on the backend to exactly that origin** (scheme + host, no path, no `*`) and restart it. Branch and deploy-preview URLs on Netlify are different origins and will FAIL CORS: test on the production URL only.
-5. The evidence page needs `docs/` and `backend/tests/results/latest-full.md` to be committed, because Netlify builds from the repository. Re-run the evaluation and a full backend `pytest`; partial pytest runs write `latest.md` only and do not overwrite the verified full-suite file. Commit the source and generated evidence, then deploy, so the page shows one clean git hash. If the evaluation and test revisions differ, the Evidence page displays a stale/unverified warning.
+5. The Proof page needs `docs/` and `backend/tests/results/latest-full.md` to be committed, because Netlify builds from the repository. Re-run the evaluation and a full backend `pytest`; partial pytest runs write `latest.md` only and do not overwrite the verified full-suite file. Commit the source and generated evidence, then deploy, so the page shows one clean git hash. If the evaluation and test revisions differ, the Evidence page displays a stale/unverified warning.
 6. Verify the live pair (both commands exit non-zero on failure):
    - `python backend/scripts/smoke_test.py https://<service>.onrender.com`
    - `cd frontend && node scripts/live-smoke.mjs https://<site>.netlify.app https://<service>.onrender.com` (waits up to 150 s for a cold start; checks CORS for exactly that origin, the page, the example flow, map tiles, the evidence page and the 404 route).
@@ -82,10 +82,10 @@ Render dashboard > service > Logs. After a smoke test, search for: your key pref
 - [ ] Open the production URL in a private window with the server asleep: the "Waking the server, this can take about a minute" notice appears, then the app (not an error).
 - [ ] The indicator reads "Sample mode (AI unavailable)" with no key set, and everything except the AI boxes works.
 - [ ] No CORS errors (the live-smoke CORS check passes for the exact origin).
-- [ ] `/evidence` shows 15 scenarios, the date and a git hash without "uncommitted".
-- [ ] Browser console: no errors or warnings on `/`, the example flow and `/evidence`.
+- [ ] `/proof` shows 15 scenarios, the date and a git hash without "uncommitted".
+- [ ] Browser console: no errors or warnings on `/`, the example flow and `/proof`.
 - [ ] Map tiles load (OpenStreetMap) and the attribution is visible.
-- [ ] Reload a deep link such as `/evidence`: it must load (the rewrite works), and `/anything-else` shows the 404 page.
+- [ ] Reload a deep link such as `/proof`: it must load (the rewrite works), and `/anything-else` shows the 404 page.
 - [ ] If you add an LLM key: spending cap set at the provider first; `/health` then shows "AI assistant on".
 
 **First-visit expectations on the free tiers.** The backend sleeps after 15 idle minutes and takes about a minute to wake. On a small CPU the hotel comparison's second call (value-of-time analysis) can take noticeably longer than on a laptop; the table appears first and the analysis can be cancelled.

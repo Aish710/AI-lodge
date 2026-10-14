@@ -21,7 +21,7 @@ from dataclasses import dataclass
 from pydantic import BaseModel
 
 from app import config
-from app.money import code, money, per_hour
+from app.money import code, missed_preference_penalty, money, per_hour
 from app.data.loader import Dataset, unknown_price_placeholder
 from app.optimiser.solver import ObjectiveSpec, solve
 from app.schemas import Conflict, Preferences, SolveResult, nights_for
@@ -179,7 +179,7 @@ def _breakdown(ds: Dataset, prefs: Preferences, hotel_id: str, res: SolveResult,
     rate = ds.hotels[hotel_id].nightly_rate
     t = res.totals
     time_cost = (t.travel_minutes * vot + 30) // 60
-    pen = config.MISSED_PREFERENCE_PENALTY_JPY
+    pen = missed_preference_penalty(ds)
     missed = res.missed_preferences
     rooms = rate * nights
     return CostBreakdown(
@@ -240,7 +240,7 @@ class _Line:
 def _line(ds, prefs, hotel_id, res: SolveResult, nights: int) -> _Line:
     t = res.totals
     K = ds.hotels[hotel_id].nightly_rate * nights + t.admissions_jpy + t.transport_jpy \
-        + config.MISSED_PREFERENCE_PENALTY_JPY * len(res.missed_preferences)
+        + missed_preference_penalty(ds) * len(res.missed_preferences)
     return _Line(K, t.travel_minutes, res.solver_meta.solver_status == "OPTIMAL")
 
 
@@ -267,7 +267,7 @@ def sensitivity(prefs: Preferences, hotel_ids: list[str], ds: Dataset, vot_range
             if left < config.MIN_SOLVE_SECONDS or cache.solves - s0 >= config.SENS_MAX_SOLVES:
                 state["timed_out" if left < config.MIN_SOLVE_SECONDS else "cap_hit"] = True
                 return False
-            spec = ObjectiveSpec("true_cost", v, config.MISSED_PREFERENCE_PENALTY_JPY)
+            spec = ObjectiveSpec("true_cost", v, missed_preference_penalty(ds))
             res = cache.solve(prefs, h, ds, spec, min(config.SOLVER_MAX_SECONDS, left / (len(hotel_ids) - i)))
             if res.status == "feasible":
                 lines[h] = _line(ds, prefs, h, res, nights)
@@ -376,7 +376,7 @@ def compare_hotels(prefs: Preferences, hotel_ids: list[str], ds: Dataset, *, inc
     cache = cache or SolveCache()
     nights, nights_src = nights_for(prefs)
     vot = prefs.value_of_time_per_hour
-    spec = ObjectiveSpec("true_cost", vot, config.MISSED_PREFERENCE_PENALTY_JPY)
+    spec = ObjectiveSpec("true_cost", vot, missed_preference_penalty(ds))
     results: list[HotelResult] = []
     warnings: list[str] = []
     partial = False
@@ -438,7 +438,7 @@ def compare_hotels(prefs: Preferences, hotel_ids: list[str], ds: Dataset, *, inc
 
     comp = HotelComparison(
         nights_used=nights, nights_source=nights_src, value_of_time_per_hour=vot,
-        missed_preference_penalty_jpy=config.MISSED_PREFERENCE_PENALTY_JPY, results=results,
+        missed_preference_penalty_jpy=missed_preference_penalty(ds), results=results,
         cheapest_by_rate=cheapest, best_by_true_cost=best, ranking=ranking,
         rate_winner_differs_from_true_winner=best is not None and best != cheapest,
         insight=_insight(ds, results, cheapest, best), warnings=warnings, approximate=approximate, partial=partial,

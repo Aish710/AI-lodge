@@ -176,3 +176,21 @@ def test_cors_allows_localhost_only():
         assert ok.headers.get("access-control-allow-origin") == "http://localhost:5173"
         bad = client.get("/health", headers={"Origin": "https://evil.example"})
         assert "access-control-allow-origin" not in bad.headers
+
+
+def test_tokyo_mirror_is_byte_identical_to_the_pack_and_the_default_city_meta_agrees():
+    """app/data/ (read by load_dataset()) mirrors app/data/cities/tokyo/ (what the API serves; the source of truth). Fix drift with
+    `python scripts/sync_tokyo_data.py`."""
+    import importlib.util
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    spec = importlib.util.spec_from_file_location("sync_tokyo_data", root / "scripts" / "sync_tokyo_data.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    assert mod.differing() == []
+    meta = json.loads((root / "app" / "data" / "cities" / "tokyo" / "city.json").read_text())
+    default = loader.load_dataset().city
+    for key in ("id", "display_name", "country", "currency_code", "display_currency_code", "aliases", "country_aliases"):
+        assert getattr(default, key) == meta[key], key

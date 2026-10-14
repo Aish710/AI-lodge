@@ -4,6 +4,7 @@ import { computed, ref } from 'vue'
 import NameResolution from './NameResolution.vue'
 import ErrorPanel from './ErrorPanel.vue'
 import SwitchOffer from './SwitchOffer.vue'
+import Hint from './Hint.vue'
 import CurrencyConfirm from './CurrencyConfirm.vue'
 import { store, runParse, chooseName, rateLimited, maxInputChars } from '../store.js'
 import { originOf, parseState } from '../lib/rules.js'
@@ -26,7 +27,7 @@ const unresolved = computed(() => (r.value?.unresolved_names ?? []).filter((u) =
 <template>
   <section class="card-soft" aria-labelledby="nl-h" data-testid="nl-panel">
     <h2 id="nl-h" class="h5">Describe your trip in words <span class="muted fw-normal">(optional)</span></h2>
-    <p class="small muted">The AI assistant only proposes values for the form below. You review and edit everything. Your text is cleaned before it is sent; place descriptions are never sent.</p>
+    <p class="small muted">The AI only proposes values for the form below; you review everything. <Hint text="Your text is cleaned before it is sent. Place descriptions are never sent." /></p>
     <label class="form-label" for="nl-text">For example: "3 days, about 20,000 yen, I must see Senso-ji, relaxed pace"</label>
     <textarea id="nl-text" class="form-control" rows="3" v-model="text" :aria-invalid="over" aria-describedby="nl-count"></textarea>
     <div class="d-flex flex-wrap justify-content-between align-items-center mt-2 gap-2">

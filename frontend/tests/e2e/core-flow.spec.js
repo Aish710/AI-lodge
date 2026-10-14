@@ -6,7 +6,7 @@ test.beforeEach(async ({ page }) => { await stubTiles(page) })
 test('example trip -> compare hotels -> itinerary with map, timeline, feasibility report and not-scheduled panel', async ({ page }) => {
   const problems = watchConsole(page)
   await page.goto('/')
-  await expect(page.getByTestId('honesty-banner')).toContainText('Sample data: Tokyo only, fictional hotels, estimated prices and travel times. Not live quotes.')
+  await expect(page.getByTestId('honesty-banner')).toContainText('Sample data · Tokyo · JPY · prices are examples')
   await expect(page.getByTestId('mode-indicator')).toContainText('Sample mode (AI unavailable)')
 
   await page.getByTestId('load-example').click()
@@ -35,7 +35,7 @@ test('example trip -> compare hotels -> itinerary with map, timeline, feasibilit
   await expect(page.locator('.leaflet-container .pin').first()).toBeVisible()
   await expect(page.locator('.leaflet-control-attribution')).toContainText('OpenStreetMap')
   await expect(page.getByTestId('timeline')).toContainText('Day 1')
-  await expect(page.getByTestId('totals')).toContainText('Sights scheduled')
+  await expect(page.getByTestId('totals')).toContainText('Sights covered')
   const report = page.getByTestId('feasibility-report')
   await expect(report).toContainText('Trip Feasibility Report')
   await expect(report.getByTestId('overall')).not.toContainText('Fail')

@@ -6,7 +6,7 @@ test-results
 .env.local
 dist-e2e
 dist-shots
-public/evidence-data
+public/proof-data
 test-results
 dist-live
 dist-lh

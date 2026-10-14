@@ -61,3 +61,8 @@ cd backend
 ```
 
 Tokyo remains the full headline evaluation. Added cities use smaller, separate sample reports and must not be pooled into one claim.
+
+
+## Source of truth for Tokyo's data
+
+Tokyo exists in two places on disk: **`backend/app/data/cities/tokyo/` is the source of truth** (it is what the API serves), and `backend/app/data/` holds a byte-identical mirror that `load_dataset()` reads by default (many tests and the Tokyo prompt constants use it). Edit the pack, then run `python scripts/sync_tokyo_data.py` (add `--check` to only compare). The test `test_tokyo_mirror_is_byte_identical_to_the_pack_and_the_default_city_meta_agrees` fails on any difference, so the clean-clone guard catches drift too. The frontend's per-city test fixtures (`frontend/tests/fixtures/places-*.json`) are generated from the backend by `backend/scripts/export_frontend_fixtures.py`.

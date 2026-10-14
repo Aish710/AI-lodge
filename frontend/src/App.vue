@@ -41,8 +41,8 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload))
           <li><router-link to="/wishlist">2 Sights</router-link></li>
           <li><router-link to="/hotels">3 Hotels</router-link></li>
           <li><router-link to="/itinerary">4 Itinerary</router-link></li>
-          <li><router-link to="/evidence">Evidence</router-link></li>
-          <li><router-link to="/about">About</router-link></li>
+          <li><router-link to="/proof">Proof</router-link></li>
+          <li><router-link to="/how-it-works">How it works</router-link></li>
         </ul>
       </nav>
     </div>
@@ -62,9 +62,8 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload))
     <ul class="mb-0" data-testid="switch-clears"><li v-for="item in clearedOnCitySwitch(store)" :key="item">{{ item }}</li></ul>
   </ConfirmDialog>
   <footer class="page site-footer" data-testid="footer">
-    <p class="mb-1"><strong>Privacy:</strong> what you type stays in this page's memory. It is sent to the planner's server only to compute results, and the server does not store it. No cookies, no analytics, no third-party scripts. The map loads tiles from OpenStreetMap, which sees your IP address and the map area you view.</p>
-    <p class="mb-1">All places, prices, hours and travel times are samples or estimates. Hotels are fictional. Details: <router-link to="/about#privacy">About and privacy</router-link> · <router-link to="/evidence">Evidence</router-link></p>
-    <p class="mb-0">{{ PROJECT_NAME }} · <a :href="REPO_URL" target="_blank" rel="noopener noreferrer">Source on GitHub</a> ·
-      <button type="button" class="btn btn-link btn-sm p-0 align-baseline" @click="reset" data-testid="reset">Reset (clear everything held in this page)</button></p>
+    <p class="mb-1"><strong>Privacy:</strong> nothing is stored; no cookies or analytics. Map tiles come from OpenStreetMap. <router-link to="/how-it-works#privacy">Details</router-link></p>
+    <p class="mb-0">{{ PROJECT_NAME }} · <router-link to="/proof">Proof</router-link> · <a :href="REPO_URL" target="_blank" rel="noopener noreferrer">Source</a> ·
+      <button type="button" class="btn btn-link btn-sm p-0 align-baseline" @click="reset" data-testid="reset" title="Clear everything held in this page">Reset</button></p>
   </footer>
 </template>

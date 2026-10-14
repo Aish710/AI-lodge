@@ -1,4 +1,4 @@
-# Files checked by scripts/check_tracked_imports.py (119 imported files from 119 source files)
+# Files checked by scripts/check_tracked_imports.py (124 imported files from 123 source files)
 backend/app/__init__.py
 backend/app/city_guard.py
 backend/app/config.py
@@ -45,7 +45,7 @@ backend/app/schemas.py
 backend/app/untrusted.py
 backend/app/validator/checks.py
 backend/app/validator/feasibility_report.py
-frontend/scripts/sync-evidence.mjs
+frontend/scripts/sync-proof.mjs
 frontend/scripts/validate-release.mjs
 frontend/src/App.vue
 frontend/src/api/client.js
@@ -63,7 +63,9 @@ frontend/src/components/DiffView.vue
 frontend/src/components/ErrorPanel.vue
 frontend/src/components/ExplainBlock.vue
 frontend/src/components/FeasibilityReport.vue
+frontend/src/components/Hint.vue
 frontend/src/components/HonestyBanner.vue
+frontend/src/components/HowMade.vue
 frontend/src/components/LoadingBlock.vue
 frontend/src/components/ModeIndicator.vue
 frontend/src/components/NameResolution.vue
@@ -76,11 +78,12 @@ frontend/src/components/ServerStatus.vue
 frontend/src/components/SettingsSummaryStrip.vue
 frontend/src/components/Skeleton.vue
 frontend/src/components/SourceBadge.vue
+frontend/src/components/StatusChip.vue
 frontend/src/components/StopActions.vue
 frontend/src/components/SwitchOffer.vue
 frontend/src/components/TripMap.vue
+frontend/src/lib/band.js
 frontend/src/lib/daypart.json
-frontend/src/lib/evidence.js
 frontend/src/lib/examples.json
 frontend/src/lib/format.js
 frontend/src/lib/limits.json
@@ -90,6 +93,7 @@ frontend/src/lib/money.js
 frontend/src/lib/names.js
 frontend/src/lib/pacecaps.json
 frontend/src/lib/prefs.js
+frontend/src/lib/proof.js
 frontend/src/lib/replan.js
 frontend/src/lib/rules.js
 frontend/src/lib/time.js
@@ -97,14 +101,15 @@ frontend/src/lib/tripSummary.js
 frontend/src/router.js
 frontend/src/store.js
 frontend/src/styles.css
-frontend/src/views/About.vue
 frontend/src/views/CreateTrip.vue
-frontend/src/views/Evidence.vue
 frontend/src/views/HotelCompare.vue
+frontend/src/views/HowItWorks.vue
 frontend/src/views/Itinerary.vue
 frontend/src/views/NotFound.vue
+frontend/src/views/Proof.vue
 frontend/src/views/Wishlist.vue
 frontend/tests/e2e/helpers.js
+frontend/tests/fixtures/city-cny-test.json
 frontend/tests/fixtures/compare-differs-false.json
 frontend/tests/fixtures/compare-differs-true.json
 frontend/tests/fixtures/optimise-feasible.json

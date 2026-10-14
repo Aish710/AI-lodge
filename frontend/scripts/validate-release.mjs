@@ -36,12 +36,12 @@ export function validateRelease({ root = resolve(import.meta.dirname, '..', '..'
   else if (api.protocol !== 'https:') errors.push('VITE_API_BASE_URL must use HTTPS for a production release.')
   else if (/localhost|127\.0\.0\.1|\[::1\]/.test(api.host)) errors.push('VITE_API_BASE_URL must not point at a local development server.')
 
-  for (const rel of ['_headers', '_redirects', 'evidence-data/manifest.json', 'evidence-data/backend-tests-full.md', 'evidence-data/eval-results.json', 'evidence-data/hardening-results.md']) {
+  for (const rel of ['_headers', '_redirects', 'proof-data/manifest.json', 'proof-data/backend-tests-full.md', 'proof-data/eval-results.json', 'proof-data/hardening-results.md']) {
     if (!existsSync(join(dist, rel))) errors.push(`dist is missing ${rel}. Run npm run build:release after generating evidence.`)
   }
 
   const rev = gitRev(root)
-  const evalPath = join(dist, 'evidence-data', 'eval-results.json')
+  const evalPath = join(dist, 'proof-data', 'eval-results.json')
   if (rev && existsSync(evalPath)) {
     const ev = JSON.parse(readFileSync(evalPath, 'utf8'))
     const evRev = String(ev?.meta?.commit ?? '').split(/\s+/)[0]

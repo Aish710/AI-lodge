@@ -1,0 +1,23 @@
+{
+  "copied": [
+    "eval-results.json",
+    "eval-results.md",
+    "README-claims.md",
+    "hardening-results.md",
+    "SAFETY_LOG.md",
+    "backend-tests-full.md",
+    "backend-tests-latest.md",
+    "frontend-vitest.json",
+    "frontend-playwright.json",
+    "lighthouse-summary.json",
+    "user-test-results.csv",
+    "user-test-summary.md"
+  ],
+  "missing": [
+    {
+      "name": "llm-live-eval.md",
+      "src": "docs/llm-live-eval.md",
+      "required": false
+    }
+  ]
+}

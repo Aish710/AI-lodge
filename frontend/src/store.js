@@ -4,6 +4,7 @@ import { reactive, computed } from 'vue'
 import * as api from './api/routes.js'
 import { abortKey, ApiError, isAborted, setCityProvider, setRateLimitHandler, waitForServer } from './api/client.js'
 import { cleanHotelText, clearedOnCitySwitch } from './lib/names.js'
+import { setSupportedCurrencies } from './lib/format.js'
 import { applyPatch, buildPreferences, DEFAULT_FORM, formFromDraft } from './lib/prefs.js'
 import { addOp, buildReplanArgs, proposalToOps, removeOpAt } from './lib/replan.js'
 import limits from './lib/limits.json'
@@ -76,6 +77,7 @@ export async function loadCities() {
   try {
     const d = await api.getCities()
     store.cities = d.cities
+    setSupportedCurrencies(d.cities.map((c) => c.currency_code))  // the symbol rule needs every supported city's currency
     store.city = d.cities.find((c) => c.id === store.cityId) ?? d.cities.find((c) => c.id === 'tokyo') ?? d.cities[0] ?? null
     if (store.city && store.city.id !== store.cityId) store.cityId = store.city.id
   } catch (e) {

@@ -372,3 +372,14 @@ No other test was touched.
 - **Frontend**: a "Switch to <city>" button (offer only) and a "Please confirm the currency" box in both natural-language panels; one `requestCitySwitch` path and one app-level confirmation dialog (dialogs now have unique ids). Example results: `backend/scripts/show_parse_examples.py` -> `frontend/tests/fixtures/parse-examples.json`.
 - **Tests**: backend `test_llm_per_city.py` (87), `test_live_eval_script.py` (5); Vitest `nl-city.test.js` (6). Mutation checks: disabling the destination check fails 36 of the 87, disabling cross-city grounding fails 12. No existing test was changed in this part.
 - **Known gaps**: nothing here measures the real model; detecting an unsupported city depends on the model reporting `destination_mentioned`; NFKD normalisation drops Japanese voiced-sound marks consistently on both sides, so a few distinct kana names could collide.
+
+## Phase 9c, Part 4: existing assertions that changed (owner-specified wording)
+- `frontend/tests/e2e/core-flow.spec.js`, banner: `'Sample data: Tokyo only, fictional hotels, estimated prices and travel times. Not live quotes.'` -> `'Sample data · Tokyo · JPY · prices are examples'` (Part 4 asks for one thin banner line with the detail in a tooltip).
+- same file, itinerary totals: `'Sights scheduled'` -> `'Sights covered'` (Part 4 names the header tile "sights covered (x of y)").
+- Renames (Part 4 / owner decision): Evidence -> Proof and About -> How it works in unit tests (`proof.test.js`, formerly `evidence.test.js`), the e2e spec titles and links, and `sync-evidence` -> `sync-proof`. No other assertion text was changed.
+
+## Phase 9c, Part 4: defects found by looking at the screenshots (2026-10-14)
+- **Missed-sight charge not scaled per city (backend behaviour change, found in `seoul-4-itinerary`).** `MISSED_PREFERENCE_PENALTY_JPY = 3000` was applied in every city's own currency units, so the Seoul planner skipped 9 of 10 sights on a default trip. The charge is now `3 x the city's default value of time` (`app/money.py::missed_preference_penalty`): Tokyo is exactly 3,000 as before (so the Tokyo evaluation and all 493 existing tests are unchanged), Seoul 45,000 KRW, Singapore 54 SGD, Kuala Lumpur 135 MYR. Used by `/optimise`, `/compare-hotels` (including its response field), the sensitivity sweep and `/replan`. **Consequence:** `docs/city-eval-results.md` (Singapore, Seoul) was generated with the old constant and is stale until the evaluation is re-run (planned for Checkpoint 5, with Kuala Lumpur added).
+- **Default sensitivity range** was a yen-sized 0-3,000 for every city ("No flip within 0-3000 KRW/h"); it is now 0 to 3x the city's default value of time (Tokyo unchanged).
+- **Layout shift (Lighthouse):** the city cards arriving after load pushed the Trip page down (CLS 0.636); placeholders now reserve their space (CLS 0.03).
+- The "same winner" notice on Hotels repeated the new verdict headline and was removed.

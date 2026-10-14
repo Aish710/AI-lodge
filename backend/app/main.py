@@ -12,6 +12,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app import config
 from app.city_guard import reject_foreign_ids
+from app.money import missed_preference_penalty
 from app.config import FX_LABEL, SAMPLE_FX_JPY_PER_SGD, get_settings
 from app.data.loader import DEFAULT_CITY_ID, Dataset, load_all_city_datasets, load_dataset
 from app.hardening.config import HConfig
@@ -160,8 +161,9 @@ def compare_hotels_route(req: CompareRequest, request: Request, client: LLMClien
     ds, cfg = _dataset(request, req.city_id), request.app.state.hconf
     _check_city_ids(request, ds, hotels=req.hotel_ids, prefs=req.preferences)
     with request.app.state.solver_capacity.claim():
+        # The default sensitivity range is 0 to 3x the CITY's own default value of time (Tokyo: 0-3000 JPY/h, as before; Seoul: 0-45000 KRW/h).
         vot_range = (req.vot_min if req.vot_min is not None else config.VOT_RANGE_DEFAULT[0],
-                     req.vot_max if req.vot_max is not None else config.VOT_RANGE_DEFAULT[1])
+                     req.vot_max if req.vot_max is not None else 3 * ds.city.default_value_of_time_per_hour)
         comp = compare_hotels(req.preferences, req.hotel_ids, ds, include_sensitivity=req.include_sensitivity,
                               vot_range=vot_range, time_limit=cfg.hotel_compare_time_limit_seconds)
     out = comp.model_dump()
@@ -229,7 +231,7 @@ def optimise_route(req: OptimiseRequest, request: Request, client: LLMClient | N
         if req.hotel_id not in ds.hotels:
             raise ApiError(422, "unknown_hotel", f"Unknown hotel id '{req.hotel_id[:64]}'.")
         p = req.preferences
-        spec = ObjectiveSpec("true_cost", p.value_of_time_per_hour, config.MISSED_PREFERENCE_PENALTY_JPY)
+        spec = ObjectiveSpec("true_cost", p.value_of_time_per_hour, missed_preference_penalty(ds))
         res = solve(p, req.hotel_id, ds, objective=spec, max_seconds=cfg.optimise_time_limit_seconds,
                     alternatives_budget=cfg.alternatives_budget_seconds)
         rep = build_report(res, ds, p, req.hotel_id)  # a failing report is returned as-is, never hidden

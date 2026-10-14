@@ -170,3 +170,29 @@ a { text-underline-offset: 2px; }
   .hotel-price { grid-column: 2; text-align: left; white-space: normal; }
   .hotel-tag { grid-column: 2; justify-self: start; }
 }
+
+/* Part 4: verdict first, status chips, how-made chips, hints, slim banner */
+.verdict { font-family: 'Fraunces Variable', Georgia, serif; font-size: clamp(1.4rem, 4vw, 1.9rem); font-weight: 600; line-height: 1.2; }
+.verdict-detail { color: var(--muted); font-size: .95rem; }
+.verdict-good { border-left: 6px solid var(--teal); } .verdict-bad { border-left: 6px solid var(--red); }
+.status-chip { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: .9rem; padding: 3px 12px; border-radius: 999px; border: 1px solid; }
+.status-good { color: var(--teal); background: var(--teal-bg); border-color: #b5d6d2; }
+.status-warn { color: var(--amber); background: var(--amber-bg); border-color: #ecd9a8; }
+.status-bad { color: var(--red); background: var(--red-bg); border-color: #efb8b2; }
+.how-made { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; list-style: none; padding: 0; margin: 0; font-size: .85rem; }
+.how-made li { display: inline-flex; align-items: center; gap: 4px; }
+.how-chip { background: #eee8dc; border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; }
+.how-arrow { color: var(--muted); font-weight: 700; }
+.band .tile { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; height: 100%; }
+.band .tile-label { color: var(--muted); font-size: .82rem; display: flex; align-items: center; gap: 4px; }
+.band .tile-value { font-family: 'Fraunces Variable', Georgia, serif; font-size: clamp(1.3rem, 3.5vw, 1.8rem); font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.15; }
+.band .tile-sub { color: var(--muted); font-size: .8rem; }
+.hint-wrap { position: relative; display: inline-block; }
+.hint { width: 1.25rem; height: 1.25rem; min-width: 1.25rem; padding: 0; border-radius: 50%; border: 1px solid #8a8f95; background: #fff; color: var(--ink); font-size: .75rem; font-weight: 700; line-height: 1; cursor: help; }
+.hint-tip { display: none; position: absolute; left: 0; top: 1.6rem; z-index: 20; width: min(18rem, 78vw); background: var(--ink); color: #fff; font-size: .82rem; font-weight: 400; line-height: 1.35; padding: 8px 10px; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,.25); text-align: left; }
+.hint-wrap:hover .hint-tip, .hint:focus + .hint-tip, .hint:focus-visible + .hint-tip { display: block; }
+.honesty-slim { font-size: .85rem; }
+.group-legend { font-family: 'Fraunces Variable', Georgia, serif; font-size: 1.05rem; font-weight: 600; padding: 0; margin-bottom: 8px; float: none; width: auto; }
+.form-group { border: 0; padding: 0; margin: 0; }
+
+.city-card-skeleton { min-height: 150px; border-radius: var(--radius); }   /* reserves the city cards' space so nothing shifts when they arrive */

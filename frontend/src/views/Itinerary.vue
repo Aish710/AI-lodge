@@ -15,6 +15,10 @@ import ProposedOperations from '../components/ProposedOperations.vue'
 import DiffView from '../components/DiffView.vue'
 import ExplainBlock from '../components/ExplainBlock.vue'
 import ConfirmDialog from '../components/ConfirmDialog.vue'
+import Hint from '../components/Hint.vue'
+import HowMade from '../components/HowMade.vue'
+import StatusChip from '../components/StatusChip.vue'
+import { checksTally, planStatus, sightsCovered } from '../lib/band.js'
 import { store, ensurePlan, runOptimise, applyAlternative, rateLimited, queueOp, unqueue, clearQueue, applyQueue, restorePrevious, explain } from '../store.js'
 import { mustVisitRemovals } from '../lib/replan.js'
 import { isInfeasible } from '../lib/rules.js'
@@ -27,6 +31,9 @@ const result = computed(() => resp.value?.result)
 const hotel = computed(() => store.hotelsById[store.chosenHotel] ?? null)
 const infeasible = computed(() => isInfeasible(resp.value))
 const t = computed(() => result.value?.totals)
+const status = computed(() => planStatus(resp.value))
+const tally = computed(() => checksTally(resp.value?.feasibility_report))
+const cover = computed(() => sightsCovered(t.value?.attractions_scheduled ?? 0, store.places, store.wishlist))
 const penalty = computed(() => store.comparison?.missed_preference_penalty_jpy ?? null)
 onMounted(() => { if (store.chosenHotel && store.places) ensurePlan() })
 const lockedIds = computed(() => (store.planPrefs?.locked ?? []).map((l) => l.attraction_id))
@@ -67,6 +74,7 @@ const replan = computed(() => store.lastReplan)
     <template v-if="resp && !store.busy.optimise">
       <!-- infeasible is a NORMAL result: conflict panel, never the error component -->
       <template v-if="infeasible">
+        <StatusChip v-bind="status" />
         <ConflictPanel :result="result" :prefs="store.planPrefs" :places-by-id="store.placesById" :busy="store.busy.optimise" :disabled="rateLimited" @apply="applyAlternative" />
         <FeasibilityReport :report="resp.feasibility_report" />
       </template>
@@ -76,17 +84,28 @@ const replan = computed(() => store.lastReplan)
           <span class="glyph" aria-hidden="true">!</span><span><strong>Approximate.</strong> {{ resp.approximate_note }}</span>
         </div>
 
-        <section class="card-soft" aria-label="Totals" data-testid="totals">
-          <div class="row g-3 text-center text-md-start">
-            <div class="col-6 col-md-3"><div class="muted small">Sights scheduled</div><div class="kpi" data-testid="kpi-sights">{{ t.attractions_scheduled }}</div></div>
-            <div class="col-6 col-md-3"><div class="muted small">Travel time</div><div class="kpi">{{ humanMinutes(t.travel_minutes) }}</div></div>
-            <div class="col-6 col-md-3"><div class="muted small">Admissions</div><div class="kpi">{{ money(t.admissions_jpy) }}</div>
-              <div v-if="t.unknown_cost_items.length" class="small" style="color: var(--amber)">+ {{ t.unknown_cost_items.length }} unknown price(s), not included</div></div>
-            <div class="col-6 col-md-3"><div class="muted small">Transport <span class="badge-src badge-estimated">estimated</span></div><div class="kpi">{{ money(t.transport_jpy) }}</div></div>
+        <section class="band" aria-label="Plan summary" data-testid="totals">
+          <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+            <StatusChip v-bind="status" />
+            <HowMade :explained="store.explanations.optimise?.source ?? null" />
           </div>
-          <p class="mt-3 mb-0 small muted">
-            Sights + transport: <strong>{{ formatMoney(t.total_jpy, store.fx) }}</strong>. Rooms are not included here ({{ resp.nights_used }} night(s), {{ resp.nights_source }}); see the hotel comparison.
-            Solver: {{ result.solver_meta.solver_status }}<span v-if="result.solver_meta.solver_status !== 'OPTIMAL'"> (not proven optimal)</span>.
+          <div class="row g-3">
+            <div class="col-6 col-lg-3"><div class="tile">
+              <div class="tile-label">Total cost <Hint text="Sights + estimated transport only. Rooms are in the hotel comparison." label="What does total cost include?" /></div>
+              <div class="tile-value" data-testid="kpi-total">{{ money(t.total_jpy) }}</div>
+              <div class="tile-sub">{{ formatMoney(t.total_jpy, store.fx).split('(')[1]?.replace(')', '') ?? '' }}</div></div></div>
+            <div class="col-6 col-lg-3"><div class="tile">
+              <div class="tile-label">Travel time</div><div class="tile-value">{{ humanMinutes(t.travel_minutes) }}</div></div></div>
+            <div class="col-6 col-lg-3"><div class="tile">
+              <div class="tile-label">Sights covered <Hint text="Sights in the plan, out of the sights you did not mark 'not interested'." label="What does sights covered mean?" /></div>
+              <div class="tile-value" data-testid="kpi-sights">{{ cover.scheduled }} of {{ cover.wanted }}</div></div></div>
+            <div class="col-6 col-lg-3"><div class="tile">
+              <div class="tile-label">Checks passed <Hint text="The independent validator re-checks every rule on the finished plan." label="What are the checks?" /></div>
+              <div class="tile-value" data-testid="kpi-checks">{{ tally.passed }} of {{ tally.total }}</div></div></div>
+          </div>
+          <p class="mt-2 mb-0 small muted">
+            Admissions {{ money(t.admissions_jpy) }} + transport {{ money(t.transport_jpy) }} <span class="badge-src badge-estimated">estimated</span> · {{ resp.nights_used }} night(s) of rooms are not included · Solver: {{ result.solver_meta.solver_status }}<span v-if="result.solver_meta.solver_status !== 'OPTIMAL'"> (not proven optimal)</span>
+            <span v-if="t.unknown_cost_items.length" style="color: var(--amber)"> · + {{ t.unknown_cost_items.length }} unknown price(s), not included</span>
           </p>
         </section>
 

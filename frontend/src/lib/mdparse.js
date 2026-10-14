@@ -71,3 +71,9 @@ export function testSummary(md) {
 }
 export const vitestSummary = (j) => (j && typeof j.numTotalTests === 'number' ? { passed: j.numPassedTests, failed: j.numFailedTests, total: j.numTotalTests } : null)
 export const playwrightSummary = (j) => (j?.stats ? { passed: j.stats.expected, failed: j.stats.unexpected + (j.stats.flaky ?? 0), total: j.stats.expected + j.stats.unexpected + (j.stats.skipped ?? 0) + (j.stats.flaky ?? 0) } : null)
+
+/** Number of participants in the user-test results CSV: data rows with at least one non-empty cell (the header row is not counted). */
+export function countUserTestRows(csv) {
+  const lines = String(csv ?? '').split(/\r?\n/).filter((l) => l.trim())
+  return lines.slice(1).filter((l) => l.split(',').some((c) => c.trim())).length
+}

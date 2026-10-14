@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import AttractionCard from '../components/AttractionCard.vue'
 import SettingsSummaryStrip from '../components/SettingsSummaryStrip.vue'
+import Hint from '../components/Hint.vue'
 import LoadingBlock from '../components/LoadingBlock.vue'
 import ErrorPanel from '../components/ErrorPanel.vue'
 import Skeleton from '../components/Skeleton.vue'
@@ -18,7 +19,7 @@ const counts = computed(() => {
   <div class="stack">
     <div>
       <h1>Choose your sights</h1>
-      <p class="muted mb-0">Mark must-sees, nice-to-haves and places you do not want. Optional sights may still be left out of the plan if they would cost more than they are worth; you will see which ones and why.</p>
+      <p class="muted mb-0">Mark must-sees, nice-to-haves and places you do not want. <Hint text="Optional sights may still be left out of the plan if they would cost more than they are worth; you will see which ones and why." /></p>
     </div>
     <SettingsSummaryStrip />
     <ErrorPanel v-if="store.placesError" :error="store.placesError" retryable @retry="loadPlaces" />

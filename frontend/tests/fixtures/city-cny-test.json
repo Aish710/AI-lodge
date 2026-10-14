@@ -1,0 +1,8 @@
+{
+  "id": "cny_test",
+  "display_name": "CNY Test City (fixture, not a real city)",
+  "country": "Test Country",
+  "currency_code": "CNY",
+  "display_currency_code": "USD",
+  "sample_fx_to_display_currency": 0.14
+}

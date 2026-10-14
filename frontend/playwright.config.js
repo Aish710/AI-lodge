@@ -17,7 +17,7 @@ export default defineConfig({
       cwd: '../backend', url: 'http://localhost:8010/health', reuseExistingServer: false, timeout: 60_000,
     },
     {
-      command: 'node scripts/sync-evidence.mjs && VITE_API_BASE_URL=http://localhost:8010 npx vite build --outDir dist-e2e && VITE_API_BASE_URL=http://localhost:8010 node scripts/write-host-config.mjs dist-e2e && npx vite preview --outDir dist-e2e --port 4173 --strictPort',
+      command: 'node scripts/sync-proof.mjs && VITE_API_BASE_URL=http://localhost:8010 npx vite build --outDir dist-e2e && VITE_API_BASE_URL=http://localhost:8010 node scripts/write-host-config.mjs dist-e2e && npx vite preview --outDir dist-e2e --port 4173 --strictPort',
       url: 'http://localhost:4173', reuseExistingServer: false, timeout: 120_000,
     },
   ],

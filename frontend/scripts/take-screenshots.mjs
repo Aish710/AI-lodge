@@ -134,13 +134,13 @@ async function runScreenshots(runIndex = 1) {
   await settle(page)
   await shot(page, '10-nl-parse-sample-mode.png', { clip: await page.getByTestId('nl-panel').boundingBox() })
 
-  // 8 evidence page, 11 about page
-  await page.goto(`${APP}/evidence`)
-  await waitVisible(page, page.getByTestId('scn-15'), 'evidence-scenario')
-  await fullShot(page, '08-evidence.png')
-  await page.goto(`${APP}/about`)
-  await waitVisible(page, page.getByTestId('architecture'), 'about-architecture')
-  await fullShot(page, '11-about.png')
+  // 8 proof page, 11 how-it-works page
+  await page.goto(`${APP}/proof`)
+  await waitVisible(page, page.getByTestId('scn-15'), 'proof-scenario')
+  await fullShot(page, '08-proof.png')
+  await page.goto(`${APP}/how-it-works`)
+  await waitVisible(page, page.getByTestId('architecture'), 'how-it-works-architecture')
+  await fullShot(page, '11-how-it-works.png')
 
   // 7 impossible trip -> conflict panel
   await page.goto(APP)
@@ -191,7 +191,7 @@ async function runScreenshots(runIndex = 1) {
 
 try {
   run('.venv/bin/uvicorn app.main:app --port 8010 --log-level warning', BACK, { RATE_LIMIT_EXPENSIVE_PER_MIN: '500', RATE_LIMIT_PER_MIN: '1000', RATE_LIMIT_CHEAP_PER_MIN: '5000', LLM_API_KEY: '', LLM_MODEL: '', ALLOWED_ORIGINS: APP, SOLVER_CONCURRENCY: '1' })
-  run(`node scripts/sync-evidence.mjs && VITE_API_BASE_URL=${API} npx vite build --outDir dist-shots && npx vite preview --outDir dist-shots --port 4180 --strictPort`, FRONT)
+  run(`node scripts/sync-proof.mjs && VITE_API_BASE_URL=${API} npx vite build --outDir dist-shots && npx vite preview --outDir dist-shots --port 4180 --strictPort`, FRONT)
   await waitFor(`${API}/health`)
   await waitFor(APP, 120_000)
   for (let i = 1; i <= repeat; i++) await runScreenshots(i)

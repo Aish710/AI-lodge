@@ -56,7 +56,7 @@ test('the generated CSP allows only self, the tile server and the API, and the a
   await expect(page.getByTestId('conflict-panel')).toBeVisible()
   await page.getByTestId('conflict-panel').locator('button[data-kind=allow_unknown_hours]').click()
   await expect(page.locator('.leaflet-container .pin').first()).toBeVisible()
-  await page.goto(base + '/evidence')                          // deep link: needs the rewrite
+  await page.goto(base + '/proof')                          // deep link: needs the rewrite
   await expect(page.getByTestId('scenarios')).toBeVisible()
   await page.goto(base + '/no/such/path')
   await expect(page.getByTestId('not-found')).toBeVisible()

@@ -11,13 +11,13 @@ afterAll(() => tmp.forEach((d) => rmSync(d, { recursive: true, force: true })))
 function minimalDist(rev = null) {
   const root = mk()
   const dist = join(root, 'dist')
-  mkdirSync(join(dist, 'evidence-data'), { recursive: true })
+  mkdirSync(join(dist, 'proof-data'), { recursive: true })
   writeFileSync(join(dist, '_headers'), '/*\n  Content-Security-Policy: default-src self\n')
   writeFileSync(join(dist, '_redirects'), '/*  /index.html  200\n')
-  writeFileSync(join(dist, 'evidence-data', 'manifest.json'), '{}\n')
-  writeFileSync(join(dist, 'evidence-data', 'backend-tests-full.md'), '# full\n')
-  writeFileSync(join(dist, 'evidence-data', 'hardening-results.md'), '# hardening\n')
-  writeFileSync(join(dist, 'evidence-data', 'eval-results.json'), JSON.stringify({ meta: { commit: rev ?? 'unknown' } }))
+  writeFileSync(join(dist, 'proof-data', 'manifest.json'), '{}\n')
+  writeFileSync(join(dist, 'proof-data', 'backend-tests-full.md'), '# full\n')
+  writeFileSync(join(dist, 'proof-data', 'hardening-results.md'), '# hardening\n')
+  writeFileSync(join(dist, 'proof-data', 'eval-results.json'), JSON.stringify({ meta: { commit: rev ?? 'unknown' } }))
   return { root, dist }
 }
 
