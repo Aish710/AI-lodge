@@ -49,7 +49,7 @@ test('example trip -> compare hotels -> itinerary with map, timeline, feasibilit
 test('the manual path works: form -> wishlist cards -> hotels', async ({ page }) => {
   const problems = watchConsole(page)
   await page.goto('/')
-  await page.getByLabel('Days').fill('2')
+  await page.getByLabel('Days', { exact: true }).fill('2')
   await page.getByTestId('next-wishlist').click()
   await expect(page).toHaveURL(/\/wishlist$/)
   await expect(page.getByTestId('card-senso_ji')).toBeVisible()

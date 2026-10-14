@@ -1,0 +1,49 @@
+{
+  "generated": "2026-10-14T03:04:02.321Z",
+  "tool": "lighthouse 13.5.0",
+  "preset": "mobile (default), simulated throttling",
+  "pages": [
+    {
+      "name": "Home (create trip)",
+      "url": "/",
+      "mode": "navigation",
+      "performance": 99,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "metrics": {
+        "First Contentful Paint": "1.7 s",
+        "Largest Contentful Paint": "1.9 s",
+        "Total Blocking Time": "0 ms",
+        "Cumulative Layout Shift": "0"
+      },
+      "failedAudits": []
+    },
+    {
+      "name": "Evidence",
+      "url": "/evidence",
+      "mode": "navigation",
+      "performance": 98,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "metrics": {
+        "First Contentful Paint": "1.8 s",
+        "Largest Contentful Paint": "2.2 s",
+        "Total Blocking Time": "0 ms",
+        "Cumulative Layout Shift": "0"
+      },
+      "failedAudits": []
+    },
+    {
+      "name": "Itinerary (after the example flow)",
+      "url": "/itinerary",
+      "mode": "snapshot",
+      "performance": null,
+      "accessibility": 97,
+      "bestPractices": 100,
+      "metrics": {},
+      "failedAudits": [
+        "target-size: Touch targets do not have sufficient size or spacing. [e.g. <div class=\"leaflet-marker-icon leaflet-zoom-animated leaflet-interactive\" tabindex=\"0\" role=\"button\" aria-label=\"Day 1, stop 1: Senso-ji, 1]"
+      ]
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import AttractionCard from '../components/AttractionCard.vue'
 import LoadingBlock from '../components/LoadingBlock.vue'
 import ErrorPanel from '../components/ErrorPanel.vue'
+import Skeleton from '../components/Skeleton.vue'
 import { store, stateOf, setWish, loadPlaces } from '../store.js'
 const router = useRouter()
 const counts = computed(() => {
@@ -19,7 +20,7 @@ const counts = computed(() => {
       <p class="muted mb-0">Mark must-sees, nice-to-haves and places you do not want. Optional sights may still be left out of the plan if they would cost more than they are worth; you will see which ones and why.</p>
     </div>
     <ErrorPanel v-if="store.placesError" :error="store.placesError" retryable @retry="loadPlaces" />
-    <LoadingBlock v-else-if="!store.places" text="Loading places…" />
+    <template v-else-if="!store.places"><LoadingBlock text="Loading places…" /><div class="row g-3"><div v-for="n in 6" :key="n" class="col-12 col-md-6 col-lg-4"><Skeleton :lines="5" /></div></div></template>
     <template v-else>
       <p class="mb-0" aria-live="polite" data-testid="wish-counts"><strong>{{ counts.must }}</strong> must visit · <strong>{{ counts.nice }}</strong> nice to have · <strong>{{ counts.skip }}</strong> not interested</p>
       <div class="row g-3">

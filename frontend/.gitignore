@@ -6,3 +6,8 @@ test-results
 .env.local
 dist-e2e
 dist-shots
+public/evidence-data
+test-results
+dist-live
+dist-lh
+pw-artifacts

@@ -19,6 +19,7 @@ from app.hardening.limiter import SlidingWindowLimiter
 from app.hardening.llm_scope import LLMBudget, llm_for_request
 from app.hardening.logging_setup import configure_logging
 from app.hardening.middleware import HardeningMiddleware
+from app.hardening.solver_capacity import SolverCapacity
 from app.llm.client import LLMClient
 from app.llm.explain import OptimiseView, explain
 from app.llm.extract import extract_preferences
@@ -102,10 +103,12 @@ class CompareRequest(_Req):
 
 @router.post("/compare-hotels")
 def compare_hotels_route(req: CompareRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
-    ds = request.app.state.dataset
-    vot_range = (req.vot_min if req.vot_min is not None else config.VOT_RANGE_DEFAULT[0],
-                 req.vot_max if req.vot_max is not None else config.VOT_RANGE_DEFAULT[1])
-    comp = compare_hotels(req.preferences, req.hotel_ids, ds, include_sensitivity=req.include_sensitivity, vot_range=vot_range)
+    ds, cfg = request.app.state.dataset, request.app.state.hconf
+    with request.app.state.solver_capacity.claim():
+        vot_range = (req.vot_min if req.vot_min is not None else config.VOT_RANGE_DEFAULT[0],
+                     req.vot_max if req.vot_max is not None else config.VOT_RANGE_DEFAULT[1])
+        comp = compare_hotels(req.preferences, req.hotel_ids, ds, include_sensitivity=req.include_sensitivity,
+                              vot_range=vot_range, time_limit=cfg.hotel_compare_time_limit_seconds)
     out = comp.model_dump()
     # Presentation layer only: SGD display values from the labelled SAMPLE FX rate.
     out["fx_label"] = FX_LABEL
@@ -130,9 +133,12 @@ class ReplanRequest(_Req):
 @router.post("/replan")
 def replan_route(req: ReplanRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
     """Stateless: nothing from the request is stored. The supplied schedule is UNTRUSTED: it is rebuilt and validated first."""
-    ds = request.app.state.dataset
-    current = rebuild_client_schedule(req.preferences, req.current_result, ds)
-    result = replan(req.preferences, current, req.operations, ds, confirm_remove_must_visit=req.confirm_remove_must_visit)
+    ds, cfg = request.app.state.dataset, request.app.state.hconf
+    with request.app.state.solver_capacity.claim():
+        current = rebuild_client_schedule(req.preferences, req.current_result, ds)
+        result = replan(req.preferences, current, req.operations, ds,
+                        confirm_remove_must_visit=req.confirm_remove_must_visit,
+                        max_seconds=cfg.replan_time_limit_seconds)
     out = result.model_dump()
     if req.explain:  # built from the result just computed here, never from client-supplied results
         out["explanation"] = explain(result, ds, client, request.state.llm_note).model_dump()
@@ -149,19 +155,20 @@ class OptimiseRequest(_Req):
 def optimise_route(req: OptimiseRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
     """Best feasible itinerary for ONE hotel (true-cost objective, same as the hotel comparison), always validated."""
     ds, cfg = request.app.state.dataset, request.app.state.hconf
-    if req.hotel_id not in ds.hotels:
-        raise ApiError(422, "unknown_hotel", f"Unknown hotel id '{req.hotel_id[:64]}'.")
-    p = req.preferences
-    spec = ObjectiveSpec("true_cost", p.value_of_time_per_hour, config.MISSED_PREFERENCE_PENALTY_JPY)
-    res = solve(p, req.hotel_id, ds, objective=spec, max_seconds=cfg.optimise_time_limit_seconds,
-                alternatives_budget=cfg.alternatives_budget_seconds)
-    rep = build_report(res, ds, p, req.hotel_id)  # a failing report is returned as-is, never hidden
-    nights, src = nights_for(p)
-    approximate = res.status == "feasible" and res.solver_meta.solver_status != "OPTIMAL"
-    out = {"result": res.model_dump(), "feasibility_report": rep.model_dump(), "approximate": approximate,
-           "nights_used": nights, "nights_source": src}
-    if approximate:
-        out["approximate_note"] = "The solver stopped at its time limit without proving optimality: this plan is good but may not be the best."
+    with request.app.state.solver_capacity.claim():
+        if req.hotel_id not in ds.hotels:
+            raise ApiError(422, "unknown_hotel", f"Unknown hotel id '{req.hotel_id[:64]}'.")
+        p = req.preferences
+        spec = ObjectiveSpec("true_cost", p.value_of_time_per_hour, config.MISSED_PREFERENCE_PENALTY_JPY)
+        res = solve(p, req.hotel_id, ds, objective=spec, max_seconds=cfg.optimise_time_limit_seconds,
+                    alternatives_budget=cfg.alternatives_budget_seconds)
+        rep = build_report(res, ds, p, req.hotel_id)  # a failing report is returned as-is, never hidden
+        nights, src = nights_for(p)
+        approximate = res.status == "feasible" and res.solver_meta.solver_status != "OPTIMAL"
+        out = {"result": res.model_dump(), "feasibility_report": rep.model_dump(), "approximate": approximate,
+               "nights_used": nights, "nights_source": src}
+        if approximate:
+            out["approximate_note"] = "The solver stopped at its time limit without proving optimality: this plan is good but may not be the best."
     if req.explain:
         out["explanation"] = explain(OptimiseView(res, rep, req.hotel_id, approximate, nights), ds, client, request.state.llm_note).model_dump()
     return out
@@ -209,12 +216,13 @@ def create_app(cfg: HConfig | None = None, data_loader=load_dataset) -> FastAPI:
         yield
 
     docs = {} if cfg.docs_enabled else {"docs_url": None, "redoc_url": None, "openapi_url": None}
-    app = FastAPI(title="Tokyo trip planner (sample data)", lifespan=lifespan, **docs)
+    app = FastAPI(title="Fitinerary API (Tokyo sample data)", lifespan=lifespan, **docs)
     app.state.hconf = cfg
     app.state.limiter = SlidingWindowLimiter(
         {"expensive": cfg.rate_expensive_per_min, "standard": cfg.rate_standard_per_min, "cheap": cfg.rate_cheap_per_min},
         window=cfg.rate_window_seconds)
     app.state.llm_budget = LLMBudget(cfg.llm_daily_call_cap)
+    app.state.solver_capacity = SolverCapacity(cfg.solver_concurrency, cfg.solver_busy_retry_after_seconds)
     app.include_router(router)
     app.add_middleware(HardeningMiddleware, cfg=cfg, limiter=app.state.limiter)
     app.add_middleware(CORSMiddleware, allow_origins=list(cfg.allowed_origins), allow_methods=["GET", "POST"],

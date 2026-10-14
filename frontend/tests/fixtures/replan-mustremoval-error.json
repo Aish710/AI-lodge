@@ -1,0 +1,10 @@
+{
+ "error": {
+  "code": "must_visit_removal_not_confirmed",
+  "message": "'Senso-ji' is a must-visit. Removing it means the new plan will no longer include something you marked as required. Resend with confirm_remove_must_visit=true to proceed.",
+  "details": [
+   "senso_ji"
+  ],
+  "request_id": "3d6741abbc464c3e"
+ }
+}

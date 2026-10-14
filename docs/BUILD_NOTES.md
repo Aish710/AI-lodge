@@ -221,3 +221,40 @@ No other test was touched.
 **Tests:** 60 Vitest, 6 Playwright (real backend, sample mode), backend 288 pass (284 existing unmodified + 4 new: places, demo examples).
 **Problems and solutions:** (1) `/compare-hotels` with sensitivity takes about 10 s (the server's whole comparison budget) and comes back flagged approximate: the UI now fetches the fast comparison first and the sensitivity second, and shows the table immediately. (2) Leaflet drew tiles for only part of the map; fixed with a ResizeObserver calling `invalidateSize`, and screenshots now wait for tiles. (3) `Retry-After` cannot be read cross-origin (CORS does not expose it), so the client uses `details.retry_after_seconds` from the error body. (4) The first screenshot run picked the first "Use this hotel" button, not the best-overall one.
 **Demo input disclosure:** the example trip sets value of time to 3,000 JPY/h because at the default 1,000 the cheapest hotel is also the best for that trip; at 3,000 the real API result says they differ. A backend test pins this. It is an input, visible and editable, not a hardcoded story.
+
+## Phase 8, Milestone B: replanning UI, natural language, explanations, evidence (2026-10-14)
+
+**Built** (`frontend/`): per-stop Lock / Unlock / Remove / Move (with the API's day-part shortcuts), a pending-changes tray (one `/replan` call, 20 operation cap, plain-language list, remove-before-apply), a must-visit confirmation dialog on a native `<dialog>`, the Diff view (every cost line, kept/moved/removed/added, missed sights, disruption weights, new feasibility report, every warning verbatim, "Not like-for-like" beside a saving), restore-previous-plan, and a rejected-replan state that says the original plan is unchanged. Natural language in two places (`/parse` fills the editable form with raw input beside the extracted JSON, defaults, assumptions and click-to-choose suggestions; `/parse-replan` shows a proposal card that only queues). Opt-in explanations with the llm/template badge and verbatim warnings. Evidence page (from `scripts/sync-evidence.mjs`), About page with an SVG architecture diagram, 404, Reset, progress/elapsed/cancel for the slow comparison call, skeleton loaders, social meta tags and favicon, Netlify config (`_headers` with a generated CSP, SPA rewrite), `scripts/live-smoke.mjs`, `scripts/run-lighthouse.mjs`, `scripts/make-submission-facts.mjs`, screenshot script (11 shots plus a recording).
+**Backend change:** none to behaviour. Two additive contract tests (`tests/test_frontend_contracts.py`) pin the day-part mapping and input limits that the frontend mirrors. Backend suite: 290 pass (284 existing, unmodified, plus the Milestone A and contract tests).
+**Evaluation re-run on the committed code** (`fbe6e3d`): 154 s; every generated headline sentence identical to the previous run.
+**Empty day, investigated (decision 2):** not a bug. With the optimiser's own objective, the plan with an empty Day 1 and the best plan that uses Day 1 have the same cost (both OPTIMAL, 29,100 JPY at 3,000 JPY/h): fewer days out of the hotel is as cheap or cheaper, and which day stays free is a tie. The UI now says so in plain language on a free day. (My first comparison looked wrong because the objective prices an unknown admission at a 500 JPY placeholder while the breakdown excludes it.)
+**Problems and solutions:** (1) the `#hotel-value` link did not scroll because Evidence content loads after navigation: the page now scrolls once its data arrives. (2) The synced evidence folder was named `/evidence/`, colliding with the `/evidence` page route on a static host: renamed `evidence-data`. (3) A partial pytest run overwrote `tests/results/latest.md`, so the evidence page briefly showed "2 tests": a unit test caught it; the rule is to run the full suite last (logged as a gap). (4) Lighthouse found real issues (Bootstrap link colour contrast, wordmark and stop-button accessible names, heading order, overlapping map markers as touch targets, layout shift from late content): fixed, and the initial JavaScript dropped by lazy-loading routes. (5) Adding the natural-language box made an older end-to-end selector ambiguous: the test now matches exactly.
+**Notable (for the LinkedIn reflection):** the proudest engineering moment was making the safety rules testable at the request-building layer (the must-visit flag cannot be set from natural language, asserted in code, not just in the UI); the most useful surprise was Lighthouse pointing at accessibility issues that a keyboard-only test had not.
+**Simplified / not done:** no live deployment (cannot be done from here); Lighthouse is a local run; no live AI evaluation.
+
+## Final hardening and submission prep (2026-10-14)
+
+**Built**
+- Solver capacity gate for `/optimise`, `/compare-hotels` and `/replan`: defaults to one in-flight solve per process, returns structured `503 solver_busy` with `Retry-After`, and leaves `/health` responsive.
+- Configurable solver time budgets for optimisation, hotel comparison, replanning and alternatives; frontend e2e/Lighthouse runs raise local concurrency so tests do not interfere with each other.
+- Full-suite evidence hygiene: pytest now writes detailed run metadata and a separate `latest-full.md`; strict evidence sync and `build:release` require full backend evidence instead of whatever partial pytest last wrote.
+- Release validation: HTTPS non-local API origin, generated host config, required `dist` artifacts, evidence revision match and built-asset secret scan.
+- Map accessibility hardening: keyboard-focusable map markers with stop-specific names and Enter/Space popup handling that scrolls/focuses the matching timeline item.
+- Screenshot automation hardening: concrete readiness waits, bounded retries, diagnostics and `screenshot-run-report.json`; a three-repeat local screenshot run passed.
+- Fitinerary branding and submission material: README, Devpost draft, LinkedIn draft, deployment notes, final audit, refreshed screenshots/evidence/Lighthouse summaries.
+
+**Verification**
+- Backend: 293 passed, 1 warning.
+- Frontend unit tests: 119 passed.
+- Frontend Playwright: 16 passed.
+- Hardening script: 33/33 abuse cases passed.
+- Full evaluation: 15/15 scenarios, 60 trips, all generated headline claims retained.
+- Release build: `VITE_API_BASE_URL=https://api.example.com npm run build:release` passed with a placeholder HTTPS API origin.
+- Lighthouse local: home 99/100/100, evidence 98/100/100, itinerary accessibility 97 and best practices 100.
+
+**Notable**
+- Local live-smoke against a running backend was not run because the server-start approval was rejected.
+- Secret scans found only fake/test key fixtures and env-var names, including historical fake-key patterns in the existing commit; no real secret was found.
+- The remaining Lighthouse itinerary warning is Leaflet marker target spacing. The timeline/list is still the accessible equivalent, and markers themselves now expose keyboard labels.
+
+**Simplified / not done:** no live deployment; no live AI evaluation; Docker image still untested here; solver capacity is per process rather than cross-replica; cancelling a browser request does not stop a solve that has already started.

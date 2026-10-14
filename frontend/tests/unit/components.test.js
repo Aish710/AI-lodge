@@ -51,6 +51,12 @@ describe('ErrorPanel is the separate component for real errors', () => {
     expect(w.text()).toContain('request id r1')
     expect(w.text()).toContain('internal_error')
   })
+  it('explains solver_busy as capacity exhaustion and does not imply an automatic retry', () => {
+    const w = mount(ErrorPanel, { props: { error: { message: 'The itinerary solver is busy.', code: 'solver_busy', status: 503, retryAfter: 3 } } })
+    expect(w.text()).toContain('Solver is busy')
+    expect(w.text()).toContain('No request was started')
+    expect(w.text()).toContain('3 seconds')
+  })
 })
 
 describe('FeasibilityReport: a fail is never rendered as OK', () => {

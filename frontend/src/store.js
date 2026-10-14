@@ -3,7 +3,9 @@
 import { reactive, computed } from 'vue'
 import * as api from './api/routes.js'
 import { abortKey, ApiError, isAborted, setRateLimitHandler, waitForServer } from './api/client.js'
-import { applyPatch, buildPreferences, DEFAULT_FORM } from './lib/prefs.js'
+import { applyPatch, buildPreferences, DEFAULT_FORM, formFromDraft } from './lib/prefs.js'
+import { addOp, buildReplanArgs, proposalToOps, removeOpAt } from './lib/replan.js'
+import limits from './lib/limits.json'
 import examples from './lib/examples.json'
 
 export const store = reactive({
@@ -17,8 +19,12 @@ export const store = reactive({
   comparison: null, comparisonError: null, comparisonKey: null,
   chosenHotel: null,
   plan: null, planPrefs: null, planKey: null, planError: null,
-  busy: { compare: false, sensitivity: false, optimise: false },
-  sensitivityError: null,
+  busy: { compare: false, sensitivity: false, optimise: false, replan: false, parse: false, proposal: false },
+  sensitivityError: null, sensitivityCancelled: false, sensitivityStartedAt: 0,
+  planFromReplan: false,
+  queue: [], queueError: null, previous: null, lastReplan: null, lastReplanRequest: null, replanError: null, restored: false,
+  parseResult: null, parseError: null, proposal: null, proposalError: null,
+  explanations: { optimise: null, compare: null, replan: null }, explainError: null, explaining: null,
   rateLimitUntil: 0, now: Date.now(),
 })
 
@@ -94,6 +100,7 @@ export async function runCompare() {
   const ids = [...store.hotelIds]
   const key = keyOf(prefs, ids)
   abortKey('compare-sens')
+  store.sensitivityCancelled = false
   store.busy.compare = true
   store.busy.sensitivity = false
   store.comparisonError = null
@@ -105,11 +112,19 @@ export async function runCompare() {
   } catch (e) { fail('comparisonError', e); return } finally { store.busy.compare = false }
   // Step 2: the same comparison plus the value-of-time sensitivity (the slow part). It supersedes step 1 only if the inputs have not changed.
   store.busy.sensitivity = true
+  store.sensitivityCancelled = false
+  store.sensitivityStartedAt = Date.now()
   try {
     const full = await api.compareHotels(prefs, ids, { sensitivity: true })
     if (store.comparisonKey === key) store.comparison = full
   } catch (e) { if (!isAborted(e)) store.sensitivityError = e instanceof ApiError ? e : new ApiError({ code: 'unexpected', message: 'Something unexpected went wrong.' }) }
   finally { store.busy.sensitivity = false }
+}
+
+/** Stop waiting for the slow value-of-time analysis. The comparison table already on screen stays valid. */
+export function cancelSensitivity() {
+  store.sensitivityCancelled = true
+  abortKey('compare-sens')
 }
 
 /** Run the comparison only if the inputs changed (keeps navigation cheap against the rate limit). */
@@ -132,17 +147,23 @@ export async function runOptimise() {
     store.plan = resp
     store.planPrefs = prefs
     store.planKey = keyOf(prefs, store.chosenHotel)
+    store.planFromReplan = false
+    resetReplanState()
   } catch (e) { fail('planError', e) } finally { store.busy.optimise = false }
 }
 
 /** Run /optimise only if the inputs changed since the last plan (avoids burning the rate limit when navigating back and forth). */
 export async function ensurePlan() {
   const { prefs } = currentPrefs()
+  if (store.plan && store.planFromReplan) return // a server-replanned plan is kept until the user recalculates or picks another hotel
   if (store.plan && store.planKey === keyOf(prefs, store.chosenHotel)) return
   await runOptimise()
 }
 
-export function chooseHotel(id) { store.chosenHotel = id }
+export function chooseHotel(id) {
+  if (id !== store.chosenHotel) store.planFromReplan = false
+  store.chosenHotel = id
+}
 
 /** A conflict action (decision 4): apply the patch to the inputs, then re-run the same request. */
 export async function applyAlternative(patch) {
@@ -167,6 +188,11 @@ export function loadExample(kind) {
 }
 
 export function resetAll() {
+  store.planFromReplan = false
+  store.parseResult = null
+  store.proposal = null
+  store.explanations = { optimise: null, compare: null, replan: null }
+  resetReplanState()
   store.form = DEFAULT_FORM()
   store.wishlist = {}
   store.hotelIds = []
@@ -176,4 +202,120 @@ export function resetAll() {
   store.planKey = null
   store.planError = null
   store.comparisonError = null
+}
+
+
+// ---- replanning (edits go through the API only) ----
+function resetReplanState() {
+  store.queue = []
+  store.queueError = null
+  store.previous = null
+  store.lastReplan = null
+  store.lastReplanRequest = null
+  store.replanError = null
+  store.restored = false
+  store.explanations.replan = null
+  store.explanations.optimise = null
+}
+
+export function queueOp(op) {
+  const r = addOp(store.queue, op)
+  store.queue = r.queue
+  store.queueError = r.error
+  store.restored = false
+}
+export function unqueue(index) { store.queue = removeOpAt(store.queue, index); store.queueError = null }
+export function clearQueue() { store.queue = []; store.queueError = null }
+
+/**
+ * Send the queued operations in ONE /replan call. The schedule is sent exactly as received. `confirmed` is the literal result of the
+ * confirmation dialog; it is never set from natural language. A rejected or infeasible replan leaves the original plan untouched.
+ */
+export async function applyQueue({ confirmed = false } = {}) {
+  if (!store.plan || !store.queue.length) return
+  const args = buildReplanArgs({ prefs: store.planPrefs, currentResult: store.plan.result, queue: store.queue, confirmed, source: 'ui' })
+  store.busy.replan = true
+  store.replanError = null
+  store.restored = false
+  try {
+    const r = await api.replan(args.prefs, args.currentResult, args.operations, args.options)
+    store.lastReplan = r
+    store.lastReplanRequest = args
+    store.explanations.replan = null
+    if (r.status === 'applied') {
+      store.previous = { plan: store.plan, prefs: store.planPrefs, hotel: store.chosenHotel, fromReplan: store.planFromReplan }
+      store.plan = { result: r.schedule, feasibility_report: r.feasibility_report, approximate: r.approximate, nights_used: r.nights_used,
+        nights_source: r.nights_source, approximate_note: r.approximate ? 'The solver stopped at its time limit without proving optimality: this plan is good but may not be the best.' : undefined }
+      store.planPrefs = r.new_preferences
+      store.chosenHotel = r.hotel_id
+      store.planFromReplan = true
+      store.queue = []
+      store.queueError = null
+    }
+  } catch (e) { fail('replanError', e) } finally { store.busy.replan = false }
+}
+
+/** Switch back to the previous server-produced plan held in memory. A plain swap of two server results; nothing is edited or recomputed. */
+export function restorePrevious() {
+  const p = store.previous
+  if (!p) return
+  store.plan = p.plan
+  store.planPrefs = p.prefs
+  store.chosenHotel = p.hotel
+  store.planFromReplan = p.fromReplan
+  store.previous = null
+  store.lastReplan = null
+  store.queue = []
+  store.restored = true
+}
+
+// ---- natural language: both paths produce PROPOSALS ----
+export const maxInputChars = limits.max_input_chars
+
+export async function runParse(text) {
+  if (text.length > maxInputChars) { store.parseError = new ApiError({ code: 'input_too_long', message: `That is ${text.length} characters; the limit is ${maxInputChars}. Please shorten it (nothing was sent).` }); return }
+  store.busy.parse = true
+  store.parseError = null
+  try {
+    const r = await api.parseText(text, Number(store.form.startWeekday))
+    store.parseResult = r
+    if (r.draft) {
+      const next = formFromDraft(r.draft, store.form)
+      store.form = next.form
+      store.wishlist = next.wishlist
+    }
+  } catch (e) { fail('parseError', e) } finally { store.busy.parse = false; await refreshHealth() }
+}
+
+/** The user picked a suggestion / candidate: put that sight on the wishlist in the state it was asked for. */
+export function chooseName(id, state) { store.wishlist[id] = state }
+
+export async function runProposal(text) {
+  if (!store.plan) return
+  if (text.length > maxInputChars) { store.proposalError = new ApiError({ code: 'input_too_long', message: `That is ${text.length} characters; the limit is ${maxInputChars}. Please shorten it (nothing was sent).` }); return }
+  store.busy.proposal = true
+  store.proposalError = null
+  try { store.proposal = await api.parseReplanText(text, store.planPrefs, store.plan.result) } catch (e) { fail('proposalError', e) } finally { store.busy.proposal = false; await refreshHealth() }
+}
+export function discardProposal() { store.proposal = null; store.proposalError = null }
+/** Queue the chosen operations of a proposal. Only operations move across: no confirmation flag, no execution. */
+export function queueProposal(includeIdx) {
+  for (const op of proposalToOps(store.proposal, includeIdx)) queueOp(op)
+  store.proposal = null
+}
+
+// ---- explanations: opt-in per click (each uses AI budget), supporting text only ----
+export async function explain(kind) {
+  store.explainError = null
+  store.explaining = kind
+  try {
+    let resp
+    if (kind === 'optimise') resp = await api.optimise(store.planPrefs, store.chosenHotel, { explain: true })
+    else if (kind === 'compare') { const { prefs } = currentPrefs(); resp = await api.compareHotels(prefs, [...store.hotelIds], { sensitivity: false, explain: true }) }
+    else if (kind === 'replan' && store.lastReplanRequest) {
+      const a = store.lastReplanRequest
+      resp = await api.replan(a.prefs, a.currentResult, a.operations, { ...a.options, explain: true })
+    }
+    store.explanations[kind] = resp?.explanation ?? null
+  } catch (e) { fail('explainError', e) } finally { store.explaining = null; await refreshHealth() }
 }

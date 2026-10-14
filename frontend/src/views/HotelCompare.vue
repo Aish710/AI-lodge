@@ -1,10 +1,12 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import LoadingBlock from '../components/LoadingBlock.vue'
 import ErrorPanel from '../components/ErrorPanel.vue'
 import SourceBadge from '../components/SourceBadge.vue'
-import { store, runCompare, ensureComparison, chooseHotel, rateLimited, currentPrefs } from '../store.js'
+import ExplainBlock from '../components/ExplainBlock.vue'
+import Skeleton from '../components/Skeleton.vue'
+import { store, runCompare, ensureComparison, chooseHotel, rateLimited, currentPrefs, cancelSensitivity, explain } from '../store.js'
 import { hotelCallout } from '../lib/rules.js'
 import { formatJpy, formatSgd, minutesToHm, UNKNOWN } from '../lib/format.js'
 
@@ -39,6 +41,13 @@ onMounted(async () => {
   gridIdx.value = i >= 0 ? i : 0
 })
 const errorsNow = computed(() => currentPrefs().errors)
+const elapsed = ref(0)
+let timer = null
+watch(() => store.busy.sensitivity, (on) => {
+  clearInterval(timer)
+  if (on) { elapsed.value = 0; timer = setInterval(() => { elapsed.value = Math.round((Date.now() - store.sensitivityStartedAt) / 1000) }, 1000) }
+}, { immediate: true })
+onBeforeUnmount(() => clearInterval(timer))
 </script>
 <template>
   <div class="stack">
@@ -63,6 +72,7 @@ const errorsNow = computed(() => currentPrefs().errors)
 
     <ErrorPanel v-if="store.comparisonError" :error="store.comparisonError" />
     <LoadingBlock v-if="store.busy.compare" text="Solving the best itinerary for each hotel… this can take several seconds." />
+    <Skeleton v-if="store.busy.compare && !comp" :lines="6" height="1.2rem" />
 
     <template v-if="comp && !store.busy.compare">
       <div v-if="callout.kind === 'differs'" class="notice notice-good" role="status" data-testid="callout-differs">
@@ -136,13 +146,20 @@ const errorsNow = computed(() => currentPrefs().errors)
           <template v-else-if="r.note"> {{ r.note }}</template></span>
       </div>
 
+      <ExplainBlock :explanation="store.explanations.compare" :busy="store.explaining === 'compare'" :disabled="rateLimited || !!store.explaining" :error="store.explainError" @explain="explain('compare')" />
       <section v-if="comp.warnings?.length" class="card-soft" aria-labelledby="warn-h" data-testid="warnings">
         <h2 id="warn-h" class="h6">Warnings from the planner (verbatim)</h2>
         <ul class="mb-0"><li v-for="w in comp.warnings" :key="w">{{ w }}</li></ul>
       </section>
 
-      <LoadingBlock v-if="store.busy.sensitivity && !comp.sensitivity" text="The comparison above is ready. Working out how the ranking changes with your value of time… a few more seconds." />
-      <div v-else-if="store.sensitivityError && !comp.sensitivity" class="notice notice-warn" data-testid="sensitivity-error">
+      <div v-if="store.busy.sensitivity && !comp.sensitivity" class="notice notice-info" role="status" aria-live="polite" data-testid="sens-progress">
+        <span class="spinner" aria-hidden="true"></span>
+        <span class="flex-grow-1"><strong>The comparison above is ready.</strong> Now working out how the ranking changes with your value of time. This uses the solver capacity, so choosing a hotel is paused until it finishes or you cancel. This can take up to about 10 seconds or more on a slow server ({{ elapsed }} s so far).
+          <button type="button" class="btn btn-sm btn-outline-secondary ms-2" @click="cancelSensitivity" data-testid="cancel-sens">Cancel</button></span>
+      </div>
+      <div v-else-if="store.sensitivityCancelled && !comp.sensitivity" class="notice notice-warn" data-testid="sens-cancelled">
+        <span class="glyph" aria-hidden="true">!</span><span>The value-of-time analysis was cancelled. The comparison above is complete. <button type="button" class="btn btn-sm btn-outline-secondary ms-2" :disabled="rateLimited" @click="runCompare">Run it again</button></span></div>
+      <div v-else-if="store.sensitivityError && !comp.sensitivity && !store.sensitivityCancelled" class="notice notice-warn" data-testid="sensitivity-error">
         <span class="glyph" aria-hidden="true">!</span><span>The comparison above is complete, but the value-of-time analysis could not be loaded: {{ store.sensitivityError.display }}</span>
       </div>
       <section v-if="comp.sensitivity && grid.length" class="card-soft" aria-labelledby="vot-h" data-testid="sensitivity">

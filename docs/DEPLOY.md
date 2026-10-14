@@ -31,9 +31,15 @@ Measured locally (not on Render): process start to first `/health` 200 in about 
 | `TRUSTED_PROXY_HOPS` | no | `1` to start, then verify | See below. |
 | `RATE_LIMIT_EXPENSIVE_PER_MIN` | no | `6` | `/parse`, `/parse-replan`, `explain: true`. Must be <= the standard limit. |
 | `RATE_LIMIT_PER_MIN` | no | `30` | Standard tier. |
-| `RATE_LIMIT_CHEAP_PER_MIN` | no | `120` | `/health`, `/data/summary`. |
+| `RATE_LIMIT_CHEAP_PER_MIN` | no | `120` | `/health`, `/data/summary`, `/data/places`. |
 | `LLM_DAILY_CALL_CAP` | no | `300` | Per process, rolling 24 h. |
 | `REQUEST_DEADLINE_SECONDS` | no | `25` | Model timeout is 10 s. |
+| `SOLVER_CONCURRENCY` | no | `1` | Active CPU-heavy solve requests per backend process. A busy server returns HTTP 503 `solver_busy`; `/health` remains responsive. |
+| `SOLVER_BUSY_RETRY_AFTER_SECONDS` | no | `10` | Retry hint returned with `solver_busy`. The frontend shows it but does not auto-retry POSTs. |
+| `OPTIMISE_TIME_LIMIT_SECONDS` | no | `10` | Wall-clock limit for one itinerary solve. Lower for constrained hosts; approximate results are labelled. |
+| `HOTEL_COMPARE_TIME_LIMIT_SECONDS` | no | `10` | Overall hotel comparison and sensitivity time budget. Partial results are labelled. |
+| `REPLAN_TIME_LIMIT_SECONDS` | no | `5` | Replanning solve time limit. |
+| `ALTERNATIVES_BUDGET_SECONDS` | no | `8` | Budget for computed alternatives on infeasible optimise requests. |
 | `BODY_MAX_BYTES` | no | `65536` | |
 | `MAX_INPUT_CHARS` | no | `2000` | Free-text limit. |
 | `ENABLE_DOCS` | no | `0` | Never `1` in production. |
@@ -53,3 +59,47 @@ Render dashboard > service > Logs. After a smoke test, search for: your key pref
 
 ## If you run the container yourself
 `docker build -t tokyo-planner ./backend && docker run -p 8000:8000 -e ALLOWED_ORIGINS=http://localhost:5173 tokyo-planner`. The Dockerfile uses a slim Python image, a non-root user, pinned runtime dependencies (`requirements.txt`; test dependencies are in `requirements-dev.txt`), and a health check. Not built here (no Docker available); the same commands were verified outside Docker with uvicorn.
+
+## Frontend deployment (addendum, Netlify)
+**Why Netlify:** its docs confirm the two things this app needs from a static host: a `_headers` file in the publish directory for response headers, and a `/*  /index.html  200` rewrite for single-page-app routes (https://docs.netlify.com/manage/routing/headers/ and .../redirects/rewrites-proxies/). Its pricing page lists the Free plan as "$0 forever" with a 300-credit limit; that page does not state build minutes or whether a card is required, so check both when you sign up. Vercel was not evaluated.
+
+**What the build writes for you.** `npm run build` (in `frontend/`) first copies the generated evidence files into the build (`scripts/sync-evidence.mjs`), then writes `dist/_headers` and `dist/_redirects` (`scripts/write-host-config.mjs`). The headers carry a Content-Security-Policy that allows only this site, `https://tile.openstreetmap.org` for map tiles, and the API origin taken from `VITE_API_BASE_URL`, plus `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: DENY`. `style-src` includes `'unsafe-inline'` because Leaflet and Vue set inline style attributes; scripts are `'self'` only. `tests/e2e/csp.spec.js` serves the real build with these exact headers and checks there are no violations.
+
+**Release build gate.** Use `npm run build:release` for submission builds. It requires the full-suite backend evidence file, an HTTPS non-local `VITE_API_BASE_URL`, required evidence artifacts in `dist`, matching evaluation Git revision, and no obvious API-key patterns in built assets. Normal `npm run build` stays usable for development and preview builds.
+
+**Steps (in this order):**
+1. Deploy the backend first (steps above) and note its URL, e.g. `https://<service>.onrender.com`.
+2. Netlify: **Add new site > Import from Git**, pick the repo. `netlify.toml` at the repo root already sets base `frontend`, command `npm ci && npm run build`, publish `dist`, Node 22.
+3. Site configuration > Environment variables: set `VITE_API_BASE_URL` to the backend URL (no trailing slash). It is a public URL, not a secret. Never put an LLM key here. Deploy.
+4. Note the production origin, e.g. `https://<site>.netlify.app` (or your custom domain). **Set `ALLOWED_ORIGINS` on the backend to exactly that origin** (scheme + host, no path, no `*`) and restart it. Branch and deploy-preview URLs on Netlify are different origins and will FAIL CORS: test on the production URL only.
+5. The evidence page needs `docs/` and `backend/tests/results/latest-full.md` to be committed, because Netlify builds from the repository. Re-run the evaluation and a full backend `pytest`; partial pytest runs write `latest.md` only and do not overwrite the verified full-suite file. Commit the source and generated evidence, then deploy, so the page shows one clean git hash. If the evaluation and test revisions differ, the Evidence page displays a stale/unverified warning.
+6. Verify the live pair (both commands exit non-zero on failure):
+   - `python backend/scripts/smoke_test.py https://<service>.onrender.com`
+   - `cd frontend && node scripts/live-smoke.mjs https://<site>.netlify.app https://<service>.onrender.com` (waits up to 150 s for a cold start; checks CORS for exactly that origin, the page, the example flow, map tiles, the evidence page and the 404 route).
+7. Confirm `TRUSTED_PROXY_HOPS` using the procedure under "Choosing `TRUSTED_PROXY_HOPS`" above. The browser calls the API directly (Netlify only serves static files), so the API sees each visitor's own address behind Render's proxy.
+
+**Live link checklist**
+- [ ] Open the production URL in a private window with the server asleep: the "Waking the server, this can take about a minute" notice appears, then the app (not an error).
+- [ ] The indicator reads "Sample mode (AI unavailable)" with no key set, and everything except the AI boxes works.
+- [ ] No CORS errors (the live-smoke CORS check passes for the exact origin).
+- [ ] `/evidence` shows 15 scenarios, the date and a git hash without "uncommitted".
+- [ ] Browser console: no errors or warnings on `/`, the example flow and `/evidence`.
+- [ ] Map tiles load (OpenStreetMap) and the attribution is visible.
+- [ ] Reload a deep link such as `/evidence`: it must load (the rewrite works), and `/anything-else` shows the 404 page.
+- [ ] If you add an LLM key: spending cap set at the provider first; `/health` then shows "AI assistant on".
+
+**First-visit expectations on the free tiers.** The backend sleeps after 15 idle minutes and takes about a minute to wake. On a small CPU the hotel comparison's second call (value-of-time analysis) can take noticeably longer than on a laptop; the table appears first and the analysis can be cancelled.
+
+## Reproducible release procedure
+
+1. Start from a clean branch at the intended release commit.
+2. Run the full backend suite with no path, `-k`, or `-m` selection so `backend/tests/results/latest-full.md` is updated.
+3. Run the full frontend Vitest and Playwright report command.
+4. Run the hardening battery, full evaluation, Lighthouse, and screenshot process.
+5. Regenerate `docs/SUBMISSION-FACTS.md`.
+6. Commit source changes and generated evidence together.
+7. Build with `VITE_API_BASE_URL=https://<backend> npm run build:release`.
+8. Run live smoke tests against deployed frontend/backend.
+9. If any generated evidence references a different Git revision than the final source commit, rerun the relevant generator and recommit; do not edit evidence by hand.
+
+Rollback: redeploy the previous known-good backend service revision and previous static frontend deploy from the provider dashboards. Keep `ALLOWED_ORIGINS` in sync with the frontend origin after rollback.

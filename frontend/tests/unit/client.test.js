@@ -13,6 +13,10 @@ describe('normaliseError', () => {
     const e = normaliseError({ status: 429, body: errBody('rate_limited', 'Too many requests.', { retry_after_seconds: 7.2 }) })
     expect([e.code, e.retryAfter]).toEqual(['rate_limited', 8])
   })
+  it('recognises solver capacity 503 responses without treating them as a host crash', () => {
+    const e = normaliseError({ status: 503, body: errBody('solver_busy', 'Solver busy.', { retry_after_seconds: 3 }) })
+    expect([e.code, e.status, e.retryAfter, e.message]).toEqual(['solver_busy', 503, 3, 'Solver busy.'])
+  })
   it('falls back to a safe wait when a 429 has no usable body', () => {
     expect(normaliseError({ status: 429, body: null }).retryAfter).toBe(10)
     expect(normaliseError({ status: 429, body: '<html>' }).code).toBe('rate_limited')

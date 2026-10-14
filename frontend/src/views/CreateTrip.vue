@@ -1,6 +1,9 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import NlParsePanel from '../components/NlParsePanel.vue'
+import examples from '../lib/examples.json'
+import { exampleLabel } from '../lib/rules.js'
 import { store, currentPrefs, loadExample } from '../store.js'
 import { nightsUsed } from '../lib/prefs.js'
 import { budgetInJpy } from '../lib/prefs.js'
@@ -11,6 +14,7 @@ const errors = computed(() => currentPrefs().errors)
 const rate = computed(() => store.fx?.jpy_per_sgd ?? null)
 const budgetJpy = computed(() => budgetInJpy(store.form, rate.value))
 const vot = computed(() => Number(store.form.valueOfTime))
+const exLabel = exampleLabel(examples.valid)
 function next() { if (!errors.value.length) router.push('/wishlist') }
 function example(kind) { loadExample(kind); router.push(kind === 'valid' ? '/hotels' : '/itinerary') }
 </script>
@@ -23,9 +27,12 @@ function example(kind) { loadExample(kind); router.push(kind === 'valid' ? '/hot
 
     <div class="card-soft d-flex flex-wrap gap-2 align-items-center" data-testid="demo-helpers">
       <strong class="me-2">Quick demo:</strong>
-      <button class="btn btn-outline-primary btn-sm" @click="example('valid')" data-testid="load-example">Load example trip</button>
+      <button class="btn btn-outline-primary btn-sm" @click="example('valid')" data-testid="load-example" :title="exLabel.title" :aria-describedby="'ex-note'">{{ exLabel.text }}</button>
       <button class="btn btn-outline-secondary btn-sm" @click="example('impossible')" data-testid="load-impossible">Try an impossible trip</button>
+      <p id="ex-note" class="small muted mb-0 w-100" data-testid="example-note"><strong>About this example:</strong> it uses a high value of time ({{ exLabel.vot }} an hour) so that the hotel trade-off is visible. It is not typical: on random trips the cheapest hotel was usually also the best. See the measured result on the <router-link to="/evidence#hotel-value">Evidence page</router-link>.</p>
     </div>
+
+    <NlParsePanel />
 
     <form class="card-soft" @submit.prevent="next" novalidate aria-label="Trip details">
       <div class="row g-3">

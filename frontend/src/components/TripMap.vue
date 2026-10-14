@@ -7,12 +7,13 @@ import 'leaflet/dist/leaflet.css'
 import { dayColor, dayShape } from '../lib/mapstyle.js'
 
 const props = defineProps({ days: { type: Array, default: () => [] }, hotel: { type: Object, default: null }, placesById: { type: Object, required: true } })
+const emit = defineEmits(['select-stop'])
 const el = ref(null)
 let map = null
 let layer = null
 let ro = null
 
-function pinIcon(num, color, shape, size = 30) {
+function pinIcon(num, color, shape, size = 56) {
   const html = `<div class="pin pin-${shape}" style="background:${color};width:${size}px;height:${size}px"><span>${Number(num)}</span></div>`
   return L.divIcon({ className: '', html, iconSize: [size, size], iconAnchor: [size / 2, size / 2], popupAnchor: [0, -size / 2] })
 }
@@ -30,9 +31,10 @@ function draw() {
   const hp = hotel ? [hotel.lat, hotel.lon] : null
   if (hp) {
     pts.push(hp)
-    L.marker(hp, { icon: L.divIcon({ className: '', html: '<div class="pin pin-hotel" style="width:30px;height:30px"><span>H</span></div>', iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15] }),
+    const marker = L.marker(hp, { icon: L.divIcon({ className: '', html: '<div class="pin pin-hotel" style="width:56px;height:56px"><span>H</span></div>', iconSize: [56, 56], iconAnchor: [28, 28], popupAnchor: [0, -28] }),
       title: `Hotel: ${hotel.name} (fictional)`, alt: `Hotel ${hotel.name}`, keyboard: true })
       .bindPopup(popup([hotel.name, 'Hotel (fictional)'])).addTo(layer)
+    marker.on('add', () => marker.getElement()?.setAttribute('aria-label', `Hotel: ${hotel.name} (fictional)`))
   }
   for (const d of props.days) {
     const color = dayColor(d.day)
@@ -48,8 +50,18 @@ function draw() {
       const p = props.placesById[s.attraction_id]
       if (!p) return
       pts.push([p.lat, p.lon])
-      L.marker([p.lat, p.lon], { icon: pinIcon(i + 1, color, shape), title: `Day ${d.day}, stop ${i + 1}: ${p.name}`, alt: `Day ${d.day} stop ${i + 1} ${p.name}`, keyboard: true })
+      const label = `Day ${d.day}, stop ${i + 1}: ${p.name}, ${s.start} to ${s.end}`
+      const marker = L.marker([p.lat, p.lon], { icon: pinIcon(i + 1, color, shape), title: label, alt: label, keyboard: true })
         .bindPopup(popup([`${i + 1}. ${p.name}`, `Day ${d.day} (${shape}), ${s.start}-${s.end}`])).addTo(layer)
+      marker.on('click', () => emit('select-stop', { attractionId: s.attraction_id, day: d.day, index: i }))
+      marker.on('keydown', (e) => {
+        if (e.originalEvent?.key === 'Enter' || e.originalEvent?.key === ' ') {
+          e.originalEvent.preventDefault()
+          marker.openPopup()
+          emit('select-stop', { attractionId: s.attraction_id, day: d.day, index: i })
+        }
+      })
+      marker.on('add', () => marker.getElement()?.setAttribute('aria-label', label))
     })
   }
   if (pts.length) map.fitBounds(L.latLngBounds(pts), { padding: [30, 30], maxZoom: 14 })

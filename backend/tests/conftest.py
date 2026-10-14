@@ -1,12 +1,15 @@
-"""Writes PASS/FAIL results with timestamps to tests/results/latest.md after every run."""
+"""Writes pytest evidence with enough metadata to distinguish full and partial runs."""
 import socket
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 
 import pytest
 
 RESULTS = Path(__file__).parent / "results" / "latest.md"
+FULL_RESULTS = Path(__file__).parent / "results" / "latest-full.md"
 _rows: list[tuple[str, str, str]] = []
+_deselected = 0
 
 
 def pytest_runtest_logreport(report):
@@ -15,21 +18,66 @@ def pytest_runtest_logreport(report):
         _rows.append((datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"), status, report.nodeid))
 
 
+def pytest_deselected(items):
+    global _deselected
+    _deselected += len(items)
+
+
+def _git_revision() -> str:
+    root = Path(__file__).resolve().parents[2]
+    try:
+        rev = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, check=True, text=True, capture_output=True).stdout.strip()
+        dirty = subprocess.run(["git", "diff", "--quiet"], cwd=root).returncode != 0
+        staged = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=root).returncode != 0
+        return rev + (" + uncommitted changes" if dirty or staged else "")
+    except Exception:
+        return "unknown"
+
+
+def _is_full_suite(session) -> tuple[bool, list[str]]:
+    opt = session.config.option
+    reasons = []
+    args = [str(a) for a in getattr(opt, "file_or_dir", [])]
+    if args and args != ["backend/tests"] and args != ["tests"]:
+        reasons.append("pytest path/test selection was used")
+    if getattr(opt, "keyword", ""):
+        reasons.append("-k selection was used")
+    if getattr(opt, "markexpr", ""):
+        reasons.append("-m selection was used")
+    if _deselected:
+        reasons.append(f"{_deselected} tests were deselected")
+    return not reasons, reasons
+
+
 def pytest_sessionfinish(session, exitstatus):
     passed = sum(r[1] == "PASS" for r in _rows)
     failed = sum(r[1] == "FAIL" for r in _rows)
+    skipped = sum(r[1] == "SKIP" for r in _rows)
+    full, reasons = _is_full_suite(session)
+    generated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     lines = [
         "# Latest test results",
         "",
-        f"Generated {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')} by pytest "
-        f"(auto-written by tests/conftest.py). Passed: {passed}, failed: {failed}, total: {len(_rows)}.",
+        f"Generated {generated} by pytest (auto-written by tests/conftest.py).",
+        f"Run type: {'full backend suite' if full else 'partial backend run'}.",
+        f"Git revision: {_git_revision()}.",
+        f"Pytest args: {' '.join(session.config.invocation_params.args) or '(none)'}",
+        f"Collected: {session.testscollected}; deselected: {_deselected}; executed rows: {len(_rows)}.",
+        f"Passed: {passed}, failed: {failed}, skipped: {skipped}, total: {len(_rows)}.",
+    ]
+    if reasons:
+        lines.append("Partial-run reason: " + "; ".join(reasons) + ".")
+    lines += [
         "",
         "| Time | Result | Test |",
         "|---|---|---|",
     ]
     lines += [f"| {t} | {s} | `{n}` |" for t, s, n in _rows]
     RESULTS.parent.mkdir(exist_ok=True)
-    RESULTS.write_text("\n".join(lines) + "\n")
+    text = "\n".join(lines) + "\n"
+    RESULTS.write_text(text)
+    if full:
+        FULL_RESULTS.write_text(text.replace("# Latest test results", "# Latest verified full backend suite", 1))
 
 
 @pytest.fixture(autouse=True)

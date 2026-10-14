@@ -22,10 +22,14 @@
   --bs-body-color: var(--ink);
   --bs-body-bg: var(--paper);
   --bs-link-color: var(--accent-dark);
+  --bs-link-color-rgb: 150, 44, 27;
+  --bs-link-hover-color-rgb: 120, 30, 16;
   --bs-link-hover-color: var(--accent);
   --bs-border-color: var(--line);
 }
 
+main#main { min-height: 78vh; }   /* reserve space so the footer does not jump when content arrives after the health check */
+.mode-slot { min-height: 40px; }
 body { background: var(--paper); color: var(--ink); line-height: 1.5; }
 h1, h2, h3, .display-font { font-family: 'Fraunces Variable', Georgia, serif; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
 h1 { font-size: clamp(1.6rem, 4.5vw, 2.2rem); }
@@ -131,3 +135,17 @@ a { text-underline-offset: 2px; }
 .kpi { font-family: 'Fraunces Variable', Georgia, serif; font-size: 1.5rem; font-weight: 600; font-variant-numeric: tabular-nums; }
 
 .table-honest th.num > div { text-align: right; }
+
+.delta-up { color: var(--red); } .delta-down { color: var(--teal); } .delta-same { color: var(--muted); }
+.confirm-dialog { border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; max-width: min(520px, 92vw); color: var(--ink); }
+.confirm-dialog::backdrop { background: rgba(27, 39, 51, .55); }
+.skeleton { background: linear-gradient(90deg, #ece6da 25%, #f5f0e6 37%, #ece6da 63%); background-size: 400% 100%; animation: shimmer 1.4s ease infinite; border-radius: 8px; }
+@keyframes shimmer { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+@media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } }
+.chip { border: 1px solid var(--accent-dark); color: var(--accent-dark); background: #fff; border-radius: 999px; padding: 2px 12px; font-size: .88rem; font-weight: 600; }
+.chip:hover { background: var(--accent-dark); color: #fff; }
+.json-box { background: #f3eee4; border: 1px solid var(--line); border-radius: 10px; padding: 10px; font-size: .8rem; max-height: 320px; overflow: auto; white-space: pre-wrap; word-break: break-word; }
+.bar-track { background: #ece6da; border-radius: 6px; height: 12px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--teal); }
+.bar-fill.bar-bad { background: var(--red); }
+.bar-fill.bar-warn { background: #b07a10; }

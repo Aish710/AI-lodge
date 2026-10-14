@@ -38,6 +38,10 @@ class HConfig:
     max_json_depth: int = 20
     optimise_time_limit_seconds: float = 10.0
     alternatives_budget_seconds: float = 8.0
+    hotel_compare_time_limit_seconds: float = 10.0
+    replan_time_limit_seconds: float = 5.0
+    solver_concurrency: int = 1
+    solver_busy_retry_after_seconds: int = 10
 
     @classmethod
     def from_env(cls, env=None) -> "HConfig":
@@ -52,6 +56,12 @@ class HConfig:
             llm_daily_call_cap=_int(env, "LLM_DAILY_CALL_CAP", 300, 0, 1_000_000),
             trusted_proxy_hops=_int(env, "TRUSTED_PROXY_HOPS", 0, 0, 5),
             request_deadline_seconds=float(_int(env, "REQUEST_DEADLINE_SECONDS", 25, 2, 300)),
+            optimise_time_limit_seconds=float(_int(env, "OPTIMISE_TIME_LIMIT_SECONDS", 10, 1, 300)),
+            alternatives_budget_seconds=float(_int(env, "ALTERNATIVES_BUDGET_SECONDS", 8, 0, 300)),
+            hotel_compare_time_limit_seconds=float(_int(env, "HOTEL_COMPARE_TIME_LIMIT_SECONDS", 10, 1, 300)),
+            replan_time_limit_seconds=float(_int(env, "REPLAN_TIME_LIMIT_SECONDS", 5, 1, 300)),
+            solver_concurrency=_int(env, "SOLVER_CONCURRENCY", 1, 1, 16),
+            solver_busy_retry_after_seconds=_int(env, "SOLVER_BUSY_RETRY_AFTER_SECONDS", 10, 1, 300),
             allowed_origins=origins,
             docs_enabled=env.get("ENABLE_DOCS", "") in ("1", "true", "True"),
         )
@@ -73,4 +83,7 @@ class HConfig:
                                               "cheap": self.rate_cheap_per_min},
                 "llm_daily_call_cap": self.llm_daily_call_cap, "trusted_proxy_hops": self.trusted_proxy_hops,
                 "request_deadline_s": self.request_deadline_seconds, "body_max_bytes": self.body_max_bytes,
+                "solver": {"concurrency": self.solver_concurrency, "optimise_time_limit_s": self.optimise_time_limit_seconds,
+                           "compare_time_limit_s": self.hotel_compare_time_limit_seconds,
+                           "replan_time_limit_s": self.replan_time_limit_seconds},
                 "allowed_origins": list(self.allowed_origins), "docs_enabled": self.docs_enabled}

@@ -33,10 +33,11 @@ export function normaliseError({ status, body, requestId = null }) {
   const err = body && typeof body === 'object' ? body.error : null
   if (err && typeof err === 'object' && typeof err.code === 'string') {
     const details = err.details && typeof err.details === 'object' ? err.details : {}
-    const retry = status === 429 ? Number(details.retry_after_seconds) : NaN
+    const retry = status === 429 || err.code === 'solver_busy' ? Number(details.retry_after_seconds) : NaN
     return new ApiError({
       code: err.code, message: String(err.message ?? 'The server reported an error.'), details, status,
-      requestId: err.request_id ?? requestId, retryAfter: status === 429 ? (Number.isFinite(retry) && retry > 0 ? Math.ceil(retry) : 10) : null,
+      requestId: err.request_id ?? requestId,
+      retryAfter: status === 429 || err.code === 'solver_busy' ? (Number.isFinite(retry) && retry > 0 ? Math.ceil(retry) : 10) : null,
     })
   }
   if (status === 429) return new ApiError({ code: 'rate_limited', message: 'Too many requests. Please wait a moment.', status, requestId, retryAfter: 10 })
