@@ -1,0 +1,6 @@
+{
+  "note": "Mirror of backend app/config.py PACE_MAX_PER_DAY (max sights per day). Used only by the advisory budget hint. backend/tests/test_frontend_contracts.py fails if they differ.",
+  "relaxed": 2,
+  "balanced": 3,
+  "packed": 4
+}

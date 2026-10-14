@@ -301,3 +301,20 @@ No other test was touched.
 **Notable**
 - This is a visual bridge, not the full Milestone 2 dynamic flow. The app still uses the old page sequence, but the data on those pages changes with the selected city.
 - Kuala Lumpur facts are sample/general-knowledge placeholders and must be verified before public claims.
+
+## Frontend UX: settings summary and memory-only clarity (2026-10-14)
+
+**Built**
+- Added a compact trip-settings strip to the Sights, Hotels and Itinerary screens with an edit link back to the Trip screen.
+- Added explicit memory-only copy beside the Trip screen Next button, plus a visible Start over action guarded by confirmation.
+- Added a standard browser refresh/close warning only when there is unsaved in-memory trip work.
+- Added a non-blocking high-budget hint computed from the loaded sample attraction-cost data; no backend behaviour changed.
+
+**Verification**
+- Added Vitest coverage for strip formatting, Back/Next navigation, browser-style back navigation, edit-link preservation, Start over confirmation, leave-page guarding and the budget hint.
+- Added Playwright coverage for settings -> Next -> Back preservation and refresh clearing the in-memory form.
+
+**Notable**
+- State is still intentionally memory-only: no localStorage, sessionStorage, cookies or analytics.
+- The frontend data endpoint does not expose the travel fare matrix, so the budget hint uses the currently loaded dataset cost fields available to the frontend and stays advisory.
+- Follow-up check: the budget hint's sights-per-day numbers now live in `frontend/src/lib/pacecaps.json`, pinned to `PACE_MAX_PER_DAY` by `test_pace_caps_match_the_backend` (a test only; no backend behaviour changed). The hint counts admissions only (transport is not exposed to the frontend), so it understates cost; the 20x margin absorbs that. Counts at this check: backend 302 passed, Vitest 127 passed, Playwright 17 passed. Screenshot: `docs/screenshots/12-settings-strip.png`.

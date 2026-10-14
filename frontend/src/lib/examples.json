@@ -1,0 +1,67 @@
+{
+  "note": "Pre-tested demo requests. backend/tests/test_frontend_examples.py posts these to the real /optimise route and asserts the expected status; tests/e2e checks the same in the browser.",
+  "valid": {
+    "label": "Example trip",
+    "hotel_id": "hotel_lantern_asakusa",
+    "hotel_ids": [
+      "hotel_kitsune_shinjuku",
+      "hotel_lantern_asakusa",
+      "hotel_harbour_odaiba"
+    ],
+    "form": {
+      "days": 3,
+      "budgetAmount": "",
+      "budgetCurrency": "JPY",
+      "strictBudget": false,
+      "pace": "balanced",
+      "startWeekday": 2,
+      "dayStart": "09:00",
+      "dayEnd": "19:00",
+      "valueOfTime": 3000,
+      "nightsOverride": false,
+      "nights": 2,
+      "allowUnknownHours": false
+    },
+    "wishlist": {
+      "senso_ji": "must",
+      "meiji_jingu": "must",
+      "akihabara": "skip"
+    },
+    "expect": {
+      "status": "feasible",
+      "rate_winner_differs_from_true_winner": true
+    },
+    "note": "valueOfTime 3000 is a demo INPUT chosen so the real API result shows a different best-value hotel; users can move the slider."
+  },
+  "impossible": {
+    "label": "Impossible trip",
+    "hotel_id": "hotel_lantern_asakusa",
+    "hotel_ids": [
+      "hotel_kitsune_shinjuku",
+      "hotel_lantern_asakusa"
+    ],
+    "form": {
+      "days": 2,
+      "budgetAmount": "",
+      "budgetCurrency": "JPY",
+      "strictBudget": false,
+      "pace": "balanced",
+      "startWeekday": 2,
+      "dayStart": "09:00",
+      "dayEnd": "19:00",
+      "valueOfTime": 1000,
+      "nightsOverride": false,
+      "nights": 1,
+      "allowUnknownHours": false
+    },
+    "wishlist": {
+      "akihabara": "must",
+      "senso_ji": "must"
+    },
+    "expect": {
+      "status": "infeasible",
+      "conflict_code": "unknown_hours_not_allowed",
+      "alternative": "allow_unknown_hours"
+    }
+  }
+}

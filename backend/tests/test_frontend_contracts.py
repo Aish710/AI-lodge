@@ -17,3 +17,8 @@ def test_input_limit_and_operation_cap_match_the_backend_defaults(monkeypatch):
     ui = json.loads((LIB / "limits.json").read_text())
     assert ui["max_input_chars"] == config.get_settings().max_input_chars
     assert ui["max_replan_operations"] == config.MAX_REPLAN_OPERATIONS
+
+
+def test_pace_caps_match_the_backend():
+    ui = {k: v for k, v in json.loads((LIB / "pacecaps.json").read_text()).items() if k != "note"}
+    assert ui == config.PACE_MAX_PER_DAY

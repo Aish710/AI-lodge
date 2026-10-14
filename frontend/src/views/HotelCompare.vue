@@ -3,6 +3,7 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import LoadingBlock from '../components/LoadingBlock.vue'
 import ErrorPanel from '../components/ErrorPanel.vue'
+import SettingsSummaryStrip from '../components/SettingsSummaryStrip.vue'
 import SourceBadge from '../components/SourceBadge.vue'
 import ExplainBlock from '../components/ExplainBlock.vue'
 import Skeleton from '../components/Skeleton.vue'
@@ -57,6 +58,7 @@ onBeforeUnmount(() => clearInterval(timer))
       <h1>Compare hotels by true cost</h1>
       <p class="muted mb-0">True cost = rooms + admissions + estimated transport + travel time × the value you put on an hour + a charge for each optional sight left out. Hotels and rates are fictional.</p>
     </div>
+    <SettingsSummaryStrip />
 
     <fieldset class="card-soft">
       <legend class="h6">Hotels to compare (choose 2 or 3)</legend>

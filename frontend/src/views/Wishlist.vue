@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import AttractionCard from '../components/AttractionCard.vue'
+import SettingsSummaryStrip from '../components/SettingsSummaryStrip.vue'
 import LoadingBlock from '../components/LoadingBlock.vue'
 import ErrorPanel from '../components/ErrorPanel.vue'
 import Skeleton from '../components/Skeleton.vue'
@@ -19,6 +20,7 @@ const counts = computed(() => {
       <h1>Choose your sights</h1>
       <p class="muted mb-0">Mark must-sees, nice-to-haves and places you do not want. Optional sights may still be left out of the plan if they would cost more than they are worth; you will see which ones and why.</p>
     </div>
+    <SettingsSummaryStrip />
     <ErrorPanel v-if="store.placesError" :error="store.placesError" retryable @retry="loadPlaces" />
     <template v-else-if="!store.places"><LoadingBlock text="Loading places…" /><div class="row g-3"><div v-for="n in 6" :key="n" class="col-12 col-md-6 col-lg-4"><Skeleton :lines="5" /></div></div></template>
     <template v-else>

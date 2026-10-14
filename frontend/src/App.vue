@@ -1,15 +1,25 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onBeforeUnmount, onMounted } from 'vue'
 import HonestyBanner from './components/HonestyBanner.vue'
 import ModeIndicator from './components/ModeIndicator.vue'
 import ServerStatus from './components/ServerStatus.vue'
 import RateLimitNotice from './components/RateLimitNotice.vue'
 import { useRouter } from 'vue-router'
 import { boot, store, resetAll } from './store.js'
+import { hasUnsavedWork } from './lib/tripSummary.js'
 import { PROJECT_NAME, REPO_URL } from './brand.js'
 const router = useRouter()
 function reset() { resetAll(); router.push('/') }
-onMounted(() => boot())
+function beforeUnload(e) {
+  if (!hasUnsavedWork(store)) return
+  e.preventDefault()
+  e.returnValue = ''
+}
+onMounted(() => {
+  boot()
+  window.addEventListener('beforeunload', beforeUnload)
+})
+onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload))
 </script>
 <template>
   <a class="skip-link" href="#main">Skip to content</a>

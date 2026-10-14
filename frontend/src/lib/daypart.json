@@ -1,0 +1,7 @@
+{
+  "note": "Mirror of backend app/config.py DAY_PART_START_TIMES (the mapping the API uses for natural-language replanning). backend/tests/test_frontend_contracts.py fails if they differ.",
+  "morning": "09:30",
+  "midday": "12:00",
+  "afternoon": "14:00",
+  "evening": "17:30"
+}

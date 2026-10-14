@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import TripMap from '../components/TripMap.vue'
+import SettingsSummaryStrip from '../components/SettingsSummaryStrip.vue'
 import DayTimeline from '../components/DayTimeline.vue'
 import FeasibilityReport from '../components/FeasibilityReport.vue'
 import NotScheduledPanel from '../components/NotScheduledPanel.vue'
@@ -53,6 +54,7 @@ const replan = computed(() => store.lastReplan)
         <button class="btn btn-outline-primary btn-sm" :disabled="store.busy.optimise || rateLimited || !store.chosenHotel" @click="runOptimise">Recalculate</button>
       </div>
     </div>
+    <SettingsSummaryStrip />
 
     <div v-if="!store.chosenHotel" class="card-soft" data-testid="itinerary-empty">
       <p class="mb-2">No hotel chosen yet. Compare hotels, then press "Use this hotel".</p>

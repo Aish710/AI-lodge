@@ -4,20 +4,27 @@ import { useRouter } from 'vue-router'
 import NlParsePanel from '../components/NlParsePanel.vue'
 import examples from '../lib/examples.json'
 import { exampleLabel } from '../lib/rules.js'
-import { store, currentPrefs, loadExample, selectCity } from '../store.js'
+import { store, currentPrefs, loadExample, selectCity, resetAll } from '../store.js'
 import { nightsUsed } from '../lib/prefs.js'
 import { budgetInJpy } from '../lib/prefs.js'
 import { formatLocalMoney, WEEKDAY_NAMES, WEEKDAYS } from '../lib/format.js'
+import { budgetSanityHint } from '../lib/tripSummary.js'
 
 const router = useRouter()
 const errors = computed(() => currentPrefs().errors)
 const city = computed(() => store.city)
 const currencyOptions = computed(() => Array.from(new Set([city.value?.currency_code ?? 'JPY', city.value?.display_currency_code ?? 'SGD'])))
 const budgetLocal = computed(() => budgetInJpy(store.form, city.value))
+const budgetHint = computed(() => budgetSanityHint(store))
 const vot = computed(() => Number(store.form.valueOfTime))
 const exLabel = exampleLabel(examples.valid)
 function next() { if (!errors.value.length) router.push('/wishlist') }
 function example(kind) { loadExample(kind); router.push(kind === 'valid' ? '/hotels' : '/itinerary') }
+function startOver() {
+  if (!window.confirm('Clear this trip and start over?')) return
+  resetAll()
+  router.push('/')
+}
 async function pickCity(id) {
   if (id === store.cityId) return
   const hasWork = Object.keys(store.wishlist).length || store.chosenHotel || store.comparison || store.plan
@@ -88,6 +95,7 @@ async function pickCity(id) {
             Covers admissions and estimated transport only, not rooms or food.
             <span v-if="city" data-testid="fx-note">{{ city.sample_fx_label }}<span v-if="budgetLocal"> → {{ formatLocalMoney(budgetLocal, city.currency_code) }}</span>.</span>
           </div>
+          <div v-if="budgetHint" class="form-text budget-hint" data-testid="budget-sanity-hint">{{ budgetHint }}</div>
           <div class="form-check form-switch mt-2">
             <input id="f-strict" class="form-check-input" type="checkbox" role="switch" v-model="store.form.strictBudget" :disabled="!store.form.budgetAmount && store.form.budgetAmount !== 0" />
             <label class="form-check-label" for="f-strict">Strict budget: never exceed it (otherwise it is a target)</label>
@@ -129,7 +137,11 @@ async function pickCity(id) {
       <div v-if="errors.length" class="notice notice-warn mt-3" role="alert" data-testid="form-errors">
         <span class="glyph" aria-hidden="true">!</span><ul class="mb-0 ps-3"><li v-for="e in errors" :key="e">{{ e }}</li></ul>
       </div>
-      <div class="mt-3"><button type="submit" class="btn btn-primary" :disabled="errors.length > 0" data-testid="next-wishlist">Next: choose sights</button></div>
+      <div class="mt-3 d-flex flex-wrap gap-2 align-items-center">
+        <button type="submit" class="btn btn-primary" :disabled="errors.length > 0" data-testid="next-wishlist">Next: choose sights</button>
+        <button type="button" class="btn btn-outline-secondary" @click="startOver" data-testid="start-over">Start over</button>
+      </div>
+      <p class="small muted mb-0 mt-2" data-testid="state-retention-note">Your choices are kept while you move between steps. They are not saved if you refresh or close this page.</p>
     </form>
   </div>
 </template>
