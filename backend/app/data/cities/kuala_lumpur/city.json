@@ -1,0 +1,27 @@
+{
+  "id": "kuala_lumpur",
+  "display_name": "Kuala Lumpur",
+  "country": "Malaysia",
+  "currency_code": "MYR",
+  "display_currency_code": "USD",
+  "sample_fx_to_display_currency": 0.21,
+  "sample_fx_label": "SAMPLE FX rate (approximate, not live): 1 MYR = 0.21 USD",
+  "coordinate_bounds": {
+    "lat_min": 3.0,
+    "lat_max": 3.3,
+    "lon_min": 101.55,
+    "lon_max": 101.8
+  },
+  "transit_model": {
+    "detour_factor": 1.35,
+    "speed_kmh": 22.0,
+    "per_leg_overhead_min": 10,
+    "base_fare": 2,
+    "fare_per_km": 0.35
+  },
+  "default_day_start": "09:00",
+  "default_day_end": "19:00",
+  "default_value_of_time_per_hour": 45,
+  "closing_day_conventions_note": "Sample weekly closures are encoded per attraction; verify current days before relying on them.",
+  "provenance": "Kuala Lumpur sample pack for Malaysia. All figures are approximate and must be verified; hotels are fictional."
+}

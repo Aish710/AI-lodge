@@ -282,3 +282,22 @@ No other test was touched.
 - The old result field names still say `*_jpy` for compatibility, even when a non-Tokyo city uses SGD or KRW internally. New responses include city/currency metadata so the frontend can label values honestly in Milestone 2.
 
 **Simplified / not done:** frontend flow is unchanged until Milestone 2; Singapore/Seoul evaluation is smaller and not pooled into any headline; live LLM evaluation was not run; non-Tokyo sample facts, prices, hours and durations still need human verification before public claims.
+
+## Phase 9b bridge: Malaysia pack and visible city picker (2026-10-14)
+
+**Built**
+- Added a Malaysia sample city pack as Kuala Lumpur (`city_id="kuala_lumpur"`), because the backend is organised by city rather than country.
+- Wired the existing frontend to `GET /data/cities` and `GET /data/places?city_id=...`, so the first screen now shows city cards for Kuala Lumpur, Seoul, Singapore and Tokyo.
+- City changes clear wishlist, chosen hotel, comparison and itinerary with a confirmation when needed. State remains memory-only.
+- Budget/value-of-time labels now use the selected city's local currency metadata instead of assuming yen.
+
+**Verification**
+- Backend city-pack tests: 8 passed.
+- Full backend suite: 301 passed, 1 warning.
+- Frontend unit/component suite: 119 passed.
+- Frontend production build passed.
+- Local running backend now returns all four cities from `/data/cities`.
+
+**Notable**
+- This is a visual bridge, not the full Milestone 2 dynamic flow. The app still uses the old page sequence, but the data on those pages changes with the selected city.
+- Kuala Lumpur facts are sample/general-knowledge placeholders and must be verified before public claims.

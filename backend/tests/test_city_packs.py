@@ -28,7 +28,7 @@ def _prefs(ds, must):
 
 def test_city_packs_have_required_sample_integrity():
     datasets = load_all_city_datasets()
-    assert set(datasets) == {"tokyo", "singapore", "seoul"}
+    assert set(datasets) == {"tokyo", "singapore", "seoul", "kuala_lumpur"}
     for city_id, ds in datasets.items():
         atts = list(ds.attractions.values())
         assert len(atts) >= (12 if city_id == "tokyo" else 10)
@@ -73,7 +73,7 @@ def test_city_matrices_are_generated_complete_symmetric_and_reproducible():
 def test_data_routes_select_city_and_list_counts():
     with TestClient(app) as c:
         cities = c.get("/data/cities").json()["cities"]
-        assert {x["id"] for x in cities} == {"tokyo", "singapore", "seoul"}
+        assert {x["id"] for x in cities} == {"tokyo", "singapore", "seoul", "kuala_lumpur"}
         sg = c.get("/data/places", params={"city_id": "singapore"}).json()
         assert sg["city"]["currency_code"] == "SGD"
         assert len(sg["attractions"]) == 10 and len(sg["hotels"]) == 3

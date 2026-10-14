@@ -1,0 +1,41 @@
+[
+  {
+    "id": "hotel_klcc_lantern",
+    "name": "KLCC Lantern Hotel (fictional)",
+    "area": "KLCC",
+    "lat": 3.1587,
+    "lon": 101.713,
+    "nightly_rate": 320,
+    "provenance": {
+      "source_status": "sample",
+      "note": "FICTIONAL hotel. Name and rate are invented for this demo; location is only an approximate area. Central and pricier.",
+      "last_checked": null
+    }
+  },
+  {
+    "id": "hotel_bukit_bintang_lane",
+    "name": "Bukit Bintang Lane Stay (fictional)",
+    "area": "Bukit Bintang",
+    "lat": 3.1469,
+    "lon": 101.7113,
+    "nightly_rate": 220,
+    "provenance": {
+      "source_status": "sample",
+      "note": "FICTIONAL hotel. Name and rate are invented for this demo; location is only an approximate area. Central and mid-range.",
+      "last_checked": null
+    }
+  },
+  {
+    "id": "hotel_bangsar_edge",
+    "name": "Bangsar Edge Inn (fictional)",
+    "area": "Bangsar",
+    "lat": 3.129,
+    "lon": 101.671,
+    "nightly_rate": 140,
+    "provenance": {
+      "source_status": "sample",
+      "note": "FICTIONAL hotel. Name and rate are invented for this demo; location is only an approximate area. Cheaper but farther from several sights.",
+      "last_checked": null
+    }
+  }
+]

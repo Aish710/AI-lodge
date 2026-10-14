@@ -4,19 +4,26 @@ import { useRouter } from 'vue-router'
 import NlParsePanel from '../components/NlParsePanel.vue'
 import examples from '../lib/examples.json'
 import { exampleLabel } from '../lib/rules.js'
-import { store, currentPrefs, loadExample } from '../store.js'
+import { store, currentPrefs, loadExample, selectCity } from '../store.js'
 import { nightsUsed } from '../lib/prefs.js'
 import { budgetInJpy } from '../lib/prefs.js'
-import { formatJpy, WEEKDAY_NAMES, WEEKDAYS } from '../lib/format.js'
+import { formatLocalMoney, WEEKDAY_NAMES, WEEKDAYS } from '../lib/format.js'
 
 const router = useRouter()
 const errors = computed(() => currentPrefs().errors)
-const rate = computed(() => store.fx?.jpy_per_sgd ?? null)
-const budgetJpy = computed(() => budgetInJpy(store.form, rate.value))
+const city = computed(() => store.city)
+const currencyOptions = computed(() => Array.from(new Set([city.value?.currency_code ?? 'JPY', city.value?.display_currency_code ?? 'SGD'])))
+const budgetLocal = computed(() => budgetInJpy(store.form, city.value))
 const vot = computed(() => Number(store.form.valueOfTime))
 const exLabel = exampleLabel(examples.valid)
 function next() { if (!errors.value.length) router.push('/wishlist') }
 function example(kind) { loadExample(kind); router.push(kind === 'valid' ? '/hotels' : '/itinerary') }
+async function pickCity(id) {
+  if (id === store.cityId) return
+  const hasWork = Object.keys(store.wishlist).length || store.chosenHotel || store.comparison || store.plan
+  if (hasWork && !window.confirm('Changing city clears your wishlist, hotel choice, comparison and itinerary because the data is different. Continue?')) return
+  await selectCity(id)
+}
 </script>
 <template>
   <div class="stack">
@@ -24,6 +31,22 @@ function example(kind) { loadExample(kind); router.push(kind === 'valid' ? '/hot
       <h1>Plan your trip</h1>
       <p class="muted mb-0">Choose the hotel and the itinerary together: a hotel that looks cheap can cost more once travel time and fares are counted.</p>
     </div>
+
+    <section class="card-soft" aria-labelledby="city-h">
+      <h2 id="city-h" class="h5">Choose a city</h2>
+      <p class="muted small mb-3">All city packs are sample data. Prices, hours, exchange rates and fictional hotel rates must be verified before real travel.</p>
+      <div class="row g-3">
+        <div v-for="c in store.cities" :key="c.id" class="col-12 col-md-6 col-xl-3">
+          <button type="button" class="city-card w-100 text-start" :class="{ active: c.id === store.cityId }" @click="pickCity(c.id)" :aria-pressed="c.id === store.cityId" :data-testid="`city-${c.id}`">
+            <span class="city-name">{{ c.display_name }}</span>
+            <span class="muted d-block">{{ c.country }}</span>
+            <span class="badge-src badge-sample mt-2">sample data</span>
+            <span class="d-block small mt-2">{{ c.currency_code }} · {{ c.counts.attractions }} sights · {{ c.counts.hotels }} fictional hotels</span>
+          </button>
+        </div>
+      </div>
+      <p v-if="city" class="small mb-0 mt-3"><strong>Using {{ city.display_name }}.</strong> {{ city.sample_fx_label }}</p>
+    </section>
 
     <div class="card-soft d-flex flex-wrap gap-2 align-items-center" data-testid="demo-helpers">
       <strong class="me-2">Quick demo:</strong>
@@ -59,11 +82,11 @@ function example(kind) { loadExample(kind); router.push(kind === 'valid' ? '/hot
           <label class="form-label" for="f-budget">Budget for sights and transport (optional)</label>
           <div class="input-group">
             <input id="f-budget" class="form-control" type="number" min="0" inputmode="numeric" v-model="store.form.budgetAmount" aria-describedby="budget-help" />
-            <select class="form-select" style="max-width:6.5rem" v-model="store.form.budgetCurrency" aria-label="Budget currency"><option>JPY</option><option>SGD</option></select>
+            <select class="form-select" style="max-width:6.5rem" v-model="store.form.budgetCurrency" aria-label="Budget currency"><option v-for="cur in currencyOptions" :key="cur">{{ cur }}</option></select>
           </div>
           <div id="budget-help" class="form-text">
             Covers admissions and estimated transport only, not rooms or food.
-            <span v-if="store.form.budgetCurrency === 'SGD' && rate" data-testid="fx-note">Sample rate (not live): 1 SGD = {{ rate }} JPY<span v-if="budgetJpy"> → {{ formatJpy(budgetJpy) }}</span>.</span>
+            <span v-if="city" data-testid="fx-note">{{ city.sample_fx_label }}<span v-if="budgetLocal"> → {{ formatLocalMoney(budgetLocal, city.currency_code) }}</span>.</span>
           </div>
           <div class="form-check form-switch mt-2">
             <input id="f-strict" class="form-check-input" type="checkbox" role="switch" v-model="store.form.strictBudget" :disabled="!store.form.budgetAmount && store.form.budgetAmount !== 0" />
@@ -81,9 +104,9 @@ function example(kind) { loadExample(kind); router.push(kind === 'valid' ? '/hot
         </div>
 
         <div class="col-12">
-          <label class="form-label" for="f-vot">How much is an hour of your time worth? <strong data-testid="vot-value">{{ formatJpy(vot) }} / hour</strong></label>
-          <input id="f-vot" class="form-range" type="range" min="0" max="5000" step="100" v-model.number="store.form.valueOfTime" aria-describedby="vot-help" />
-          <div id="vot-help" class="form-text">Example: at ¥1,000 an hour, a day with two extra hours on trains counts as ¥2,000 more. Used to compare hotels by true cost.</div>
+          <label class="form-label" for="f-vot">How much is an hour of your time worth? <strong data-testid="vot-value">{{ formatLocalMoney(vot, city?.currency_code ?? 'JPY') }} / hour</strong></label>
+          <input id="f-vot" class="form-range" type="range" min="0" :max="city?.currency_code === 'KRW' ? 50000 : city?.currency_code === 'JPY' ? 5000 : 300" :step="city?.currency_code === 'KRW' ? 1000 : 1" v-model.number="store.form.valueOfTime" aria-describedby="vot-help" />
+          <div id="vot-help" class="form-text">Used to compare hotels by true cost in {{ city?.currency_code ?? 'the city currency' }}.</div>
         </div>
 
         <div class="col-12 col-md-6">

@@ -1,10 +1,10 @@
 # Submission facts (generated)
 
-Generated 2026-10-14 07:00 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
+Generated 2026-10-14 07:17 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
 
 ## Tests
 
-- Backend full suite: 301 passed, 0 failed, 0 skipped, 301 total (pytest), revision 859c357f69edc8d8f28d48d5878bd36c79e32823 + uncommitted changes.
+- Backend full suite: 301 passed, 0 failed, 0 skipped, 301 total (pytest), revision a1a9cb6a72d3140c8983e570fadf366c0a38df3c + uncommitted changes.
   *Source: backend/tests/results/latest-full.md*
 - Frontend unit and component tests: 119 passed, 0 failed, 119 total (Vitest).
   *Source: frontend/test-results/vitest.json (npm run test:report)*
@@ -49,7 +49,7 @@ Generated 2026-10-14 07:00 UTC by `frontend/scripts/make-submission-facts.mjs`. 
 
 ## Safety
 
-- 94 risks are tracked in the safety log, each with a safeguard, the test names that check it, and a status.
+- 95 risks are tracked in the safety log, each with a safeguard, the test names that check it, and a status.
   *Source: docs/SAFETY_LOG.md*
 - API hardening: 33 of 33 in-process abuse cases passed.
   *Source: docs/hardening-results.md*

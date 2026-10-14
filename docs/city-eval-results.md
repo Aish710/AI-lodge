@@ -1,6 +1,6 @@
 # Multi-city evaluation
 
-Generated 2026-10-14 06:58 UTC by `backend/scripts/run_city_evaluation.py`. Code version: 859c357 + uncommitted changes.
+Generated 2026-10-14 07:13 UTC by `backend/scripts/run_city_evaluation.py`. Code version: a1a9cb6 + uncommitted changes.
 
 Singapore and Seoul use smaller seeded samples than Tokyo. They are reported separately and are not pooled into headline claims.
 All city data is sample data; hotels are fictional; travel times, prices and hours must be verified before real use.
@@ -9,11 +9,20 @@ All city data is sample data; hotels are fictional; travel times, prices and hou
 
 | City | Attractions | Hotels | Matrix | Provenance | Edge cases |
 |---|---:|---:|---|---|---|
+| Kuala Lumpur | 10 | 3 | pass | {'attractions': {'sample': 10}, 'hours': {'sample': 10}, 'costs': {'sample': 10}, 'hotels': {'sample': 3}, 'travel_matrix': 'estimated'} | unknown hours 1; unknown price 1; booking 2; closures 2 |
 | Seoul | 10 | 3 | pass | {'attractions': {'sample': 10}, 'hours': {'sample': 10}, 'costs': {'sample': 10}, 'hotels': {'sample': 3}, 'travel_matrix': 'estimated'} | unknown hours 1; unknown price 1; booking 2; closures 3 |
 | Singapore | 10 | 3 | pass | {'attractions': {'sample': 10}, 'hours': {'sample': 10}, 'costs': {'sample': 10}, 'hotels': {'sample': 3}, 'travel_matrix': 'estimated'} | unknown hours 1; unknown price 1; booking 2; closures 3 |
 | Tokyo | 12 | 3 | pass | {'attractions': {'sample': 12}, 'hours': {'sample': 12}, 'costs': {'sample': 12}, 'hotels': {'sample': 3}, 'travel_matrix': 'estimated'} | unknown hours 1; unknown price 1; booking 2; closures 5 |
 
 ## Smaller-sample city results
+
+### Kuala Lumpur
+
+- Sample size: 20 generated trips (smaller sample, not a headline).
+- Solver plans checked independently: 15 of 20 had a plan/check result; 0 failed.
+- Like-for-like vs input-order baseline: 14 comparable trips; mean minutes reduction 9.214285714285714.
+- Like-for-like vs nearest-neighbour baseline: 14 comparable trips; mean minutes reduction 12.428571428571429.
+- Hotel value at the middle tested value-of-time (1000 local units/hour): cheapest nightly rate was not best in 14 of 15 eligible trips.
 
 ### Seoul
 

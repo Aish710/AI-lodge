@@ -1,0 +1,727 @@
+[
+  {
+    "id": "petronas_twin_towers",
+    "name": "Petronas Twin Towers",
+    "area": "KLCC",
+    "lat": 3.1579,
+    "lon": 101.7116,
+    "duration_minutes": 120,
+    "opening_hours": {
+      "mon": null,
+      "tue": [
+        [
+          "09:00",
+          "21:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "21:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "21:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "21:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "21:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "21:00"
+        ]
+      ]
+    },
+    "admission_cost": 98,
+    "category": "viewpoint",
+    "priority": "must_visit",
+    "indoor": true,
+    "advance_booking_required": true,
+    "description": "Sample description for Petronas Twin Towers; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Petronas Towers",
+      "KLCC Twin Towers",
+      "Twin Towers"
+    ]
+  },
+  {
+    "id": "batu_caves",
+    "name": "Batu Caves",
+    "area": "Gombak",
+    "lat": 3.2379,
+    "lon": 101.684,
+    "duration_minutes": 150,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "21:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "21:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "21:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "21:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "21:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "21:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "21:00"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "temple",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Sample description for Batu Caves; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Batu Cave",
+      "Batu Caves Temple"
+    ]
+  },
+  {
+    "id": "islamic_arts_museum_malaysia",
+    "name": "Islamic Arts Museum Malaysia",
+    "area": "Lake Gardens",
+    "lat": 3.1419,
+    "lon": 101.689,
+    "duration_minutes": 120,
+    "opening_hours": {
+      "mon": [
+        [
+          "09:30",
+          "18:00"
+        ]
+      ],
+      "tue": null,
+      "wed": [
+        [
+          "09:30",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:30",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:30",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:30",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:30",
+          "18:00"
+        ]
+      ]
+    },
+    "admission_cost": 14,
+    "category": "museum",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Sample description for Islamic Arts Museum Malaysia; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Islamic Arts Museum",
+      "IAMM"
+    ]
+  },
+  {
+    "id": "merdeka_square",
+    "name": "Merdeka Square",
+    "area": "City Centre",
+    "lat": 3.1478,
+    "lon": 101.6932,
+    "duration_minutes": 60,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "landmark",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Sample description for Merdeka Square; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Dataran Merdeka",
+      "Independence Square"
+    ]
+  },
+  {
+    "id": "central_market_kl",
+    "name": "Central Market Kuala Lumpur",
+    "area": "Pasar Seni",
+    "lat": 3.144,
+    "lon": 101.695,
+    "duration_minutes": 75,
+    "opening_hours": {
+      "mon": [
+        [
+          "10:00",
+          "21:30"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "21:30"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "21:30"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "21:30"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "21:30"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "21:30"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "21:30"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "market",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Sample description for Central Market Kuala Lumpur; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Central Market",
+      "Pasar Seni Market"
+    ]
+  },
+  {
+    "id": "jalan_alor",
+    "name": "Jalan Alor",
+    "area": "Bukit Bintang",
+    "lat": 3.1466,
+    "lon": 101.7088,
+    "duration_minutes": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "17:00",
+          "23:30"
+        ]
+      ],
+      "tue": [
+        [
+          "17:00",
+          "23:30"
+        ]
+      ],
+      "wed": [
+        [
+          "17:00",
+          "23:30"
+        ]
+      ],
+      "thu": [
+        [
+          "17:00",
+          "23:30"
+        ]
+      ],
+      "fri": [
+        [
+          "17:00",
+          "23:30"
+        ]
+      ],
+      "sat": [
+        [
+          "17:00",
+          "23:30"
+        ]
+      ],
+      "sun": [
+        [
+          "17:00",
+          "23:30"
+        ]
+      ]
+    },
+    "admission_cost": null,
+    "category": "food",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Sample description for Jalan Alor; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Jalan Alor Food Street",
+      "Alor Street"
+    ]
+  },
+  {
+    "id": "kl_tower",
+    "name": "KL Tower",
+    "area": "Bukit Nanas",
+    "lat": 3.1528,
+    "lon": 101.7037,
+    "duration_minutes": 90,
+    "opening_hours": {
+      "mon": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "22:00"
+        ]
+      ]
+    },
+    "admission_cost": 60,
+    "category": "viewpoint",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": true,
+    "description": "Sample description for KL Tower; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Menara KL",
+      "Kuala Lumpur Tower"
+    ]
+  },
+  {
+    "id": "perdana_botanical_garden",
+    "name": "Perdana Botanical Garden",
+    "area": "Lake Gardens",
+    "lat": 3.1423,
+    "lon": 101.6841,
+    "duration_minutes": 120,
+    "opening_hours": {
+      "mon": [
+        [
+          "07:00",
+          "20:00"
+        ]
+      ],
+      "tue": [
+        [
+          "07:00",
+          "20:00"
+        ]
+      ],
+      "wed": [
+        [
+          "07:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "07:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "07:00",
+          "20:00"
+        ]
+      ],
+      "sat": [
+        [
+          "07:00",
+          "20:00"
+        ]
+      ],
+      "sun": [
+        [
+          "07:00",
+          "20:00"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "garden",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Sample description for Perdana Botanical Garden; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Lake Gardens",
+      "Perdana Gardens"
+    ]
+  },
+  {
+    "id": "thean_hou_temple",
+    "name": "Thean Hou Temple",
+    "area": "Robson Heights",
+    "lat": 3.1217,
+    "lon": 101.6873,
+    "duration_minutes": 75,
+    "opening_hours": {
+      "mon": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ]
+    },
+    "admission_cost": 0,
+    "category": "temple",
+    "priority": "nice_to_have",
+    "indoor": false,
+    "advance_booking_required": false,
+    "description": "Sample description for Thean Hou Temple; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Thean Hou"
+    ]
+  },
+  {
+    "id": "national_mosque_malaysia",
+    "name": "National Mosque of Malaysia",
+    "area": "Lake Gardens",
+    "lat": 3.1412,
+    "lon": 101.6915,
+    "duration_minutes": 75,
+    "opening_hours": {
+      "mon": "unknown",
+      "tue": "unknown",
+      "wed": "unknown",
+      "thu": "unknown",
+      "fri": "unknown",
+      "sat": "unknown",
+      "sun": "unknown"
+    },
+    "admission_cost": 0,
+    "category": "mosque",
+    "priority": "nice_to_have",
+    "indoor": true,
+    "advance_booking_required": false,
+    "description": "Sample description for National Mosque of Malaysia; approximate, untrusted text for display only.",
+    "provenance": {
+      "source_status": "sample",
+      "note": "Sample record: location, duration and description are approximate estimates to verify.",
+      "last_checked": null
+    },
+    "hours_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample hours from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "cost_provenance": {
+      "source_status": "sample",
+      "note": "Approximate sample admission from general knowledge, NOT verified against an official source. Verify before relying on it.",
+      "last_checked": null
+    },
+    "aliases": [
+      "Masjid Negara",
+      "National Mosque"
+    ]
+  }
+]

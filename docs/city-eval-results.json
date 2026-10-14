@@ -1,12 +1,50 @@
 {
  "meta": {
-  "date": "2026-10-14 06:58 UTC",
-  "commit": "859c357 + uncommitted changes",
+  "date": "2026-10-14 07:13 UTC",
+  "commit": "a1a9cb6 + uncommitted changes",
   "seed": 20261014,
   "trips_per_added_city": 20,
-  "elapsed_seconds": 5.2
+  "elapsed_seconds": 15.5
  },
  "integrity": [
+  {
+   "city_id": "kuala_lumpur",
+   "display_name": "Kuala Lumpur",
+   "country": "Malaysia",
+   "currency_code": "MYR",
+   "display_currency_code": "USD",
+   "counts": {
+    "attractions": 10,
+    "hotels": 3,
+    "matrix_nodes": 13
+   },
+   "provenance": {
+    "attractions": {
+     "sample": 10
+    },
+    "hours": {
+     "sample": 10
+    },
+    "costs": {
+     "sample": 10
+    },
+    "hotels": {
+     "sample": 3
+    },
+    "travel_matrix": "estimated"
+   },
+   "edge_cases": {
+    "unknown_hours": 1,
+    "unknown_price": 1,
+    "advance_booking": 2,
+    "weekly_closure_records": 2,
+    "indoor": 5,
+    "outdoor": 5
+   },
+   "matrix_complete_symmetric": true,
+   "sample_fx_label": "SAMPLE FX rate (approximate, not live): 1 MYR = 0.21 USD",
+   "provenance_note": "Kuala Lumpur sample pack for Malaysia. All figures are approximate and must be verified; hotels are fictional."
+  },
   {
    "city_id": "seoul",
    "display_name": "Seoul",
@@ -123,6 +161,4204 @@
   }
  ],
  "cities": {
+  "kuala_lumpur": {
+   "city": {
+    "id": "kuala_lumpur",
+    "display_name": "Kuala Lumpur",
+    "currency_code": "MYR"
+   },
+   "scenario": {
+    "generator_version": 1,
+    "seed": 20261014,
+    "n": 20,
+    "parameters": {
+     "days_range": [
+      2,
+      4
+     ],
+     "attractions_range": [
+      3,
+      9
+     ],
+     "must_range": [
+      0,
+      3
+     ],
+     "budget_kind_weights": {
+      "none": 3,
+      "soft": 3,
+      "strict": 4
+     },
+     "strict_factor_range": [
+      0.25,
+      1.4
+     ],
+     "soft_factor_range": [
+      0.4,
+      1.5
+     ],
+     "fare_reference_jpy_per_leg": 250,
+     "pace": "balanced",
+     "hotel_assignment": "round-robin over the sorted hotel ids (each hotel is the base in turn)",
+     "input_order": "uniformly shuffled order of the requested attractions (no geographic ordering)"
+    },
+    "note": "SAMPLE data and synthetic trips. Attraction ids refer to backend/app/data/attractions.json; hotels are FICTIONAL.",
+    "trips": [
+     {
+      "id": "T001",
+      "hotel_id": "hotel_bangsar_edge",
+      "days": 4,
+      "start_weekday": 6,
+      "order": [
+       "islamic_arts_museum_malaysia",
+       "thean_hou_temple",
+       "perdana_botanical_garden",
+       "kl_tower",
+       "national_mosque_malaysia",
+       "petronas_twin_towers",
+       "merdeka_square"
+      ],
+      "must_visit": [
+       "perdana_botanical_garden",
+       "national_mosque_malaysia"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+     },
+     {
+      "id": "T002",
+      "hotel_id": "hotel_bukit_bintang_lane",
+      "days": 4,
+      "start_weekday": 2,
+      "order": [
+       "kl_tower",
+       "perdana_botanical_garden",
+       "national_mosque_malaysia",
+       "islamic_arts_museum_malaysia",
+       "central_market_kl",
+       "batu_caves"
+      ],
+      "must_visit": [
+       "national_mosque_malaysia",
+       "islamic_arts_museum_malaysia",
+       "batu_caves"
+      ],
+      "budget_kind": "strict",
+      "budget": 2900,
+      "budget_factor": 1.12
+     },
+     {
+      "id": "T003",
+      "hotel_id": "hotel_klcc_lantern",
+      "days": 4,
+      "start_weekday": 2,
+      "order": [
+       "central_market_kl",
+       "merdeka_square",
+       "jalan_alor",
+       "batu_caves"
+      ],
+      "must_visit": [
+       "central_market_kl",
+       "jalan_alor",
+       "batu_caves"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+     },
+     {
+      "id": "T004",
+      "hotel_id": "hotel_bangsar_edge",
+      "days": 2,
+      "start_weekday": 6,
+      "order": [
+       "national_mosque_malaysia",
+       "central_market_kl",
+       "islamic_arts_museum_malaysia",
+       "petronas_twin_towers",
+       "merdeka_square",
+       "perdana_botanical_garden"
+      ],
+      "must_visit": [
+       "national_mosque_malaysia",
+       "islamic_arts_museum_malaysia"
+      ],
+      "budget_kind": "strict",
+      "budget": 900,
+      "budget_factor": 0.404
+     },
+     {
+      "id": "T005",
+      "hotel_id": "hotel_bukit_bintang_lane",
+      "days": 2,
+      "start_weekday": 6,
+      "order": [
+       "kl_tower",
+       "petronas_twin_towers",
+       "batu_caves"
+      ],
+      "must_visit": [],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+     },
+     {
+      "id": "T006",
+      "hotel_id": "hotel_klcc_lantern",
+      "days": 2,
+      "start_weekday": 2,
+      "order": [
+       "petronas_twin_towers",
+       "perdana_botanical_garden",
+       "central_market_kl",
+       "national_mosque_malaysia",
+       "islamic_arts_museum_malaysia"
+      ],
+      "must_visit": [],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+     },
+     {
+      "id": "T007",
+      "hotel_id": "hotel_bangsar_edge",
+      "days": 4,
+      "start_weekday": 2,
+      "order": [
+       "batu_caves",
+       "jalan_alor",
+       "thean_hou_temple",
+       "national_mosque_malaysia",
+       "merdeka_square",
+       "central_market_kl"
+      ],
+      "must_visit": [
+       "merdeka_square"
+      ],
+      "budget_kind": "strict",
+      "budget": 3000,
+      "budget_factor": 1.188
+     },
+     {
+      "id": "T008",
+      "hotel_id": "hotel_bukit_bintang_lane",
+      "days": 3,
+      "start_weekday": 0,
+      "order": [
+       "batu_caves",
+       "jalan_alor",
+       "islamic_arts_museum_malaysia",
+       "thean_hou_temple",
+       "merdeka_square"
+      ],
+      "must_visit": [
+       "jalan_alor"
+      ],
+      "budget_kind": "strict",
+      "budget": 1300,
+      "budget_factor": 0.669
+     },
+     {
+      "id": "T009",
+      "hotel_id": "hotel_klcc_lantern",
+      "days": 4,
+      "start_weekday": 4,
+      "order": [
+       "kl_tower",
+       "petronas_twin_towers",
+       "islamic_arts_museum_malaysia",
+       "national_mosque_malaysia",
+       "thean_hou_temple",
+       "central_market_kl",
+       "merdeka_square",
+       "batu_caves",
+       "perdana_botanical_garden"
+      ],
+      "must_visit": [
+       "national_mosque_malaysia",
+       "batu_caves",
+       "perdana_botanical_garden"
+      ],
+      "budget_kind": "soft",
+      "budget": 4400,
+      "budget_factor": 1.286
+     },
+     {
+      "id": "T010",
+      "hotel_id": "hotel_bangsar_edge",
+      "days": 2,
+      "start_weekday": 6,
+      "order": [
+       "perdana_botanical_garden",
+       "kl_tower",
+       "petronas_twin_towers",
+       "central_market_kl",
+       "islamic_arts_museum_malaysia",
+       "batu_caves"
+      ],
+      "must_visit": [
+       "petronas_twin_towers",
+       "central_market_kl",
+       "islamic_arts_museum_malaysia"
+      ],
+      "budget_kind": "soft",
+      "budget": 3200,
+      "budget_factor": 1.487
+     },
+     {
+      "id": "T011",
+      "hotel_id": "hotel_bukit_bintang_lane",
+      "days": 3,
+      "start_weekday": 3,
+      "order": [
+       "kl_tower",
+       "perdana_botanical_garden",
+       "petronas_twin_towers",
+       "jalan_alor",
+       "thean_hou_temple",
+       "central_market_kl"
+      ],
+      "must_visit": [
+       "petronas_twin_towers",
+       "jalan_alor",
+       "thean_hou_temple"
+      ],
+      "budget_kind": "strict",
+      "budget": 2900,
+      "budget_factor": 1.198
+     },
+     {
+      "id": "T012",
+      "hotel_id": "hotel_klcc_lantern",
+      "days": 3,
+      "start_weekday": 5,
+      "order": [
+       "islamic_arts_museum_malaysia",
+       "jalan_alor",
+       "national_mosque_malaysia",
+       "batu_caves",
+       "central_market_kl",
+       "thean_hou_temple",
+       "kl_tower"
+      ],
+      "must_visit": [
+       "jalan_alor",
+       "batu_caves"
+      ],
+      "budget_kind": "soft",
+      "budget": 1200,
+      "budget_factor": 0.481
+     },
+     {
+      "id": "T013",
+      "hotel_id": "hotel_bangsar_edge",
+      "days": 4,
+      "start_weekday": 6,
+      "order": [
+       "national_mosque_malaysia",
+       "petronas_twin_towers",
+       "batu_caves"
+      ],
+      "must_visit": [],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+     },
+     {
+      "id": "T014",
+      "hotel_id": "hotel_bukit_bintang_lane",
+      "days": 3,
+      "start_weekday": 2,
+      "order": [
+       "kl_tower",
+       "jalan_alor",
+       "merdeka_square",
+       "petronas_twin_towers",
+       "perdana_botanical_garden"
+      ],
+      "must_visit": [],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+     },
+     {
+      "id": "T015",
+      "hotel_id": "hotel_klcc_lantern",
+      "days": 3,
+      "start_weekday": 5,
+      "order": [
+       "islamic_arts_museum_malaysia",
+       "central_market_kl",
+       "jalan_alor",
+       "thean_hou_temple",
+       "batu_caves"
+      ],
+      "must_visit": [],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+     },
+     {
+      "id": "T016",
+      "hotel_id": "hotel_bangsar_edge",
+      "days": 2,
+      "start_weekday": 4,
+      "order": [
+       "central_market_kl",
+       "merdeka_square",
+       "perdana_botanical_garden",
+       "thean_hou_temple",
+       "islamic_arts_museum_malaysia",
+       "national_mosque_malaysia",
+       "jalan_alor"
+      ],
+      "must_visit": [
+       "jalan_alor"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+     },
+     {
+      "id": "T017",
+      "hotel_id": "hotel_bukit_bintang_lane",
+      "days": 2,
+      "start_weekday": 0,
+      "order": [
+       "national_mosque_malaysia",
+       "merdeka_square",
+       "central_market_kl",
+       "jalan_alor"
+      ],
+      "must_visit": [
+       "national_mosque_malaysia",
+       "central_market_kl"
+      ],
+      "budget_kind": "strict",
+      "budget": 1700,
+      "budget_factor": 1.122
+     },
+     {
+      "id": "T018",
+      "hotel_id": "hotel_klcc_lantern",
+      "days": 4,
+      "start_weekday": 0,
+      "order": [
+       "batu_caves",
+       "central_market_kl",
+       "perdana_botanical_garden",
+       "national_mosque_malaysia",
+       "kl_tower",
+       "jalan_alor"
+      ],
+      "must_visit": [
+       "central_market_kl",
+       "jalan_alor"
+      ],
+      "budget_kind": "strict",
+      "budget": 2100,
+      "budget_factor": 0.833
+     },
+     {
+      "id": "T019",
+      "hotel_id": "hotel_bangsar_edge",
+      "days": 3,
+      "start_weekday": 2,
+      "order": [
+       "thean_hou_temple",
+       "kl_tower",
+       "perdana_botanical_garden"
+      ],
+      "must_visit": [
+       "kl_tower"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+     },
+     {
+      "id": "T020",
+      "hotel_id": "hotel_bukit_bintang_lane",
+      "days": 2,
+      "start_weekday": 2,
+      "order": [
+       "batu_caves",
+       "petronas_twin_towers",
+       "central_market_kl",
+       "thean_hou_temple",
+       "kl_tower",
+       "perdana_botanical_garden",
+       "islamic_arts_museum_malaysia"
+      ],
+      "must_visit": [
+       "thean_hou_temple",
+       "islamic_arts_museum_malaysia"
+      ],
+      "budget_kind": "soft",
+      "budget": 1100,
+      "budget_factor": 0.464
+     }
+    ]
+   },
+   "trips": [
+    {
+     "id": "T001",
+     "hotel_id": "hotel_bangsar_edge",
+     "days": 4,
+     "n_requested": 7,
+     "n_must": 2,
+     "must_visit": [
+      "perdana_botanical_garden",
+      "national_mosque_malaysia"
+     ],
+     "budget_kind": "none",
+     "budget": null,
+     "budget_factor": null,
+     "visitable": [
+      "islamic_arts_museum_malaysia",
+      "thean_hou_temple",
+      "perdana_botanical_garden",
+      "kl_tower",
+      "petronas_twin_towers",
+      "merdeka_square"
+     ],
+     "solver": {
+      "status": "infeasible",
+      "placed": [],
+      "stops_per_day": [],
+      "conflict_codes": [
+       "unknown_hours_not_allowed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "NOT_RUN",
+      "travel_minutes": null,
+      "total_jpy": null,
+      "validator": "no_plan",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "infeasible",
+      "placed": [
+       "islamic_arts_museum_malaysia",
+       "thean_hou_temple",
+       "perdana_botanical_garden",
+       "kl_tower",
+       "petronas_twin_towers",
+       "merdeka_square"
+      ],
+      "stops_per_day": [
+       3,
+       1,
+       2,
+       0
+      ],
+      "conflict_codes": [
+       "baseline_not_placed"
+      ],
+      "runtime_seconds": 0.0002,
+      "solver_status": "N/A",
+      "travel_minutes": 202,
+      "total_jpy": 204,
+      "validator": "fail",
+      "failed_checks": [
+       "must_visits"
+      ]
+     },
+     "nn": {
+      "status": "infeasible",
+      "placed": [
+       "perdana_botanical_garden",
+       "islamic_arts_museum_malaysia",
+       "merdeka_square",
+       "thean_hou_temple",
+       "kl_tower",
+       "petronas_twin_towers"
+      ],
+      "stops_per_day": [
+       3,
+       2,
+       1,
+       0
+      ],
+      "conflict_codes": [
+       "nn_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 198,
+      "total_jpy": 204,
+      "validator": "fail",
+      "failed_checks": [
+       "must_visits"
+      ]
+     },
+     "audit": {
+      "conflicts": [
+       {
+        "code": "unknown_hours_not_allowed",
+        "confirmed": true
+       }
+      ],
+      "brute_force_says_schedulable": false
+     },
+     "trivially_easy": false
+    },
+    {
+     "id": "T002",
+     "hotel_id": "hotel_bukit_bintang_lane",
+     "days": 4,
+     "n_requested": 6,
+     "n_must": 3,
+     "must_visit": [
+      "national_mosque_malaysia",
+      "islamic_arts_museum_malaysia",
+      "batu_caves"
+     ],
+     "budget_kind": "strict",
+     "budget": 2900,
+     "budget_factor": 1.12,
+     "visitable": [
+      "kl_tower",
+      "perdana_botanical_garden",
+      "islamic_arts_museum_malaysia",
+      "central_market_kl",
+      "batu_caves"
+     ],
+     "solver": {
+      "status": "infeasible",
+      "placed": [],
+      "stops_per_day": [],
+      "conflict_codes": [
+       "unknown_hours_not_allowed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "NOT_RUN",
+      "travel_minutes": null,
+      "total_jpy": null,
+      "validator": "no_plan",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "infeasible",
+      "placed": [
+       "kl_tower",
+       "perdana_botanical_garden",
+       "islamic_arts_museum_malaysia",
+       "central_market_kl",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       3,
+       2,
+       0,
+       0
+      ],
+      "conflict_codes": [
+       "baseline_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 182,
+      "total_jpy": 102,
+      "validator": "fail",
+      "failed_checks": [
+       "must_visits"
+      ]
+     },
+     "nn": {
+      "status": "infeasible",
+      "placed": [
+       "kl_tower",
+       "central_market_kl",
+       "islamic_arts_museum_malaysia",
+       "perdana_botanical_garden",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       3,
+       2,
+       0,
+       0
+      ],
+      "conflict_codes": [
+       "nn_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 184,
+      "total_jpy": 102,
+      "validator": "fail",
+      "failed_checks": [
+       "must_visits"
+      ]
+     },
+     "audit": {
+      "conflicts": [
+       {
+        "code": "unknown_hours_not_allowed",
+        "confirmed": true
+       }
+      ],
+      "brute_force_says_schedulable": false
+     },
+     "trivially_easy": false
+    },
+    {
+     "id": "T003",
+     "hotel_id": "hotel_klcc_lantern",
+     "days": 4,
+     "n_requested": 4,
+     "n_must": 3,
+     "must_visit": [
+      "central_market_kl",
+      "jalan_alor",
+      "batu_caves"
+     ],
+     "budget_kind": "none",
+     "budget": null,
+     "budget_factor": null,
+     "visitable": [
+      "central_market_kl",
+      "merdeka_square",
+      "jalan_alor",
+      "batu_caves"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "batu_caves",
+       "merdeka_square",
+       "central_market_kl",
+       "jalan_alor"
+      ],
+      "stops_per_day": [
+       0,
+       0,
+       1,
+       3
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0657,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 154,
+      "total_jpy": 23,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "feasible",
+      "placed": [
+       "central_market_kl",
+       "merdeka_square",
+       "jalan_alor",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       3,
+       1,
+       0,
+       0
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 155,
+      "total_jpy": 23,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "nn": {
+      "status": "feasible",
+      "placed": [
+       "jalan_alor",
+       "merdeka_square",
+       "central_market_kl",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       1,
+       3,
+       0,
+       0
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 158,
+      "total_jpy": 24,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "audit": null,
+     "trivially_easy": true
+    },
+    {
+     "id": "T004",
+     "hotel_id": "hotel_bangsar_edge",
+     "days": 2,
+     "n_requested": 6,
+     "n_must": 2,
+     "must_visit": [
+      "national_mosque_malaysia",
+      "islamic_arts_museum_malaysia"
+     ],
+     "budget_kind": "strict",
+     "budget": 900,
+     "budget_factor": 0.404,
+     "visitable": [
+      "central_market_kl",
+      "islamic_arts_museum_malaysia",
+      "petronas_twin_towers",
+      "merdeka_square",
+      "perdana_botanical_garden"
+     ],
+     "solver": {
+      "status": "infeasible",
+      "placed": [],
+      "stops_per_day": [],
+      "conflict_codes": [
+       "unknown_hours_not_allowed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "NOT_RUN",
+      "travel_minutes": null,
+      "total_jpy": null,
+      "validator": "no_plan",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "infeasible",
+      "placed": [
+       "central_market_kl",
+       "islamic_arts_museum_malaysia",
+       "petronas_twin_towers",
+       "merdeka_square",
+       "perdana_botanical_garden"
+      ],
+      "stops_per_day": [
+       3,
+       2
+      ],
+      "conflict_codes": [
+       "baseline_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 143,
+      "total_jpy": 135,
+      "validator": "fail",
+      "failed_checks": [
+       "must_visits"
+      ]
+     },
+     "nn": {
+      "status": "infeasible",
+      "placed": [
+       "perdana_botanical_garden",
+       "islamic_arts_museum_malaysia",
+       "central_market_kl",
+       "merdeka_square"
+      ],
+      "stops_per_day": [
+       3,
+       1
+      ],
+      "conflict_codes": [
+       "nn_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 110,
+      "total_jpy": 32,
+      "validator": "fail",
+      "failed_checks": [
+       "must_visits"
+      ]
+     },
+     "audit": {
+      "conflicts": [
+       {
+        "code": "unknown_hours_not_allowed",
+        "confirmed": true
+       }
+      ],
+      "brute_force_says_schedulable": false
+     },
+     "trivially_easy": false
+    },
+    {
+     "id": "T005",
+     "hotel_id": "hotel_bukit_bintang_lane",
+     "days": 2,
+     "n_requested": 3,
+     "n_must": 0,
+     "must_visit": [],
+     "budget_kind": "none",
+     "budget": null,
+     "budget_factor": null,
+     "visitable": [
+      "kl_tower",
+      "petronas_twin_towers",
+      "batu_caves"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "kl_tower",
+       "batu_caves",
+       "petronas_twin_towers"
+      ],
+      "stops_per_day": [
+       3,
+       0
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0064,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 120,
+      "total_jpy": 177,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "feasible",
+      "placed": [
+       "kl_tower",
+       "petronas_twin_towers",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       3,
+       0
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 122,
+      "total_jpy": 176,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "nn": {
+      "status": "feasible",
+      "placed": [
+       "kl_tower",
+       "petronas_twin_towers",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       3,
+       0
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 122,
+      "total_jpy": 176,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "audit": null,
+     "trivially_easy": true
+    },
+    {
+     "id": "T006",
+     "hotel_id": "hotel_klcc_lantern",
+     "days": 2,
+     "n_requested": 5,
+     "n_must": 0,
+     "must_visit": [],
+     "budget_kind": "none",
+     "budget": null,
+     "budget_factor": null,
+     "visitable": [
+      "petronas_twin_towers",
+      "perdana_botanical_garden",
+      "central_market_kl",
+      "islamic_arts_museum_malaysia"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "central_market_kl",
+       "islamic_arts_museum_malaysia",
+       "perdana_botanical_garden",
+       "petronas_twin_towers"
+      ],
+      "stops_per_day": [
+       3,
+       1
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.021,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 92,
+      "total_jpy": 127,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "feasible",
+      "placed": [
+       "petronas_twin_towers",
+       "perdana_botanical_garden",
+       "central_market_kl",
+       "islamic_arts_museum_malaysia"
+      ],
+      "stops_per_day": [
+       3,
+       1
+      ],
+      "conflict_codes": [
+       "baseline_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 113,
+      "total_jpy": 132,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "nn": {
+      "status": "feasible",
+      "placed": [
+       "petronas_twin_towers",
+       "central_market_kl",
+       "islamic_arts_museum_malaysia",
+       "perdana_botanical_garden"
+      ],
+      "stops_per_day": [
+       3,
+       1
+      ],
+      "conflict_codes": [
+       "nn_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 113,
+      "total_jpy": 131,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "audit": null,
+     "trivially_easy": false
+    },
+    {
+     "id": "T007",
+     "hotel_id": "hotel_bangsar_edge",
+     "days": 4,
+     "n_requested": 6,
+     "n_must": 1,
+     "must_visit": [
+      "merdeka_square"
+     ],
+     "budget_kind": "strict",
+     "budget": 3000,
+     "budget_factor": 1.188,
+     "visitable": [
+      "batu_caves",
+      "jalan_alor",
+      "thean_hou_temple",
+      "merdeka_square",
+      "central_market_kl"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "batu_caves",
+       "jalan_alor",
+       "thean_hou_temple",
+       "central_market_kl",
+       "merdeka_square"
+      ],
+      "stops_per_day": [
+       2,
+       3,
+       0,
+       0
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.1137,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 204,
+      "total_jpy": 31,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "feasible",
+      "placed": [
+       "batu_caves",
+       "jalan_alor",
+       "thean_hou_temple",
+       "merdeka_square",
+       "central_market_kl"
+      ],
+      "stops_per_day": [
+       2,
+       3,
+       0,
+       0
+      ],
+      "conflict_codes": [
+       "baseline_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 205,
+      "total_jpy": 30,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "nn": {
+      "status": "feasible",
+      "placed": [
+       "thean_hou_temple",
+       "central_market_kl",
+       "merdeka_square",
+       "jalan_alor",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       3,
+       1,
+       1,
+       0
+      ],
+      "conflict_codes": [
+       "nn_not_placed"
+      ],
+      "runtime_seconds": 0.0002,
+      "solver_status": "N/A",
+      "travel_minutes": 238,
+      "total_jpy": 36,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "audit": null,
+     "trivially_easy": false
+    },
+    {
+     "id": "T008",
+     "hotel_id": "hotel_bukit_bintang_lane",
+     "days": 3,
+     "n_requested": 5,
+     "n_must": 1,
+     "must_visit": [
+      "jalan_alor"
+     ],
+     "budget_kind": "strict",
+     "budget": 1300,
+     "budget_factor": 0.669,
+     "visitable": [
+      "batu_caves",
+      "jalan_alor",
+      "islamic_arts_museum_malaysia",
+      "thean_hou_temple",
+      "merdeka_square"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "thean_hou_temple",
+       "islamic_arts_museum_malaysia",
+       "merdeka_square",
+       "batu_caves",
+       "jalan_alor"
+      ],
+      "stops_per_day": [
+       3,
+       2,
+       0
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0903,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 185,
+      "total_jpy": 42,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "feasible",
+      "placed": [
+       "batu_caves",
+       "jalan_alor",
+       "islamic_arts_museum_malaysia",
+       "thean_hou_temple",
+       "merdeka_square"
+      ],
+      "stops_per_day": [
+       2,
+       0,
+       3
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0039,
+      "solver_status": "N/A",
+      "travel_minutes": 188,
+      "total_jpy": 42,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "nn": {
+      "status": "feasible",
+      "placed": [
+       "jalan_alor",
+       "merdeka_square",
+       "thean_hou_temple",
+       "batu_caves",
+       "islamic_arts_museum_malaysia"
+      ],
+      "stops_per_day": [
+       1,
+       3,
+       1
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0003,
+      "solver_status": "N/A",
+      "travel_minutes": 210,
+      "total_jpy": 45,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "audit": null,
+     "trivially_easy": false
+    },
+    {
+     "id": "T009",
+     "hotel_id": "hotel_klcc_lantern",
+     "days": 4,
+     "n_requested": 9,
+     "n_must": 3,
+     "must_visit": [
+      "national_mosque_malaysia",
+      "batu_caves",
+      "perdana_botanical_garden"
+     ],
+     "budget_kind": "soft",
+     "budget": 4400,
+     "budget_factor": 1.286,
+     "visitable": [
+      "kl_tower",
+      "petronas_twin_towers",
+      "islamic_arts_museum_malaysia",
+      "thean_hou_temple",
+      "central_market_kl",
+      "merdeka_square",
+      "batu_caves",
+      "perdana_botanical_garden"
+     ],
+     "solver": {
+      "status": "infeasible",
+      "placed": [],
+      "stops_per_day": [],
+      "conflict_codes": [
+       "unknown_hours_not_allowed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "NOT_RUN",
+      "travel_minutes": null,
+      "total_jpy": null,
+      "validator": "no_plan",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "infeasible",
+      "placed": [
+       "kl_tower",
+       "petronas_twin_towers",
+       "islamic_arts_museum_malaysia",
+       "thean_hou_temple",
+       "central_market_kl",
+       "merdeka_square",
+       "batu_caves",
+       "perdana_botanical_garden"
+      ],
+      "stops_per_day": [
+       3,
+       3,
+       2,
+       0
+      ],
+      "conflict_codes": [
+       "baseline_not_placed"
+      ],
+      "runtime_seconds": 0.0003,
+      "solver_status": "N/A",
+      "travel_minutes": 273,
+      "total_jpy": 213,
+      "validator": "fail",
+      "failed_checks": [
+       "must_visits"
+      ]
+     },
+     "nn": {
+      "status": "infeasible",
+      "placed": [
+       "petronas_twin_towers",
+       "kl_tower",
+       "merdeka_square",
+       "central_market_kl",
+       "islamic_arts_museum_malaysia",
+       "perdana_botanical_garden",
+       "thean_hou_temple",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       3,
+       3,
+       2,
+       0
+      ],
+      "conflict_codes": [
+       "nn_not_placed"
+      ],
+      "runtime_seconds": 0.0002,
+      "solver_status": "N/A",
+      "travel_minutes": 262,
+      "total_jpy": 211,
+      "validator": "fail",
+      "failed_checks": [
+       "must_visits"
+      ]
+     },
+     "audit": {
+      "conflicts": [
+       {
+        "code": "unknown_hours_not_allowed",
+        "confirmed": true
+       }
+      ],
+      "brute_force_says_schedulable": false
+     },
+     "trivially_easy": false
+    },
+    {
+     "id": "T010",
+     "hotel_id": "hotel_bangsar_edge",
+     "days": 2,
+     "n_requested": 6,
+     "n_must": 3,
+     "must_visit": [
+      "petronas_twin_towers",
+      "central_market_kl",
+      "islamic_arts_museum_malaysia"
+     ],
+     "budget_kind": "soft",
+     "budget": 3200,
+     "budget_factor": 1.487,
+     "visitable": [
+      "perdana_botanical_garden",
+      "kl_tower",
+      "petronas_twin_towers",
+      "central_market_kl",
+      "islamic_arts_museum_malaysia",
+      "batu_caves"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "kl_tower",
+       "petronas_twin_towers",
+       "batu_caves",
+       "perdana_botanical_garden",
+       "islamic_arts_museum_malaysia",
+       "central_market_kl"
+      ],
+      "stops_per_day": [
+       3,
+       3
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0261,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 207,
+      "total_jpy": 202,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "feasible",
+      "placed": [
+       "perdana_botanical_garden",
+       "kl_tower",
+       "petronas_twin_towers",
+       "central_market_kl",
+       "islamic_arts_museum_malaysia",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       3,
+       3
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 223,
+      "total_jpy": 205,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "nn": {
+      "status": "infeasible",
+      "placed": [
+       "perdana_botanical_garden",
+       "islamic_arts_museum_malaysia",
+       "central_market_kl",
+       "kl_tower",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       3,
+       2
+      ],
+      "conflict_codes": [
+       "nn_not_placed"
+      ],
+      "runtime_seconds": 0.0028,
+      "solver_status": "N/A",
+      "travel_minutes": 194,
+      "total_jpy": 103,
+      "validator": "fail",
+      "failed_checks": [
+       "must_visits"
+      ]
+     },
+     "audit": null,
+     "trivially_easy": false
+    },
+    {
+     "id": "T011",
+     "hotel_id": "hotel_bukit_bintang_lane",
+     "days": 3,
+     "n_requested": 6,
+     "n_must": 3,
+     "must_visit": [
+      "petronas_twin_towers",
+      "jalan_alor",
+      "thean_hou_temple"
+     ],
+     "budget_kind": "strict",
+     "budget": 2900,
+     "budget_factor": 1.198,
+     "visitable": [
+      "kl_tower",
+      "perdana_botanical_garden",
+      "petronas_twin_towers",
+      "jalan_alor",
+      "thean_hou_temple",
+      "central_market_kl"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "petronas_twin_towers",
+       "kl_tower",
+       "jalan_alor",
+       "central_market_kl",
+       "perdana_botanical_garden",
+       "thean_hou_temple"
+      ],
+      "stops_per_day": [
+       3,
+       0,
+       3
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0682,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 131,
+      "total_jpy": 180,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "feasible",
+      "placed": [
+       "kl_tower",
+       "perdana_botanical_garden",
+       "petronas_twin_towers",
+       "jalan_alor",
+       "thean_hou_temple",
+       "central_market_kl"
+      ],
+      "stops_per_day": [
+       3,
+       1,
+       2
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0008,
+      "solver_status": "N/A",
+      "travel_minutes": 158,
+      "total_jpy": 185,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "nn": {
+      "status": "feasible",
+      "placed": [
+       "jalan_alor",
+       "kl_tower",
+       "petronas_twin_towers",
+       "central_market_kl",
+       "perdana_botanical_garden",
+       "thean_hou_temple"
+      ],
+      "stops_per_day": [
+       1,
+       3,
+       2
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 154,
+      "total_jpy": 183,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "audit": null,
+     "trivially_easy": false
+    },
+    {
+     "id": "T012",
+     "hotel_id": "hotel_klcc_lantern",
+     "days": 3,
+     "n_requested": 7,
+     "n_must": 2,
+     "must_visit": [
+      "jalan_alor",
+      "batu_caves"
+     ],
+     "budget_kind": "soft",
+     "budget": 1200,
+     "budget_factor": 0.481,
+     "visitable": [
+      "islamic_arts_museum_malaysia",
+      "jalan_alor",
+      "batu_caves",
+      "central_market_kl",
+      "thean_hou_temple",
+      "kl_tower"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "batu_caves",
+       "kl_tower",
+       "jalan_alor",
+       "central_market_kl",
+       "islamic_arts_museum_malaysia",
+       "thean_hou_temple"
+      ],
+      "stops_per_day": [
+       0,
+       3,
+       3
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0724,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 202,
+      "total_jpy": 104,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "feasible",
+      "placed": [
+       "islamic_arts_museum_malaysia",
+       "jalan_alor",
+       "batu_caves",
+       "central_market_kl",
+       "thean_hou_temple",
+       "kl_tower"
+      ],
+      "stops_per_day": [
+       2,
+       3,
+       1
+      ],
+      "conflict_codes": [
+       "baseline_not_placed"
+      ],
+      "runtime_seconds": 0.0003,
+      "solver_status": "N/A",
+      "travel_minutes": 230,
+      "total_jpy": 110,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "nn": {
+      "status": "feasible",
+      "placed": [
+       "kl_tower",
+       "jalan_alor",
+       "central_market_kl",
+       "islamic_arts_museum_malaysia",
+       "thean_hou_temple",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       2,
+       3,
+       1
+      ],
+      "conflict_codes": [
+       "nn_not_placed"
+      ],
+      "runtime_seconds": 0.0003,
+      "solver_status": "N/A",
+      "travel_minutes": 216,
+      "total_jpy": 106,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "audit": null,
+     "trivially_easy": true
+    },
+    {
+     "id": "T013",
+     "hotel_id": "hotel_bangsar_edge",
+     "days": 4,
+     "n_requested": 3,
+     "n_must": 0,
+     "must_visit": [],
+     "budget_kind": "none",
+     "budget": null,
+     "budget_factor": null,
+     "visitable": [
+      "petronas_twin_towers",
+      "batu_caves"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "petronas_twin_towers",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       0,
+       0,
+       0,
+       2
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0124,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 131,
+      "total_jpy": 117,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "feasible",
+      "placed": [
+       "petronas_twin_towers",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       2,
+       0,
+       0,
+       0
+      ],
+      "conflict_codes": [
+       "baseline_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 131,
+      "total_jpy": 117,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "nn": {
+      "status": "feasible",
+      "placed": [
+       "petronas_twin_towers",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       2,
+       0,
+       0,
+       0
+      ],
+      "conflict_codes": [
+       "nn_not_placed"
+      ],
+      "runtime_seconds": 0.0003,
+      "solver_status": "N/A",
+      "travel_minutes": 131,
+      "total_jpy": 117,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "audit": null,
+     "trivially_easy": true
+    },
+    {
+     "id": "T014",
+     "hotel_id": "hotel_bukit_bintang_lane",
+     "days": 3,
+     "n_requested": 5,
+     "n_must": 0,
+     "must_visit": [],
+     "budget_kind": "none",
+     "budget": null,
+     "budget_factor": null,
+     "visitable": [
+      "kl_tower",
+      "jalan_alor",
+      "merdeka_square",
+      "petronas_twin_towers",
+      "perdana_botanical_garden"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "kl_tower",
+       "merdeka_square",
+       "perdana_botanical_garden",
+       "petronas_twin_towers",
+       "jalan_alor"
+      ],
+      "stops_per_day": [
+       0,
+       3,
+       2
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0533,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 108,
+      "total_jpy": 178,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "feasible",
+      "placed": [
+       "kl_tower",
+       "jalan_alor",
+       "merdeka_square",
+       "petronas_twin_towers",
+       "perdana_botanical_garden"
+      ],
+      "stops_per_day": [
+       2,
+       3,
+       0
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 122,
+      "total_jpy": 178,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "nn": {
+      "status": "feasible",
+      "placed": [
+       "jalan_alor",
+       "kl_tower",
+       "petronas_twin_towers",
+       "merdeka_square",
+       "perdana_botanical_garden"
+      ],
+      "stops_per_day": [
+       1,
+       3,
+       1
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0002,
+      "solver_status": "N/A",
+      "travel_minutes": 133,
+      "total_jpy": 179,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "audit": null,
+     "trivially_easy": true
+    },
+    {
+     "id": "T015",
+     "hotel_id": "hotel_klcc_lantern",
+     "days": 3,
+     "n_requested": 5,
+     "n_must": 0,
+     "must_visit": [],
+     "budget_kind": "none",
+     "budget": null,
+     "budget_factor": null,
+     "visitable": [
+      "islamic_arts_museum_malaysia",
+      "central_market_kl",
+      "jalan_alor",
+      "thean_hou_temple",
+      "batu_caves"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "batu_caves",
+       "jalan_alor",
+       "thean_hou_temple",
+       "islamic_arts_museum_malaysia",
+       "central_market_kl"
+      ],
+      "stops_per_day": [
+       0,
+       2,
+       3
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0399,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 191,
+      "total_jpy": 42,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "feasible",
+      "placed": [
+       "islamic_arts_museum_malaysia",
+       "central_market_kl",
+       "jalan_alor",
+       "thean_hou_temple",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       3,
+       2,
+       0
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 199,
+      "total_jpy": 44,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "nn": {
+      "status": "feasible",
+      "placed": [
+       "jalan_alor",
+       "central_market_kl",
+       "islamic_arts_museum_malaysia",
+       "thean_hou_temple",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       1,
+       3,
+       1
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 203,
+      "total_jpy": 44,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "audit": null,
+     "trivially_easy": true
+    },
+    {
+     "id": "T016",
+     "hotel_id": "hotel_bangsar_edge",
+     "days": 2,
+     "n_requested": 7,
+     "n_must": 1,
+     "must_visit": [
+      "jalan_alor"
+     ],
+     "budget_kind": "none",
+     "budget": null,
+     "budget_factor": null,
+     "visitable": [
+      "central_market_kl",
+      "merdeka_square",
+      "perdana_botanical_garden",
+      "thean_hou_temple",
+      "islamic_arts_museum_malaysia",
+      "jalan_alor"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "thean_hou_temple",
+       "islamic_arts_museum_malaysia",
+       "perdana_botanical_garden",
+       "merdeka_square",
+       "central_market_kl",
+       "jalan_alor"
+      ],
+      "stops_per_day": [
+       3,
+       3
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0734,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 146,
+      "total_jpy": 38,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "feasible",
+      "placed": [
+       "central_market_kl",
+       "merdeka_square",
+       "perdana_botanical_garden",
+       "thean_hou_temple",
+       "islamic_arts_museum_malaysia",
+       "jalan_alor"
+      ],
+      "stops_per_day": [
+       3,
+       3
+      ],
+      "conflict_codes": [
+       "baseline_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 151,
+      "total_jpy": 38,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "nn": {
+      "status": "feasible",
+      "placed": [
+       "perdana_botanical_garden",
+       "islamic_arts_museum_malaysia",
+       "central_market_kl",
+       "thean_hou_temple",
+       "merdeka_square",
+       "jalan_alor"
+      ],
+      "stops_per_day": [
+       3,
+       3
+      ],
+      "conflict_codes": [
+       "nn_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 150,
+      "total_jpy": 37,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "audit": null,
+     "trivially_easy": false
+    },
+    {
+     "id": "T017",
+     "hotel_id": "hotel_bukit_bintang_lane",
+     "days": 2,
+     "n_requested": 4,
+     "n_must": 2,
+     "must_visit": [
+      "national_mosque_malaysia",
+      "central_market_kl"
+     ],
+     "budget_kind": "strict",
+     "budget": 1700,
+     "budget_factor": 1.122,
+     "visitable": [
+      "merdeka_square",
+      "central_market_kl",
+      "jalan_alor"
+     ],
+     "solver": {
+      "status": "infeasible",
+      "placed": [],
+      "stops_per_day": [],
+      "conflict_codes": [
+       "unknown_hours_not_allowed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "NOT_RUN",
+      "travel_minutes": null,
+      "total_jpy": null,
+      "validator": "no_plan",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "infeasible",
+      "placed": [
+       "merdeka_square",
+       "central_market_kl",
+       "jalan_alor"
+      ],
+      "stops_per_day": [
+       3,
+       0
+      ],
+      "conflict_codes": [
+       "baseline_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 58,
+      "total_jpy": 10,
+      "validator": "fail",
+      "failed_checks": [
+       "must_visits"
+      ]
+     },
+     "nn": {
+      "status": "infeasible",
+      "placed": [
+       "jalan_alor",
+       "central_market_kl",
+       "merdeka_square"
+      ],
+      "stops_per_day": [
+       1,
+       2
+      ],
+      "conflict_codes": [
+       "nn_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 71,
+      "total_jpy": 12,
+      "validator": "fail",
+      "failed_checks": [
+       "must_visits"
+      ]
+     },
+     "audit": {
+      "conflicts": [
+       {
+        "code": "unknown_hours_not_allowed",
+        "confirmed": true
+       }
+      ],
+      "brute_force_says_schedulable": false
+     },
+     "trivially_easy": false
+    },
+    {
+     "id": "T018",
+     "hotel_id": "hotel_klcc_lantern",
+     "days": 4,
+     "n_requested": 6,
+     "n_must": 2,
+     "must_visit": [
+      "central_market_kl",
+      "jalan_alor"
+     ],
+     "budget_kind": "strict",
+     "budget": 2100,
+     "budget_factor": 0.833,
+     "visitable": [
+      "batu_caves",
+      "central_market_kl",
+      "perdana_botanical_garden",
+      "kl_tower",
+      "jalan_alor"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "kl_tower",
+       "jalan_alor",
+       "central_market_kl",
+       "perdana_botanical_garden",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       0,
+       2,
+       0,
+       3
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.1198,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 175,
+      "total_jpy": 87,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "feasible",
+      "placed": [
+       "batu_caves",
+       "central_market_kl",
+       "perdana_botanical_garden",
+       "kl_tower",
+       "jalan_alor"
+      ],
+      "stops_per_day": [
+       3,
+       2,
+       0,
+       0
+      ],
+      "conflict_codes": [
+       "baseline_not_placed"
+      ],
+      "runtime_seconds": 0.0002,
+      "solver_status": "N/A",
+      "travel_minutes": 178,
+      "total_jpy": 88,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "nn": {
+      "status": "feasible",
+      "placed": [
+       "kl_tower",
+       "jalan_alor",
+       "central_market_kl",
+       "perdana_botanical_garden",
+       "batu_caves"
+      ],
+      "stops_per_day": [
+       2,
+       3,
+       0,
+       0
+      ],
+      "conflict_codes": [
+       "nn_not_placed"
+      ],
+      "runtime_seconds": 0.0002,
+      "solver_status": "N/A",
+      "travel_minutes": 175,
+      "total_jpy": 87,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "audit": null,
+     "trivially_easy": false
+    },
+    {
+     "id": "T019",
+     "hotel_id": "hotel_bangsar_edge",
+     "days": 3,
+     "n_requested": 3,
+     "n_must": 1,
+     "must_visit": [
+      "kl_tower"
+     ],
+     "budget_kind": "none",
+     "budget": null,
+     "budget_factor": null,
+     "visitable": [
+      "thean_hou_temple",
+      "kl_tower",
+      "perdana_botanical_garden"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "thean_hou_temple",
+       "kl_tower",
+       "perdana_botanical_garden"
+      ],
+      "stops_per_day": [
+       0,
+       3,
+       0
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0121,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 81,
+      "total_jpy": 73,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "feasible",
+      "placed": [
+       "thean_hou_temple",
+       "kl_tower",
+       "perdana_botanical_garden"
+      ],
+      "stops_per_day": [
+       3,
+       0,
+       0
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 81,
+      "total_jpy": 73,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "nn": {
+      "status": "feasible",
+      "placed": [
+       "perdana_botanical_garden",
+       "thean_hou_temple",
+       "kl_tower"
+      ],
+      "stops_per_day": [
+       3,
+       0,
+       0
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 89,
+      "total_jpy": 74,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "audit": null,
+     "trivially_easy": true
+    },
+    {
+     "id": "T020",
+     "hotel_id": "hotel_bukit_bintang_lane",
+     "days": 2,
+     "n_requested": 7,
+     "n_must": 2,
+     "must_visit": [
+      "thean_hou_temple",
+      "islamic_arts_museum_malaysia"
+     ],
+     "budget_kind": "soft",
+     "budget": 1100,
+     "budget_factor": 0.464,
+     "visitable": [
+      "batu_caves",
+      "petronas_twin_towers",
+      "central_market_kl",
+      "thean_hou_temple",
+      "kl_tower",
+      "perdana_botanical_garden",
+      "islamic_arts_museum_malaysia"
+     ],
+     "solver": {
+      "status": "feasible",
+      "placed": [
+       "central_market_kl",
+       "kl_tower",
+       "petronas_twin_towers",
+       "islamic_arts_museum_malaysia",
+       "perdana_botanical_garden",
+       "thean_hou_temple"
+      ],
+      "stops_per_day": [
+       3,
+       3
+      ],
+      "conflict_codes": [],
+      "runtime_seconds": 0.0743,
+      "solver_status": "OPTIMAL",
+      "travel_minutes": 139,
+      "total_jpy": 195,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "naive": {
+      "status": "infeasible",
+      "placed": [
+       "batu_caves",
+       "petronas_twin_towers",
+       "central_market_kl",
+       "thean_hou_temple",
+       "kl_tower",
+       "perdana_botanical_garden"
+      ],
+      "stops_per_day": [
+       3,
+       3
+      ],
+      "conflict_codes": [
+       "baseline_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 222,
+      "total_jpy": 191,
+      "validator": "fail",
+      "failed_checks": [
+       "must_visits"
+      ]
+     },
+     "nn": {
+      "status": "feasible",
+      "placed": [
+       "kl_tower",
+       "petronas_twin_towers",
+       "central_market_kl",
+       "islamic_arts_museum_malaysia",
+       "perdana_botanical_garden",
+       "thean_hou_temple"
+      ],
+      "stops_per_day": [
+       3,
+       3
+      ],
+      "conflict_codes": [
+       "nn_not_placed"
+      ],
+      "runtime_seconds": 0.0001,
+      "solver_status": "N/A",
+      "travel_minutes": 141,
+      "total_jpy": 195,
+      "validator": "pass_with_warnings",
+      "failed_checks": []
+     },
+     "audit": null,
+     "trivially_easy": false
+    }
+   ],
+   "hotel_value": [
+    {
+     "id": "T001",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T002",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T003",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 82,
+       "gap_travel_hours": 0.63,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 2015,
+        "hotel_bukit_bintang_lane": 1933,
+        "hotel_klcc_lantern": 2266
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 398,
+       "gap_travel_hours": 0.63,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 3581,
+        "hotel_bukit_bintang_lane": 3183,
+        "hotel_klcc_lantern": 3550
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 1032,
+       "gap_travel_hours": 0.63,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 6715,
+        "hotel_bukit_bintang_lane": 5683,
+        "hotel_klcc_lantern": 6116
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T004",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T005",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 96,
+       "gap_travel_hours": 0.35,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 1493,
+        "hotel_bukit_bintang_lane": 1397,
+        "hotel_klcc_lantern": 1462
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 271,
+       "gap_travel_hours": 0.35,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 2668,
+        "hotel_bukit_bintang_lane": 2397,
+        "hotel_klcc_lantern": 2428
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_klcc_lantern",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 656,
+       "gap_travel_hours": 0.42,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 5018,
+        "hotel_bukit_bintang_lane": 4397,
+        "hotel_klcc_lantern": 4362
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T006",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 122,
+       "gap_travel_hours": 0.4,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 1262,
+        "hotel_bukit_bintang_lane": 1140,
+        "hotel_klcc_lantern": 1214
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 322,
+       "gap_travel_hours": 0.4,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 2253,
+        "hotel_bukit_bintang_lane": 1931,
+        "hotel_klcc_lantern": 1980
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_klcc_lantern",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 723,
+       "gap_travel_hours": 0.45,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 4237,
+        "hotel_bukit_bintang_lane": 3515,
+        "hotel_klcc_lantern": 3514
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T007",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bangsar_edge",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 2151,
+        "hotel_bukit_bintang_lane": 2230,
+        "hotel_klcc_lantern": 2580
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 80,
+       "gap_travel_hours": 0.32,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 3851,
+        "hotel_bukit_bintang_lane": 3771,
+        "hotel_klcc_lantern": 4171
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 384,
+       "gap_travel_hours": -1.18,
+       "same_nice_set": false,
+       "true_cost": {
+        "hotel_bangsar_edge": 7239,
+        "hotel_bukit_bintang_lane": 6855,
+        "hotel_klcc_lantern": 7355
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T008",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bangsar_edge",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 2024,
+        "hotel_bukit_bintang_lane": 2024,
+        "hotel_klcc_lantern": 2274
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 159,
+       "gap_travel_hours": 0.32,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 3724,
+        "hotel_bukit_bintang_lane": 3565,
+        "hotel_klcc_lantern": 3865
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 463,
+       "gap_travel_hours": -1.18,
+       "same_nice_set": false,
+       "true_cost": {
+        "hotel_bangsar_edge": 7112,
+        "hotel_bukit_bintang_lane": 6649,
+        "hotel_klcc_lantern": 7049
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T009",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T010",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 104,
+       "gap_travel_hours": 0.37,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 2067,
+        "hotel_bukit_bintang_lane": 1963,
+        "hotel_klcc_lantern": 2070
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 288,
+       "gap_travel_hours": 0.37,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 3792,
+        "hotel_bukit_bintang_lane": 3504,
+        "hotel_klcc_lantern": 3620
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 654,
+       "gap_travel_hours": 0.37,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 7242,
+        "hotel_bukit_bintang_lane": 6588,
+        "hotel_klcc_lantern": 6720
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T011",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 43,
+       "gap_travel_hours": 0.4,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 1755,
+        "hotel_bukit_bintang_lane": 1712,
+        "hotel_klcc_lantern": 1970
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 243,
+       "gap_travel_hours": 0.4,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 3046,
+        "hotel_bukit_bintang_lane": 2803,
+        "hotel_klcc_lantern": 3120
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 643,
+       "gap_travel_hours": 0.4,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 5630,
+        "hotel_bukit_bintang_lane": 4987,
+        "hotel_klcc_lantern": 5420
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T012",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bangsar_edge",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 2169,
+        "hotel_bukit_bintang_lane": 2169,
+        "hotel_klcc_lantern": 2427
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 159,
+       "gap_travel_hours": 0.32,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 3953,
+        "hotel_bukit_bintang_lane": 3794,
+        "hotel_klcc_lantern": 4111
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 475,
+       "gap_travel_hours": 0.32,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 7519,
+        "hotel_bukit_bintang_lane": 7044,
+        "hotel_klcc_lantern": 7477
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T013",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bangsar_edge",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 1629,
+        "hotel_bukit_bintang_lane": 1682,
+        "hotel_klcc_lantern": 1914
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 129,
+       "gap_travel_hours": 0.37,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 2720,
+        "hotel_bukit_bintang_lane": 2591,
+        "hotel_klcc_lantern": 2755
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 497,
+       "gap_travel_hours": 0.37,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 4904,
+        "hotel_bukit_bintang_lane": 4407,
+        "hotel_klcc_lantern": 4439
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T014",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 101,
+       "gap_travel_hours": 0.52,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 1619,
+        "hotel_bukit_bintang_lane": 1518,
+        "hotel_klcc_lantern": 1744
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 360,
+       "gap_travel_hours": 0.52,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 2778,
+        "hotel_bukit_bintang_lane": 2418,
+        "hotel_klcc_lantern": 2669
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 876,
+       "gap_travel_hours": 0.52,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 5094,
+        "hotel_bukit_bintang_lane": 4218,
+        "hotel_klcc_lantern": 4519
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T015",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 1,
+       "gap_travel_hours": 0.32,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 2016,
+        "hotel_bukit_bintang_lane": 2015,
+        "hotel_klcc_lantern": 2274
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 158,
+       "gap_travel_hours": 0.32,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 3707,
+        "hotel_bukit_bintang_lane": 3549,
+        "hotel_klcc_lantern": 3865
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 464,
+       "gap_travel_hours": -1.18,
+       "same_nice_set": false,
+       "true_cost": {
+        "hotel_bangsar_edge": 7079,
+        "hotel_bukit_bintang_lane": 6615,
+        "hotel_klcc_lantern": 7049
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T016",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 14,
+       "gap_travel_hours": 0.18,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 1395,
+        "hotel_bukit_bintang_lane": 1381,
+        "hotel_klcc_lantern": 1583
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 105,
+       "gap_travel_hours": 0.18,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 2611,
+        "hotel_bukit_bintang_lane": 2506,
+        "hotel_klcc_lantern": 2808
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 289,
+       "gap_travel_hours": 0.18,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 5045,
+        "hotel_bukit_bintang_lane": 4756,
+        "hotel_klcc_lantern": 5258
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T017",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "NOT_RUN",
+        "hotel_bukit_bintang_lane": "NOT_RUN",
+        "hotel_klcc_lantern": "NOT_RUN"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": null,
+       "eligible": false,
+       "ineligible_reason": "hotel_infeasible",
+       "partial": false,
+       "approximate": false
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T018",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bangsar_edge",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 2160,
+        "hotel_bukit_bintang_lane": 2172,
+        "hotel_klcc_lantern": 2505
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 213,
+       "gap_travel_hours": 0.45,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 3810,
+        "hotel_bukit_bintang_lane": 3597,
+        "hotel_klcc_lantern": 3964
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 663,
+       "gap_travel_hours": 0.45,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 7110,
+        "hotel_bukit_bintang_lane": 6447,
+        "hotel_klcc_lantern": 6880
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T019",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bangsar_edge",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 1028,
+        "hotel_bukit_bintang_lane": 1163,
+        "hotel_klcc_lantern": 1405
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bangsar_edge",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 1703,
+        "hotel_bukit_bintang_lane": 1813,
+        "hotel_klcc_lantern": 2096
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bangsar_edge",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 3053,
+        "hotel_bukit_bintang_lane": 3113,
+        "hotel_klcc_lantern": 3480
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T020",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 12,
+       "gap_travel_hours": 0.18,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 4585,
+        "hotel_bukit_bintang_lane": 4573,
+        "hotel_klcc_lantern": 4715
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 103,
+       "gap_travel_hours": 0.18,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 5835,
+        "hotel_bukit_bintang_lane": 5732,
+        "hotel_klcc_lantern": 5915
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 287,
+       "gap_travel_hours": 0.18,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 8335,
+        "hotel_bukit_bintang_lane": 8048,
+        "hotel_klcc_lantern": 8315
+       }
+      }
+     },
+     "flip": null
+    }
+   ],
+   "metrics": {
+    "n_trips": 20,
+    "generation": {
+     "infeasible": 5,
+     "infeasible_by_code": {
+      "unknown_hours_not_allowed": 5
+     },
+     "trivially_easy": 7,
+     "strict_budget": 7,
+     "tight_strict_budget": 2,
+     "with_must_visits": 15,
+     "by_hotel": {
+      "hotel_bangsar_edge": 7,
+      "hotel_bukit_bintang_lane": 7,
+      "hotel_klcc_lantern": 6
+     }
+    },
+    "travel": {
+     "naive": {
+      "baseline": "naive",
+      "n_trips": 20,
+      "n_comparable": 14,
+      "excluded": {
+       "n": 6,
+       "reasons": {
+        "solver_infeasible": 5,
+        "different_sets": 1
+       }
+      },
+      "minutes_reduction": {
+       "n": 14,
+       "mean": 9.214285714285714,
+       "median": 4.0,
+       "min": 0,
+       "max": 28
+      },
+      "percent_reduction": {
+       "n": 14,
+       "mean": 5.705835450994295,
+       "median": 2.498325768286331,
+       "min": 0.0,
+       "max": 18.58407079646018
+      },
+      "better": 12,
+      "equal": 2,
+      "worse": 0,
+      "pooled": {
+       "solver_minutes": 2127,
+       "baseline_minutes": 2256,
+       "percent": 5.718085106382978
+      },
+      "terciles": [
+       {
+        "group": "lowest third",
+        "n": 4,
+        "baseline_minutes_range": [
+         81,
+         122
+        ],
+        "percent_reduction": {
+         "n": 4,
+         "mean": 7.924706223705209,
+         "median": 6.557377049180328,
+         "min": 0.0,
+         "max": 18.58407079646018
+        },
+        "better": 3,
+        "equal": 1,
+        "worse": 0
+       },
+       {
+        "group": "middle third",
+        "n": 5,
+        "baseline_minutes_range": [
+         131,
+         178
+        ],
+        "percent_reduction": {
+         "n": 5,
+         "mean": 4.54608408436639,
+         "median": 1.6853932584269662,
+         "min": 0.0,
+         "max": 17.088607594936708
+        },
+        "better": 4,
+        "equal": 1,
+        "worse": 0
+       },
+       {
+        "group": "highest third",
+        "n": 5,
+        "baseline_minutes_range": [
+         188,
+         230
+        ],
+        "percent_reduction": {
+         "n": 5,
+         "mean": 5.09049019945347,
+         "median": 4.0201005025125625,
+         "min": 0.4878048780487805,
+         "max": 12.173913043478262
+        },
+        "better": 5,
+        "equal": 0,
+        "worse": 0
+       }
+      ],
+      "rows": [
+       {
+        "id": "T003",
+        "solver_minutes": 154,
+        "baseline_minutes": 155,
+        "reduction_minutes": 1,
+        "reduction_percent": 0.6451612903225806
+       },
+       {
+        "id": "T005",
+        "solver_minutes": 120,
+        "baseline_minutes": 122,
+        "reduction_minutes": 2,
+        "reduction_percent": 1.639344262295082
+       },
+       {
+        "id": "T006",
+        "solver_minutes": 92,
+        "baseline_minutes": 113,
+        "reduction_minutes": 21,
+        "reduction_percent": 18.58407079646018
+       },
+       {
+        "id": "T007",
+        "solver_minutes": 204,
+        "baseline_minutes": 205,
+        "reduction_minutes": 1,
+        "reduction_percent": 0.4878048780487805
+       },
+       {
+        "id": "T008",
+        "solver_minutes": 185,
+        "baseline_minutes": 188,
+        "reduction_minutes": 3,
+        "reduction_percent": 1.5957446808510638
+       },
+       {
+        "id": "T010",
+        "solver_minutes": 207,
+        "baseline_minutes": 223,
+        "reduction_minutes": 16,
+        "reduction_percent": 7.174887892376682
+       },
+       {
+        "id": "T011",
+        "solver_minutes": 131,
+        "baseline_minutes": 158,
+        "reduction_minutes": 27,
+        "reduction_percent": 17.088607594936708
+       },
+       {
+        "id": "T012",
+        "solver_minutes": 202,
+        "baseline_minutes": 230,
+        "reduction_minutes": 28,
+        "reduction_percent": 12.173913043478262
+       },
+       {
+        "id": "T013",
+        "solver_minutes": 131,
+        "baseline_minutes": 131,
+        "reduction_minutes": 0,
+        "reduction_percent": 0.0
+       },
+       {
+        "id": "T014",
+        "solver_minutes": 108,
+        "baseline_minutes": 122,
+        "reduction_minutes": 14,
+        "reduction_percent": 11.475409836065573
+       },
+       {
+        "id": "T015",
+        "solver_minutes": 191,
+        "baseline_minutes": 199,
+        "reduction_minutes": 8,
+        "reduction_percent": 4.0201005025125625
+       },
+       {
+        "id": "T016",
+        "solver_minutes": 146,
+        "baseline_minutes": 151,
+        "reduction_minutes": 5,
+        "reduction_percent": 3.3112582781456954
+       },
+       {
+        "id": "T018",
+        "solver_minutes": 175,
+        "baseline_minutes": 178,
+        "reduction_minutes": 3,
+        "reduction_percent": 1.6853932584269662
+       },
+       {
+        "id": "T019",
+        "solver_minutes": 81,
+        "baseline_minutes": 81,
+        "reduction_minutes": 0,
+        "reduction_percent": 0.0
+       }
+      ]
+     },
+     "nn": {
+      "baseline": "nn",
+      "n_trips": 20,
+      "n_comparable": 14,
+      "excluded": {
+       "n": 6,
+       "reasons": {
+        "solver_infeasible": 5,
+        "baseline_dropped_sights": 1
+       }
+      },
+      "minutes_reduction": {
+       "n": 14,
+       "mean": 12.428571428571429,
+       "median": 10.0,
+       "min": 0,
+       "max": 34
+      },
+      "percent_reduction": {
+       "n": 14,
+       "mean": 7.724591156698912,
+       "median": 6.196405765371283,
+       "min": 0.0,
+       "max": 18.796992481203006
+      },
+      "better": 12,
+      "equal": 2,
+      "worse": 0,
+      "pooled": {
+       "solver_minutes": 2059,
+       "baseline_minutes": 2233,
+       "percent": 7.792207792207792
+      },
+      "terciles": [
+       {
+        "group": "lowest third",
+        "n": 4,
+        "baseline_minutes_range": [
+         89,
+         131
+        ],
+        "percent_reduction": {
+         "n": 4,
+         "mean": 7.3030447759247705,
+         "median": 5.314054153619452,
+         "min": 0.0,
+         "max": 18.58407079646018
+        },
+        "better": 3,
+        "equal": 1,
+        "worse": 0
+       },
+       {
+        "group": "middle third",
+        "n": 5,
+        "baseline_minutes_range": [
+         133,
+         158
+        ],
+        "percent_reduction": {
+         "n": 5,
+         "mean": 8.069761873773384,
+         "median": 2.6666666666666665,
+         "min": 1.4184397163120568,
+         "max": 18.796992481203006
+        },
+        "better": 5,
+        "equal": 0,
+        "worse": 0
+       },
+       {
+        "group": "highest third",
+        "n": 5,
+        "baseline_minutes_range": [
+         175,
+         238
+        ],
+        "percent_reduction": {
+         "n": 5,
+         "mean": 7.716657544243752,
+         "median": 6.481481481481482,
+         "min": 0.0,
+         "max": 14.285714285714286
+        },
+        "better": 4,
+        "equal": 1,
+        "worse": 0
+       }
+      ],
+      "rows": [
+       {
+        "id": "T003",
+        "solver_minutes": 154,
+        "baseline_minutes": 158,
+        "reduction_minutes": 4,
+        "reduction_percent": 2.5316455696202533
+       },
+       {
+        "id": "T005",
+        "solver_minutes": 120,
+        "baseline_minutes": 122,
+        "reduction_minutes": 2,
+        "reduction_percent": 1.639344262295082
+       },
+       {
+        "id": "T006",
+        "solver_minutes": 92,
+        "baseline_minutes": 113,
+        "reduction_minutes": 21,
+        "reduction_percent": 18.58407079646018
+       },
+       {
+        "id": "T007",
+        "solver_minutes": 204,
+        "baseline_minutes": 238,
+        "reduction_minutes": 34,
+        "reduction_percent": 14.285714285714286
+       },
+       {
+        "id": "T008",
+        "solver_minutes": 185,
+        "baseline_minutes": 210,
+        "reduction_minutes": 25,
+        "reduction_percent": 11.904761904761905
+       },
+       {
+        "id": "T011",
+        "solver_minutes": 131,
+        "baseline_minutes": 154,
+        "reduction_minutes": 23,
+        "reduction_percent": 14.935064935064934
+       },
+       {
+        "id": "T012",
+        "solver_minutes": 202,
+        "baseline_minutes": 216,
+        "reduction_minutes": 14,
+        "reduction_percent": 6.481481481481482
+       },
+       {
+        "id": "T013",
+        "solver_minutes": 131,
+        "baseline_minutes": 131,
+        "reduction_minutes": 0,
+        "reduction_percent": 0.0
+       },
+       {
+        "id": "T014",
+        "solver_minutes": 108,
+        "baseline_minutes": 133,
+        "reduction_minutes": 25,
+        "reduction_percent": 18.796992481203006
+       },
+       {
+        "id": "T015",
+        "solver_minutes": 191,
+        "baseline_minutes": 203,
+        "reduction_minutes": 12,
+        "reduction_percent": 5.911330049261084
+       },
+       {
+        "id": "T016",
+        "solver_minutes": 146,
+        "baseline_minutes": 150,
+        "reduction_minutes": 4,
+        "reduction_percent": 2.6666666666666665
+       },
+       {
+        "id": "T018",
+        "solver_minutes": 175,
+        "baseline_minutes": 175,
+        "reduction_minutes": 0,
+        "reduction_percent": 0.0
+       },
+       {
+        "id": "T019",
+        "solver_minutes": 81,
+        "baseline_minutes": 89,
+        "reduction_minutes": 8,
+        "reduction_percent": 8.98876404494382
+       },
+       {
+        "id": "T020",
+        "solver_minutes": 139,
+        "baseline_minutes": 141,
+        "reduction_minutes": 2,
+        "reduction_percent": 1.4184397163120568
+       }
+      ]
+     }
+    },
+    "placement": {
+     "n_trips": 15,
+     "requested": 78,
+     "visitable": 72,
+     "solver": {
+      "placed": 71
+     },
+     "naive": {
+      "placed": 71
+     },
+     "nn": {
+      "placed": 70
+     }
+    },
+    "validation": {
+     "solver": {
+      "n_trips": 20,
+      "pass": 0,
+      "pass_with_warnings": 15,
+      "fail": 0,
+      "no_plan": 5,
+      "failed_checks": {},
+      "fail_hard_constraint_beyond_missing_must_visit": 0
+     },
+     "naive": {
+      "n_trips": 20,
+      "pass": 0,
+      "pass_with_warnings": 14,
+      "fail": 6,
+      "no_plan": 0,
+      "failed_checks": {
+       "must_visits": 6
+      },
+      "fail_hard_constraint_beyond_missing_must_visit": 0
+     },
+     "nn": {
+      "n_trips": 20,
+      "pass": 0,
+      "pass_with_warnings": 14,
+      "fail": 6,
+      "no_plan": 0,
+      "failed_checks": {
+       "must_visits": 6
+      },
+      "fail_hard_constraint_beyond_missing_must_visit": 0
+     }
+    },
+    "budget": {
+     "n_strict_trips": 7,
+     "solver": {
+      "feasible_plans": 4,
+      "within_budget": 4,
+      "no_feasible_plan": 3
+     },
+     "naive": {
+      "feasible_plans": 4,
+      "within_budget": 4,
+      "no_feasible_plan": 3
+     },
+     "nn": {
+      "feasible_plans": 4,
+      "within_budget": 4,
+      "no_feasible_plan": 3
+     }
+    },
+    "must_visit": {
+     "n_trips_with_must": 15,
+     "solver": {
+      "all_placed": 10,
+      "reported_infeasible": 5,
+      "silently_dropped": 0
+     },
+     "naive": {
+      "all_placed": 9,
+      "reported_infeasible": 6,
+      "silently_dropped": 0
+     },
+     "nn": {
+      "all_placed": 9,
+      "reported_infeasible": 6,
+      "silently_dropped": 0
+     },
+     "infeasible_audit": {
+      "n_infeasible": 5,
+      "all_stated_conflicts_confirmed": 5,
+      "brute_force_agrees_no_schedule": 5,
+      "brute_force_found_a_schedule": 0,
+      "brute_force_not_decided": 0,
+      "by_code": {
+       "unknown_hours_not_allowed": {
+        "n": 5,
+        "confirmed": 5,
+        "contradicted": 0,
+        "not_checkable": 0
+       }
+      }
+     }
+    },
+    "hotel_value": {
+     "vots": {
+      "500": {
+       "n_trips": 20,
+       "n_eligible": 15,
+       "ineligible_reasons": {
+        "hotel_infeasible": 5
+       },
+       "cheapest_by_rate_not_best": 9,
+       "gap_jpy": {
+        "n": 15,
+        "mean": 38.333333333333336,
+        "median": 12,
+        "min": 0,
+        "max": 122
+       },
+       "gap_travel_hours": {
+        "n": 15,
+        "mean": 0.22333333333333333,
+        "median": 0.18,
+        "min": 0.0,
+        "max": 0.63
+       },
+       "n_same_nice_set": 15,
+       "cheapest_by_rate_not_best_same_nice_set": 9,
+       "gap_jpy_same_nice_set": {
+        "n": 15,
+        "mean": 38.333333333333336,
+        "median": 12,
+        "min": 0,
+        "max": 122
+       },
+       "not_proven_optimal": 0
+      },
+      "1000": {
+       "n_trips": 20,
+       "n_eligible": 15,
+       "ineligible_reasons": {
+        "hotel_infeasible": 5
+       },
+       "cheapest_by_rate_not_best": 14,
+       "gap_jpy": {
+        "n": 15,
+        "mean": 199.2,
+        "median": 159,
+        "min": 0,
+        "max": 398
+       },
+       "gap_travel_hours": {
+        "n": 15,
+        "mean": 0.34199999999999997,
+        "median": 0.35,
+        "min": 0.0,
+        "max": 0.63
+       },
+       "n_same_nice_set": 15,
+       "cheapest_by_rate_not_best_same_nice_set": 14,
+       "gap_jpy_same_nice_set": {
+        "n": 15,
+        "mean": 199.2,
+        "median": 159,
+        "min": 0,
+        "max": 398
+       },
+       "not_proven_optimal": 0
+      },
+      "2000": {
+       "n_trips": 20,
+       "n_eligible": 15,
+       "ineligible_reasons": {
+        "hotel_infeasible": 5
+       },
+       "cheapest_by_rate_not_best": 14,
+       "gap_jpy": {
+        "n": 15,
+        "mean": 540.4,
+        "median": 497,
+        "min": 0,
+        "max": 1032
+       },
+       "gap_travel_hours": {
+        "n": 15,
+        "mean": 0.05000000000000002,
+        "median": 0.37,
+        "min": -1.18,
+        "max": 0.63
+       },
+       "n_same_nice_set": 12,
+       "cheapest_by_rate_not_best_same_nice_set": 11,
+       "gap_jpy_same_nice_set": {
+        "n": 12,
+        "mean": 566.25,
+        "median": 648.5,
+        "min": 0,
+        "max": 1032
+       },
+       "not_proven_optimal": 0
+      }
+     },
+     "flip": null
+    },
+    "replan": null,
+    "secondary_objectives": null,
+    "solver_status": {
+     "trip_solves": {
+      "NOT_RUN": 5,
+      "OPTIMAL": 15
+     },
+     "hotel_compare_solves": {
+      "NOT_RUN": 45,
+      "OPTIMAL": 135
+     },
+     "replan_solves": {}
+    },
+    "machine_dependent": {
+     "solver_runtime_seconds": {
+      "n": 20,
+      "mean": 0.042475,
+      "max": 0.1198
+     }
+    }
+   }
+  },
   "seoul": {
    "city": {
     "id": "seoul",
@@ -702,7 +4938,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0148,
+      "runtime_seconds": 0.0191,
       "solver_status": "OPTIMAL",
       "travel_minutes": 136,
       "total_jpy": 39828,
@@ -725,7 +4961,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 135,
       "total_jpy": 42860,
@@ -797,7 +5033,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.01,
+      "runtime_seconds": 0.018,
       "solver_status": "OPTIMAL",
       "travel_minutes": 62,
       "total_jpy": 9311,
@@ -878,7 +5114,7 @@
       "conflict_codes": [
        "budget_too_low"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -899,7 +5135,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 145,
       "total_jpy": 12137,
@@ -922,7 +5158,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 141,
       "total_jpy": 11998,
@@ -965,7 +5201,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0024,
+      "runtime_seconds": 0.0045,
       "solver_status": "OPTIMAL",
       "travel_minutes": 0,
       "total_jpy": 0,
@@ -1003,7 +5239,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 69,
       "total_jpy": 30523,
@@ -1037,7 +5273,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.003,
+      "runtime_seconds": 0.0053,
       "solver_status": "OPTIMAL",
       "travel_minutes": 0,
       "total_jpy": 0,
@@ -1059,7 +5295,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 183,
       "total_jpy": 67486,
@@ -1081,7 +5317,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 176,
       "total_jpy": 67288,
@@ -1125,7 +5361,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0169,
+      "runtime_seconds": 0.0317,
       "solver_status": "OPTIMAL",
       "travel_minutes": 138,
       "total_jpy": 8932,
@@ -1211,7 +5447,7 @@
       "conflict_codes": [
        "budget_too_low"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -1229,7 +5465,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 0,
       "total_jpy": 0,
@@ -1249,7 +5485,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 0,
       "total_jpy": 0,
@@ -1300,7 +5536,7 @@
       "conflict_codes": [
        "unknown_hours_not_allowed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -1358,7 +5594,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0002,
       "solver_status": "N/A",
       "travel_minutes": 261,
       "total_jpy": 78400,
@@ -1411,7 +5647,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.004,
+      "runtime_seconds": 0.0074,
       "solver_status": "OPTIMAL",
       "travel_minutes": 140,
       "total_jpy": 33001,
@@ -1434,7 +5670,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 283,
       "total_jpy": 44038,
@@ -1457,7 +5693,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 259,
       "total_jpy": 43239,
@@ -1501,7 +5737,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0065,
+      "runtime_seconds": 0.0123,
       "solver_status": "OPTIMAL",
       "travel_minutes": 85,
       "total_jpy": 28081,
@@ -1524,7 +5760,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 130,
       "total_jpy": 34693,
@@ -1547,7 +5783,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 121,
       "total_jpy": 16394,
@@ -1594,7 +5830,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0157,
+      "runtime_seconds": 0.0292,
       "solver_status": "OPTIMAL",
       "travel_minutes": 69,
       "total_jpy": 6505,
@@ -1677,7 +5913,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0037,
+      "runtime_seconds": 0.007,
       "solver_status": "OPTIMAL",
       "travel_minutes": 0,
       "total_jpy": 0,
@@ -1698,7 +5934,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 204,
       "total_jpy": 63194,
@@ -1719,7 +5955,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 206,
       "total_jpy": 63222,
@@ -1757,7 +5993,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0048,
+      "runtime_seconds": 0.0092,
       "solver_status": "OPTIMAL",
       "travel_minutes": 41,
       "total_jpy": 4543,
@@ -1780,7 +6016,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 96,
       "total_jpy": 33567,
@@ -1803,7 +6039,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0009,
       "solver_status": "N/A",
       "travel_minutes": 96,
       "total_jpy": 33553,
@@ -1843,7 +6079,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0084,
+      "runtime_seconds": 0.0161,
       "solver_status": "OPTIMAL",
       "travel_minutes": 69,
       "total_jpy": 6505,
@@ -1865,7 +6101,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 146,
       "total_jpy": 15296,
@@ -1887,7 +6123,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 143,
       "total_jpy": 15198,
@@ -1929,7 +6165,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0168,
+      "runtime_seconds": 0.0297,
       "solver_status": "OPTIMAL",
       "travel_minutes": 139,
       "total_jpy": 8917,
@@ -1953,7 +6189,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 347,
       "total_jpy": 54281,
@@ -2013,7 +6249,7 @@
       "conflict_codes": [
        "no_feasible_schedule"
       ],
-      "runtime_seconds": 0.0027,
+      "runtime_seconds": 0.0043,
       "solver_status": "INFEASIBLE",
       "travel_minutes": null,
       "total_jpy": null,
@@ -2033,7 +6269,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 119,
       "total_jpy": 38224,
@@ -2056,7 +6292,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 130,
       "total_jpy": 39629,
@@ -2110,7 +6346,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0071,
+      "runtime_seconds": 0.0129,
       "solver_status": "OPTIMAL",
       "travel_minutes": 62,
       "total_jpy": 9311,
@@ -2158,7 +6394,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 98,
       "total_jpy": 15612,
@@ -2196,7 +6432,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0019,
+      "runtime_seconds": 0.0033,
       "solver_status": "OPTIMAL",
       "travel_minutes": 125,
       "total_jpy": 10450,
@@ -2281,7 +6517,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0059,
+      "runtime_seconds": 0.0103,
       "solver_status": "OPTIMAL",
       "travel_minutes": 95,
       "total_jpy": 7409,
@@ -4025,8 +8261,8 @@
     "machine_dependent": {
      "solver_runtime_seconds": {
       "n": 20,
-      "mean": 0.006234999999999999,
-      "max": 0.0169
+      "mean": 0.011035,
+      "max": 0.0317
      }
     }
    }
@@ -4501,7 +8737,7 @@
       "conflict_codes": [
        "unknown_hours_not_allowed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -4527,7 +8763,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 142,
       "total_jpy": 84,
@@ -4555,7 +8791,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0002,
       "solver_status": "N/A",
       "travel_minutes": 138,
       "total_jpy": 83,
@@ -4612,7 +8848,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0381,
+      "runtime_seconds": 0.0735,
       "solver_status": "OPTIMAL",
       "travel_minutes": 165,
       "total_jpy": 78,
@@ -4637,7 +8873,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 176,
       "total_jpy": 78,
@@ -4662,7 +8898,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 176,
       "total_jpy": 78,
@@ -4707,7 +8943,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0142,
+      "runtime_seconds": 0.0282,
       "solver_status": "OPTIMAL",
       "travel_minutes": 192,
       "total_jpy": 79,
@@ -4729,7 +8965,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 199,
       "total_jpy": 80,
@@ -4751,7 +8987,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 199,
       "total_jpy": 80,
@@ -4795,7 +9031,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0052,
+      "runtime_seconds": 0.0111,
       "solver_status": "OPTIMAL",
       "travel_minutes": 113,
       "total_jpy": 80,
@@ -4818,7 +9054,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0002,
       "solver_status": "N/A",
       "travel_minutes": 125,
       "total_jpy": 81,
@@ -4840,7 +9076,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0002,
       "solver_status": "N/A",
       "travel_minutes": 107,
       "total_jpy": 78,
@@ -4877,7 +9113,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0032,
+      "runtime_seconds": 0.0104,
       "solver_status": "OPTIMAL",
       "travel_minutes": 117,
       "total_jpy": 39,
@@ -4896,7 +9132,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 121,
       "total_jpy": 39,
@@ -4915,7 +9151,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 117,
       "total_jpy": 39,
@@ -4954,7 +9190,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0095,
+      "runtime_seconds": 0.0203,
       "solver_status": "OPTIMAL",
       "travel_minutes": 112,
       "total_jpy": 48,
@@ -4976,7 +9212,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 116,
       "total_jpy": 48,
@@ -4998,7 +9234,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 112,
       "total_jpy": 48,
@@ -5045,7 +9281,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0619,
+      "runtime_seconds": 0.1288,
       "solver_status": "OPTIMAL",
       "travel_minutes": 208,
       "total_jpy": 101,
@@ -5069,7 +9305,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 214,
       "total_jpy": 102,
@@ -5137,7 +9373,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0326,
+      "runtime_seconds": 0.0645,
       "solver_status": "OPTIMAL",
       "travel_minutes": 219,
       "total_jpy": 94,
@@ -5159,7 +9395,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 234,
       "total_jpy": 95,
@@ -5181,7 +9417,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 225,
       "total_jpy": 93,
@@ -5222,7 +9458,7 @@
       "conflict_codes": [
        "unknown_hours_not_allowed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -5280,7 +9516,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0002,
       "solver_status": "N/A",
       "travel_minutes": 187,
       "total_jpy": 117,
@@ -5335,7 +9571,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0061,
+      "runtime_seconds": 0.0127,
       "solver_status": "OPTIMAL",
       "travel_minutes": 115,
       "total_jpy": 53,
@@ -5358,7 +9594,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 117,
       "total_jpy": 53,
@@ -5381,7 +9617,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 125,
       "total_jpy": 54,
@@ -5427,7 +9663,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0275,
+      "runtime_seconds": 0.0547,
       "solver_status": "OPTIMAL",
       "travel_minutes": 255,
       "total_jpy": 28,
@@ -5451,7 +9687,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 268,
       "total_jpy": 29,
@@ -5475,7 +9711,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 262,
       "total_jpy": 29,
@@ -5524,7 +9760,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0668,
+      "runtime_seconds": 0.1325,
       "solver_status": "OPTIMAL",
       "travel_minutes": 239,
       "total_jpy": 87,
@@ -5548,7 +9784,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 266,
       "total_jpy": 90,
@@ -5611,7 +9847,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0054,
+      "runtime_seconds": 0.0112,
       "solver_status": "OPTIMAL",
       "travel_minutes": 79,
       "total_jpy": 55,
@@ -5632,7 +9868,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 79,
       "total_jpy": 55,
@@ -5653,7 +9889,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 79,
       "total_jpy": 55,
@@ -5693,7 +9929,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0085,
+      "runtime_seconds": 0.0168,
       "solver_status": "OPTIMAL",
       "travel_minutes": 208,
       "total_jpy": 55,
@@ -5716,7 +9952,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 295,
       "total_jpy": 61,
@@ -5739,7 +9975,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0007,
       "solver_status": "N/A",
       "travel_minutes": 208,
       "total_jpy": 55,
@@ -5781,7 +10017,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0233,
+      "runtime_seconds": 0.0459,
       "solver_status": "OPTIMAL",
       "travel_minutes": 204,
       "total_jpy": 61,
@@ -5803,7 +10039,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 216,
       "total_jpy": 62,
@@ -5825,7 +10061,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 212,
       "total_jpy": 61,
@@ -5870,7 +10106,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0299,
+      "runtime_seconds": 0.0574,
       "solver_status": "OPTIMAL",
       "travel_minutes": 209,
       "total_jpy": 89,
@@ -5894,7 +10130,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 223,
       "total_jpy": 89,
@@ -5960,7 +10196,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0024,
+      "runtime_seconds": 0.0047,
       "solver_status": "OPTIMAL",
       "travel_minutes": 227,
       "total_jpy": 76,
@@ -5980,7 +10216,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 229,
       "total_jpy": 76,
@@ -6000,7 +10236,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 229,
       "total_jpy": 76,
@@ -6046,7 +10282,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.023,
+      "runtime_seconds": 0.0439,
       "solver_status": "OPTIMAL",
       "travel_minutes": 204,
       "total_jpy": 69,
@@ -6071,7 +10307,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 234,
       "total_jpy": 73,
@@ -6096,7 +10332,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 215,
       "total_jpy": 69,
@@ -6134,7 +10370,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0021,
+      "runtime_seconds": 0.004,
       "solver_status": "OPTIMAL",
       "travel_minutes": 50,
       "total_jpy": 8,
@@ -6222,7 +10458,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0129,
+      "runtime_seconds": 0.0246,
       "solver_status": "OPTIMAL",
       "travel_minutes": 204,
       "total_jpy": 61,
@@ -6243,7 +10479,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 121,
       "total_jpy": 39,
@@ -8324,8 +12560,8 @@
     "machine_dependent": {
      "solver_runtime_seconds": {
       "n": 20,
-      "mean": 0.01863,
-      "max": 0.0668
+      "mean": 0.03727,
+      "max": 0.1325
      }
     }
    }
