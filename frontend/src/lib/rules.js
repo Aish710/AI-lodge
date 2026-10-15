@@ -108,8 +108,8 @@ export function originOf(input, extracted) {
 }
 
 /** Label for "Load example trip": it must disclose the high value of time the example uses (derived from the example data itself). */
-export function exampleLabel(example) {
-  const vot = formatLocalMoney(Number(example.form.valueOfTime), 'JPY')  // the examples are Tokyo trips
-  return { vot, text: `Load example trip (high value of time, ${vot}/h)`,
-    title: `The example uses a high value of time (${vot} an hour) to illustrate the hotel trade-off. It is not a typical trip.` }
+export function exampleLabel(example, currency = 'JPY') {
+  const vot = formatLocalMoney(Number(example.form.valueOfTime), currency)
+  return { vot, text: `Load a ${example.city_name} example (high value of time, ${vot}/h)`,
+    title: `This example uses a high value of time (${vot} an hour) to illustrate the hotel trade-off. It is not a typical trip.` }
 }

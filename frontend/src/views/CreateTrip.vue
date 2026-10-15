@@ -2,9 +2,8 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import NlParsePanel from '../components/NlParsePanel.vue'
-import examples from '../lib/examples.json'
 import { exampleLabel } from '../lib/rules.js'
-import { store, currentPrefs, loadExample, requestCitySwitch, resetAll } from '../store.js'
+import { store, currentPrefs, currentCityExamples, loadExample, requestCitySwitch, resetAll } from '../store.js'
 import { nightsUsed } from '../lib/prefs.js'
 import { budgetInJpy } from '../lib/prefs.js'
 import { formatLocalMoney, WEEKDAY_NAMES, WEEKDAYS } from '../lib/format.js'
@@ -18,7 +17,11 @@ const currencyOptions = computed(() => Array.from(new Set([city.value?.currency_
 const budgetLocal = computed(() => budgetInJpy(store.form, city.value))
 const budgetHint = computed(() => budgetSanityHint(store))
 const vot = computed(() => Number(store.form.valueOfTime))
-const exLabel = exampleLabel(examples.valid)
+const examplesForCity = computed(() => currentCityExamples.value)
+const exLabel = computed(() => exampleLabel(examplesForCity.value.valid, city.value?.currency_code ?? 'JPY'))
+const exTradeoff = computed(() => examplesForCity.value.valid.expect.rate_winner_differs_from_true_winner
+  ? 'For this city, the pre-tested API result flips the hotel winner: the lowest nightly rate is not the best true cost.'
+  : 'For this city, the pre-tested API result does not flip the hotel winner; it is still useful for trying the flow.')
 function next() { if (!errors.value.length) router.push('/wishlist') }
 async function example(kind) { await loadExample(kind); router.push(kind === 'valid' ? '/hotels' : '/itinerary') }
 function startOver() {
@@ -55,8 +58,8 @@ const pickCity = requestCitySwitch
     <div class="card-soft d-flex flex-wrap gap-2 align-items-center" data-testid="demo-helpers">
       <strong class="me-2">Quick demo:</strong>
       <button class="btn btn-outline-primary btn-sm" @click="example('valid')" data-testid="load-example" :title="exLabel.title" :aria-describedby="'ex-note'">{{ exLabel.text }}</button>
-      <button class="btn btn-outline-secondary btn-sm" @click="example('impossible')" data-testid="load-impossible">Try an impossible trip</button>
-      <p id="ex-note" class="small muted mb-0 w-100" data-testid="example-note"><strong>About this example:</strong> it values an hour at {{ exLabel.vot }} so the hotel trade-off shows. It is not typical: on random trips the cheapest hotel was usually the best. See the <router-link to="/proof#hotel-value">Proof page</router-link>.</p>
+      <button class="btn btn-outline-secondary btn-sm" @click="example('impossible')" data-testid="load-impossible">Try an impossible {{ city?.display_name ?? 'city' }} trip</button>
+      <p id="ex-note" class="small muted mb-0 w-100" data-testid="example-note"><strong>About this example:</strong> this example uses a high value of time to illustrate the hotel trade-off. {{ exTradeoff }} It is not typical: on random trips the cheapest hotel was usually the best. See the <router-link to="/proof#hotel-value">Proof page</router-link>.</p>
     </div>
 
     <NlParsePanel />

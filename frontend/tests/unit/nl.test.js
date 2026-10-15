@@ -250,11 +250,15 @@ describe('diff, tray, dialog and stop actions render the safety cues', () => {
 
 describe('example trip honesty (decision 1)', () => {
   it('the label and tooltip disclose the high value of time, derived from the example data', () => {
-    const l = exampleLabel(examples.valid)
-    expect(examples.valid.form.valueOfTime).toBe(3000)
+    const l = exampleLabel(examples.tokyo.valid)
+    expect(examples.tokyo.valid.form.valueOfTime).toBe(3000)
     expect(l.text).toContain('high value of time')
     expect(l.text).toContain('¥3,000')
     expect(l.title).toContain('not a typical trip')
     expect(exampleLabel({ form: { valueOfTime: 1500 } }).text).toContain('¥1,500')
+  })
+  it('each city example names its city and uses that city currency', () => {
+    expect(exampleLabel(examples.seoul.valid, 'KRW').text).toContain('Seoul')
+    expect(exampleLabel(examples.seoul.valid, 'KRW').text).toContain('45,000')
   })
 })

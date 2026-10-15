@@ -1,67 +1,83 @@
 {
-  "note": "Pre-tested demo requests. backend/tests/test_frontend_examples.py posts these to the real /optimise route and asserts the expected status; tests/e2e checks the same in the browser.",
-  "valid": {
-    "label": "Example trip",
-    "hotel_id": "hotel_lantern_asakusa",
-    "hotel_ids": [
-      "hotel_kitsune_shinjuku",
-      "hotel_lantern_asakusa",
-      "hotel_harbour_odaiba"
-    ],
-    "form": {
-      "days": 3,
-      "budgetAmount": "",
-      "budgetCurrency": "JPY",
-      "strictBudget": false,
-      "pace": "balanced",
-      "startWeekday": 2,
-      "dayStart": "09:00",
-      "dayEnd": "19:00",
-      "valueOfTime": 3000,
-      "nightsOverride": false,
-      "nights": 2,
-      "allowUnknownHours": false
+  "note": "Pre-tested demo requests. backend/tests/test_frontend_examples.py posts these to the real /optimise and /compare-hotels routes and asserts the expected status/flip flag per city.",
+  "tokyo": {
+    "valid": {
+      "city_id": "tokyo",
+      "city_name": "Tokyo",
+      "hotel_id": "hotel_lantern_asakusa",
+      "hotel_ids": ["hotel_kitsune_shinjuku", "hotel_lantern_asakusa", "hotel_harbour_odaiba"],
+      "form": { "days": 3, "budgetAmount": "", "budgetCurrency": "JPY", "strictBudget": false, "pace": "balanced", "startWeekday": 2, "dayStart": "09:00", "dayEnd": "19:00", "valueOfTime": 3000, "nightsOverride": false, "nights": 2, "allowUnknownHours": false },
+      "wishlist": { "senso_ji": "must", "meiji_jingu": "must", "akihabara": "skip" },
+      "expect": { "status": "feasible", "rate_winner_differs_from_true_winner": true }
     },
-    "wishlist": {
-      "senso_ji": "must",
-      "meiji_jingu": "must",
-      "akihabara": "skip"
-    },
-    "expect": {
-      "status": "feasible",
-      "rate_winner_differs_from_true_winner": true
-    },
-    "note": "valueOfTime 3000 is a demo INPUT chosen so the real API result shows a different best-value hotel; users can move the slider."
+    "impossible": {
+      "city_id": "tokyo",
+      "city_name": "Tokyo",
+      "hotel_id": "hotel_lantern_asakusa",
+      "hotel_ids": ["hotel_kitsune_shinjuku", "hotel_lantern_asakusa"],
+      "form": { "days": 2, "budgetAmount": "", "budgetCurrency": "JPY", "strictBudget": false, "pace": "balanced", "startWeekday": 2, "dayStart": "09:00", "dayEnd": "19:00", "valueOfTime": 1000, "nightsOverride": false, "nights": 1, "allowUnknownHours": false },
+      "wishlist": { "akihabara": "must", "senso_ji": "must" },
+      "expect": { "status": "infeasible", "conflict_code": "unknown_hours_not_allowed", "alternative": "allow_unknown_hours" }
+    }
   },
-  "impossible": {
-    "label": "Impossible trip",
-    "hotel_id": "hotel_lantern_asakusa",
-    "hotel_ids": [
-      "hotel_kitsune_shinjuku",
-      "hotel_lantern_asakusa"
-    ],
-    "form": {
-      "days": 2,
-      "budgetAmount": "",
-      "budgetCurrency": "JPY",
-      "strictBudget": false,
-      "pace": "balanced",
-      "startWeekday": 2,
-      "dayStart": "09:00",
-      "dayEnd": "19:00",
-      "valueOfTime": 1000,
-      "nightsOverride": false,
-      "nights": 1,
-      "allowUnknownHours": false
+  "singapore": {
+    "valid": {
+      "city_id": "singapore",
+      "city_name": "Singapore",
+      "hotel_id": "hotel_river_rochore",
+      "hotel_ids": ["hotel_river_rochore", "hotel_bay_lantern", "hotel_east_coast_pier"],
+      "form": { "days": 3, "budgetAmount": "", "budgetCurrency": "SGD", "strictBudget": false, "pace": "balanced", "startWeekday": 2, "dayStart": "09:00", "dayEnd": "19:00", "valueOfTime": 54, "nightsOverride": false, "nights": 2, "allowUnknownHours": false },
+      "wishlist": { "gardens_by_the_bay": "must", "singapore_botanic_gardens": "must", "sentosa": "skip" },
+      "expect": { "status": "feasible", "rate_winner_differs_from_true_winner": false }
     },
-    "wishlist": {
-      "akihabara": "must",
-      "senso_ji": "must"
+    "impossible": {
+      "city_id": "singapore",
+      "city_name": "Singapore",
+      "hotel_id": "hotel_river_rochore",
+      "hotel_ids": ["hotel_river_rochore", "hotel_bay_lantern"],
+      "form": { "days": 2, "budgetAmount": "", "budgetCurrency": "SGD", "strictBudget": false, "pace": "balanced", "startWeekday": 2, "dayStart": "09:00", "dayEnd": "19:00", "valueOfTime": 18, "nightsOverride": false, "nights": 1, "allowUnknownHours": false },
+      "wishlist": { "sentosa": "must", "gardens_by_the_bay": "must" },
+      "expect": { "status": "infeasible", "conflict_code": "unknown_hours_not_allowed", "alternative": "allow_unknown_hours" }
+    }
+  },
+  "seoul": {
+    "valid": {
+      "city_id": "seoul",
+      "city_name": "Seoul",
+      "hotel_id": "hotel_jongno_garden",
+      "hotel_ids": ["hotel_jongno_garden", "hotel_myeongdong_sky", "hotel_guro_river"],
+      "form": { "days": 3, "budgetAmount": "", "budgetCurrency": "KRW", "strictBudget": false, "pace": "balanced", "startWeekday": 2, "dayStart": "09:00", "dayEnd": "19:00", "valueOfTime": 45000, "nightsOverride": false, "nights": 2, "allowUnknownHours": false },
+      "wishlist": { "gyeongbokgung": "must", "changdeokgung": "must", "myeongdong": "skip" },
+      "expect": { "status": "feasible", "rate_winner_differs_from_true_winner": true }
     },
-    "expect": {
-      "status": "infeasible",
-      "conflict_code": "unknown_hours_not_allowed",
-      "alternative": "allow_unknown_hours"
+    "impossible": {
+      "city_id": "seoul",
+      "city_name": "Seoul",
+      "hotel_id": "hotel_jongno_garden",
+      "hotel_ids": ["hotel_jongno_garden", "hotel_myeongdong_sky"],
+      "form": { "days": 2, "budgetAmount": "", "budgetCurrency": "KRW", "strictBudget": false, "pace": "balanced", "startWeekday": 2, "dayStart": "09:00", "dayEnd": "19:00", "valueOfTime": 15000, "nightsOverride": false, "nights": 1, "allowUnknownHours": false },
+      "wishlist": { "myeongdong": "must", "gyeongbokgung": "must" },
+      "expect": { "status": "infeasible", "conflict_code": "unknown_hours_not_allowed", "alternative": "allow_unknown_hours" }
+    }
+  },
+  "kuala_lumpur": {
+    "valid": {
+      "city_id": "kuala_lumpur",
+      "city_name": "Kuala Lumpur",
+      "hotel_id": "hotel_klcc_lantern",
+      "hotel_ids": ["hotel_klcc_lantern", "hotel_bukit_bintang_lane", "hotel_bangsar_edge"],
+      "form": { "days": 3, "budgetAmount": "", "budgetCurrency": "MYR", "strictBudget": false, "pace": "balanced", "startWeekday": 2, "dayStart": "09:00", "dayEnd": "19:00", "valueOfTime": 135, "nightsOverride": false, "nights": 2, "allowUnknownHours": false },
+      "wishlist": { "petronas_twin_towers": "must", "batu_caves": "must", "national_mosque_malaysia": "skip" },
+      "expect": { "status": "feasible", "rate_winner_differs_from_true_winner": false }
+    },
+    "impossible": {
+      "city_id": "kuala_lumpur",
+      "city_name": "Kuala Lumpur",
+      "hotel_id": "hotel_klcc_lantern",
+      "hotel_ids": ["hotel_klcc_lantern", "hotel_bukit_bintang_lane"],
+      "form": { "days": 2, "budgetAmount": "", "budgetCurrency": "MYR", "strictBudget": false, "pace": "balanced", "startWeekday": 2, "dayStart": "09:00", "dayEnd": "19:00", "valueOfTime": 45, "nightsOverride": false, "nights": 1, "allowUnknownHours": false },
+      "wishlist": { "national_mosque_malaysia": "must", "petronas_twin_towers": "must" },
+      "expect": { "status": "infeasible", "conflict_code": "unknown_hours_not_allowed", "alternative": "allow_unknown_hours" }
     }
   }
 }

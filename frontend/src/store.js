@@ -248,16 +248,14 @@ export async function applyAlternative(patch) {
 }
 
 // ---- demo helpers (decision: pre-tested requests, see tests) ----
-/** The examples are Tokyo trips. From another city this switches to Tokyo first (clearing that city's state), then loads. */
+export const currentCityExamples = computed(() => examples[store.cityId] ?? examples.tokyo)
+
 export function loadExample(kind) {
-  if (store.cityId !== 'tokyo') return selectCity('tokyo').then(() => applyExample(kind))
   applyExample(kind)
 }
 function applyExample(kind) {
-  const ex = examples[kind]
+  const ex = currentCityExamples.value[kind]
   store.form = { ...DEFAULT_FORM(), ...ex.form }
-  store.cityId = 'tokyo'
-  store.city = (Array.isArray(store.cities) ? store.cities.find((c) => c.id === 'tokyo') : null) ?? store.city
   store.wishlist = { ...ex.wishlist }
   store.hotelIds = [...ex.hotel_ids]
   store.chosenHotel = ex.hotel_id
