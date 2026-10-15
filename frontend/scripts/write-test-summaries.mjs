@@ -10,8 +10,8 @@ function rev() {
   try { return execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim() } catch { return null }
 }
 
-function readJson(rel) {
-  const p = resolve(root, rel)
+function readJson(rel, base = root) {
+  const p = resolve(base, rel)
   if (!existsSync(p)) return null
   return JSON.parse(readFileSync(p, 'utf8'))
 }
@@ -43,8 +43,8 @@ function playwright(j) {
   }
 }
 
-export function buildSummary({ gitHash = rev(), now = new Date().toISOString() } = {}) {
-  const suites = [vitest(readJson('frontend/test-results/vitest.json')), playwright(readJson('frontend/test-results/playwright.json'))].filter(Boolean)
+export function buildSummary({ gitHash = rev(), now = new Date().toISOString(), base = root } = {}) {
+  const suites = [vitest(readJson('frontend/test-results/vitest.json', base)), playwright(readJson('frontend/test-results/playwright.json', base))].filter(Boolean)
   return { timestamp: now, git_hash: gitHash, suites }
 }
 

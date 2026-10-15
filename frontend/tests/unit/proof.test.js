@@ -48,12 +48,16 @@ describe('sync-proof script', () => {
 })
 
 describe('frontend test summary script', () => {
-  it('summarises Vitest and Playwright result files with the git hash', () => {
-    const s = buildSummary({ gitHash: 'abc123', now: '2026-10-14T00:00:00.000Z' })
+  it('summarises Vitest and Playwright result files with the git hash (fixture files: the real reports are not in a clean clone)', () => {
+    const base = mk()
+    mkdirSync(join(base, 'frontend', 'test-results'), { recursive: true })
+    writeFileSync(join(base, 'frontend', 'test-results', 'vitest.json'), JSON.stringify({ numTotalTests: 5, numPassedTests: 4, numFailedTests: 1, numPendingTests: 0, numTodoTests: 0, startTime: 0, testResults: [] }))
+    writeFileSync(join(base, 'frontend', 'test-results', 'playwright.json'), JSON.stringify({ stats: { expected: 3, unexpected: 0, skipped: 1, flaky: 0, duration: 10 } }))
+    const s = buildSummary({ gitHash: 'abc123', now: '2026-10-14T00:00:00.000Z', base })
     expect(s.git_hash).toBe('abc123')
-    expect(s.suites.map((x) => x.suite)).toContain('Vitest')
-    expect(s.suites.map((x) => x.suite)).toContain('Playwright')
+    expect(s.suites.map((x) => [x.suite, x.passed, x.failed, x.total])).toEqual([['Vitest', 4, 1, 5], ['Playwright', 3, 0, 4]])
     expect(s.suites.every((x) => x.total === x.passed + x.failed + x.skipped)).toBe(true)
+    expect(buildSummary({ gitHash: 'x', base: mk() }).suites).toEqual([])
   })
 })
 
