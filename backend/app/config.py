@@ -109,6 +109,8 @@ LLM_MAX_NAMES = 20                    # cap on names per extraction
 EXPLAIN_MAX_WORDS = 200               # prompt asks for ~120; longer output is rejected
 NAME_SUGGESTION_RATIO = 0.92          # difflib ratio for "did you mean" (never auto-accepted)
 LIVE_EVAL_MAX_CALLS = 150
+SELFCHECK_MAX_CALLS = 40              # scripts/ai_selfcheck.py: 4 cities x 5 checks, worst case 9 calls per city (parse retries)
+GOLD_MAX_CALLS = 100                  # scripts/score_gold.py live part: 48 prompts, at most 2 calls each
 
 # Defaults for low-stakes fields (always disclosed in `defaults_applied`). `days` is NEVER defaulted.
 DEFAULT_PACE = "balanced"

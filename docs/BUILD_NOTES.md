@@ -392,3 +392,10 @@ No other test was touched.
 - **Stale evidence:** `scripts/evidence_status.py` writes `docs/EVIDENCE-STATUS.md`; the city evaluation carries a STALE banner.
 - **Lighthouse backend on :8011:** could not be reproduced (it starts and answers /health when run by hand, and the last Lighthouse run completed). The script discarded the child servers' output, so any failure showed only as a timeout; it now logs to `frontend/test-results/lighthouse-*.log` and reports a server that exits early.
 - One earlier assertion edit in `nl.test.js` (label wording) was reverted: the label keeps its original wording and the original assertions pass with only the example's data path changed.
+
+## Phase 9d, Part 1 (Checkpoint A): live AI self-check, gold set, calm AI-off box (2026-10-15)
+- `backend/scripts/ai_selfcheck.py`: 5 checks per city (typical parse, wrong city, ambiguous name, currency symbol, explanation of a real computed result) through the real pipeline; gated, capped (`SELFCHECK_MAX_CALLS` = 40), aborts on a rejected key or invalid model with a plain message; writes `docs/ai-selfcheck.md` (model, PROMPT_VERSION, date, git hash, N). It has NOT been run live. Scripts live in `backend/scripts/` (they import the backend), not the repo-root `scripts/`.
+- `docs/AI-MANUAL-TEST.md`: click-through checklist per city.
+- `docs/eval/gold-prompts.json` (48 hand-written prompts) and `backend/scripts/score_gold.py`: per-city field accuracy. The only result so far is the rule-based stand-in (`docs/eval/gold-results-mock.md`), which is not a model measurement. A test proves every expectation is reachable (oracle = 100%).
+- `backend/scripts/run_llm_live_eval.py` still used the old flat 3,000 missed-sight charge for its explanation inputs; it now uses the per-city charge.
+- The AI box shows "AI is off in this deployment; the form works the same." plus a mode chip when the backend is in sample mode or the daily limit is reached.

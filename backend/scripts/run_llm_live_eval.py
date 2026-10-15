@@ -54,6 +54,7 @@ if not (os.environ.get("RUN_LIVE_LLM_EVAL") == "1" and os.environ.get("LLM_API_K
     sys.exit(0)
 
 from app.data.loader import load_all_city_datasets  # noqa: E402
+from app.money import missed_preference_penalty  # noqa: E402
 from app.llm.client import AnthropicLLMClient, LLMResponse, LLMUnavailable  # noqa: E402
 from app.llm.explain import explain  # noqa: E402
 from app.llm.extract import extract_preferences  # noqa: E402
@@ -163,7 +164,7 @@ def score_prompt(p, ds, all_ds, client, t: Tally):
 
 def explanation_results(ds):
     """A real comparison and two real replans for this city (computed by the solver; the model only words them)."""
-    spec = ObjectiveSpec("true_cost", ds.city.default_value_of_time_per_hour, config.MISSED_PREFERENCE_PENALTY_JPY)
+    spec = ObjectiveSpec("true_cost", ds.city.default_value_of_time_per_hour, missed_preference_penalty(ds))
     hotels = list(ds.hotels)
     first = next(iter(ds.attractions))
     pr = Preferences(days=2, must_visit=[first], day_start=ds.city.default_day_start, day_end=ds.city.default_day_end,
