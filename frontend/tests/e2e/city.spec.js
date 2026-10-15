@@ -174,3 +174,12 @@ test('the example button loads a Seoul example while Seoul stays selected (no sw
   await expect(page.getByTestId('confirm-dialog')).toHaveCount(0)
   expectClean(problems)
 })
+
+test('with no AI key the AI box says it is off, before any click, and the form still works', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.getByTestId('ai-off-note')).toContainText('AI is off in this deployment; the form works the same.')
+  await expect(page.getByTestId('ai-box-mode')).toContainText('Sample mode')
+  await expect(page.getByTestId('mode-indicator')).toHaveCount(1)
+  await page.getByTestId('next-wishlist').click()
+  await expect(page).toHaveURL(/\/wishlist$/)
+})

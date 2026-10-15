@@ -5,6 +5,7 @@ import NameResolution from './NameResolution.vue'
 import ErrorPanel from './ErrorPanel.vue'
 import SwitchOffer from './SwitchOffer.vue'
 import Hint from './Hint.vue'
+import ModeIndicator from './ModeIndicator.vue'
 import CurrencyConfirm from './CurrencyConfirm.vue'
 import { store, runParse, chooseName, rateLimited, maxInputChars } from '../store.js'
 import { originOf, parseState } from '../lib/rules.js'
@@ -14,6 +15,12 @@ const text = ref('')
 const over = computed(() => text.value.length > maxInputChars)
 const state = computed(() => parseState(store.parseResult, store.health?.llm_limit_reached === true))
 const r = computed(() => store.parseResult)
+// Shown before any click, so a visitor knows the AI box is switched off rather than broken.
+const aiOffNote = computed(() => {
+  const h = store.health
+  if (!h || h.mode === 'llm' && !h.llm_limit_reached) return null
+  return h.llm_limit_reached ? 'The daily AI limit has been reached; the form works the same.' : 'AI is off in this deployment; the form works the same.'
+})
 const json = computed(() => (r.value?.extracted_json ? JSON.stringify(r.value.extracted_json, null, 2) : null))
 const LABELS = { fx: 'Exchange rate', budget_scope: 'What the budget covers', budget_interpreted: 'Budget as understood', value_of_time_interpreted: 'Value of time as understood' }
 const assumptions = computed(() => Object.entries(r.value?.assumptions ?? {}).filter(([k]) => k !== 'fx_jpy_per_sgd').map(([k, v]) => [LABELS[k] ?? titleCase(k), String(v)]))
@@ -28,6 +35,10 @@ const unresolved = computed(() => (r.value?.unresolved_names ?? []).filter((u) =
   <section class="card-soft" aria-labelledby="nl-h" data-testid="nl-panel">
     <h2 id="nl-h" class="h5">Describe your trip in words <span class="muted fw-normal">(optional)</span></h2>
     <p class="small muted">The AI only proposes values for the form below; you review everything. <Hint text="Your text is cleaned before it is sent. Place descriptions are never sent." /></p>
+    <div v-if="aiOffNote" class="d-flex flex-wrap gap-2 align-items-center mb-2" data-testid="ai-off-note">
+      <ModeIndicator testid="ai-box-mode" />
+      <span class="small">{{ aiOffNote }}</span>
+    </div>
     <label class="form-label" for="nl-text">For example: "3 days, about 20,000 yen, I must see Senso-ji, relaxed pace"</label>
     <textarea id="nl-text" class="form-control" rows="3" v-model="text" :aria-invalid="over" aria-describedby="nl-count"></textarea>
     <div class="d-flex flex-wrap justify-content-between align-items-center mt-2 gap-2">

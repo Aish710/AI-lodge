@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { store } from '../store.js'
+const props = defineProps({ testid: { type: String, default: 'mode-indicator' } })
 const view = computed(() => {
   const h = store.health
   if (!h) return null
@@ -10,7 +11,7 @@ const view = computed(() => {
 })
 </script>
 <template>
-  <div v-if="view" class="notice py-1 px-2" :class="view.cls" role="status" data-testid="mode-indicator" style="display:inline-flex">
+  <div v-if="view" class="notice py-1 px-2" :class="view.cls" role="status" :data-testid="props.testid" style="display:inline-flex">
     <span class="glyph" aria-hidden="true">{{ view.glyph }}</span><span>{{ view.text }}</span>
   </div>
 </template>
