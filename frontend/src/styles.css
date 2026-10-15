@@ -124,6 +124,7 @@ a { text-underline-offset: 2px; }
 .map-wrap { height: 460px; border-radius: var(--radius); border: 1px solid var(--line); overflow: hidden; background: #e8e2d6; }
 @media (max-width: 767px) { .map-wrap { height: 320px; } }
 .leaflet-container { font-family: inherit; }
+.map-wrap.map-plain { background: #efe9dc repeating-linear-gradient(0deg, transparent 0 39px, #ddd5c4 39px 40px), repeating-linear-gradient(90deg, transparent 0 39px, #ddd5c4 39px 40px); }
 .pin { color: #fff; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.45); }
 .pin-hit-target { width: 24px; height: 24px; min-width: 24px; min-height: 24px; overflow: visible; }
 .pin-visual { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); pointer-events: none; }
@@ -198,3 +199,27 @@ a { text-underline-offset: 2px; }
 .form-group { border: 0; padding: 0; margin: 0; }
 
 .city-card-skeleton { min-height: 150px; border-radius: var(--radius); }   /* reserves the city cards' space so nothing shifts when they arrive */
+
+/* Plan screen: pins for the sights you have chosen */
+.pin-must { background: var(--ink); border-radius: 4px; }
+.pin-nice { background: #fff; color: var(--ink); border: 2px solid var(--ink); border-radius: 50%; }
+
+/* Plan / Your trip screens (Phase 9f) */
+.hotel-switch { border: 0; padding: 0; margin: 0; min-width: 0; }
+.hotel-switch-options { display: flex; flex-wrap: wrap; gap: 8px; }
+.hotel-switch-input { position: absolute; opacity: 0; pointer-events: none; }
+.hotel-switch-option { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; padding: 8px 12px; border: 1px solid #8a8f95; border-radius: 10px; background: #fff; cursor: pointer; min-width: 0; max-width: 100%; overflow-wrap: anywhere; margin: 0; flex: 1 1 14rem; }
+.hotel-switch-input:checked + .hotel-switch-option { background: var(--ink); color: #fff; border-color: var(--ink); }
+.hotel-switch-input:checked + .hotel-switch-option .muted { color: #e6e1d6; }
+.hotel-switch-input:focus-visible + .hotel-switch-option { outline: 3px solid var(--info); outline-offset: 2px; }
+.hotel-switch-input:disabled + .hotel-switch-option { opacity: .6; cursor: not-allowed; }
+.plan-progress { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.dimmed { opacity: .55; transition: opacity .15s; pointer-events: none; }
+.plan-bar { position: sticky; bottom: 0; z-index: 20; background: var(--paper, #f5f1e8); border-top: 1px solid var(--line); padding: 10px 0; margin-top: 16px; box-shadow: 0 -4px 10px rgba(0,0,0,.06); }
+.city-chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.city-pick { border: 1px solid #8a8f95; border-radius: 999px; padding: 6px 14px; background: #fff; font-weight: 600; min-height: 44px; }
+.city-pick.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+.city-pick:focus-visible { outline: 3px solid var(--info); outline-offset: 2px; }
+.sight-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 12px; }
+.plan-columns { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width: 992px) { .plan-columns { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; } .plan-map-col { position: sticky; top: 70px; } }

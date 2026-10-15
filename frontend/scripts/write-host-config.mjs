@@ -1,6 +1,6 @@
 // Writes the static-host config next to the build: _headers (security headers + CSP) and _redirects (single-page-app rewrite).
 // Format verified against the Netlify docs: a `_headers` file in the publish directory; `/*  /index.html  200` for the SPA rewrite.
-// The CSP allows only this site, the OpenStreetMap tile server and the configured API origin (VITE_API_BASE_URL).
+// The CSP allows only this site, the OpenStreetMap tile server (tile images, and the single probe request that decides whether to show them) and the configured API origin (VITE_API_BASE_URL).
 // Usage: node scripts/write-host-config.mjs [outDir=dist]     (runs automatically after `npm run build`)
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
@@ -12,7 +12,7 @@ export function apiOrigin(value) {
 }
 
 export function headersFile(api) {
-  const connect = ["'self'", api].filter(Boolean).join(' ')
+  const connect = ["'self'", api, 'https://tile.openstreetmap.org'].filter(Boolean).join(' ')  // the tile server is also read once by the map's availability probe
   const csp = [
     "default-src 'self'", "script-src 'self'",
     "style-src 'self' 'unsafe-inline'",               // Leaflet and Vue set inline style attributes; scripts stay locked to 'self'

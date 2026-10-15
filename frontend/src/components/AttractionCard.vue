@@ -9,6 +9,7 @@ import { hoursWarnings } from '../lib/rules.js'
 const props = defineProps({
   place: { type: Object, required: true }, state: { type: String, default: 'nice' },
   startWeekday: { type: Number, default: 0 }, days: { type: Number, default: 1 }, fx: { type: Object, default: null },
+  compact: { type: Boolean, default: false },  // Plan screen grid: opening hours tuck into a disclosure
 })
 const emit = defineEmits(['update:state'])
 const warnings = computed(() => hoursWarnings(props.place, props.startWeekday, props.days))
@@ -16,7 +17,7 @@ const hoursByDay = computed(() => Array.from({ length: props.days }, (_, i) => {
   const wd = weekdayOfDay(props.startWeekday, i + 1)
   return { day: i + 1, name: WEEKDAY_NAMES[wd].slice(0, 3), text: formatHours1(props.place.opening_hours?.[wd]) }
 }))
-const choices = [['must', 'Must visit'], ['nice', 'Nice to have'], ['skip', 'Not interested']]
+const choices = [['must', 'Must visit'], ['nice', 'Include if it fits'], ['skip', 'Not interested']]
 const gid = computed(() => `wish-${props.place.id}`)
 </script>
 <template>
@@ -30,12 +31,18 @@ const gid = computed(() => `wish-${props.place.id}`)
       <dt class="col-5 fw-normal muted">Time needed</dt><dd class="col-7 mb-0">{{ humanMinutes(place.duration_minutes) }}</dd>
       <dt class="col-5 fw-normal muted">Admission</dt>
       <dd class="col-7 mb-0">{{ place.admission_cost === null ? UNKNOWN : formatMoney(place.admission_cost, fx) }} <SourceBadge :status="place.admission_cost === null ? null : place.source?.cost" what="price" /></dd>
-      <dt class="col-5 fw-normal muted">Hours</dt>
-      <dd class="col-7 mb-0">
-        <span v-for="h in hoursByDay" :key="h.day" class="d-block">Day {{ h.day }} {{ h.name }}: {{ h.text }}</span>
-        <SourceBadge :status="place.source?.hours" what="hours" />
-      </dd>
+      <template v-if="!compact">
+        <dt class="col-5 fw-normal muted">Hours</dt>
+        <dd class="col-7 mb-0">
+          <span v-for="h in hoursByDay" :key="h.day" class="d-block">Day {{ h.day }} {{ h.name }}: {{ h.text }}</span>
+          <SourceBadge :status="place.source?.hours" what="hours" />
+        </dd>
+      </template>
     </dl>
+    <details v-if="compact" class="small"><summary>Opening hours</summary>
+      <span v-for="h in hoursByDay" :key="h.day" class="d-block">Day {{ h.day }} {{ h.name }}: {{ h.text }}</span>
+      <SourceBadge :status="place.source?.hours" what="hours" />
+    </details>
     <div class="d-flex flex-wrap gap-1">
       <span v-if="place.advance_booking_required" class="pill">Booking required</span>
     </div>
@@ -50,7 +57,7 @@ const gid = computed(() => `wish-${props.place.id}`)
       <div class="seg" role="radiogroup" :aria-label="`${place.name}: how much do you want it?`">
         <template v-for="[val, label] in choices" :key="val">
           <input type="radio" :id="`${gid}-${val}`" :name="gid" :value="val" :checked="state === val" @change="emit('update:state', val)" />
-          <label :for="`${gid}-${val}`">{{ label }}</label>
+          <label :for="`${gid}-${val}`" :title="val === 'nice' ? 'Left out if it adds too much travel' : undefined">{{ label }}</label>
         </template>
       </div>
     </div>

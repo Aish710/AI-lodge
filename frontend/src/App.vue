@@ -37,10 +37,8 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload))
       <router-link to="/" class="wordmark"><span class="dot" aria-hidden="true"></span>{{ PROJECT_NAME }}</router-link>
       <nav aria-label="Steps">
         <ul class="nav-steps">
-          <li><router-link to="/" exact-active-class="router-link-active">1 Trip</router-link></li>
-          <li><router-link to="/wishlist">2 Sights</router-link></li>
-          <li><router-link to="/hotels">3 Hotels</router-link></li>
-          <li><router-link to="/itinerary">4 Itinerary</router-link></li>
+          <li><router-link to="/" exact-active-class="router-link-active">Plan</router-link></li>
+          <li><router-link to="/trip">Your trip</router-link></li>
           <li><router-link to="/proof">Proof</router-link></li>
           <li><router-link to="/how-it-works">How it works</router-link></li>
         </ul>

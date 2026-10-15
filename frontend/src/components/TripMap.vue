@@ -5,6 +5,7 @@ import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { dayColor, dayShape } from '../lib/mapstyle.js'
+import { attachBaseLayer } from '../lib/tiles.js'
 
 const props = defineProps({ days: { type: Array, default: () => [] }, hotel: { type: Object, default: null }, placesById: { type: Object, required: true } })
 const emit = defineEmits(['select-stop'])
@@ -12,6 +13,8 @@ const el = ref(null)
 let map = null
 let layer = null
 let ro = null
+let base = null
+const tilesOff = ref(false)
 
 function pinIcon(num, color, shape, size = 56) {
   const html = `<div class="pin-visual"><div class="pin pin-${shape}" style="background:${color};width:${size}px;height:${size}px"><span>${Number(num)}</span></div></div>`
@@ -35,6 +38,7 @@ function draw() {
     const marker = L.marker(hp, { icon: L.divIcon({ className: 'pin-hit-target', html: '<div class="pin-visual"><div class="pin pin-hotel" style="width:56px;height:56px"><span>H</span></div></div>', iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12] }),
       title: `Hotel: ${hotel.name} (demo hotel)`, alt: `Hotel ${hotel.name}`, keyboard: true })
       .bindPopup(popup([hotel.name, 'Demo hotel'])).addTo(layer)
+    marker.getElement()?.setAttribute('aria-label', `Hotel: ${hotel.name} (demo hotel)`)
     marker.on('add', () => marker.getElement()?.setAttribute('aria-label', `Hotel: ${hotel.name} (demo hotel)`))
   }
   for (const d of props.days) {
@@ -62,6 +66,7 @@ function draw() {
           emit('select-stop', { attractionId: s.attraction_id, day: d.day, index: i })
         }
       })
+      marker.getElement()?.setAttribute('aria-label', label)
       marker.on('add', () => marker.getElement()?.setAttribute('aria-label', label))
     })
   }
@@ -71,10 +76,7 @@ function draw() {
 
 onMounted(() => {
   map = L.map(el.value, { scrollWheelZoom: false, zoomControl: true })
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    // The page sends no Referer (privacy), but OpenStreetMap's tile servers block requests without one. Only the tile images send the bare origin (no path, no query).
-    referrerPolicy: 'origin', maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors',
-  }).addTo(map)
+  base = attachBaseLayer(map, { onUnavailable: () => { tilesOff.value = true } })
   layer = L.layerGroup().addTo(map)
   draw()
   // Leaflet must be told when its container changes size (layout settles after mount, window resizes), or tiles only fill part of the map.
@@ -82,11 +84,12 @@ onMounted(() => {
   ro.observe(el.value)
 })
 watch(() => [props.days, props.hotel, props.placesById], draw, { deep: true })
-onBeforeUnmount(() => { ro?.disconnect(); map?.remove(); map = null })
+onBeforeUnmount(() => { base?.dispose(); ro?.disconnect(); map?.remove(); map = null })
 </script>
 <template>
   <div>
-    <div ref="el" class="map-wrap" role="region" aria-label="Map of the itinerary: hotel and numbered stops per day. The day-by-day list next to it has the same information." data-testid="trip-map"></div>
+    <div ref="el" class="map-wrap" :class="{ 'map-plain': tilesOff }" role="region" aria-label="Map of the itinerary: hotel and numbered stops per day. The day-by-day list next to it has the same information." data-testid="trip-map"></div>
+    <p v-if="tilesOff" class="small muted mt-1 mb-0" role="status" data-testid="tiles-unavailable">Map tiles unavailable. The pins are still in the right places, and the list next to the map has the same information.</p>
     <div class="small muted mt-1" data-testid="map-legend">
       <span v-for="d in days" :key="d.day" class="me-3 d-inline-flex align-items-center gap-1">
         <span class="marker" :class="`shape-${dayShape(d.day)}`" :style="{ '--day': dayColor(d.day), width: '16px', height: '16px', fontSize: '.6rem' }" aria-hidden="true"></span>

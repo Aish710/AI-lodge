@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import CreateTrip from './views/CreateTrip.vue'
+import Plan from './views/Plan.vue'
 import { PROJECT_NAME } from './brand.js'
 
 export const routes = [
-  { path: '/', name: 'create', component: CreateTrip, meta: { title: 'Plan your trip' } },
-  { path: '/wishlist', name: 'wishlist', component: () => import('./views/Wishlist.vue'), meta: { title: 'Choose sights' } },
-  { path: '/hotels', name: 'hotels', component: () => import('./views/HotelCompare.vue'), meta: { title: 'Compare hotels' } },
-  { path: '/itinerary', name: 'itinerary', component: () => import('./views/Itinerary.vue'), meta: { title: 'Itinerary' } },
+  { path: '/', name: 'plan', component: Plan, meta: { title: 'Plan your trip' } },
+  { path: '/trip', name: 'trip', component: () => import('./views/Trip.vue'), meta: { title: 'Your trip' } },
+  // the five-step addresses keep working (bookmarks, old links)
+  { path: '/wishlist', redirect: '/' },
+  { path: '/hotels', redirect: '/trip' },
+  { path: '/itinerary', redirect: '/trip' },
   { path: '/proof', name: 'proof', component: () => import('./views/Proof.vue'), meta: { title: 'Proof' } },
   { path: '/how-it-works', name: 'how-it-works', component: () => import('./views/HowItWorks.vue'), meta: { title: 'How it works' } },
   // the old names keep working (external links, bookmarks), including the #section part

@@ -29,26 +29,40 @@ export const store = reactive({
   parseResult: null, parseError: null, proposal: null, proposalError: null,
   explanations: { optimise: null, compare: null, replan: null }, explainError: null, explaining: null,
   rateLimitUntil: 0, now: Date.now(),
+  stage: null,                   // 'comparing' | 'planning' while the Plan-my-trip chain or a hotel switch runs
+  comparisonPrefs: null, pendingHotel: null, solverBusyUntil: 0,
   pendingCity: null,             // a city the user asked to switch to; the confirmation dialog (App.vue) lists what will be cleared
 })
 
 // ---- the selected city is ONE value (store.cityId); the API client discards any response that names a different city ----
 setCityProvider(() => store.cityId)
 
-// ---- rate limit countdown (decision 9) ----
+// ---- rate limit countdown (decision 9) and solver-busy countdown: one shared clock ----
 let ticker = null
+function startClock() {
+  store.now = Date.now()
+  if (ticker) return
+  ticker = setInterval(() => {
+    store.now = Date.now()
+    if (store.now >= store.rateLimitUntil && store.now >= store.solverBusyUntil) { clearInterval(ticker); ticker = null }
+  }, 500)
+}
 setRateLimitHandler((seconds) => {
   store.rateLimitUntil = Date.now() + seconds * 1000
-  store.now = Date.now()
-  if (!ticker) {
-    ticker = setInterval(() => {
-      store.now = Date.now()
-      if (store.now >= store.rateLimitUntil) { clearInterval(ticker); ticker = null }
-    }, 500)
-  }
+  startClock()
 })
 export const rateLimited = computed(() => store.rateLimitUntil > store.now)
 export const rateLimitSeconds = computed(() => Math.max(0, Math.ceil((store.rateLimitUntil - store.now) / 1000)))
+export const solverBusyActive = computed(() => store.solverBusyUntil > store.now)
+export const solverBusySeconds = computed(() => Math.max(0, Math.ceil((store.solverBusyUntil - store.now) / 1000)))
+/** The server's single solver slot is taken (503 solver_busy): remember until when, so the screen can count down. Nothing is retried automatically. */
+export function noteSolverBusy(err) {
+  if (err?.code !== 'solver_busy') return
+  store.solverBusyUntil = Date.now() + (err.retryAfter ?? err.details?.retry_after_seconds ?? 5) * 1000
+  startClock()
+}
+/** True while this tab has a solver request in flight. Every solver action is disabled meanwhile: one tab never has two solves running. */
+export const solverBusy = computed(() => store.busy.compare || store.busy.optimise || store.busy.replan || store.busy.sensitivity)
 
 // ---- boot: cold-start aware (decision 9) ----
 export async function boot({ ping } = {}) {
@@ -127,6 +141,10 @@ function clearComputedResults() {
   store.explaining = null
   store.sensitivityCancelled = false
   store.planFromReplan = false
+  store.stage = null
+  store.comparisonPrefs = null
+  store.pendingHotel = null
+  store.solverBusyUntil = 0
   resetReplanState()
 }
 
@@ -210,20 +228,106 @@ export async function ensureComparison() {
 }
 
 // ---- itinerary ----
-export async function runOptimise() {
+export async function runOptimise(hotelId = store.chosenHotel) {
   const { prefs, errors } = currentPrefs()
-  if (!store.chosenHotel) { store.planError = new ApiError({ code: 'invalid_input', message: 'Choose a hotel first.' }); return }
+  if (!hotelId) { store.planError = new ApiError({ code: 'invalid_input', message: 'Choose a hotel first.' }); return }
   if (errors.length) { store.planError = new ApiError({ code: 'invalid_input', message: errors.join(' ') }); return }
   store.busy.optimise = true
   store.planError = null
   try {
-    const resp = await api.optimise(prefs, store.chosenHotel, { cityId: store.cityId })
+    const resp = await api.optimise(prefs, hotelId, { cityId: store.cityId })
     store.plan = resp
     store.planPrefs = prefs
-    store.planKey = keyOf(prefs, store.chosenHotel)
+    store.chosenHotel = hotelId           // the hotel and the plan change together; a failed request leaves both as they were
+    store.planKey = keyOf(prefs, hotelId)
     store.planFromReplan = false
     resetReplanState()
-  } catch (e) { fail('planError', e) } finally { store.busy.optimise = false }
+  } catch (e) { fail('planError', e); noteSolverBusy(store.planError) } finally { store.busy.optimise = false }
+}
+
+// ---- one action: "Plan my trip" (hotel comparison, then the itinerary), strictly one solver request at a time ----
+let chainId = 0
+/** Hotels to compare: the user's own selection if they made one (2 or 3), otherwise the first three the dataset lists (the API compares at most 3). */
+function hotelsToCompare() {
+  const own = store.hotelIds.filter((id) => store.hotelsById[id])
+  if (own.length >= 2) return own.slice(0, 3)
+  return Object.keys(store.hotelsById).slice(0, 3)
+}
+
+/**
+ * Compare hotels (fast, no sensitivity), pre-select the best value, plan that hotel. Resolves true when a plan was produced.
+ * Nothing is replaced until the new plan arrives: a failure (busy, rate limit, timeout) keeps the last good plan and comparison on screen.
+ */
+export async function planMyTrip() {
+  if (solverBusy.value || rateLimited.value) return false
+  const { prefs, errors } = currentPrefs()
+  if (errors.length) { store.planError = new ApiError({ code: 'invalid_input', message: errors.join(' ') }); return false }
+  const ids = hotelsToCompare()
+  if (ids.length < 2) { store.planError = new ApiError({ code: 'invalid_input', message: 'This city needs at least two hotels to compare.' }); return false }
+  const mine = ++chainId
+  store.planError = null
+  store.comparisonError = null
+  store.solverBusyUntil = 0
+  store.pendingHotel = null
+  store.stage = 'comparing'
+  store.busy.compare = true
+  let comp
+  try {
+    comp = await api.compareHotels(prefs, ids, { sensitivity: false, cityId: store.cityId })
+  } catch (e) {
+    fail('comparisonError', e); noteSolverBusy(store.comparisonError)
+    if (mine === chainId) store.stage = null
+    return false
+  } finally { store.busy.compare = false }
+  if (mine !== chainId) return false     // cancelled meanwhile
+  const best = comp.best_by_true_cost ?? comp.results?.find((r) => r.feasible)?.hotel_id ?? ids[0]
+  store.stage = 'planning'
+  await runOptimise(best)
+  if (mine !== chainId) return false     // cancelled while planning: keep the last good result, commit nothing
+  store.stage = null
+  if (store.planError) return false
+  store.comparison = comp
+  store.comparisonKey = keyOf(prefs, ids)
+  store.comparisonPrefs = prefs
+  store.hotelIds = ids
+  store.sensitivityError = null
+  store.sensitivityCancelled = false
+  return true
+}
+
+/** Stop waiting for a plan. The requests are aborted (the server stops solving when the connection closes) and the last good result stays. */
+export function cancelPlanning() {
+  chainId += 1
+  abortKey('compare'); abortKey('optimise')
+  store.stage = null
+  store.busy.compare = false
+  store.busy.optimise = false
+}
+
+/** Switch the plan to another compared hotel, in place: the current plan stays on screen (dimmed) until the new one arrives. */
+export async function switchHotel(id) {
+  if (solverBusy.value || rateLimited.value || id === store.chosenHotel) return
+  store.pendingHotel = id
+  store.stage = 'planning'
+  await runOptimise(id)
+  store.stage = null
+  if (!store.planError) store.pendingHotel = null
+}
+
+/** The value-of-an-hour analysis. ONLY ever called from an explicit click: it holds the solver slot for several seconds. */
+export async function runSensitivity() {
+  if (solverBusy.value || rateLimited.value || !store.comparison || !store.comparisonPrefs) return
+  const ids = [...store.hotelIds]
+  store.busy.sensitivity = true
+  store.sensitivityCancelled = false
+  store.sensitivityError = null
+  store.sensitivityStartedAt = Date.now()
+  try {
+    const full = await api.compareHotels(store.comparisonPrefs, ids, { sensitivity: true, cityId: store.cityId })
+    if (store.comparisonKey === keyOf(store.comparisonPrefs, ids)) store.comparison = full
+  } catch (e) {
+    if (!isAborted(e)) { store.sensitivityError = e instanceof ApiError ? e : new ApiError({ code: 'unexpected', message: 'Something unexpected went wrong.' }); noteSolverBusy(store.sensitivityError) }
+  } finally { store.busy.sensitivity = false }
 }
 
 /** Run /optimise only if the inputs changed since the last plan (avoids burning the rate limit when navigating back and forth). */
@@ -268,6 +372,12 @@ function applyExample(kind) {
 
 export function resetAll() {
   abortAllInFlight()
+  chainId += 1
+  store.stage = null
+  store.comparisonPrefs = null
+  store.pendingHotel = null
+  store.solverBusyUntil = 0
+  store.busy.compare = store.busy.optimise = store.busy.sensitivity = store.busy.replan = false
   store.planFromReplan = false
   store.parseResult = null
   store.proposal = null
@@ -332,7 +442,7 @@ export async function applyQueue({ confirmed = false } = {}) {
       store.queue = []
       store.queueError = null
     }
-  } catch (e) { fail('replanError', e) } finally { store.busy.replan = false }
+  } catch (e) { fail('replanError', e); noteSolverBusy(store.replanError) } finally { store.busy.replan = false }
 }
 
 /** Switch back to the previous server-produced plan held in memory. A plain swap of two server results; nothing is edited or recomputed. */
