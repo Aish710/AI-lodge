@@ -1,5 +1,7 @@
 # Multi-city evaluation
 
+> **STALE: do not cite as current.** Generated before the per-city missed-sight charge, before the multi-city changes since, and without Kuala Lumpur. It is regenerated at the evidence re-run (see `docs/EVIDENCE-STATUS.md`).
+
 Generated 2026-10-14 07:13 UTC by `backend/scripts/run_city_evaluation.py`. Code version: a1a9cb6 + uncommitted changes.
 
 Singapore and Seoul use smaller seeded samples than Tokyo. They are reported separately and are not pooled into headline claims.

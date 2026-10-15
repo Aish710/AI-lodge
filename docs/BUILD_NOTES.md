@@ -383,3 +383,12 @@ No other test was touched.
 - **Default sensitivity range** was a yen-sized 0-3,000 for every city ("No flip within 0-3000 KRW/h"); it is now 0 to 3x the city's default value of time (Tokyo unchanged).
 - **Layout shift (Lighthouse):** the city cards arriving after load pushed the Trip page down (CLS 0.636); placeholders now reserve their space (CLS 0.03).
 - The "same winner" notice on Hotels repeated the new verdict headline and was removed.
+
+## Phase 9c, Checkpoint 3 follow-up decisions (2026-10-15)
+- **Per-city examples:** `examples.json` holds a valid and an impossible example per city. The button loads the example for the selected city without switching it. Each valid example's hotel-flip flag is pinned against the real API in `test_frontend_examples.py`; the UI sentence follows that flag (Tokyo and Seoul flip; Singapore and Kuala Lumpur do not).
+- **Map pins:** the drawn pin stays large; its invisible Leaflet hit area is 24 x 24 CSS px. A Playwright test measures every pin. Lighthouse itinerary accessibility is 100 with no failed audits (one local run); SAFETY_LOG row 87 is closed.
+- **Frontend test summary:** `frontend/scripts/write-test-summaries.mjs` (run by `npm run test:report`) writes `docs/test-summary-frontend.json` with the git hash; Proof shows it and warns when the hash differs. Note: a committed summary cannot contain its own commit's hash, so regenerate it after the final commit and before `build:release`.
+- **Missed-sight charge:** documented in `SOLVER_DESIGN.md` and on the Proof page as a judgement-call constant tuned after seeing multi-city results; `test_default_trip_schedules_at_least_six_sights_per_city` pins that every city's default trip schedules at least six sights.
+- **Stale evidence:** `scripts/evidence_status.py` writes `docs/EVIDENCE-STATUS.md`; the city evaluation carries a STALE banner.
+- **Lighthouse backend on :8011:** could not be reproduced (it starts and answers /health when run by hand, and the last Lighthouse run completed). The script discarded the child servers' output, so any failure showed only as a timeout; it now logs to `frontend/test-results/lighthouse-*.log` and reports a server that exits early.
+- One earlier assertion edit in `nl.test.js` (label wording) was reverted: the label keeps its original wording and the original assertions pass with only the example's data path changed.
