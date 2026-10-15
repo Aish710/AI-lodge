@@ -64,3 +64,24 @@ Generated from the edits actually made (a log kept while changing the screens), 
 ## Existing test assertions that changed
 
 See the "Part 4: existing assertions that changed" entry in `docs/BUILD_NOTES.md`: two e2e assertions (banner text; "Sights scheduled" to "Sights covered") and the Evidence/About to Proof/How it works renames in tests. No other assertion text changed.
+
+
+## Phase 9f: two-screen flow (Plan, Your trip)
+
+| # | Where | Before | After |
+|---|---|---|---|
+| 39 | Navigation | 1 Trip, 2 Sights, 3 Hotels, 4 Itinerary | Plan, Your trip (the old addresses redirect: /wishlist to Plan, /hotels and /itinerary to Your trip) |
+| 40 | Sight choice | Nice to have | Include if it fits (tooltip: "Left out if it adds too much travel") |
+| 41 | Sight count line | N must visit · N nice to have · N not interested | N must visit · N include if it fits · N not interested |
+| 42 | Plan: city | Four large city cards under "Choose a city" | Compact city chips (name and currency); switching still asks first and lists what clears |
+| 43 | Plan: demo | "Quick demo:" | "Try an example:" (one per city) and "Try an impossible <city> trip" |
+| 44 | Plan: form | When / Money / Style groups plus a collapsed "Advanced" | "Essentials" (days, first day, pace, budget) plus a collapsed "Advanced options" (day start/end, value of an hour, nights, unknown opening hours) |
+| 45 | Plan: primary button | "Next: choose sights", then "Next: compare hotels", then "Use this hotel" | One sticky "Plan my trip" ("Plan my trip again" once a plan exists); the plain reason appears beside it when it is disabled |
+| 46 | Plan: progress | (none) | "Comparing hotels…" then "Planning your days and checking the plan…" with Cancel |
+| 47 | Plan: preview | (none) | "Rough preview: not a plan": counts, known admissions (unknown prices listed, never counted as zero), areas, and "at most N sights fit" |
+| 48 | Your trip: hotel | A separate Hotels step with checkboxes and "Use this hotel" | A hotel switch at the top ("Best value" pre-selected); the full table is under "Compare hotels: the full true-cost breakdown" |
+| 49 | Your trip: tile | Travel time | Travel time, all days (with a hint: "Time spent moving between the hotel and the sights, added up over every day. It does not include time at the sights. Estimated from sample data.") |
+| 50 | Your trip: slow analysis | Started by itself after the comparison | A button: "See how your value of time changes the winner", with elapsed time and Cancel |
+| 51 | Busy server | "Solver is busy. No request was started." | "Another plan is still being calculated. Try again in a few seconds." with a countdown and a manual Retry button |
+| 52 | Map without tiles | "Access blocked" pictures from the tile server | Pins on a plain background and "Map tiles unavailable. The pins are still in the right places, and the list next to the map has the same information." |
+| 53 | Navigation buttons | Back / Change hotel / Next | "Edit trip" (keeps everything), "Start over" (asks first), "Back to my trip" |

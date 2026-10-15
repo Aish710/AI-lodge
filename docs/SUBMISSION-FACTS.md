@@ -1,14 +1,14 @@
 # Submission facts (generated)
 
-Generated 2026-10-14 13:09 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
+Generated 2026-10-15 23:12 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
 
 ## Tests
 
-- Backend full suite: 497 passed, 0 failed, 0 skipped, 497 total (pytest), revision 44ca387bb3789e0076c23f66c01fc74c72694b70 + uncommitted changes.  
+- Backend full suite: 524 passed, 1 failed, 0 skipped, 525 total (pytest), revision 0fdfefd2bb5c47e271e83bbd782edec0c123b481 + uncommitted changes.  
   *Source: backend/tests/results/latest-full.md*
-- Frontend unit and component tests: 167 passed, 0 failed, 167 total (Vitest).  
+- Frontend unit and component tests: 171 passed, 0 failed, 171 total (Vitest).  
   *Source: frontend/test-results/vitest.json (npm run test:report)*
-- End-to-end tests against the real backend in sample mode: 29 passed, 0 failed (Playwright).  
+- End-to-end tests against the real backend in sample mode: 31 passed, 0 failed (Playwright).  
   *Source: frontend/test-results/playwright.json (npm run test:report)*
 
 ## Evaluation
@@ -44,12 +44,12 @@ Generated 2026-10-14 13:09 UTC by `frontend/scripts/make-submission-facts.mjs`. 
   *Source: docs/lighthouse-summary.json (docs/lighthouse-results.md)*
 - Proof (navigation): performance 93, accessibility 100, best practices 100. Measured with lighthouse 13.5.0, mobile (default), simulated throttling, on a local machine.  
   *Source: docs/lighthouse-summary.json (docs/lighthouse-results.md)*
-- Itinerary (after the example flow) (snapshot): performance not measured, accessibility 97, best practices 100. Measured with lighthouse 13.5.0, mobile (default), simulated throttling, on a local machine.  
+- Itinerary (after the example flow) (snapshot): performance not measured, accessibility 100, best practices 100. Measured with lighthouse 13.5.0, mobile (default), simulated throttling, on a local machine.  
   *Source: docs/lighthouse-summary.json (docs/lighthouse-results.md)*
 
 ## Safety
 
-- 110 risks are tracked in the safety log, each with a safeguard, the test names that check it, and a status.  
+- 120 risks are tracked in the safety log, each with a safeguard, the test names that check it, and a status.  
   *Source: docs/SAFETY_LOG.md*
 - API hardening: 33 of 33 in-process abuse cases passed.  
   *Source: docs/hardening-results.md*
