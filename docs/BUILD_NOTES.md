@@ -408,3 +408,10 @@ No other test was touched.
 - **Maps.** Tiles are added only after a one-tile probe passes; otherwise pins sit on a plain background with a note. The CSP `connect-src` now includes `https://tile.openstreetmap.org` for that probe.
 - **Existing tests.** Navigation and selector changes only, except three tests that exercised features the redesign removes by specification (hotel checkboxes with a Compare button; the old When/Money/Style form groups; the hotel list layout), which were replaced by equivalents for the hotel switch, Essentials/Advanced and the switch layout. See the list in the Checkpoint 1 report.
 - **Not done yet (Checkpoint 2).** Describe-first AI results, refine chips, cited "Why this plan", AI-off wording beyond the existing note.
+
+## Final phase, Stage 0: relay support (2026-10-16)
+- New optional `LLM_BASE_URL`, validated by `app/llm/endpoint.py` and passed to the Anthropic SDK as `base_url`. Unset: identical to before. https only (a plain-http, credentialed or query-carrying URL is refused and the LLM stays off, so no key or text can go to an unsafe address). A trailing `/v1` or slash is stripped with a warning that names only the host.
+- `/health` adds `llm_endpoint` (host only) and `llm_relay` when the LLM is on; sample-mode output is unchanged. The full URL and the key are never logged or returned.
+- `ai_selfcheck.py`, `score_gold.py --live` and `run_llm_live_eval.py` stamp the model and the endpoint host, and say "served via a third-party relay" whenever the base URL is set. A rejected key now says "the key was rejected by <host>". Their gate also refuses an unsafe base URL before any call.
+- Proof page: the live section now also renders `docs/ai-selfcheck.md` and `docs/eval/gold-results-live.md` when present (copied from the generated files, never a fixed provider name). How it works says, from `/health`, whether the deployment uses a gateway.
+- Docs: `docs/PRIVACY.md`, README data line, `.env.example` (placeholder only), SAFETY_LOG rows 121 to 123. No live script was run; `.env` was not opened.

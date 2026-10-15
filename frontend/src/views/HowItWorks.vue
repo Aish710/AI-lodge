@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { PROJECT_NAME, REPO_URL } from '../brand.js'
 import { store } from '../store.js'
+const relay = computed(() => (store.health?.llm_relay ? store.health.llm_endpoint : null))
 const cityNames = computed(() => (store.cities.length ? store.cities.map((c) => c.display_name).join(', ') : 'several sample cities'))
 </script>
 <template>
@@ -78,6 +79,8 @@ const cityNames = computed(() => (store.cities.length ? store.cities.map((c) => 
       <ul class="mb-0">
         <li><strong>No accounts, and nothing is stored.</strong> There is no database. Plans are computed per request; the replanning API is stateless. This page keeps what you type in memory only (no cookies, no local storage) and "Reset" clears it.</li>
         <li><strong>What is sent:</strong> your trip details and the changes you make, to compute plans. Free text you type into the AI boxes is cleaned and sent to the AI provider only when the assistant is on; for replanning, the names of the sights in your current plan go with it. Explanations send computed facts about the result. <strong>Place descriptions are never sent.</strong> The provider handles requests under its own terms.</li>
+        <li v-if="relay" data-testid="relay-note"><strong>Third-party gateway in use:</strong> this deployment reaches the AI model through a third-party gateway ({{ relay }}). Whatever the assistant is sent (your cleaned text, the sight names in your plan, computed facts) passes through that gateway to the model provider, so it is not a direct connection to the provider. The gateway's own terms and retention apply too, and this project does not control them. The key never reaches your browser.</li>
+        <li v-else-if="store.health?.llm_configured" data-testid="direct-note"><strong>AI connection:</strong> this deployment connects to the model provider directly (no gateway).</li>
         <li><strong>What is logged on the server:</strong> metadata only (request id, route, status, timing, counts). Never your text, prompts, model output, keys or your IP address.</li>
         <li><strong>Third parties:</strong> the map loads tiles from OpenStreetMap, which sees your IP address and the area you view. There are no analytics, trackers or other third-party scripts.</li>
       </ul>

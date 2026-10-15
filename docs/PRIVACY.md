@@ -18,6 +18,8 @@ Only when a key is configured and the LLM is available:
 - `/parse`: the sanitised free text you typed.
 - `/parse-replan`: the sanitised text plus the names of the attractions in your current itinerary.
 - Explanations (`explain: true`): a block of computed facts about the result (names, JPY figures, minutes, solver status, warnings).
+**Relay (third-party gateway).** If `LLM_BASE_URL` is set, those requests go to that gateway's host, not directly to the model provider: the gateway sees the sanitised text and the computed facts (and the API key, which it needs to authenticate you), and forwards them to the model provider. Both parties then process them under their own terms and retention, which this project does not control. `/health` shows the gateway's host (and `llm_relay: true`) so this is never hidden; the full URL and the key are never logged or returned. Never describe such a deployment as "direct to Anthropic".
+
 **Never sent:** attraction descriptions, API keys, other users' data, or anything you did not submit for that call. The model has no tools or web access. The provider processes requests under its own terms and retention policy (see its documentation; this project does not control it).
 
 ## Retention

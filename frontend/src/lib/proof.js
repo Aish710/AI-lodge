@@ -24,13 +24,13 @@ export async function loadProof(fetchImpl = (...a) => fetch(...a)) {
   const text = async (n) => (has(n) ? getText(fetchImpl, n) : null)
   const json = async (n) => { const t = await text(n); return t === null ? null : JSON.parse(t) }
   try {
-    const [results, resultsMd, claimsMd, hardening, safety, backendTests, latestBackendTests, live, vitest, pw, front, lh, utCsv, utSummary] = await Promise.all([
+    const [results, resultsMd, claimsMd, hardening, safety, backendTests, latestBackendTests, live, selfcheck, goldLive, vitest, pw, front, lh, utCsv, utSummary] = await Promise.all([
       json('eval-results.json'), text('eval-results.md'), text('README-claims.md'), text('hardening-results.md'), text('SAFETY_LOG.md'),
-      text('backend-tests-full.md'), text('backend-tests-latest.md'), text('llm-live-eval.md'), json('frontend-vitest.json'), json('frontend-playwright.json'), json('frontend-test-summary.json'), json('lighthouse-summary.json'),
+      text('backend-tests-full.md'), text('backend-tests-latest.md'), text('llm-live-eval.md'), text('ai-selfcheck.md'), text('gold-results-live.md'), json('frontend-vitest.json'), json('frontend-playwright.json'), json('frontend-test-summary.json'), json('lighthouse-summary.json'),
       text('user-test-results.csv'), text('user-test-summary.md')])
     return { state: 'ready', manifest, missing: manifest.missing ?? [], data: {
       results, claims: claimsMd ? parseClaims(claimsMd) : null, notShown: resultsMd ? sectionBullets(resultsMd, 'WHAT THESE NUMBERS DO NOT SHOW') : null,
-      hardeningMd: hardening, risks: safety ? parseRiskTable(safety) : null, live,
+      hardeningMd: hardening, risks: safety ? parseRiskTable(safety) : null, live, selfcheck, goldLive,
       tests: { backend: backendTests ? testSummary(backendTests) : null, backendLatest: latestBackendTests ? testSummary(latestBackendTests) : null,
         vitest: vitestSummary(vitest), playwright: playwrightSummary(pw), frontend: front }, lighthouse: lh,
       // the card is shown with results ONLY when the CSV has participant rows; otherwise it says "not run yet"

@@ -28,6 +28,7 @@ Screenshots and demo recording live in `docs/screenshots/` after running `cd fro
 - Natural-language trip parsing: an LLM can turn user text into an editable draft preference form.
 - Natural-language replanning: an LLM can propose operations, but the user must explicitly apply them.
 - Explanations: the backend gives the LLM only computed facts; grounding checks reject unsupported numbers/names and fall back to a template.
+- Connection: by default the backend calls the model provider directly. If `LLM_BASE_URL` is set it calls that third-party gateway instead, and the cleaned text and computed facts pass through the gateway to the provider (the host is shown in `/health` and on the Proof page; see `docs/PRIVACY.md`).
 - Sample mode: without `LLM_API_KEY` and `LLM_MODEL`, Fitinerary still works using forms, optimisation, validation, hotel comparison, replanning, and template explanations.
 
 ## External Tools & Datasets

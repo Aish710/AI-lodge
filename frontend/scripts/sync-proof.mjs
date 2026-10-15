@@ -15,6 +15,8 @@ export const FILES = [
   { name: 'backend-tests-full.md', src: 'backend/tests/results/latest-full.md', required: true },
   { name: 'backend-tests-latest.md', src: 'backend/tests/results/latest.md', required: false },
   { name: 'llm-live-eval.md', src: 'docs/llm-live-eval.md', required: false },
+  { name: 'ai-selfcheck.md', src: 'docs/ai-selfcheck.md', required: false },
+  { name: 'gold-results-live.md', src: 'docs/eval/gold-results-live.md', required: false },
   { name: 'frontend-vitest.json', src: 'frontend/test-results/vitest.json', required: false },
   { name: 'frontend-playwright.json', src: 'frontend/test-results/playwright.json', required: false },
   { name: 'frontend-test-summary.json', src: 'docs/test-summary-frontend.json', required: true },
