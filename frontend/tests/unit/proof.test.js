@@ -4,6 +4,7 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync, existsSync
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { MissingProofError, syncProof } from '../../scripts/sync-proof.mjs'
+import { buildSummary } from '../../scripts/write-test-summaries.mjs'
 import { loadProof, readThisFirst, THRESHOLDS } from '../../src/lib/proof.js'
 import { countUserTestRows, parseBlocks, parseClaims, parseRiskTable, plain, sectionBullets, testSummary } from '../../src/lib/mdparse.js'
 import { createMemoryHistory, createRouter } from 'vue-router'
@@ -21,7 +22,7 @@ describe('sync-proof script', () => {
   it('copies the generated files and records what is missing in the manifest (optional files are not an error)', () => {
     const dest = mk()
     const r = syncProof({ root: ROOT, dest })
-    for (const n of ['eval-results.json', 'eval-results.md', 'README-claims.md', 'hardening-results.md', 'SAFETY_LOG.md', 'backend-tests-full.md']) {
+    for (const n of ['eval-results.json', 'eval-results.md', 'README-claims.md', 'hardening-results.md', 'SAFETY_LOG.md', 'backend-tests-full.md', 'frontend-test-summary.json']) {
       expect(r.copied).toContain(n)
       expect(readFileSync(join(dest, n), 'utf8').length).toBeGreaterThan(100)
     }
@@ -43,6 +44,16 @@ describe('sync-proof script', () => {
     expect(r.copied).toEqual([])
     expect(r.missing.filter((m) => m.required).length).toBeGreaterThan(0)
     expect(existsSync(join(dest, 'manifest.json'))).toBe(true)
+  })
+})
+
+describe('frontend test summary script', () => {
+  it('summarises Vitest and Playwright result files with the git hash', () => {
+    const s = buildSummary({ gitHash: 'abc123', now: '2026-10-14T00:00:00.000Z' })
+    expect(s.git_hash).toBe('abc123')
+    expect(s.suites.map((x) => x.suite)).toContain('Vitest')
+    expect(s.suites.map((x) => x.suite)).toContain('Playwright')
+    expect(s.suites.every((x) => x.total === x.passed + x.failed + x.skipped)).toBe(true)
   })
 })
 
@@ -141,6 +152,7 @@ describe('Proof page', () => {
     expect(w.get('[data-testid=hotel-value]').text()).toContain('fictional')
     expect(w.get('[data-testid=not-shown]').text()).toContain('Sample data')
     expect(w.get('[data-testid=not-shown]').text()).toContain('No significance testing')
+    expect(w.get('[data-testid=not-shown]').text()).toContain('judgement-call modelling constant')
     const claims = readFileSync(join(dir, 'README-claims.md'), 'utf8')
     for (const li of w.findAll('[data-testid=claims] li')) expect(claims).toContain(li.text())
     await w.get('[data-testid=toggle-risks]').trigger('click')
@@ -166,6 +178,16 @@ describe('Proof page', () => {
     const w = mount(Proof, { global: { plugins: [testRouter()], stubs: { 'router-link': true } } })
     await flushPromises(); await flushPromises()
     expect(w.get('[data-testid=dirty-warning]').text()).toContain('uncommitted')
+    vi.unstubAllGlobals()
+  })
+  it('warns when frontend tests were run on a different version', async () => {
+    const bad = mk(); syncProof({ root: ROOT, dest: bad })
+    const j = JSON.parse(readFileSync(join(bad, 'frontend-test-summary.json'), 'utf8')); j.git_hash = 'different-front'
+    writeFileSync(join(bad, 'frontend-test-summary.json'), JSON.stringify(j))
+    vi.stubGlobal('fetch', servedFrom(bad))
+    const w = mount(Proof, { global: { plugins: [testRouter()], stubs: { 'router-link': true } } })
+    await flushPromises(); await flushPromises()
+    expect(w.get('[data-testid=frontend-stale-warning]').text()).toContain('Frontend tests run on a different version')
     vi.unstubAllGlobals()
   })
 })

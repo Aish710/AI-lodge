@@ -33,6 +33,12 @@ const stale = computed(() => {
   const backendRev = String(d.value?.tests?.backend?.revision ?? '').split(/\s+/)[0]
   return evalRev && backendRev && evalRev !== backendRev
 })
+const frontendStale = computed(() => {
+  const frontRev = String(d.value?.tests?.frontend?.git_hash ?? '').split(/\s+/)[0]
+  const evalRev = String(meta.value?.commit ?? '').split(/\s+/)[0]
+  const backendRev = String(d.value?.tests?.backend?.revision ?? '').split(/\s+/)[0]
+  return frontRev && ![evalRev, backendRev].includes(frontRev)
+})
 const hardening = computed(() => (d.value?.hardeningMd ? parseBlocks(d.value.hardeningMd) : []))
 const hardeningResult = computed(() => /\*\*(\d+)\/(\d+) cases passed\*\*/.exec(d.value?.hardeningMd ?? ''))
 const live = computed(() => (d.value?.live ? parseBlocks(d.value.live) : null))
@@ -64,6 +70,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         </div>
         <div v-if="dirty" class="notice notice-warn mt-3" data-testid="dirty-warning"><span class="glyph" aria-hidden="true">!</span><span>This proof was produced from code with uncommitted changes, so the version above does not identify exactly what was run.</span></div>
         <div v-if="stale" class="notice notice-warn mt-3" data-testid="stale-warning"><span class="glyph" aria-hidden="true">!</span><span>The evaluation revision and verified backend test revision differ. Treat this proof as stale until the full release procedure is rerun for one commit.</span></div>
+        <div v-if="frontendStale" class="notice notice-warn mt-3" data-testid="frontend-stale-warning"><span class="glyph" aria-hidden="true">!</span><span>Frontend tests run on a different version. Treat these counts as stale until they are regenerated for this build.</span></div>
         <p v-if="fileNote.length" class="small muted mt-2 mb-0" data-testid="optional-missing">Not available in this build: {{ fileNote.join(', ') }}.</p>
       </section>
 
@@ -136,7 +143,10 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
 
       <section class="card-soft" aria-labelledby="ns-h" data-testid="not-shown">
         <h2 id="ns-h" class="h5">3. What these numbers do not show</h2>
-        <ul v-if="d.notShown?.length" class="mb-0"><li v-for="x in d.notShown" :key="x">{{ x }}</li></ul>
+        <ul v-if="d.notShown?.length" class="mb-0">
+          <li v-for="x in d.notShown" :key="x">{{ x }}</li>
+          <li>The missed optional-sight charge is a judgement-call modelling constant: three hours of the selected city's default value of time, tuned after seeing multi-city results.</li>
+        </ul>
         <p v-else class="mb-0 muted">The list was not found in the proof report.</p>
       </section>
 
@@ -161,6 +171,8 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
           <li v-else class="muted">Frontend unit tests: summary not available in this build.</li>
           <li v-if="d.tests.playwright">End-to-end tests (Playwright, real backend): {{ d.tests.playwright.passed }} passed, {{ d.tests.playwright.failed }} failed of {{ d.tests.playwright.total }}</li>
           <li v-else class="muted">End-to-end test summary: not available in this build.</li>
+          <li v-if="d.tests.frontend">Frontend summary file: {{ d.tests.frontend.suites.map((s) => `${s.suite} ${s.passed}/${s.total}`).join(', ') }} <span class="muted">({{ d.tests.frontend.git_hash ?? 'revision unknown' }})</span></li>
+          <li v-else class="muted">Frontend combined summary: not available in this build.</li>
         </ul>
       </section>
 
