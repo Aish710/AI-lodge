@@ -1,4 +1,4 @@
-// Every step (Trip, Sights, Hotels, Itinerary) for two different cities, on desktop and on a phone, plus the Proof and How it works pages.
+// Every screen of the two-screen flow (Plan idle, Plan with the example chosen, Your trip, Your trip after a hotel switch) for two different cities, on desktop and on a phone, plus the Proof and How it works pages.
 // Real backend (sample mode) and a production build. Output: docs/screenshots/steps/<city>-<step>-<desktop|mobile>.png
 // Usage (from frontend/):  node scripts/take-step-screenshots.mjs [--offline-tiles]
 import { spawn } from 'node:child_process'
@@ -42,24 +42,26 @@ async function shot(page, name) {
 async function flow(browser, city, device) {
   const ctx = await browser.newContext({ viewport: VIEWPORTS[device], deviceScaleFactor: 1, reducedMotion: 'reduce' })
   const page = await ctx.newPage()
-  if (offlineTiles) await page.route('https://tile.openstreetmap.org/**', (r) => r.fulfill({ status: 200, contentType: 'image/png', body: PNG }))
+  if (offlineTiles) await page.route('https://tile.openstreetmap.org/**', (r) => r.fulfill({ status: 200, contentType: 'image/png', body: PNG, headers: { 'access-control-allow-origin': '*' } }))
   const tag = `${city}`
   await page.goto(APP)
   await wait(page.getByTestId('city-chip'))
   if (city !== 'tokyo') { await page.getByTestId(`city-${city}`).click(); await page.getByTestId('city-chip').filter({ hasText: city === 'seoul' ? 'Seoul' : city }).waitFor() }
-  await shot(page, `${tag}-1-trip-${device}.png`)
-  await page.getByTestId('next-wishlist').click()
   await wait(page.locator('article[data-testid^="card-"]').first())
-  await page.locator('article[data-testid^="card-"]').first().locator('label', { hasText: 'Must visit' }).click()
-  await shot(page, `${tag}-2-sights-${device}.png`)
-  await page.getByTestId('next-hotels').click()
-  await wait(page.getByTestId('comparison-table'))
-  await wait(page.getByTestId('sensitivity'), 90_000).catch(() => {})
-  await shot(page, `${tag}-3-hotels-${device}.png`)
-  await page.locator('button.btn-primary', { hasText: 'Use this hotel' }).click()
+  await shot(page, `${tag}-1-plan-${device}.png`)
+  await page.getByTestId('load-example').click()
+  await wait(page.getByTestId('example-loaded'))
+  await shot(page, `${tag}-2-plan-chosen-${device}.png`)
+  await page.getByTestId('plan-trip').click()
   await wait(page.getByTestId('timeline'))
   await wait(page.locator('.leaflet-container .pin').first())
-  await shot(page, `${tag}-4-itinerary-${device}.png`)
+  await shot(page, `${tag}-3-trip-${device}.png`)
+  const other = page.getByTestId('hotel-switch').locator('input:not(:checked):not(:disabled)').first()
+  await page.locator(`label[for="${await other.getAttribute('id')}"]`).click()
+  await page.getByTestId('plan-progress').waitFor({ state: 'detached', timeout: 60_000 }).catch(() => {})
+  await page.getByTestId('compare-details').locator('summary').first().click()
+  await wait(page.getByTestId('comparison-table'))
+  await shot(page, `${tag}-4-trip-hotel-switched-${device}.png`)
   if (city === CITIES[0]) {
     await page.goto(`${APP}/proof`); await wait(page.getByTestId('scn-15')); await shot(page, `proof-${device}.png`)
     await page.goto(`${APP}/how-it-works`); await wait(page.getByTestId('architecture')); await shot(page, `how-it-works-${device}.png`)

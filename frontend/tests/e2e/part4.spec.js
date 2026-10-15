@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { expectClean, stubTiles, watchConsole } from './helpers.js'
+import { expectClean, planFromExample, stubTiles, watchConsole } from './helpers.js'
 
 test.beforeEach(async ({ page }) => { await stubTiles(page) })
 
@@ -19,13 +19,16 @@ test('the old Evidence and About addresses still work, with their #section, and 
   expectClean(problems)
 })
 
-test('the Trip screen groups its fields and keeps the rarely used ones under a collapsed Advanced section', async ({ page }) => {
+test('the Plan screen shows the essentials first and keeps the rarely used options under a collapsed Advanced section', async ({ page }) => {
   const problems = watchConsole(page)
   await page.goto('/')
-  for (const g of ['When', 'Money', 'Style']) await expect(page.getByRole('group', { name: g })).toBeVisible()
+  const essentials = page.getByRole('form', { name: 'Trip essentials' })
+  for (const f of ['Days', 'First day is a', 'Pace', 'Budget for sights and transport (optional)']) await expect(essentials.getByLabel(f, { exact: true })).toBeVisible()
+  await expect(page.getByLabel('Value of an hour of your time', { exact: false })).toBeHidden()
   await expect(page.getByTestId('advanced')).not.toHaveAttribute('open', '')
   await expect(page.getByLabel('Allow sights with unknown opening hours')).toBeHidden()
-  await page.getByTestId('advanced').getByText('Advanced', { exact: true }).click()
+  await page.getByTestId('advanced').getByText('Advanced options', { exact: true }).click()
+  await expect(page.getByLabel('Value of an hour of your time', { exact: false })).toBeVisible()
   await expect(page.getByLabel('Allow sights with unknown opening hours')).toBeVisible()
   await expect(page.getByLabel('Set the number of nights myself')).toBeVisible()
   expectClean(problems)
@@ -34,8 +37,7 @@ test('the Trip screen groups its fields and keeps the rarely used ones under a c
 test('verdict first: hotels open with one headline, the itinerary with four tiles and a status chip, and the AI step shows only when used', async ({ page }) => {
   const problems = watchConsole(page)
   await page.goto('/')
-  await page.getByTestId('load-example').click()
-  await expect(page).toHaveURL(/\/hotels$/)
+  await planFromExample(page)
   const verdict = page.getByTestId('verdict')
   await expect(verdict).toBeVisible()
   await expect(verdict).toContainText('Best value:')
@@ -45,8 +47,6 @@ test('verdict first: hotels open with one headline, the itinerary with four tile
   await expect(chips).toContainText('Planned by the optimiser')
   await expect(chips).toContainText('Checked by the validator')
   await expect(chips).not.toContainText('AI')
-  await page.locator('button.btn-primary', { hasText: 'Use this hotel' }).click()
-  await expect(page).toHaveURL(/\/itinerary$/)
   const band = page.getByTestId('totals')
   await expect(band).toBeVisible()
   for (const label of ['Total cost', 'Travel time', 'Sights covered', 'Checks passed']) await expect(band).toContainText(label)
@@ -70,8 +70,7 @@ test('a term is defined once in an (i) hint that opens with the keyboard', async
 test('every status uses an icon and a word, not colour alone (impossible trip)', async ({ page }) => {
   const problems = watchConsole(page)
   await page.goto('/')
-  await page.getByTestId('load-impossible').click()
-  await expect(page).toHaveURL(/\/itinerary$/)
+  await planFromExample(page, 'load-impossible')
   await expect(page.getByTestId('status-chip')).toContainText('✕')
   await expect(page.getByTestId('status-chip')).toContainText('Not possible')
   expectClean(problems)

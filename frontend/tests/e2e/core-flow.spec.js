@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { expectClean, stubTiles, watchConsole } from './helpers.js'
+import { expectClean, planFromExample, stubTiles, watchConsole } from './helpers.js'
 
 test.beforeEach(async ({ page }) => { await stubTiles(page) })
 
@@ -9,8 +9,8 @@ test('example trip -> compare hotels -> itinerary with map, timeline, feasibilit
   await expect(page.getByTestId('honesty-banner')).toContainText('Sample data · Tokyo · JPY · prices are examples')
   await expect(page.getByTestId('mode-indicator')).toContainText('Sample mode (AI unavailable)')
 
-  await page.getByTestId('load-example').click()
-  await expect(page).toHaveURL(/\/hotels$/)
+  await planFromExample(page)
+  await page.getByTestId('compare-details').locator('summary').first().click()
   const table = page.getByTestId('comparison-table')
   await expect(table).toBeVisible()
   await expect(table).toContainText('Rooms')
@@ -20,7 +20,10 @@ test('example trip -> compare hotels -> itinerary with map, timeline, feasibilit
   await expect(table).toContainText('OPTIMAL')
   // the example's value of time is a demo input; the callout is driven by the API flag (pinned by the backend test)
   await expect(page.getByTestId('callout-differs')).toContainText('The cheapest rate is not the best value for this trip.')
-  await expect(page.getByTestId('sensitivity')).toBeVisible({ timeout: 30_000 })
+  // the slow value-of-time analysis never runs by itself: it starts only from this click
+  await expect(page.getByTestId('sensitivity')).toHaveCount(0)
+  await page.getByTestId('run-sensitivity').click()
+  await expect(page.getByTestId('sensitivity')).toBeVisible({ timeout: 90_000 })
 
   // the value-of-time slider reads the already-returned grid: no request when it moves
   let requests = 0
@@ -29,8 +32,6 @@ test('example trip -> compare hotels -> itinerary with map, timeline, feasibilit
   await expect(page.getByTestId('vot-point')).toContainText('Best at this value of time')
   expect(requests).toBe(0)
 
-  await page.locator('button.btn-primary', { hasText: 'Use this hotel' }).click()
-  await expect(page).toHaveURL(/\/itinerary$/)
   await expect(page.getByTestId('trip-map')).toBeVisible()
   await expect(page.locator('.leaflet-container .pin').first()).toBeVisible()
   await expect(page.locator('.leaflet-control-attribution')).toContainText('OpenStreetMap')
@@ -46,19 +47,19 @@ test('example trip -> compare hotels -> itinerary with map, timeline, feasibilit
   expectClean(problems)
 })
 
-test('the manual path works: form -> wishlist cards -> hotels', async ({ page }) => {
+test('the manual path works: form and sight cards on one screen -> plan -> comparison', async ({ page }) => {
   const problems = watchConsole(page)
   await page.goto('/')
   await page.getByLabel('Days', { exact: true }).fill('2')
-  await page.getByTestId('next-wishlist').click()
-  await expect(page).toHaveURL(/\/wishlist$/)
   await expect(page.getByTestId('card-senso_ji')).toBeVisible()
   await page.getByTestId('card-senso_ji').locator('label', { hasText: 'Must visit' }).click()
   await expect(page.getByTestId('wish-counts')).toContainText('1 must visit')
   // unknown values are shown as "unknown", never 0
   await expect(page.getByTestId('card-teamlab_planets')).toContainText('unknown')
   await expect(page.getByTestId('card-akihabara').getByTestId('hours-warnings')).toContainText('never assumed open')
-  await page.getByTestId('next-hotels').click()
+  await page.getByTestId('plan-trip').click()
+  await expect(page).toHaveURL(/\/trip$/, { timeout: 45_000 })
+  await page.getByTestId('compare-details').locator('summary').first().click()
   await expect(page.getByTestId('comparison-table')).toBeVisible()
   expectClean(problems)
 })
@@ -69,11 +70,11 @@ test('trip settings stay in memory while navigating, then disappear on refresh',
   await expect(page.getByTestId('state-retention-note')).toContainText('Your choices are kept while you move between steps.')
   await page.getByLabel('Days', { exact: true }).fill('4')
   await page.getByLabel('Budget for sights and transport').fill('40000')
-  await page.getByTestId('next-wishlist').click()
-  await expect(page).toHaveURL(/\/wishlist$/)
+  await page.getByTestId('plan-trip').click()
+  await expect(page).toHaveURL(/\/trip$/, { timeout: 45_000 })
   await expect(page.getByTestId('settings-strip')).toContainText('4 days')
   await expect(page.getByTestId('settings-strip')).toContainText('budget ¥40,000')
-  await page.getByRole('button', { name: 'Back' }).click()
+  await page.getByTestId('edit-trip').click()
   await expect(page).toHaveURL(/\/$/)
   await expect(page.getByLabel('Days', { exact: true })).toHaveValue('4')
   await expect(page.getByLabel('Budget for sights and transport')).toHaveValue('40000')
@@ -88,8 +89,7 @@ test('trip settings stay in memory while navigating, then disappear on refresh',
 test('impossible trip shows the Conflict panel (not the error style) and its alternative really fixes it', async ({ page }) => {
   const problems = watchConsole(page)
   await page.goto('/')
-  await page.getByTestId('load-impossible').click()
-  await expect(page).toHaveURL(/\/itinerary$/)
+  await planFromExample(page, 'load-impossible')
   const panel = page.getByTestId('conflict-panel')
   await expect(panel).toBeVisible()
   await expect(panel).toContainText('No plan satisfies every requirement')
@@ -106,7 +106,7 @@ test('impossible trip shows the Conflict panel (not the error style) and its alt
 
 test('HTTP 429 shows a countdown and disables the action, then recovers', async ({ page }) => {
   await page.goto('/')
-  await page.getByTestId('load-impossible').click()
+  await planFromExample(page, 'load-impossible')
   await expect(page.getByTestId('conflict-panel')).toBeVisible()
   await page.route('**/optimise', (r) => r.fulfill({ status: 429, contentType: 'application/json',
     body: JSON.stringify({ error: { code: 'rate_limited', message: 'Too many requests. Please slow down.', details: { retry_after_seconds: 4 }, request_id: 'r429' } }) }))
@@ -134,8 +134,7 @@ test('cold start: a slow or failing /health shows "Waking the server" (not an er
 test('mobile 375 px: the itinerary page does not scroll sideways', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 800 })
   await page.goto('/')
-  await page.getByTestId('load-example').click()
-  await page.locator('button.btn-primary', { hasText: 'Use this hotel' }).click()
+  await planFromExample(page)
   await expect(page.getByTestId('timeline')).toBeVisible()
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
   expect(overflow).toBeLessThanOrEqual(1)

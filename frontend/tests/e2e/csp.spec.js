@@ -52,7 +52,8 @@ test('the generated CSP allows only self, the tile server and the API, and the a
   page.on('pageerror', (e) => problems.push(e.message))
   await stubTiles(page)
   await page.goto(base + '/')
-  await page.getByTestId('load-impossible').click()           // SPA route reached through the app
+  await page.getByTestId('load-impossible').click()
+  await page.getByTestId('plan-trip').click()                  // SPA route reached through the app
   await expect(page.getByTestId('conflict-panel')).toBeVisible()
   await page.getByTestId('conflict-panel').locator('button[data-kind=allow_unknown_hours]').click()
   await expect(page.locator('.leaflet-container .pin').first()).toBeVisible()

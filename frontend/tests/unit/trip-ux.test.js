@@ -2,8 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { flushPromises, mount } from '@vue/test-utils'
 import { createMemoryHistory, createRouter } from 'vue-router'
 import App from '../../src/App.vue'
-import CreateTrip from '../../src/views/CreateTrip.vue'
-import Wishlist from '../../src/views/Wishlist.vue'
+import Plan from '../../src/views/Plan.vue'
 import SettingsSummaryStrip from '../../src/components/SettingsSummaryStrip.vue'
 import { resetAll, store, chooseHotel } from '../../src/store.js'
 import { budgetSanityHint, hasUnsavedWork, tripSummaryText } from '../../src/lib/tripSummary.js'
@@ -11,6 +10,8 @@ import places from '../fixtures/places.json'
 import feasible from '../fixtures/optimise-feasible.json'
 import { res } from './helpers.js'
 
+// Leaflet needs a real browser (ResizeObserver, layout); the Plan screen's map is covered by Playwright.
+const MAP_STUB = { SightsMap: true }
 const RouterLinkTestStub = { props: ['to'], template: '<a><slot /></a>' }
 
 function seedData() {
@@ -34,9 +35,8 @@ function testRouter() {
   const router = createRouter({
     history: createMemoryHistory(),
     routes: [
-      { path: '/', component: CreateTrip },
-      { path: '/wishlist', component: Wishlist },
-      { path: '/hotels', component: { template: '<SettingsSummaryStrip />', components: { SettingsSummaryStrip } } },
+      { path: '/', component: Plan },
+      { path: '/trip', component: { template: '<SettingsSummaryStrip />', components: { SettingsSummaryStrip } } },
       { path: '/proof', component: { template: '<div />' } },
     ],
   })
@@ -66,19 +66,19 @@ describe('trip settings summary strip', () => {
 })
 
 describe('in-memory state across navigation', () => {
-  it('keeps form values, wishlist and hotel across Next/Back buttons', async () => {
+  it('keeps form values, wishlist and hotel when you go to Your trip and back', async () => {
     const router = testRouter()
     router.push('/')
     await router.isReady()
-    const w = mount({ template: '<router-view />' }, { global: { plugins: [router] } })
+    const w = mount({ template: '<router-view />' }, { global: { plugins: [router], stubs: MAP_STUB } })
     await w.get('#f-days').setValue('4')
     await w.get('#f-budget').setValue('40000')
-    await w.get('form[aria-label="Trip details"]').trigger('submit')
+    await router.push('/trip')
     await flushPromises()
-    expect(router.currentRoute.value.path).toBe('/wishlist')
+    expect(router.currentRoute.value.path).toBe('/trip')
     store.wishlist.senso_ji = 'must'
     chooseHotel('hotel_lantern_asakusa')
-    await w.get('button.btn-outline-secondary').trigger('click')
+    await router.back()
     await flushPromises()
     expect(router.currentRoute.value.path).toBe('/')
     expect(store.form.days).toBe(4)
@@ -89,20 +89,20 @@ describe('in-memory state across navigation', () => {
 
   it('keeps state through browser-style back navigation and the edit link', async () => {
     const router = testRouter()
-    router.push('/wishlist')
+    router.push('/')
     await router.isReady()
-    const w = mount({ template: '<router-view />' }, { global: { plugins: [router] } })
+    const w = mount({ template: '<router-view />' }, { global: { plugins: [router], stubs: MAP_STUB } })
     store.form.days = 5
     store.wishlist.akihabara = 'skip'
     chooseHotel('hotel_harbour_odaiba')
-    await router.push('/hotels')
+    await router.push('/trip')
     await router.back()
     await flushPromises()
-    expect(router.currentRoute.value.path).toBe('/wishlist')
+    expect(router.currentRoute.value.path).toBe('/')
     expect(store.form.days).toBe(5)
     expect(store.wishlist.akihabara).toBe('skip')
     expect(store.chosenHotel).toBe('hotel_harbour_odaiba')
-    await router.push('/hotels')
+    await router.push('/trip')
     await w.get('[data-testid=edit-trip-settings]').trigger('click')
     await flushPromises()
     expect(router.currentRoute.value.path).toBe('/')
@@ -121,7 +121,7 @@ describe('start over, leave guard and budget hint', () => {
     const router = testRouter()
     router.push('/')
     await router.isReady()
-    const w = mount(CreateTrip, { global: { plugins: [router] } })
+    const w = mount(Plan, { global: { plugins: [router], stubs: MAP_STUB } })
     await w.get('[data-testid=start-over]').trigger('click')
     expect(store.form.days).toBe(6)
     expect(store.wishlist.senso_ji).toBe('must')
@@ -141,7 +141,7 @@ describe('start over, leave guard and budget hint', () => {
     const router = testRouter()
     router.push('/')
     await router.isReady()
-    const w = mount(App, { global: { plugins: [router], stubs: { HonestyBanner: true, ModeIndicator: true, ServerStatus: true, RateLimitNotice: true } } })
+    const w = mount(App, { global: { plugins: [router], stubs: { HonestyBanner: true, ModeIndicator: true, ServerStatus: true, RateLimitNotice: true, ...MAP_STUB } } })
     let e = new Event('beforeunload', { cancelable: true })
     window.dispatchEvent(e)
     expect(e.defaultPrevented).toBe(false)
@@ -158,7 +158,7 @@ describe('start over, leave guard and budget hint', () => {
     store.form.pace = 'balanced'
     store.form.budgetAmount = '1000000'
     expect(budgetSanityHint(store)).toContain('much higher')
-    const w = mount(CreateTrip, { global: { plugins: [testRouter()] } })
+    const w = mount(Plan, { global: { plugins: [testRouter()], stubs: MAP_STUB } })
     expect(w.get('[data-testid=budget-sanity-hint]').text()).toContain('Did you mean a smaller number?')
   })
 

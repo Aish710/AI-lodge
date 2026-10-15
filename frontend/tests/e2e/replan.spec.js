@@ -1,14 +1,12 @@
 import { expect, test } from '@playwright/test'
-import { expectClean, stubTiles, watchConsole } from './helpers.js'
+import { expectClean, planFromExample, stubTiles, watchConsole } from './helpers.js'
 
 test.beforeEach(async ({ page }) => { await stubTiles(page) })
 
-/** Example trip -> compare -> best hotel -> itinerary. */
+/** Example trip -> Plan my trip -> Your trip (the best hotel is pre-selected). */
 async function toItinerary(page) {
   await page.goto('/')
-  await page.getByTestId('load-example').click()
-  await expect(page.getByTestId('comparison-table')).toBeVisible()
-  await page.locator('button.btn-primary', { hasText: 'Use this hotel' }).click()
+  await planFromExample(page)
   await expect(page.getByTestId('timeline')).toBeVisible()
 }
 const optionalStop = (page) => page.locator('[data-testid^=stop-]').filter({ hasNot: page.locator('.pill-must') }).first()
@@ -107,9 +105,7 @@ test('sample mode: both natural-language boxes show the calm message and the man
   await expect(note).toContainText('The AI assistant is unavailable right now. Use the form below, everything else works.')
   await expect(page.locator('[role=alert]')).toHaveCount(0)
   await page.getByLabel('Days', { exact: true }).fill('2')
-  await expect(page.getByTestId('next-wishlist')).toBeEnabled()
-  await page.getByTestId('next-wishlist').click()
-  await expect(page).toHaveURL(/\/wishlist$/)
+  await expect(page.getByTestId('plan-trip')).toBeEnabled()
 
   await toItinerary(page)
   await page.getByLabel(/For example: "move Senso-ji/).fill('drop the market')
@@ -177,7 +173,7 @@ test('no request leaves the machine except map tiles, and nothing is written to 
   expect(stored).toEqual({ local: 0, session: 0, cookies: '' })
 })
 
-test('keyboard only: example trip -> hotels -> itinerary -> lock a stop -> apply -> diff', async ({ page }) => {
+test('keyboard only: example trip -> plan -> lock a stop -> apply -> diff', async ({ page }) => {
   const problems = watchConsole(page)
   await page.goto('/')
   await expect(page.getByTestId('honesty-banner')).toBeVisible()
@@ -191,10 +187,9 @@ test('keyboard only: example trip -> hotels -> itinerary -> lock a stop -> apply
   const active = (text) => `(() => { const e = document.activeElement; return !!e && (e.innerText || e.value || '').includes(${JSON.stringify(text)}) })()`
   await tabTo(() => document.activeElement?.getAttribute('data-testid') === 'load-example')
   await page.keyboard.press('Enter')
-  await expect(page.getByTestId('comparison-table')).toBeVisible()
-  await tabTo(() => document.activeElement?.className.includes('btn-primary') && document.activeElement.innerText.includes('Use this hotel'))
+  await tabTo(() => document.activeElement?.getAttribute('data-testid') === 'plan-trip')
   await page.keyboard.press('Enter')
-  await expect(page.getByTestId('timeline')).toBeVisible()
+  await expect(page.getByTestId('timeline')).toBeVisible({ timeout: 45_000 })
   await tabTo(() => document.activeElement?.getAttribute('data-testid') === 'act-lock')
   await expect(page.locator(':focus')).toBeVisible()
   await page.keyboard.press('Enter')
