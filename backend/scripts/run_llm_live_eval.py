@@ -234,7 +234,7 @@ def main():
     ]
     heads = ["Metric", *(all_ds[c].city.display_name for c in CITIES), "All"]
     out = ["# LLM live evaluation, per city (indicative, small N)", "",
-           f"Model: `{client.model}`. PROMPT_VERSION: `{PROMPT_VERSION}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. "
+           f"Model: `{client.model}`. Endpoint host: `{getattr(client.inner, 'endpoint_host', 'api.anthropic.com')}`{' (third-party relay: text and facts pass through that gateway)' if getattr(getattr(client.inner, 'endpoint', None), 'relay', False) else ''}. PROMPT_VERSION: `{PROMPT_VERSION}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. "
            f"Effort setting: `{os.environ.get('LLM_EFFORT', config.LLM_EFFORT_DEFAULT)}`. Calls used: {client.total_calls} of a hard cap of {config.LIVE_EVAL_MAX_CALLS}. "
            "Produced by `backend/scripts/run_llm_live_eval.py`. N per cell is small (6 new prompts per city plus 20 original Tokyo prompts; "
            f"{EXPLANATIONS_PER_CITY} explanations per city), so these are indicative figures, not benchmarks. All data is sample data.", "",

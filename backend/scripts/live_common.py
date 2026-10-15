@@ -9,14 +9,15 @@ REPO = ROOT.parent
 
 from app import config  # noqa: E402
 from app.llm.client import LLMResponse, LLMUnavailable  # noqa: E402
+from app.llm.endpoint import DEFAULT_HOST, resolve_endpoint  # noqa: E402
 from app.optimiser.hotel_compare import compare_hotels  # noqa: E402
 from app.schemas import Preferences  # noqa: E402
 
 FATAL = {"authentication", "api_error"}  # no point spending more calls: the key or the model name is wrong
 ADVICE = {
-    "authentication": "The API rejected the key in LLM_API_KEY. Check that it is a current Anthropic API key (not a different provider's key) and has no stray spaces or quotes.",
-    "api_error": "The API returned an error. The most common cause is an invalid model name in LLM_MODEL (set to '{model}'). Check the exact model ID in your Anthropic console.",
-    "network": "The API could not be reached. Check your internet connection and any proxy or firewall settings.",
+    "authentication": "The key was rejected by {host}. Check that LLM_API_KEY is a current key for that service (not a key for a different provider or gateway) and has no stray spaces or quotes.",
+    "api_error": "{host} returned an error. The most common cause is an invalid model name in LLM_MODEL (set to '{model}'): check the exact model ID your service offers. If LLM_BASE_URL is set, also check it is the gateway's root domain with no /v1.",
+    "network": "{host} could not be reached. Check your internet connection and any proxy or firewall settings.",
     "timeout": "The API did not answer in time.",
     "rate_limited": "The API rate-limited the request. Wait a minute and run again.",
     "call_cap": "The call cap for this script was reached.",
@@ -27,9 +28,9 @@ ADVICE = {
 class RunAborted(Exception):
     """Raised by Capped when further calls would be wasted. Not a subclass of LLMUnavailable, so the pipeline cannot swallow it."""
 
-    def __init__(self, category: str, model: str):
-        self.category, self.model = category, model
-        super().__init__(ADVICE.get(category, ADVICE["error"]).format(model=model))
+    def __init__(self, category: str, model: str, host: str = "the API"):
+        self.category, self.model, self.host = category, model, host
+        super().__init__(ADVICE.get(category, ADVICE["error"]).format(model=model, host=host))
 
 
 class Capped:
@@ -37,29 +38,44 @@ class Capped:
 
     def __init__(self, inner, cap: int):
         self.inner, self.cap, self.model = inner, cap, inner.model
+        self.host = getattr(inner, "endpoint_host", None) or DEFAULT_HOST
+        self.relay = bool(getattr(getattr(inner, "endpoint", None), "relay", False))
         self.total_calls = 0
         self.log: list[LLMResponse] = []
         self.failures: list[str] = []
 
     def complete(self, system, messages, max_tokens):
         if self.total_calls >= self.cap:
-            raise RunAborted("call_cap", self.model)
+            raise RunAborted("call_cap", self.model, self.host)
         self.total_calls += 1
         try:
             r = self.inner.complete(system, messages, max_tokens)
         except LLMUnavailable as e:
             self.failures.append(e.category)
             if e.category in FATAL or len(self.failures) >= 3:
-                raise RunAborted(e.category, self.model) from None
+                raise RunAborted(e.category, self.model, self.host) from None
             raise
         self.log.append(r)
         return r
+
+
+def endpoint_stamp(client) -> str:
+    """For report headers: which host answered, and an honest note when that was a third-party relay."""
+    host = getattr(client, "host", None) or getattr(client, "endpoint_host", None) or DEFAULT_HOST
+    line = f"Endpoint host: `{host}`."
+    if getattr(client, "relay", False) or getattr(getattr(client, "endpoint", None), "relay", False):
+        line += (" Served via a third-party relay: the cleaned text and computed facts pass through that gateway to the model provider, "
+                 "so model behaviour and availability are the gateway's as well as the provider's.")
+    return line
 
 
 def gate(script: str, cap: int) -> str | None:
     """None when a live run may proceed, otherwise the plain message to print. Never echoes the key."""
     if os.environ.get("RUN_LIVE_LLM_EVAL") != "1":
         return f"{script} is opt-in and made no model calls. To run it: RUN_LIVE_LLM_EVAL=1 plus LLM_API_KEY and LLM_MODEL (at most {cap} calls)."
+    bad = resolve_endpoint(os.environ.get("LLM_BASE_URL")).error
+    if bad:
+        return f"Cannot run live: {bad} Fix LLM_BASE_URL (the gateway's root domain, https, no /v1) or remove it. Nothing was called."
     missing = [v for v in ("LLM_API_KEY", "LLM_MODEL") if not os.environ.get(v)]
     if missing:
         return (f"Cannot run live: {' and '.join(missing)} {'is' if len(missing) == 1 else 'are'} not set. Put {'it' if len(missing) == 1 else 'them'} in backend/.env (copy .env.example) "

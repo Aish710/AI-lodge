@@ -24,10 +24,16 @@ class Settings:
     llm_model: str
     max_input_chars: int
     rate_limit_per_min: int
+    llm_base_url: str = ""
+
+    @property
+    def endpoint(self):
+        from app.llm.endpoint import resolve_endpoint  # local import: config is imported very early
+        return resolve_endpoint(self.llm_base_url)
 
     @property
     def llm_enabled(self) -> bool:
-        return bool(self.llm_api_key and self.llm_model)
+        return bool(self.llm_api_key and self.llm_model and not self.endpoint.error)
 
     @property
     def mode(self) -> str:
@@ -38,6 +44,7 @@ def get_settings() -> Settings:
     return Settings(
         llm_api_key=os.environ.get("LLM_API_KEY", ""),
         llm_model=os.environ.get("LLM_MODEL", ""),
+        llm_base_url=os.environ.get("LLM_BASE_URL", ""),
         max_input_chars=_int_env("MAX_INPUT_CHARS", 2000),
         rate_limit_per_min=_int_env("RATE_LIMIT_PER_MIN", 30),
     )

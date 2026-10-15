@@ -100,11 +100,11 @@ def pct(a, b):
     return f"{a}/{b} ({100 * a / b:.0f}%)" if b else "n/a"
 
 
-def render(res: dict, all_ds, *, label: str, model: str, calls: int | None) -> str:
+def render(res: dict, all_ds, *, label: str, model: str, calls: int | None, endpoint_note: str = "") -> str:
     live = calls is not None
     head = ["# Gold-set field accuracy, per city " + ("(LIVE model)" if live else "(MOCK rule-based baseline: not a model)"), ""]
     if live:
-        head.append(f"Model: `{model}`. PROMPT_VERSION: `{PROMPT_VERSION}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. Git: `{lc.git_hash()}`. "
+        head.append(f"Model: `{model}`. {endpoint_note} PROMPT_VERSION: `{PROMPT_VERSION}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. Git: `{lc.git_hash()}`. "
                     f"Calls used: {calls} of a hard cap of {config.GOLD_MAX_CALLS}. Produced by `backend/scripts/score_gold.py --live`.")
     else:
         head.append(f"Scorer: `{model}`. PROMPT_VERSION: `{PROMPT_VERSION}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. Git: `{lc.git_hash()}`. Zero model calls. "
@@ -148,7 +148,7 @@ def main() -> int:
         print(f"\nStopped after {client.total_calls} call(s): {e}\nNo results were written.")
         return 2
     path = out_dir / "gold-results-live.md"
-    path.write_text(render(res, all_ds, label="live", model=client.model, calls=client.total_calls))
+    path.write_text(render(res, all_ds, label="live", model=client.model, calls=client.total_calls, endpoint_note=lc.endpoint_stamp(client)))
     print(f"\nWrote {path} ({client.total_calls} model call(s) used).")
     return 0
 

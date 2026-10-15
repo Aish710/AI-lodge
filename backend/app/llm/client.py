@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from typing import Protocol
 
 from app import config
+from app.llm.endpoint import Endpoint, resolve_endpoint
 
 log = logging.getLogger("app.llm")  # metadata only: never prompts, user text or keys
 
@@ -42,15 +43,18 @@ class AnthropicLLMClient:
     """Anthropic SDK wrapper. Reads LLM_API_KEY / LLM_MODEL (and optional LLM_EFFORT) from the environment."""
 
     def __init__(self, api_key: str, model: str, effort: str = config.LLM_EFFORT_DEFAULT,
-                 timeout: float = config.LLM_TIMEOUT_SECONDS):
+                 timeout: float = config.LLM_TIMEOUT_SECONDS, endpoint: Endpoint | None = None):
         import anthropic  # imported lazily so sample mode and tests never need the SDK to be configured
 
         self.model = model
         self._effort = effort
-        self._client = anthropic.Anthropic(api_key=api_key, timeout=timeout, max_retries=0)
+        self.endpoint = endpoint or resolve_endpoint(None)
+        self.endpoint_host = self.endpoint.host
+        kwargs = {"base_url": self.endpoint.base_url} if self.endpoint.base_url else {}  # unset: exactly the SDK default, as before
+        self._client = anthropic.Anthropic(api_key=api_key, timeout=timeout, max_retries=0, **kwargs)
 
     def __repr__(self) -> str:  # never expose the key
-        return f"AnthropicLLMClient(model={self.model!r}, api_key='***')"
+        return f"AnthropicLLMClient(model={self.model!r}, endpoint={self.endpoint_host!r}, api_key='***')"
 
     @classmethod
     def from_env(cls) -> "AnthropicLLMClient | None":
@@ -58,7 +62,13 @@ class AnthropicLLMClient:
         if not (key and model):
             return None
         effort = os.environ.get("LLM_EFFORT", config.LLM_EFFORT_DEFAULT)
-        return cls(key, model, effort)
+        endpoint = resolve_endpoint(os.environ.get("LLM_BASE_URL"))
+        if endpoint.error:  # refused: stay in sample mode rather than send a key or text to an unsafe address
+            log.error("llm_endpoint_refused", extra={"reason": endpoint.error})
+            return None
+        for w in endpoint.warnings:
+            log.warning("llm_endpoint_normalised", extra={"host": endpoint.host, "note": w})
+        return cls(key, model, effort, endpoint=endpoint)
 
     def complete(self, system: str, messages: list[dict], max_tokens: int) -> LLMResponse:
         import anthropic
