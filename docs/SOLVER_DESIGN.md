@@ -62,7 +62,9 @@ Separate package; imports only schemas and the data loader, recomputes times, tr
 - `admissions` = known prices only; unknown prices are excluded and listed
 - `transport` = estimated fares including hotel legs
 - `time_cost = round(travel_minutes x value_of_time_per_hour / 60)`
-- `missed_penalty = 3,000 JPY x visitable nice-to-have attractions not scheduled` (judgement call, `config.py`)
+- `missed_penalty = 3 hours x the selected city's default value of time x visitable nice-to-have attractions not scheduled` (judgement call, `money.py`): Tokyo 3,000 JPY, Seoul 45,000 KRW, Singapore 54 SGD, Kuala Lumpur 135 MYR.
+
+This was tuned after seeing multi-city results, so it is a modelling choice, not an experimental finding. A fixed `3,000` in each city currency was roughly acceptable in Tokyo but far too small in Seoul, where it made the optimiser skip nearly every optional sight.
 
 **Objective for the comparison path** (`ObjectiveSpec("true_cost")`): minimise admissions + fares + time cost + penalty for that hotel, so each hotel gets the plan that is cheapest for it. Rooms are constant per hotel and do not affect the itinerary; they only enter the ranking. The default Phase 2 objective is unchanged.
 

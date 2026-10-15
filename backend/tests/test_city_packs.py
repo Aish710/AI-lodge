@@ -7,7 +7,8 @@ from fastapi.testclient import TestClient
 from app.data.loader import CITIES_DIR, load_all_city_datasets
 from app.llm.extract import extract_preferences
 from app.main import app
-from app.optimiser.solver import solve
+from app.money import missed_preference_penalty
+from app.optimiser.solver import ObjectiveSpec, solve
 from app.schemas import Preferences, WEEKDAYS, to_minutes
 from app.validator.feasibility_report import build_report
 from llm_mock import MockLLM, extraction
@@ -116,6 +117,21 @@ def test_solver_and_validator_smoke_per_city():
         res = solve(prefs, hotel_id, ds, max_seconds=5)
         assert res.status == "feasible"
         assert build_report(res, ds, prefs, hotel_id).overall != "fail"
+
+
+def test_default_trip_schedules_at_least_six_sights_per_city():
+    for city_id, ds in load_all_city_datasets().items():
+        prefs = Preferences(
+            days=3,
+            pace="balanced",
+            day_start=ds.city.default_day_start,
+            day_end=ds.city.default_day_end,
+            value_of_time_per_hour=ds.city.default_value_of_time_per_hour,
+        )
+        hotel_id = next(iter(ds.hotels))
+        res = solve(prefs, hotel_id, ds, objective=ObjectiveSpec("true_cost", prefs.value_of_time_per_hour, missed_preference_penalty(ds)), max_seconds=10)
+        assert res.status == "feasible", city_id
+        assert res.totals.attractions_scheduled >= 6, city_id
 
 
 def test_cross_city_name_gets_switch_city_hint_in_mock_llm_path():
