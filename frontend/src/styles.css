@@ -125,6 +125,8 @@ a { text-underline-offset: 2px; }
 @media (max-width: 767px) { .map-wrap { height: 320px; } }
 .leaflet-container { font-family: inherit; }
 .pin { color: #fff; font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.45); }
+.pin-hit-target { width: 24px; height: 24px; min-width: 24px; min-height: 24px; overflow: visible; }
+.pin-visual { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); pointer-events: none; }
 .pin-circle { border-radius: 50%; }
 .pin-square { border-radius: 4px; }
 .pin-diamond { transform: rotate(45deg); border-radius: 4px; }

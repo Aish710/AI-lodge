@@ -14,8 +14,9 @@ let layer = null
 let ro = null
 
 function pinIcon(num, color, shape, size = 56) {
-  const html = `<div class="pin pin-${shape}" style="background:${color};width:${size}px;height:${size}px"><span>${Number(num)}</span></div>`
-  return L.divIcon({ className: '', html, iconSize: [size, size], iconAnchor: [size / 2, size / 2], popupAnchor: [0, -size / 2] })
+  const html = `<div class="pin-visual"><div class="pin pin-${shape}" style="background:${color};width:${size}px;height:${size}px"><span>${Number(num)}</span></div></div>`
+  const hit = 24
+  return L.divIcon({ className: 'pin-hit-target', html, iconSize: [hit, hit], iconAnchor: [hit / 2, hit / 2], popupAnchor: [0, -hit / 2] })
 }
 function popup(lines) {
   const box = document.createElement('div')
@@ -31,7 +32,7 @@ function draw() {
   const hp = hotel ? [hotel.lat, hotel.lon] : null
   if (hp) {
     pts.push(hp)
-    const marker = L.marker(hp, { icon: L.divIcon({ className: '', html: '<div class="pin pin-hotel" style="width:56px;height:56px"><span>H</span></div>', iconSize: [56, 56], iconAnchor: [28, 28], popupAnchor: [0, -28] }),
+    const marker = L.marker(hp, { icon: L.divIcon({ className: 'pin-hit-target', html: '<div class="pin-visual"><div class="pin pin-hotel" style="width:56px;height:56px"><span>H</span></div></div>', iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12] }),
       title: `Hotel: ${hotel.name} (demo hotel)`, alt: `Hotel ${hotel.name}`, keyboard: true })
       .bindPopup(popup([hotel.name, 'Demo hotel'])).addTo(layer)
     marker.on('add', () => marker.getElement()?.setAttribute('aria-label', `Hotel: ${hotel.name} (demo hotel)`))

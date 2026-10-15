@@ -5,7 +5,7 @@
 //     page after the example flow (accessibility and best practices only: Lighthouse cannot measure performance for a snapshot).
 // Usage: node scripts/run-lighthouse.mjs      (starts its own servers on :8011 and :4181)
 import { spawn } from 'node:child_process'
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { closeSync, mkdirSync, openSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from '@playwright/test'
@@ -18,9 +18,28 @@ const DOCS = resolve(FRONT, '../docs')
 const API = 'http://localhost:8011'
 const APP = 'http://localhost:4181'
 const procs = []
-const run = (cmd, cwd, env = {}) => { const p = spawn(cmd, { cwd, shell: true, env: { ...process.env, ...env }, stdio: 'ignore', detached: true }); procs.push(p) }
+const LOG_DIR = resolve(FRONT, 'test-results')
+mkdirSync(LOG_DIR, { recursive: true })
+// Child output goes to a log file (not 'ignore') so a failed start, e.g. port in use, is reported instead of a bare timeout.
+const run = (cmd, cwd, env = {}, name = 'child') => {
+  const log = resolve(LOG_DIR, `lighthouse-${name}.log`)
+  const fd = openSync(log, 'w')
+  const p = spawn(cmd, { cwd, shell: true, env: { ...process.env, ...env }, stdio: ['ignore', fd, fd], detached: true })
+  closeSync(fd)
+  p.logFile = log
+  procs.push(p)
+}
 const stopAll = () => procs.forEach((p) => { try { process.kill(-p.pid) } catch { /* gone */ } })
-async function waitFor(url, ms = 120_000) { const t = Date.now(); while (Date.now() - t < ms) { try { if ((await fetch(url)).ok) return } catch { /* not yet */ } await new Promise((r) => setTimeout(r, 400)) } throw new Error('timeout ' + url) }
+async function waitFor(url, ms = 120_000) {
+  const t = Date.now()
+  while (Date.now() - t < ms) {
+    try { if ((await fetch(url)).ok) return } catch { /* not yet */ }
+    const dead = procs.find((p) => p.exitCode !== null)
+    if (dead) throw new Error(`a server exited with code ${dead.exitCode} before ${url} was ready:\n${readFileSync(dead.logFile, 'utf8').slice(-1500)}`)
+    await new Promise((r) => setTimeout(r, 400))
+  }
+  throw new Error('timeout ' + url + '\n' + procs.map((p) => `--- ${p.logFile}\n${readFileSync(p.logFile, 'utf8').slice(-800)}`).join('\n'))
+}
 const nodesOf = (a) => (a.details?.items ?? []).slice(0, 4).map((i) => (i.node?.snippet ?? i.subItems?.items?.[0]?.node?.snippet ?? '').replace(/\s+/g, ' ').slice(0, 140)).filter(Boolean)
 const failed = (lhr) => Object.values(lhr.audits).filter((a) => a.score !== null && a.score < 1 && a.scoreDisplayMode !== 'informative' && ['accessibility', 'best-practices'].some((c) => lhr.categories[c]?.auditRefs.some((x) => x.id === a.id)))
 const describeFailed = (lhr) => failed(lhr).map((a) => `${a.id}: ${a.title}${nodesOf(a).length ? ' [e.g. ' + nodesOf(a).join(' | ') + ']' : ''}`)
@@ -28,8 +47,8 @@ const score = (lhr, key) => (lhr.categories[key]?.score === null || lhr.categori
 
 const out = { generated: new Date().toISOString(), tool: 'lighthouse ' + (await import('lighthouse/package.json', { with: { type: 'json' } })).default.version, preset: 'mobile (default), simulated throttling', pages: [] }
 try {
-  run('.venv/bin/uvicorn app.main:app --port 8011 --log-level warning', BACK, { RATE_LIMIT_EXPENSIVE_PER_MIN: '500', RATE_LIMIT_PER_MIN: '1000', RATE_LIMIT_CHEAP_PER_MIN: '5000', SOLVER_CONCURRENCY: '8', ALLOWED_ORIGINS: APP, LLM_API_KEY: '', LLM_MODEL: '' })
-  run(`node scripts/sync-proof.mjs && VITE_API_BASE_URL=${API} npx vite build --outDir dist-lh && VITE_API_BASE_URL=${API} node scripts/write-host-config.mjs dist-lh && npx vite preview --outDir dist-lh --port 4181 --strictPort`, FRONT)
+  run('.venv/bin/uvicorn app.main:app --port 8011 --log-level warning', BACK, { RATE_LIMIT_EXPENSIVE_PER_MIN: '500', RATE_LIMIT_PER_MIN: '1000', RATE_LIMIT_CHEAP_PER_MIN: '5000', SOLVER_CONCURRENCY: '8', ALLOWED_ORIGINS: APP, LLM_API_KEY: '', LLM_MODEL: '' }, 'backend')
+  run(`node scripts/sync-proof.mjs && VITE_API_BASE_URL=${API} npx vite build --outDir dist-lh && VITE_API_BASE_URL=${API} node scripts/write-host-config.mjs dist-lh && npx vite preview --outDir dist-lh --port 4181 --strictPort`, FRONT, {}, 'frontend')
   await waitFor(`${API}/health`)
   await waitFor(APP)
 

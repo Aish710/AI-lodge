@@ -148,3 +148,29 @@ test('a map pin can be reached with the Tab key and opened with Enter', async ({
   await expect(page.locator('.leaflet-popup')).toBeVisible()
   expectClean(problems)
 })
+
+test('every map pin has a hit area of at least 24 x 24 CSS pixels', async ({ page }) => {
+  await page.goto('/')
+  await page.getByTestId('load-example').click()
+  await page.locator('button.btn-primary', { hasText: 'Use this hotel' }).click()
+  await expect(page.locator('.leaflet-container .pin').first()).toBeVisible()
+  const sizes = await page.$$eval('.leaflet-marker-icon.leaflet-interactive', (els) => els.map((e) => { const r = e.getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height)] }))
+  expect(sizes.length).toBeGreaterThan(1)
+  for (const [w, h] of sizes) { expect(w).toBeGreaterThanOrEqual(24); expect(h).toBeGreaterThanOrEqual(24) }
+})
+
+test('the example button loads a Seoul example while Seoul stays selected (no switch to Tokyo)', async ({ page }) => {
+  const problems = watchConsole(page)
+  await page.goto('/')
+  await page.getByTestId('city-seoul').click()
+  await expect(page.getByTestId('city-chip')).toContainText('Seoul')
+  await expect(page.getByTestId('load-example')).toContainText('Seoul')
+  await expect(page.getByTestId('load-example')).toContainText('45,000')
+  await page.getByTestId('load-example').click()
+  await expect(page).toHaveURL(/\/hotels$/)
+  await expect(page.getByTestId('city-chip').first()).toContainText('Seoul')
+  await expect(page.getByTestId('hotel-list')).toContainText('Jongno')
+  await expect(page.getByTestId('hotel-list')).not.toContainText('Kitsune')
+  await expect(page.getByTestId('confirm-dialog')).toHaveCount(0)
+  expectClean(problems)
+})

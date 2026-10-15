@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-14T13:03:14.423Z",
+  "generated": "2026-10-15T10:01:21.205Z",
   "tool": "lighthouse 13.5.0",
   "preset": "mobile (default), simulated throttling",
   "pages": [
@@ -12,7 +12,7 @@
       "bestPractices": 100,
       "metrics": {
         "First Contentful Paint": "2.0 s",
-        "Largest Contentful Paint": "2.1 s",
+        "Largest Contentful Paint": "2.2 s",
         "Total Blocking Time": "0 ms",
         "Cumulative Layout Shift": "0.03"
       },
@@ -38,12 +38,10 @@
       "url": "/itinerary",
       "mode": "snapshot",
       "performance": null,
-      "accessibility": 97,
+      "accessibility": 100,
       "bestPractices": 100,
       "metrics": {},
-      "failedAudits": [
-        "target-size: Touch targets do not have sufficient size or spacing. [e.g. <div class=\"leaflet-marker-icon leaflet-zoom-animated leaflet-interactive\" tabindex=\"0\" role=\"button\" aria-label=\"Day 1, stop 1: Senso-ji, 1]"
-      ]
+      "failedAudits": []
     }
   ]
 }
