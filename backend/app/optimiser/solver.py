@@ -27,6 +27,7 @@ from ortools.sat.python import cp_model
 from app import config
 from app.money import money
 from app.data.loader import Dataset, travel_fare, travel_minutes, unknown_price_placeholder
+from app.optimiser.cancel import Cancelled, current_token
 from app.optimiser.schedule import assemble, fmt, fmt_duration, required_ids, weekday_of
 from app.schemas import (
     Alternative, Conflict, Preferences, SolveResult, SolverMeta, to_minutes,
@@ -336,7 +337,19 @@ def _solve_core(c: _Ctx, max_seconds: float, spec: ObjectiveSpec = ObjectiveSpec
     solver.parameters.num_workers = 1
     solver.parameters.max_time_in_seconds = max_seconds
     solver.parameters.max_deterministic_time = config.SOLVER_MAX_DETERMINISTIC_TIME
-    status = solver.Solve(m)
+    token = current_token()
+    if token is not None:
+        token.check()  # the caller already left: do not start
+        token.attach(solver)
+    try:
+        if token is not None:
+            token.check()
+        status = solver.Solve(m)
+    finally:
+        if token is not None:
+            token.detach()
+    if token is not None:
+        token.check()  # stopped early on purpose: whatever the solver holds is not a result
     name = solver.StatusName(status)
     if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
         return name, None, None
@@ -411,6 +424,8 @@ def _alternatives(prefs: Preferences, hotel_id: str, ds: Dataset, budget: float 
             break  # bounded: remaining relaxations are not tried
         try:
             r = solve(p2, hotel_id, ds, with_alternatives=False, max_seconds=config.SOLVER_PROBE_SECONDS)
+        except Cancelled:
+            raise
         except Exception:
             continue
         if r.status == "feasible":

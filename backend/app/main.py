@@ -21,6 +21,7 @@ from app.hardening.limiter import SlidingWindowLimiter
 from app.hardening.llm_scope import LLMBudget, llm_for_request
 from app.hardening.logging_setup import configure_logging
 from app.hardening.middleware import HardeningMiddleware
+from app.hardening.disconnect import run_cancellable
 from app.hardening.solver_capacity import SolverCapacity
 from app.llm.client import LLMClient
 from app.llm.explain import OptimiseView, explain
@@ -157,9 +158,13 @@ class CompareRequest(_Req):
 
 
 @router.post("/compare-hotels")
-def compare_hotels_route(req: CompareRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
+async def compare_hotels_route(req: CompareRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
     ds, cfg = _dataset(request, req.city_id), request.app.state.hconf
     _check_city_ids(request, ds, hotels=req.hotel_ids, prefs=req.preferences)
+    return await run_cancellable(request, lambda: _compare_work(req, request, client, ds, cfg))
+
+
+def _compare_work(req: CompareRequest, request: Request, client, ds, cfg):
     with request.app.state.solver_capacity.claim():
         # The default sensitivity range is 0 to 3x the CITY's own default value of time (Tokyo: 0-3000 JPY/h, as before; Seoul: 0-45000 KRW/h).
         vot_range = (req.vot_min if req.vot_min is not None else config.VOT_RANGE_DEFAULT[0],
@@ -198,10 +203,14 @@ class ReplanRequest(_Req):
 
 
 @router.post("/replan")
-def replan_route(req: ReplanRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
+async def replan_route(req: ReplanRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
     """Stateless: nothing from the request is stored. The supplied schedule is UNTRUSTED: it is rebuilt and validated first."""
     ds, cfg = _dataset(request, req.city_id), request.app.state.hconf
     _check_city_ids(request, ds, prefs=req.preferences, op_list=req.operations, part="early")
+    return await run_cancellable(request, lambda: _replan_work(req, request, client, ds, cfg))
+
+
+def _replan_work(req: ReplanRequest, request: Request, client, ds, cfg):
     with request.app.state.solver_capacity.claim():
         current = rebuild_client_schedule(req.preferences, req.current_result, ds, request.app.state.datasets,
                                           after_structure=lambda: _check_city_ids(request, ds, prefs=req.preferences, part="late"))
@@ -223,10 +232,14 @@ class OptimiseRequest(_Req):
 
 
 @router.post("/optimise")
-def optimise_route(req: OptimiseRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
+async def optimise_route(req: OptimiseRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
     """Best feasible itinerary for ONE hotel (true-cost objective, same as the hotel comparison), always validated."""
     ds, cfg = _dataset(request, req.city_id), request.app.state.hconf
     _check_city_ids(request, ds, hotels=[req.hotel_id], prefs=req.preferences)
+    return await run_cancellable(request, lambda: _optimise_work(req, request, client, ds, cfg))
+
+
+def _optimise_work(req: OptimiseRequest, request: Request, client, ds, cfg):
     with request.app.state.solver_capacity.claim():
         if req.hotel_id not in ds.hotels:
             raise ApiError(422, "unknown_hotel", f"Unknown hotel id '{req.hotel_id[:64]}'.")

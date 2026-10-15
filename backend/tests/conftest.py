@@ -81,14 +81,36 @@ def pytest_sessionfinish(session, exitstatus):
 
 
 @pytest.fixture(autouse=True)
-def _no_network_no_keys(monkeypatch):
-    """Tests must never reach the network or depend on an API key: block outbound sockets, clear LLM env vars."""
+def _no_network_no_keys(monkeypatch, request):
+    """Tests must never reach the network or depend on an API key: block outbound sockets, clear LLM env vars.
+    A test marked `loopback` may connect to 127.0.0.1 only (it talks to a server it started itself); everything else stays blocked."""
+    real_connect, real_connect_ex, real_create = socket.socket.connect, socket.socket.connect_ex, socket.create_connection
+    loopback_ok = request.node.get_closest_marker("loopback") is not None
+
+    def _is_loopback(address):
+        return isinstance(address, tuple) and address and address[0] in ("127.0.0.1", "localhost", "::1")
+
     def blocked(*a, **k):
         raise RuntimeError("network access is blocked in tests")
 
-    monkeypatch.setattr(socket.socket, "connect", blocked)
-    monkeypatch.setattr(socket.socket, "connect_ex", blocked)
-    monkeypatch.setattr(socket, "create_connection", blocked)
+    def connect(self, address, *a, **k):
+        if loopback_ok and _is_loopback(address):
+            return real_connect(self, address, *a, **k)
+        blocked()
+
+    def connect_ex(self, address, *a, **k):
+        if loopback_ok and _is_loopback(address):
+            return real_connect_ex(self, address, *a, **k)
+        blocked()
+
+    def create_connection(address, *a, **k):
+        if loopback_ok and _is_loopback(address):
+            return real_create(address, *a, **k)
+        blocked()
+
+    monkeypatch.setattr(socket.socket, "connect", connect)
+    monkeypatch.setattr(socket.socket, "connect_ex", connect_ex)
+    monkeypatch.setattr(socket, "create_connection", create_connection)
     for var in ("LLM_API_KEY", "LLM_MODEL", "ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN"):
         monkeypatch.delenv(var, raising=False)
 
