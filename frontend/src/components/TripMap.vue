@@ -72,7 +72,8 @@ function draw() {
 onMounted(() => {
   map = L.map(el.value, { scrollWheelZoom: false, zoomControl: true })
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors',
+    // The page sends no Referer (privacy), but OpenStreetMap's tile servers block requests without one. Only the tile images send the bare origin (no path, no query).
+    referrerPolicy: 'origin', maxZoom: 18, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors',
   }).addTo(map)
   layer = L.layerGroup().addTo(map)
   draw()

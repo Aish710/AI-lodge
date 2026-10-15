@@ -183,3 +183,13 @@ test('with no AI key the AI box says it is off, before any click, and the form s
   await page.getByTestId('next-wishlist').click()
   await expect(page).toHaveURL(/\/wishlist$/)
 })
+
+test('map tiles send only the site origin as Referer (OpenStreetMap blocks tile requests with none), while the page policy stays no-referrer', async ({ page }) => {
+  await page.goto('/')
+  await page.getByTestId('load-example').click()
+  await page.locator('button.btn-primary', { hasText: 'Use this hotel' }).click()
+  await expect(page.locator('.leaflet-container .pin').first()).toBeVisible()
+  const tile = page.locator('img.leaflet-tile').first()
+  await expect(tile).toHaveAttribute('referrerpolicy', 'origin')
+  expect(await page.evaluate(() => document.querySelector('meta[name=referrer]').content)).toBe('no-referrer')
+})
