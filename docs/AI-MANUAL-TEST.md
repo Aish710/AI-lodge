@@ -5,7 +5,7 @@ For you to run by hand with a real key. Nothing here was run by Claude. Tick eac
 ## Set-up (once)
 
 1. Put your key and model in `backend/.env` (`LLM_API_KEY=...`, `LLM_MODEL=...`). Never commit that file.
-2. Start the backend so it reads that file: `cd backend && .venv/bin/uvicorn app.main:app --env-file .env --port 8000`
+2. Start the backend so it reads that file: `cd backend && set -a && source .env && set +a && .venv/bin/uvicorn app.main:app --port 8000` (uvicorn's `--env-file` needs python-dotenv, which this project does not install)
 3. Start the frontend: `cd frontend && npm run dev` and open the address it prints.
 4. Check the header chip says **AI assistant on**. If it says *Sample mode (AI unavailable)*, the key or model did not load: stop and fix that first.
 
@@ -23,7 +23,7 @@ Pick the city on the first page (the chip shows it), then run all seven rows. Yo
 | 4 | Ambiguous name | Use the ambiguous sentence | The assistant does not guess. A list of the places the word could mean appears and you pick one; until you pick, nothing is added. | |
 | 5 | Replan proposal | Load the example for the city, reach the Itinerary, then under "Ask for a change in words" type: *remove the first stop on day 1* | A **proposal** card describes the change in words. Nothing has been applied. **Add to pending changes** queues it; **Discard** drops it. Removing a must-visit place asks for an extra confirmation. | |
 | 6 | Explain | Press **Explain this result** once | A short summary appears with a badge. "AI-written ..." means the wording passed the checks; "Template summary" means the checks rejected it and a plain template was used (both are correct behaviour). The city line ("Destination: ...") and any warnings are present. Every number matches the tables on the page. | |
-| 7 | AI off | Stop the backend, restart it WITHOUT `--env-file`, reload the page | The header chip says *Sample mode (AI unavailable)*; the AI box shows "AI is off in this deployment; the form works the same."; the form, hotels and itinerary all work exactly as before. | |
+| 7 | AI off | Stop the backend, restart it in a shell where you have NOT sourced `.env`, reload the page | The header chip says *Sample mode (AI unavailable)*; the AI box shows "AI is off in this deployment; the form works the same."; the form, hotels and itinerary all work exactly as before. | |
 
 ## Sentences per city
 
