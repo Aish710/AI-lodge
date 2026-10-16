@@ -2,6 +2,7 @@
 // It is a floor for what the plan will contain, not a plan: the planner decides the real schedule, order and which optional sights fit.
 import paceCaps from './pacecaps.json'
 import { stateOf } from '../store.js'
+import { mixText } from './themes.js'
 
 /** Sights that are still in the running (everything except "Not interested"). */
 export function chosenSights(store) {
@@ -23,6 +24,7 @@ export function roughPreview(store) {
     maxFit: capPerDay * days,                       // at this pace and number of days (same cap the planner enforces)
     mustAdmissions: sum(must), mustUnknown: unknown(must),
     allAdmissions: sum(inRunning), allUnknown: unknown(inRunning),
+    mix: mixText(inRunning), mustMix: mixText(must),
     areas, mustOverCap: must.length > capPerDay * days,
   }
 }

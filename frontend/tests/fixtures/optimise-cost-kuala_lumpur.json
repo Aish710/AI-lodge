@@ -1,0 +1,368 @@
+{
+ "city_id": "kuala_lumpur",
+ "result": {
+  "status": "feasible",
+  "hotel_id": "hotel_klcc_lantern",
+  "days": [
+   {
+    "day": 1,
+    "weekday": "mon",
+    "stops": [
+     {
+      "attraction_id": "central_market_kl",
+      "start": "10:01",
+      "end": "11:16",
+      "travel_minutes_from_previous": 20,
+      "transport_jpy_from_previous": 3,
+      "cost": 0,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     },
+     {
+      "attraction_id": "islamic_arts_museum_malaysia",
+      "start": "11:29",
+      "end": "13:29",
+      "travel_minutes_from_previous": 13,
+      "transport_jpy_from_previous": 2,
+      "cost": 14,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     },
+     {
+      "attraction_id": "merdeka_square",
+      "start": "13:42",
+      "end": "14:42",
+      "travel_minutes_from_previous": 13,
+      "transport_jpy_from_previous": 2,
+      "cost": 0,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     },
+     {
+      "attraction_id": "kl_tower",
+      "start": "14:57",
+      "end": "16:27",
+      "travel_minutes_from_previous": 15,
+      "transport_jpy_from_previous": 3,
+      "cost": 60,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": [
+       "advance_booking_required"
+      ]
+     }
+    ],
+    "hotel_departure": "09:41",
+    "hotel_return": "16:42",
+    "return_travel_minutes": 15,
+    "return_transport_jpy": 3
+   },
+   {
+    "day": 2,
+    "weekday": "tue",
+    "stops": [
+     {
+      "attraction_id": "petronas_twin_towers",
+      "start": "09:12",
+      "end": "11:12",
+      "travel_minutes_from_previous": 11,
+      "transport_jpy_from_previous": 2,
+      "cost": 98,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": [
+       "advance_booking_required"
+      ]
+     }
+    ],
+    "hotel_departure": "09:01",
+    "hotel_return": "11:23",
+    "return_travel_minutes": 11,
+    "return_transport_jpy": 2
+   },
+   {
+    "day": 3,
+    "weekday": "wed",
+    "stops": [
+     {
+      "attraction_id": "batu_caves",
+      "start": "09:45",
+      "end": "12:15",
+      "travel_minutes_from_previous": 45,
+      "transport_jpy_from_previous": 6,
+      "cost": 0,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     },
+     {
+      "attraction_id": "perdana_botanical_garden",
+      "start": "13:05",
+      "end": "15:05",
+      "travel_minutes_from_previous": 50,
+      "transport_jpy_from_previous": 7,
+      "cost": 0,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     },
+     {
+      "attraction_id": "thean_hou_temple",
+      "start": "15:24",
+      "end": "16:39",
+      "travel_minutes_from_previous": 19,
+      "transport_jpy_from_previous": 3,
+      "cost": 0,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     },
+     {
+      "attraction_id": "jalan_alor",
+      "start": "17:14",
+      "end": "18:44",
+      "travel_minutes_from_previous": 24,
+      "transport_jpy_from_previous": 4,
+      "cost": 0,
+      "cost_status": "unknown",
+      "is_must_visit": false,
+      "uncertainty_flags": [
+       "price_unknown"
+      ]
+     }
+    ],
+    "hotel_departure": "09:00",
+    "hotel_return": "19:00",
+    "return_travel_minutes": 16,
+    "return_transport_jpy": 3
+   }
+  ],
+  "totals": {
+   "travel_minutes": 252,
+   "admissions_jpy": 172,
+   "transport_jpy": 40,
+   "total_jpy": 212,
+   "unknown_cost_items": [
+    "jalan_alor"
+   ],
+   "attractions_scheduled": 9
+  },
+  "conflicts": [],
+  "alternatives": [],
+  "notes": [
+   "Prices unknown for jalan_alor: excluded from total (unknown).",
+   "max_walking_minutes_per_day is not enforced in this version."
+  ],
+  "missed_preferences": [],
+  "solver_meta": {
+   "solver": "ortools-cp-sat",
+   "solver_status": "OPTIMAL",
+   "runtime_seconds": 0.617,
+   "seed": 42,
+   "objective": 24060.0
+  }
+ },
+ "feasibility_report": {
+  "overall": "pass_with_warnings",
+  "checks": [
+   {
+    "id": "known_items",
+    "name": "Known attractions and trip length",
+    "status": "pass",
+    "message": "All stops are known attractions within the trip length.",
+    "stop_ids": []
+   },
+   {
+    "id": "duplicates",
+    "name": "No duplicate attractions",
+    "status": "pass",
+    "message": "Each attraction appears at most once.",
+    "stop_ids": []
+   },
+   {
+    "id": "overlaps",
+    "name": "No overlapping stops and correct durations",
+    "status": "pass",
+    "message": "No stops overlap and each stop lasts the dataset duration.",
+    "stop_ids": []
+   },
+   {
+    "id": "travel_gaps",
+    "name": "Enough time to travel between stops",
+    "status": "pass",
+    "message": "Every gap covers the estimated travel time (hotel legs included).",
+    "stop_ids": []
+   },
+   {
+    "id": "opening_hours",
+    "name": "Open when visited",
+    "status": "pass",
+    "message": "Every stop lies inside its opening hours for that weekday.",
+    "stop_ids": []
+   },
+   {
+    "id": "day_window",
+    "name": "Within the day window",
+    "status": "pass",
+    "message": "Each day starts and ends at the hotel within 09:00-19:00.",
+    "stop_ids": []
+   },
+   {
+    "id": "must_visits",
+    "name": "All must-visits present",
+    "status": "pass",
+    "message": "Every must-visit is scheduled.",
+    "stop_ids": []
+   },
+   {
+    "id": "locked",
+    "name": "Locked activities unmoved",
+    "status": "pass",
+    "message": "No locked activities.",
+    "stop_ids": []
+   },
+   {
+    "id": "pace_cap",
+    "name": "Pace cap respected",
+    "status": "pass",
+    "message": "At most 4 attractions per day ('packed').",
+    "stop_ids": []
+   },
+   {
+    "id": "skip_respected",
+    "name": "Skipped attractions not scheduled",
+    "status": "pass",
+    "message": "No skipped attraction is scheduled.",
+    "stop_ids": []
+   },
+   {
+    "id": "budget",
+    "name": "Budget",
+    "status": "pass",
+    "message": "Total 212 MYR (admissions 172 + transport 40) is within the budget of 1,800 MYR.",
+    "stop_ids": []
+   },
+   {
+    "id": "unknown_hours_used",
+    "name": "Unknown opening hours",
+    "status": "pass",
+    "message": "No stop relies on unknown opening hours.",
+    "stop_ids": []
+   },
+   {
+    "id": "unknown_prices",
+    "name": "Unknown prices",
+    "status": "warning",
+    "message": "Price unknown: excluded from total (unknown).",
+    "stop_ids": [
+     "jalan_alor"
+    ]
+   },
+   {
+    "id": "transport_estimated",
+    "name": "Transport estimates",
+    "status": "warning",
+    "message": "Travel times and fares are ESTIMATES from straight-line distance, not real transit data.",
+    "stop_ids": []
+   },
+   {
+    "id": "advance_booking",
+    "name": "Advance booking",
+    "status": "warning",
+    "message": "Advance booking required; availability not checked.",
+    "stop_ids": [
+     "kl_tower",
+     "petronas_twin_towers"
+    ]
+   }
+  ],
+  "data_quality_warnings": [
+   "Unknown prices: Price unknown: excluded from total (unknown).",
+   "Transport estimates: Travel times and fares are ESTIMATES from straight-line distance, not real transit data.",
+   "Advance booking: Advance booking required; availability not checked."
+  ],
+  "summary": "All 12 hard checks passed, with 3 data-quality warning(s): Unknown prices; Transport estimates; Advance booking."
+ },
+ "approximate": false,
+ "nights_used": 2,
+ "nights_source": "default (days - 1)",
+ "cost_summary": {
+  "currency": "MYR",
+  "days": [
+   {
+    "day": 1,
+    "weekday": "mon",
+    "stops": 4,
+    "admissions": 74,
+    "transport": 13,
+    "day_total": 87,
+    "travel_minutes": 76,
+    "minutes_at_sights": 345,
+    "unknown_price_ids": []
+   },
+   {
+    "day": 2,
+    "weekday": "tue",
+    "stops": 1,
+    "admissions": 98,
+    "transport": 4,
+    "day_total": 102,
+    "travel_minutes": 22,
+    "minutes_at_sights": 120,
+    "unknown_price_ids": []
+   },
+   {
+    "day": 3,
+    "weekday": "wed",
+    "stops": 4,
+    "admissions": 0,
+    "transport": 23,
+    "day_total": 23,
+    "travel_minutes": 154,
+    "minutes_at_sights": 435,
+    "unknown_price_ids": [
+     "jalan_alor"
+    ]
+   }
+  ],
+  "trip": {
+   "admissions": 172,
+   "transport": 40,
+   "cash_total": 212,
+   "rooms": 640,
+   "nightly_rate": 320,
+   "nights": 2,
+   "cash_total_with_rooms": 852,
+   "unknown_price_count": 1,
+   "unknown_price_ids": [
+    "jalan_alor"
+   ],
+   "travel_minutes": 252,
+   "avg_travel_minutes_per_day": 84,
+   "hotel_area": "KLCC"
+  }
+ },
+ "_request": {
+  "preferences": {
+   "days": 3,
+   "budget": 1800,
+   "strict_budget": false,
+   "pace": "packed",
+   "interests": [],
+   "must_visit": [],
+   "day_start": "09:00",
+   "day_end": "19:00",
+   "value_of_time_per_hour": 45,
+   "max_walking_minutes_per_day": 90,
+   "start_weekday": 0,
+   "allow_unknown_hours": false,
+   "skip": [],
+   "nights": null,
+   "locked": []
+  },
+  "hotel_id": "hotel_klcc_lantern"
+ }
+}

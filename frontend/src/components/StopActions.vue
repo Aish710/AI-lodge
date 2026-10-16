@@ -16,12 +16,17 @@ function queueMove() {
 </script>
 <template>
   <div class="stop-actions mt-1" :data-testid="`actions-${id}`">
-    <div class="d-flex flex-wrap gap-1">
+    <div class="d-flex flex-wrap align-items-center gap-1">
       <button v-if="!locked" type="button" class="btn btn-sm btn-outline-secondary" :disabled="disabled" :aria-label="`Lock ${stop.start}: ${name}, day ${day}`"
-        @click="emit('op', { op: 'lock', attraction_id: id, day, start_time: stop.start })" data-testid="act-lock">Lock {{ stop.start }}</button>
-      <button v-else type="button" class="btn btn-sm btn-outline-secondary" :disabled="disabled" :aria-label="`Unlock ${name}`" @click="emit('op', { op: 'unlock', attraction_id: id })" data-testid="act-unlock">Unlock</button>
-      <button type="button" class="btn btn-sm btn-outline-secondary" :disabled="disabled" :aria-expanded="moving" :aria-controls="idp" :aria-label="`Move ${name}`" @click="moving = !moving" data-testid="act-move">Move</button>
-      <button type="button" class="btn btn-sm btn-outline-secondary" :disabled="disabled" :aria-label="`Remove ${name}`" @click="emit('op', { op: 'remove', attraction_id: id })" data-testid="act-remove">Remove</button>
+        @click="emit('op', { op: 'lock', attraction_id: id, day, start_time: stop.start })" data-testid="act-lock"><span aria-hidden="true">🔒</span> Lock {{ stop.start }}</button>
+      <button v-else type="button" class="btn btn-sm btn-outline-secondary" :disabled="disabled" :aria-label="`Unlock ${name}`" @click="emit('op', { op: 'unlock', attraction_id: id })" data-testid="act-unlock"><span aria-hidden="true">🔓</span> Unlock</button>
+      <details class="more-menu" :data-testid="`more-${id}`">
+        <summary class="btn btn-sm btn-outline-secondary" :aria-label="`More actions for ${name}`"><span aria-hidden="true">⋯</span></summary>
+        <div class="more-items">
+          <button type="button" class="btn btn-sm btn-outline-secondary" :disabled="disabled" :aria-expanded="moving" :aria-controls="idp" :aria-label="`Move ${name}`" @click="moving = !moving" data-testid="act-move">Move</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary" :disabled="disabled" :aria-label="`Remove ${name} (skip this)`" @click="emit('op', { op: 'remove', attraction_id: id })" data-testid="act-remove">Skip this (remove)</button>
+        </div>
+      </details>
     </div>
     <form v-if="moving" :id="idp" class="card-soft mt-2 p-2" @submit.prevent="queueMove" :aria-label="`Move ${name}`">
       <div class="row g-2 align-items-end">

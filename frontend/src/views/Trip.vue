@@ -23,6 +23,9 @@ import PlanProgress from '../components/PlanProgress.vue'
 import BusyNotice from '../components/BusyNotice.vue'
 import CompareDetails from '../components/CompareDetails.vue'
 import SensitivityPanel from '../components/SensitivityPanel.vue'
+import GettingAround from '../components/GettingAround.vue'
+import CostPanel from '../components/CostPanel.vue'
+import DaySelector from '../components/DaySelector.vue'
 import { checksTally, hotelVerdict, planStatus, sightsCovered } from '../lib/band.js'
 import { store, runOptimise, switchHotel, applyAlternative, rateLimited, solverBusy, queueOp, unqueue, clearQueue, applyQueue, restorePrevious, explain, resetAll } from '../store.js'
 import { mustVisitRemovals } from '../lib/replan.js'
@@ -69,6 +72,7 @@ function startOver() {
   router.push('/')
 }
 const planning = computed(() => store.busy.optimise || store.busy.compare)
+const activeStop = ref(null)   // card <-> pin link: hovering or focusing one highlights the other
 </script>
 <template>
   <div class="stack">
@@ -122,19 +126,22 @@ const planning = computed(() => store.busy.optimise || store.busy.compare)
                 <HowMade :explained="store.explanations.optimise?.source ?? null" />
               </div>
               <div class="row g-3">
-                <div class="col-6 col-lg-3"><div class="tile">
+                <div class="col-12 col-lg-8"><div class="row g-3">
+                <div class="col-6"><div class="tile">
                   <div class="tile-label">Total cost <Hint text="Sights + estimated transport only. Rooms are in the hotel comparison." label="What does total cost include?" /></div>
                   <div class="tile-value" data-testid="kpi-total">{{ money(t.total_jpy) }}</div>
                   <div class="tile-sub">{{ formatMoney(t.total_jpy, store.fx).split('(')[1]?.replace(')', '') ?? '' }}</div></div></div>
-                <div class="col-6 col-lg-3"><div class="tile">
-                  <div class="tile-label">Travel time, all days <Hint text="Time spent moving between the hotel and the sights, added up over every day. It does not include time at the sights. Estimated from sample data." label="What does travel time mean?" /></div>
+                <div class="col-6"><div class="tile">
+                  <div class="tile-label">Travel time, all days (estimated) <Hint text="Time moving between places, not time at sights." label="What does travel time mean?" /></div>
                   <div class="tile-value" data-testid="kpi-travel">{{ humanMinutes(t.travel_minutes) }}</div></div></div>
-                <div class="col-6 col-lg-3"><div class="tile">
+                <div class="col-6"><div class="tile">
                   <div class="tile-label">Sights covered <Hint text="Sights in the plan, out of the sights you did not mark 'not interested'." label="What does sights covered mean?" /></div>
                   <div class="tile-value" data-testid="kpi-sights">{{ cover.scheduled }} of {{ cover.wanted }}</div></div></div>
-                <div class="col-6 col-lg-3"><div class="tile">
+                <div class="col-6"><div class="tile">
                   <div class="tile-label">Checks passed <Hint text="The independent validator re-checks every rule on the finished plan." label="What are the checks?" /></div>
                   <div class="tile-value" data-testid="kpi-checks">{{ tally.passed }} of {{ tally.total }}</div></div></div>
+                </div></div>
+                <div class="col-12 col-lg-4"><GettingAround /></div>
               </div>
               <p class="mt-2 mb-0 small muted">
                 Admissions {{ money(t.admissions_jpy) }} + transport {{ money(t.transport_jpy) }} <span class="badge-src badge-estimated">estimated</span> · {{ resp.nights_used }} night(s) of rooms are not included · Solver: {{ result.solver_meta.solver_status }}<span v-if="result.solver_meta.solver_status !== 'OPTIMAL'"> (not proven optimal)</span>
@@ -142,10 +149,14 @@ const planning = computed(() => store.busy.optimise || store.busy.compare)
               </p>
             </section>
 
+            <CostPanel />
+
             <h2 class="sr-only">Map and day-by-day plan</h2>
+            <DaySelector :days="result.days" />
             <div class="row g-3">
-              <div class="col-12 col-lg-7"><TripMap :days="result.days" :hotel="hotel" :places-by-id="store.placesById" @select-stop="selectStop" /></div>
-              <div class="col-12 col-lg-5"><DayTimeline :days="result.days" :places-by-id="store.placesById" :fx="store.fx" :hotel-name="hotel?.name ?? 'the hotel'" :locked-ids="lockedIds" :vot-per-hour="store.planPrefs?.value_of_time_per_hour ?? null">
+              <div class="col-12 col-lg-7"><TripMap :days="result.days" :hotel="hotel" :places-by-id="store.placesById" :selected-day="store.selectedDay" :active-stop="activeStop" @select-stop="selectStop" @hover-stop="activeStop = $event" /></div>
+              <div class="col-12 col-lg-5"><DayTimeline :days="result.days" :places-by-id="store.placesById" :fx="store.fx" :hotel-name="hotel?.name ?? 'the hotel'" :locked-ids="lockedIds" :vot-per-hour="store.planPrefs?.value_of_time_per_hour ?? null"
+                :cost-days="resp.cost_summary?.days ?? []" :selected-day="store.selectedDay" :active-stop="activeStop" @hover-stop="activeStop = $event">
                 <template #actions="{ stop, day }">
                   <StopActions :stop="stop" :day="day" :total-days="result.days.length" :name="store.placesById[stop.attraction_id]?.name ?? stop.attraction_id"
                     :locked="lockedIds.includes(stop.attraction_id)" :disabled="store.busy.replan || solverBusy" @op="queueOp" />

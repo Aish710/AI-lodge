@@ -70,6 +70,9 @@ const cityNames = computed(() => (store.cities.length ? store.cities.map((c) => 
         <li>Measured results come from seeded synthetic trips, not from users. See the <router-link to="/proof">Proof page</router-link> for what was measured and what it does not show.</li>
         <li>Detecting an unsupported city depends on the AI reporting it; with no AI, names that aren't in the selected city's data are reported as not found.</li>
         <li>How well the AI reads real requests has not been measured yet: that evaluation is opt-in and has not been run.</li>
+        <li data-testid="interests-limit"><strong>Interests only highlight.</strong> Choosing "Most interested in" (or the AI reading interests from your text) marks matching sights and lists them first. It does not change the plan. The planner uses your Must visit / Include if it fits / Skip choices only.</li>
+        <li data-testid="cash-vs-true"><strong>Cash cost is not true cost.</strong> Cash cost is money spent (admissions, estimated transport, rooms). True cost adds the value you put on your travel time and a charge for optional sights left out; it exists only to compare hotels and is never money.</li>
+        <li>Themes (Sightseeing, Shopping, Food &amp; drink) are a grouping in the interface, one primary theme per sight; the planner never sees them. Some themes are thin in the sample data and say so.</li>
         <li>On a free host the server sleeps when idle, so the first request can take about a minute.</li>
       </ul>
     </section>

@@ -1,0 +1,368 @@
+{
+ "city_id": "singapore",
+ "result": {
+  "status": "feasible",
+  "hotel_id": "hotel_river_rochore",
+  "days": [
+   {
+    "day": 1,
+    "weekday": "mon",
+    "stops": [
+     {
+      "attraction_id": "sultan_mosque_haji_lane",
+      "start": "10:00",
+      "end": "11:30",
+      "travel_minutes_from_previous": 12,
+      "transport_jpy_from_previous": 2,
+      "cost": 0,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     },
+     {
+      "attraction_id": "mbs_skypark",
+      "start": "11:48",
+      "end": "13:18",
+      "travel_minutes_from_previous": 16,
+      "transport_jpy_from_previous": 2,
+      "cost": 32,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": [
+       "advance_booking_required"
+      ]
+     },
+     {
+      "attraction_id": "gardens_by_the_bay",
+      "start": "13:29",
+      "end": "15:59",
+      "travel_minutes_from_previous": 11,
+      "transport_jpy_from_previous": 2,
+      "cost": 12,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     },
+     {
+      "attraction_id": "artscience_museum",
+      "start": "16:11",
+      "end": "18:11",
+      "travel_minutes_from_previous": 12,
+      "transport_jpy_from_previous": 2,
+      "cost": 25,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": [
+       "advance_booking_required"
+      ]
+     }
+    ],
+    "hotel_departure": "09:48",
+    "hotel_return": "18:28",
+    "return_travel_minutes": 17,
+    "return_transport_jpy": 3
+   },
+   {
+    "day": 2,
+    "weekday": "tue",
+    "stops": [
+     {
+      "attraction_id": "jewel_changi",
+      "start": "10:06",
+      "end": "12:06",
+      "travel_minutes_from_previous": 65,
+      "transport_jpy_from_previous": 6,
+      "cost": 0,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     }
+    ],
+    "hotel_departure": "09:01",
+    "hotel_return": "13:11",
+    "return_travel_minutes": 65,
+    "return_transport_jpy": 6
+   },
+   {
+    "day": 3,
+    "weekday": "wed",
+    "stops": [
+     {
+      "attraction_id": "national_gallery_singapore",
+      "start": "10:00",
+      "end": "12:30",
+      "travel_minutes_from_previous": 14,
+      "transport_jpy_from_previous": 2,
+      "cost": 20,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     },
+     {
+      "attraction_id": "buddha_tooth_relic_temple",
+      "start": "12:44",
+      "end": "13:59",
+      "travel_minutes_from_previous": 14,
+      "transport_jpy_from_previous": 2,
+      "cost": 0,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     },
+     {
+      "attraction_id": "maxwell_food_centre",
+      "start": "14:09",
+      "end": "15:09",
+      "travel_minutes_from_previous": 10,
+      "transport_jpy_from_previous": 2,
+      "cost": 0,
+      "cost_status": "unknown",
+      "is_must_visit": false,
+      "uncertainty_flags": [
+       "price_unknown"
+      ]
+     },
+     {
+      "attraction_id": "singapore_botanic_gardens",
+      "start": "15:35",
+      "end": "17:35",
+      "travel_minutes_from_previous": 26,
+      "transport_jpy_from_previous": 3,
+      "cost": 0,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     }
+    ],
+    "hotel_departure": "09:46",
+    "hotel_return": "17:59",
+    "return_travel_minutes": 24,
+    "return_transport_jpy": 3
+   }
+  ],
+  "totals": {
+   "travel_minutes": 286,
+   "admissions_jpy": 89,
+   "transport_jpy": 35,
+   "total_jpy": 124,
+   "unknown_cost_items": [
+    "maxwell_food_centre"
+   ],
+   "attractions_scheduled": 9
+  },
+  "conflicts": [],
+  "alternatives": [],
+  "notes": [
+   "Prices unknown for maxwell_food_centre: excluded from total (unknown).",
+   "max_walking_minutes_per_day is not enforced in this version."
+  ],
+  "missed_preferences": [],
+  "solver_meta": {
+   "solver": "ortools-cp-sat",
+   "solver_status": "OPTIMAL",
+   "runtime_seconds": 0.8852,
+   "seed": 42,
+   "objective": 12948.0
+  }
+ },
+ "feasibility_report": {
+  "overall": "pass_with_warnings",
+  "checks": [
+   {
+    "id": "known_items",
+    "name": "Known attractions and trip length",
+    "status": "pass",
+    "message": "All stops are known attractions within the trip length.",
+    "stop_ids": []
+   },
+   {
+    "id": "duplicates",
+    "name": "No duplicate attractions",
+    "status": "pass",
+    "message": "Each attraction appears at most once.",
+    "stop_ids": []
+   },
+   {
+    "id": "overlaps",
+    "name": "No overlapping stops and correct durations",
+    "status": "pass",
+    "message": "No stops overlap and each stop lasts the dataset duration.",
+    "stop_ids": []
+   },
+   {
+    "id": "travel_gaps",
+    "name": "Enough time to travel between stops",
+    "status": "pass",
+    "message": "Every gap covers the estimated travel time (hotel legs included).",
+    "stop_ids": []
+   },
+   {
+    "id": "opening_hours",
+    "name": "Open when visited",
+    "status": "pass",
+    "message": "Every stop lies inside its opening hours for that weekday.",
+    "stop_ids": []
+   },
+   {
+    "id": "day_window",
+    "name": "Within the day window",
+    "status": "pass",
+    "message": "Each day starts and ends at the hotel within 09:00-19:00.",
+    "stop_ids": []
+   },
+   {
+    "id": "must_visits",
+    "name": "All must-visits present",
+    "status": "pass",
+    "message": "Every must-visit is scheduled.",
+    "stop_ids": []
+   },
+   {
+    "id": "locked",
+    "name": "Locked activities unmoved",
+    "status": "pass",
+    "message": "No locked activities.",
+    "stop_ids": []
+   },
+   {
+    "id": "pace_cap",
+    "name": "Pace cap respected",
+    "status": "pass",
+    "message": "At most 4 attractions per day ('packed').",
+    "stop_ids": []
+   },
+   {
+    "id": "skip_respected",
+    "name": "Skipped attractions not scheduled",
+    "status": "pass",
+    "message": "No skipped attraction is scheduled.",
+    "stop_ids": []
+   },
+   {
+    "id": "budget",
+    "name": "Budget",
+    "status": "pass",
+    "message": "Total 124 SGD (admissions 89 + transport 35) is within the budget of 720 SGD.",
+    "stop_ids": []
+   },
+   {
+    "id": "unknown_hours_used",
+    "name": "Unknown opening hours",
+    "status": "pass",
+    "message": "No stop relies on unknown opening hours.",
+    "stop_ids": []
+   },
+   {
+    "id": "unknown_prices",
+    "name": "Unknown prices",
+    "status": "warning",
+    "message": "Price unknown: excluded from total (unknown).",
+    "stop_ids": [
+     "maxwell_food_centre"
+    ]
+   },
+   {
+    "id": "transport_estimated",
+    "name": "Transport estimates",
+    "status": "warning",
+    "message": "Travel times and fares are ESTIMATES from straight-line distance, not real transit data.",
+    "stop_ids": []
+   },
+   {
+    "id": "advance_booking",
+    "name": "Advance booking",
+    "status": "warning",
+    "message": "Advance booking required; availability not checked.",
+    "stop_ids": [
+     "artscience_museum",
+     "mbs_skypark"
+    ]
+   }
+  ],
+  "data_quality_warnings": [
+   "Unknown prices: Price unknown: excluded from total (unknown).",
+   "Transport estimates: Travel times and fares are ESTIMATES from straight-line distance, not real transit data.",
+   "Advance booking: Advance booking required; availability not checked."
+  ],
+  "summary": "All 12 hard checks passed, with 3 data-quality warning(s): Unknown prices; Transport estimates; Advance booking."
+ },
+ "approximate": false,
+ "nights_used": 2,
+ "nights_source": "default (days - 1)",
+ "cost_summary": {
+  "currency": "SGD",
+  "days": [
+   {
+    "day": 1,
+    "weekday": "mon",
+    "stops": 4,
+    "admissions": 69,
+    "transport": 11,
+    "day_total": 80,
+    "travel_minutes": 68,
+    "minutes_at_sights": 450,
+    "unknown_price_ids": []
+   },
+   {
+    "day": 2,
+    "weekday": "tue",
+    "stops": 1,
+    "admissions": 0,
+    "transport": 12,
+    "day_total": 12,
+    "travel_minutes": 130,
+    "minutes_at_sights": 120,
+    "unknown_price_ids": []
+   },
+   {
+    "day": 3,
+    "weekday": "wed",
+    "stops": 4,
+    "admissions": 20,
+    "transport": 12,
+    "day_total": 32,
+    "travel_minutes": 88,
+    "minutes_at_sights": 405,
+    "unknown_price_ids": [
+     "maxwell_food_centre"
+    ]
+   }
+  ],
+  "trip": {
+   "admissions": 89,
+   "transport": 35,
+   "cash_total": 124,
+   "rooms": 370,
+   "nightly_rate": 185,
+   "nights": 2,
+   "cash_total_with_rooms": 494,
+   "unknown_price_count": 1,
+   "unknown_price_ids": [
+    "maxwell_food_centre"
+   ],
+   "travel_minutes": 286,
+   "avg_travel_minutes_per_day": 95,
+   "hotel_area": "Rochor"
+  }
+ },
+ "_request": {
+  "preferences": {
+   "days": 3,
+   "budget": 720,
+   "strict_budget": false,
+   "pace": "packed",
+   "interests": [],
+   "must_visit": [],
+   "day_start": "09:00",
+   "day_end": "19:00",
+   "value_of_time_per_hour": 18,
+   "max_walking_minutes_per_day": 90,
+   "start_weekday": 0,
+   "allow_unknown_hours": false,
+   "skip": [],
+   "nights": null,
+   "locked": []
+  },
+  "hotel_id": "hotel_river_rochore"
+ }
+}

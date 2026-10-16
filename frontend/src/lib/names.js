@@ -12,5 +12,6 @@ export function clearedOnCitySwitch(s) {
   if (s.plan) out.push('the itinerary')
   if (s.queue?.length) out.push(`pending changes (${s.queue.length})`)
   if (s.previous || s.lastReplan) out.push('the replan history')
+  if (s.interestThemes?.length || s.parsedInterests?.length) out.push('your interests highlight')
   return out
 }

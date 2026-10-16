@@ -6,6 +6,7 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { attachBaseLayer } from '../lib/tiles.js'
 import { stateOf } from '../store.js'
+import { themeIcon, themeLabel } from '../lib/themes.js'
 
 const props = defineProps({ places: { type: Array, default: () => [] }, wishlist: { type: Object, default: () => ({}) }, center: { type: Array, default: () => [0, 0] } })
 const el = ref(null)
@@ -16,8 +17,8 @@ let ro = null
 let base = null
 let fitted = ''
 
-function icon(kind) {
-  const html = `<div class="pin-visual"><div class="pin pin-${kind}" style="width:30px;height:30px"><span>${kind === 'must' ? 'M' : '+'}</span></div></div>`
+function icon(kind, glyph) {
+  const html = `<div class="pin-visual"><div class="pin pin-${kind}" style="width:30px;height:30px"><span>${glyph}</span></div></div>`
   return L.divIcon({ className: 'pin-hit-target', html, iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12] })
 }
 function popup(lines) {
@@ -33,10 +34,10 @@ function draw() {
     const state = stateOf(p.id)
     if (state === 'skip') continue
     const kind = state === 'must' ? 'must' : 'nice'
-    const label = `${p.name}, ${p.area}: ${kind === 'must' ? 'must visit' : 'include if it fits'}`
+    const label = `${p.name}, ${p.area}, ${themeLabel(p)}: ${kind === 'must' ? 'must visit' : 'include if it fits'}`
     pts.push([p.lat, p.lon])
-    const m = L.marker([p.lat, p.lon], { icon: icon(kind), title: label, alt: label, keyboard: true })
-      .bindPopup(popup([p.name, `${p.area} · ${kind === 'must' ? 'Must visit' : 'Include if it fits'}`])).addTo(layer)
+    const m = L.marker([p.lat, p.lon], { icon: icon(kind, themeIcon(p)), title: label, alt: label, keyboard: true })
+      .bindPopup(popup([p.name, `${themeLabel(p)} · ${p.area} · ${kind === 'must' ? 'Must visit' : 'Include if it fits'}`])).addTo(layer)
     m.getElement()?.setAttribute('aria-label', label)   // the marker is already on the map, so its element exists now ('add' has already fired)
     m.on('add', () => m.getElement()?.setAttribute('aria-label', label))
     m.on('keydown', (e) => { if (e.originalEvent?.key === 'Enter' || e.originalEvent?.key === ' ') { e.originalEvent.preventDefault(); m.openPopup() } })
@@ -65,8 +66,8 @@ onBeforeUnmount(() => { base?.dispose(); ro?.disconnect(); map?.remove(); map = 
     <div ref="el" class="map-wrap" :class="{ 'map-plain': tilesOff }" role="region" aria-label="Map of the sights you are considering. The list beside it has the same information and the same choices." data-testid="sights-map"></div>
     <p v-if="tilesOff" class="small muted mt-1 mb-0" role="status" data-testid="tiles-unavailable">Map tiles unavailable. The pins are still in the right places, and the list next to the map has the same information.</p>
     <p class="small muted mt-1 mb-0" data-testid="sights-map-legend">
-      <span class="pin pin-must d-inline-flex" style="width:16px;height:16px;font-size:.6rem" aria-hidden="true">M</span> Must visit ·
-      <span class="pin pin-nice d-inline-flex" style="width:16px;height:16px;font-size:.6rem" aria-hidden="true">+</span> Include if it fits · "Not interested" sights have no pin
+      <span class="pin pin-must d-inline-flex" style="width:18px;height:18px;font-size:.65rem" aria-hidden="true">🏛️</span> Square = Must visit ·
+      <span class="pin pin-nice d-inline-flex" style="width:18px;height:18px;font-size:.65rem" aria-hidden="true">🏛️</span> Circle = Include if it fits · the icon is the theme · "Not interested" sights have no pin
     </p>
   </div>
 </template>

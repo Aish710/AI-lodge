@@ -1,0 +1,355 @@
+{
+ "city_id": "seoul",
+ "result": {
+  "status": "feasible",
+  "hotel_id": "hotel_jongno_garden",
+  "days": [
+   {
+    "day": 1,
+    "weekday": "mon",
+    "stops": [],
+    "hotel_departure": null,
+    "hotel_return": null,
+    "return_travel_minutes": 0,
+    "return_transport_jpy": 0
+   },
+   {
+    "day": 2,
+    "weekday": "tue",
+    "stops": [
+     {
+      "attraction_id": "gwangjang_market",
+      "start": "09:15",
+      "end": "10:30",
+      "travel_minutes_from_previous": 15,
+      "transport_jpy_from_previous": 1560,
+      "cost": 0,
+      "cost_status": "unknown",
+      "is_must_visit": false,
+      "uncertainty_flags": [
+       "price_unknown"
+      ]
+     },
+     {
+      "attraction_id": "dongdaemun_design_plaza",
+      "start": "10:44",
+      "end": "12:14",
+      "travel_minutes_from_previous": 14,
+      "transport_jpy_from_previous": 1514,
+      "cost": 0,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     },
+     {
+      "attraction_id": "national_museum_korea",
+      "start": "12:43",
+      "end": "15:13",
+      "travel_minutes_from_previous": 29,
+      "transport_jpy_from_previous": 2055,
+      "cost": 0,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     },
+     {
+      "attraction_id": "n_seoul_tower",
+      "start": "15:34",
+      "end": "17:04",
+      "travel_minutes_from_previous": 21,
+      "transport_jpy_from_previous": 1779,
+      "cost": 21000,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     }
+    ],
+    "hotel_departure": "09:00",
+    "hotel_return": "17:23",
+    "return_travel_minutes": 19,
+    "return_transport_jpy": 1690
+   },
+   {
+    "day": 3,
+    "weekday": "wed",
+    "stops": [
+     {
+      "attraction_id": "insadong",
+      "start": "10:00",
+      "end": "11:30",
+      "travel_minutes_from_previous": 11,
+      "transport_jpy_from_previous": 1421,
+      "cost": 0,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     },
+     {
+      "attraction_id": "changdeokgung",
+      "start": "11:43",
+      "end": "13:43",
+      "travel_minutes_from_previous": 13,
+      "transport_jpy_from_previous": 1495,
+      "cost": 3000,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": [
+       "advance_booking_required"
+      ]
+     },
+     {
+      "attraction_id": "bukchon_hanok_village",
+      "start": "13:56",
+      "end": "15:26",
+      "travel_minutes_from_previous": 13,
+      "transport_jpy_from_previous": 1496,
+      "cost": 0,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     },
+     {
+      "attraction_id": "gyeongbokgung",
+      "start": "15:39",
+      "end": "17:39",
+      "travel_minutes_from_previous": 13,
+      "transport_jpy_from_previous": 1476,
+      "cost": 3000,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     }
+    ],
+    "hotel_departure": "09:49",
+    "hotel_return": "17:53",
+    "return_travel_minutes": 14,
+    "return_transport_jpy": 1529
+   }
+  ],
+  "totals": {
+   "travel_minutes": 162,
+   "admissions_jpy": 27000,
+   "transport_jpy": 16015,
+   "total_jpy": 43015,
+   "unknown_cost_items": [
+    "gwangjang_market"
+   ],
+   "attractions_scheduled": 8
+  },
+  "conflicts": [],
+  "alternatives": [],
+  "notes": [
+   "Prices unknown for gwangjang_market: excluded from total (unknown).",
+   "max_walking_minutes_per_day is not enforced in this version."
+  ],
+  "missed_preferences": [
+   "lotte_world_tower_observatory"
+  ],
+  "solver_meta": {
+   "solver": "ortools-cp-sat",
+   "solver_status": "OPTIMAL",
+   "runtime_seconds": 0.1298,
+   "seed": 42,
+   "objective": 7710900.0
+  }
+ },
+ "feasibility_report": {
+  "overall": "pass_with_warnings",
+  "checks": [
+   {
+    "id": "known_items",
+    "name": "Known attractions and trip length",
+    "status": "pass",
+    "message": "All stops are known attractions within the trip length.",
+    "stop_ids": []
+   },
+   {
+    "id": "duplicates",
+    "name": "No duplicate attractions",
+    "status": "pass",
+    "message": "Each attraction appears at most once.",
+    "stop_ids": []
+   },
+   {
+    "id": "overlaps",
+    "name": "No overlapping stops and correct durations",
+    "status": "pass",
+    "message": "No stops overlap and each stop lasts the dataset duration.",
+    "stop_ids": []
+   },
+   {
+    "id": "travel_gaps",
+    "name": "Enough time to travel between stops",
+    "status": "pass",
+    "message": "Every gap covers the estimated travel time (hotel legs included).",
+    "stop_ids": []
+   },
+   {
+    "id": "opening_hours",
+    "name": "Open when visited",
+    "status": "pass",
+    "message": "Every stop lies inside its opening hours for that weekday.",
+    "stop_ids": []
+   },
+   {
+    "id": "day_window",
+    "name": "Within the day window",
+    "status": "pass",
+    "message": "Each day starts and ends at the hotel within 09:00-19:00.",
+    "stop_ids": []
+   },
+   {
+    "id": "must_visits",
+    "name": "All must-visits present",
+    "status": "pass",
+    "message": "Every must-visit is scheduled.",
+    "stop_ids": []
+   },
+   {
+    "id": "locked",
+    "name": "Locked activities unmoved",
+    "status": "pass",
+    "message": "No locked activities.",
+    "stop_ids": []
+   },
+   {
+    "id": "pace_cap",
+    "name": "Pace cap respected",
+    "status": "pass",
+    "message": "At most 4 attractions per day ('packed').",
+    "stop_ids": []
+   },
+   {
+    "id": "skip_respected",
+    "name": "Skipped attractions not scheduled",
+    "status": "pass",
+    "message": "No skipped attraction is scheduled.",
+    "stop_ids": []
+   },
+   {
+    "id": "budget",
+    "name": "Budget",
+    "status": "pass",
+    "message": "Total 43,015 KRW (admissions 27,000 + transport 16,015) is within the budget of 600,000 KRW.",
+    "stop_ids": []
+   },
+   {
+    "id": "unknown_hours_used",
+    "name": "Unknown opening hours",
+    "status": "pass",
+    "message": "No stop relies on unknown opening hours.",
+    "stop_ids": []
+   },
+   {
+    "id": "unknown_prices",
+    "name": "Unknown prices",
+    "status": "warning",
+    "message": "Price unknown: excluded from total (unknown).",
+    "stop_ids": [
+     "gwangjang_market"
+    ]
+   },
+   {
+    "id": "transport_estimated",
+    "name": "Transport estimates",
+    "status": "warning",
+    "message": "Travel times and fares are ESTIMATES from straight-line distance, not real transit data.",
+    "stop_ids": []
+   },
+   {
+    "id": "advance_booking",
+    "name": "Advance booking",
+    "status": "warning",
+    "message": "Advance booking required; availability not checked.",
+    "stop_ids": [
+     "changdeokgung"
+    ]
+   }
+  ],
+  "data_quality_warnings": [
+   "Unknown prices: Price unknown: excluded from total (unknown).",
+   "Transport estimates: Travel times and fares are ESTIMATES from straight-line distance, not real transit data.",
+   "Advance booking: Advance booking required; availability not checked."
+  ],
+  "summary": "All 12 hard checks passed, with 3 data-quality warning(s): Unknown prices; Transport estimates; Advance booking."
+ },
+ "approximate": false,
+ "nights_used": 2,
+ "nights_source": "default (days - 1)",
+ "cost_summary": {
+  "currency": "KRW",
+  "days": [
+   {
+    "day": 1,
+    "weekday": "mon",
+    "stops": 0,
+    "admissions": 0,
+    "transport": 0,
+    "day_total": 0,
+    "travel_minutes": 0,
+    "minutes_at_sights": 0,
+    "unknown_price_ids": []
+   },
+   {
+    "day": 2,
+    "weekday": "tue",
+    "stops": 4,
+    "admissions": 21000,
+    "transport": 8598,
+    "day_total": 29598,
+    "travel_minutes": 98,
+    "minutes_at_sights": 405,
+    "unknown_price_ids": [
+     "gwangjang_market"
+    ]
+   },
+   {
+    "day": 3,
+    "weekday": "wed",
+    "stops": 4,
+    "admissions": 6000,
+    "transport": 7417,
+    "day_total": 13417,
+    "travel_minutes": 64,
+    "minutes_at_sights": 420,
+    "unknown_price_ids": []
+   }
+  ],
+  "trip": {
+   "admissions": 27000,
+   "transport": 16015,
+   "cash_total": 43015,
+   "rooms": 270000,
+   "nightly_rate": 135000,
+   "nights": 2,
+   "cash_total_with_rooms": 313015,
+   "unknown_price_count": 1,
+   "unknown_price_ids": [
+    "gwangjang_market"
+   ],
+   "travel_minutes": 162,
+   "avg_travel_minutes_per_day": 54,
+   "hotel_area": "Jongno"
+  }
+ },
+ "_request": {
+  "preferences": {
+   "days": 3,
+   "budget": 600000,
+   "strict_budget": false,
+   "pace": "packed",
+   "interests": [],
+   "must_visit": [],
+   "day_start": "09:00",
+   "day_end": "19:00",
+   "value_of_time_per_hour": 15000,
+   "max_walking_minutes_per_day": 90,
+   "start_weekday": 0,
+   "allow_unknown_hours": false,
+   "skip": [],
+   "nights": null,
+   "locked": []
+  },
+  "hotel_id": "hotel_jongno_garden"
+ }
+}

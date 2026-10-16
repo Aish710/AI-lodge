@@ -12,11 +12,12 @@ import ErrorPanel from '../components/ErrorPanel.vue'
 import Hint from '../components/Hint.vue'
 import Skeleton from '../components/Skeleton.vue'
 import { exampleLabel } from '../lib/rules.js'
-import { store, currentPrefs, currentCityExamples, loadExample, requestCitySwitch, resetAll, planMyTrip, rateLimited, rateLimitSeconds, solverBusy, stateOf, setWish, loadPlaces } from '../store.js'
+import { store, highlightThemes, toggleInterestTheme, currentPrefs, currentCityExamples, loadExample, requestCitySwitch, resetAll, planMyTrip, rateLimited, rateLimitSeconds, solverBusy, stateOf, setWish, loadPlaces } from '../store.js'
 import { nightsUsed, budgetInJpy } from '../lib/prefs.js'
 import { formatLocalMoney, WEEKDAY_NAMES, WEEKDAYS } from '../lib/format.js'
 import { budgetSanityHint } from '../lib/tripSummary.js'
 import { roughPreview } from '../lib/preview.js'
+import { THEMES, countByTheme, isLimited, mixText, themeOf } from '../lib/themes.js'
 
 const router = useRouter()
 const errors = computed(() => currentPrefs().errors)
@@ -61,6 +62,26 @@ const hasPlan = computed(() => !!store.plan)
 const busyError = computed(() => [store.planError, store.comparisonError].find((e) => e?.code === 'solver_busy') ?? null)
 const realError = computed(() => [store.planError, store.comparisonError].find((e) => e && e.code !== 'solver_busy') ?? null)
 const nudge = ref(false)
+
+// ---- themes: tabs, counts, interests highlight (UI only; the planner uses Must / Include / Skip) ----
+const themeCounts = computed(() => countByTheme(store.places))
+const tabs = computed(() => [{ id: 'all', label: 'All', icon: '🗺️', count: (store.places ?? []).length, limited: false },
+  ...THEMES.map((t) => ({ ...t, count: themeCounts.value[t.id], limited: isLimited(themeCounts.value[t.id]) }))])
+const visiblePlaces = computed(() => {
+  const list = (store.places ?? []).filter((p) => store.theme === 'all' || themeOf(p) === store.theme)
+  const hi = highlightThemes.value
+  return hi.size ? [...list].sort((a, b) => Number(hi.has(themeOf(b))) - Number(hi.has(themeOf(a)))) : list   // stable: highlighted sights first
+})
+const mustMix = computed(() => mixText((store.places ?? []).filter((p) => stateOf(p.id) === 'must')))
+function onTabKey(e, i) {
+  const n = tabs.value.length
+  const to = e.key === 'ArrowRight' ? (i + 1) % n : e.key === 'ArrowLeft' ? (i + n - 1) % n : e.key === 'Home' ? 0 : e.key === 'End' ? n - 1 : null
+  if (to === null) return
+  e.preventDefault()
+  store.theme = tabs.value[to].id
+  document.getElementById(`tab-${tabs.value[to].id}`)?.focus()
+}
+const activeTab = computed(() => tabs.value.find((t) => t.id === store.theme) ?? tabs.value[0])
 function example(kind) { loadExample(kind); nudge.value = true }
 </script>
 <template>
@@ -174,8 +195,26 @@ function example(kind) { loadExample(kind); nudge.value = true }
       <template v-else-if="!store.places"><div class="sight-grid"><Skeleton v-for="n in 6" :key="n" :lines="4" /></div></template>
       <div v-else class="plan-columns">
         <div>
-          <div class="sight-grid" data-testid="sight-grid">
-            <AttractionCard v-for="p in store.places" :key="p.id" :place="p" :state="stateOf(p.id)" :start-weekday="store.form.startWeekday" :days="store.form.days" :fx="store.fx" compact @update:state="setWish(p.id, $event)" />
+          <div class="interest-row mb-2" role="group" aria-label="Interests (highlight only)" data-testid="interests">
+            <span class="small fw-semibold me-1">Most interested in:</span>
+            <button v-for="t in THEMES" :key="t.id" type="button" class="interest-chip" :aria-pressed="store.interestThemes.includes(t.id)" :data-testid="`interest-${t.id}`" @click="toggleInterestTheme(t.id)">
+              <span aria-hidden="true">{{ t.icon }}</span> {{ t.label }}
+            </button>
+            <span class="small muted" data-testid="interest-hint">This only highlights. The planner uses your Must / Include / Skip choices.</span>
+          </div>
+          <div class="theme-tabs" role="tablist" aria-label="Sight themes" data-testid="theme-tabs">
+            <button v-for="(t, i) in tabs" :key="t.id" :id="`tab-${t.id}`" type="button" role="tab" class="theme-tab" :aria-selected="store.theme === t.id" :aria-controls="'sight-panel'"
+              :tabindex="store.theme === t.id ? 0 : -1" :data-testid="`tab-${t.id}`" @click="store.theme = t.id" @keydown="onTabKey($event, i)">
+              <span aria-hidden="true">{{ t.icon }}</span> <span>{{ t.label }}</span> <span class="theme-count" :aria-label="`${t.count} sights`">{{ t.count }}</span>
+              <span v-if="t.limited" class="theme-limited" data-testid="limited-note">Limited in the sample data</span>
+            </button>
+          </div>
+          <p v-if="mustMix" class="small mb-2" data-testid="theme-selected" aria-live="polite">Your must-visits: {{ mustMix }}.</p>
+          <div id="sight-panel" role="tabpanel" :aria-labelledby="`tab-${store.theme}`" tabindex="-1" data-testid="sight-panel">
+            <div class="sight-grid" data-testid="sight-grid">
+              <AttractionCard v-for="p in visiblePlaces" :key="p.id" :place="p" :state="stateOf(p.id)" :start-weekday="store.form.startWeekday" :days="store.form.days" :fx="store.fx" compact
+                :highlight="highlightThemes.has(themeOf(p))" @update:state="setWish(p.id, $event)" />
+            </div>
           </div>
         </div>
         <div class="plan-map-col stack">
@@ -184,6 +223,7 @@ function example(kind) { loadExample(kind); nudge.value = true }
             <h3 id="prev-h" class="h6">Rough preview <span class="badge-src badge-estimated">not a plan</span></h3>
             <p class="small mb-1" data-testid="preview-count"><strong>{{ preview.mustCount }}</strong> must visit · <strong>{{ preview.maybeCount }}</strong> include if it fits · at most <strong>{{ preview.maxFit }}</strong> sights fit in {{ store.form.days }} day(s) at this pace.</p>
             <p v-if="preview.mustOverCap" class="small mb-1" style="color: var(--amber)" data-testid="preview-overcap"><span aria-hidden="true">!</span> You marked more must-visits than fit at this pace; the planner will explain what cannot fit.</p>
+            <p v-if="preview.mix" class="small mb-1" data-testid="preview-mix">Theme mix in the running: {{ preview.mix }}.</p>
             <p class="small mb-1" data-testid="preview-admissions">Known admissions for your must-visits: <strong>{{ money(preview.mustAdmissions) }}</strong>; if every sight in the running fitted: up to <strong>{{ money(preview.allAdmissions) }}</strong>.</p>
             <p v-if="preview.allUnknown.length" class="small mb-1" data-testid="preview-unknown">Unknown price (not counted): {{ preview.allUnknown.join(', ') }}.</p>
             <p class="small mb-0" data-testid="preview-areas">Areas in the running: {{ preview.areas.join(', ') || 'none' }}.</p>

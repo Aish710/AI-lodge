@@ -1,0 +1,32 @@
+{
+  "note": "Code-side mapping of every attraction to ONE primary theme (UI grouping only; the solver never sees themes). backend/tests/test_themes.py fails if an attraction or category is unmapped, and docs/design/themes-inventory.md is generated from this file by backend/scripts/make_theme_inventory.py.",
+  "themes": [
+    { "id": "sightseeing", "label": "Sightseeing", "icon": "🏛️", "short": "S" },
+    { "id": "shopping", "label": "Shopping", "icon": "🛍️", "short": "B" },
+    { "id": "food", "label": "Food & drink", "icon": "🍜", "short": "F" }
+  ],
+  "limited_below": 2,
+  "category": {
+    "temple": "sightseeing", "shrine": "sightseeing", "viewpoint": "sightseeing", "museum": "sightseeing", "garden": "sightseeing",
+    "landmark": "sightseeing", "mosque": "sightseeing", "palace": "sightseeing", "neighbourhood": "sightseeing", "architecture": "sightseeing",
+    "island": "sightseeing",
+    "shopping": "shopping", "mall": "shopping", "district": "shopping",
+    "food": "food", "market": "food"
+  },
+  "category_notes": {
+    "market": "Default Food & drink (food markets). A craft or souvenir market is overridden to Shopping below.",
+    "district": "Only Akihabara (an electronics and retail district), so Shopping.",
+    "mall": "Only Jewel Changi (a mall with a garden attraction): primary theme Shopping.",
+    "neighbourhood": "Default Sightseeing (heritage streets). A shopping street is overridden below.",
+    "architecture": "Dongdaemun Design Plaza is a landmark building (it also has shops): primary theme Sightseeing."
+  },
+  "overrides": {
+    "central_market_kl": { "theme": "shopping", "why": "A handicraft and souvenir market, not a food market." },
+    "insadong": { "theme": "shopping", "why": "A street known for craft, art and tea shops; its category is neighbourhood." }
+  },
+  "interest_keywords": {
+    "sightseeing": ["sightseeing", "sights", "temple", "shrine", "museum", "garden", "park", "history", "historic", "culture", "cultural", "view", "views", "viewpoint", "landmark", "architecture", "palace", "mosque", "art", "nature", "scenery"],
+    "shopping": ["shopping", "shop", "shops", "mall", "malls", "market", "markets", "souvenir", "souvenirs", "retail", "bargain", "electronics", "gifts"],
+    "food": ["food", "foodie", "eat", "eating", "restaurant", "restaurants", "street food", "hawker", "cuisine", "dining", "drink", "drinks", "cafe", "cafes", "coffee", "tea", "snack", "snacks", "culinary"]
+  }
+}

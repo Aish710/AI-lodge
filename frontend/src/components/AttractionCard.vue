@@ -3,13 +3,15 @@
 // and the API does not even send the untrusted `description`.
 import { computed } from 'vue'
 import SourceBadge from './SourceBadge.vue'
-import { formatMoney, formatHours1, humanMinutes, titleCase, UNKNOWN, WEEKDAY_NAMES, weekdayOfDay } from '../lib/format.js'
+import { formatPrice, formatHours1, humanMinutes, titleCase, UNKNOWN, WEEKDAY_NAMES, weekdayOfDay } from '../lib/format.js'
 import { hoursWarnings } from '../lib/rules.js'
+import { themeIcon, themeLabel } from '../lib/themes.js'
 
 const props = defineProps({
   place: { type: Object, required: true }, state: { type: String, default: 'nice' },
   startWeekday: { type: Number, default: 0 }, days: { type: Number, default: 1 }, fx: { type: Object, default: null },
-  compact: { type: Boolean, default: false },  // Plan screen grid: opening hours tuck into a disclosure
+  compact: { type: Boolean, default: false },
+  highlight: { type: Boolean, default: false },  // the sight's theme matches the traveller's interests (a highlight only)  // Plan screen grid: opening hours tuck into a disclosure
 })
 const emit = defineEmits(['update:state'])
 const warnings = computed(() => hoursWarnings(props.place, props.startWeekday, props.days))
@@ -30,7 +32,7 @@ const gid = computed(() => `wish-${props.place.id}`)
     <dl class="small mb-0 row g-1">
       <dt class="col-5 fw-normal muted">Time needed</dt><dd class="col-7 mb-0">{{ humanMinutes(place.duration_minutes) }}</dd>
       <dt class="col-5 fw-normal muted">Admission</dt>
-      <dd class="col-7 mb-0">{{ place.admission_cost === null ? UNKNOWN : formatMoney(place.admission_cost, fx) }} <SourceBadge :status="place.admission_cost === null ? null : place.source?.cost" what="price" /></dd>
+      <dd class="col-7 mb-0">{{ formatPrice(place.admission_cost, fx) }} <SourceBadge :status="place.admission_cost === null ? null : place.source?.cost" what="price" /></dd>
       <template v-if="!compact">
         <dt class="col-5 fw-normal muted">Hours</dt>
         <dd class="col-7 mb-0">
@@ -44,6 +46,8 @@ const gid = computed(() => `wish-${props.place.id}`)
       <SourceBadge :status="place.source?.hours" what="hours" />
     </details>
     <div class="d-flex flex-wrap gap-1">
+      <span class="pill" data-testid="theme-tag"><span aria-hidden="true">{{ themeIcon(place) }}</span> {{ themeLabel(place) }}</span>
+      <span v-if="highlight" class="pill pill-must" data-testid="interest-tag">Matches your interests</span>
       <span v-if="place.advance_booking_required" class="pill">Booking required</span>
     </div>
     <ul v-if="warnings.length" class="list-unstyled small mb-0" data-testid="hours-warnings">

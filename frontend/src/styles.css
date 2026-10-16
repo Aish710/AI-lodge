@@ -223,3 +223,63 @@ a { text-underline-offset: 2px; }
 .sight-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 12px; }
 .plan-columns { display: grid; grid-template-columns: 1fr; gap: 16px; }
 @media (min-width: 992px) { .plan-columns { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; } .plan-map-col { position: sticky; top: 70px; } }
+
+/* themes (Phase final, Stage 2) */
+.theme-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.theme-tab { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; border: 1px solid #8a8f95; border-radius: 10px; padding: 8px 12px; background: #fff; font-weight: 600; min-height: 44px; text-align: left; }
+.theme-tab[aria-selected="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.theme-tab:focus-visible, .interest-chip:focus-visible { outline: 3px solid var(--info); outline-offset: 2px; }
+.theme-count { background: rgba(0,0,0,.08); border-radius: 999px; padding: 0 8px; font-weight: 700; }
+.theme-tab[aria-selected="true"] .theme-count { background: rgba(255,255,255,.22); }
+.theme-limited { flex-basis: 100%; font-size: .72rem; font-weight: 500; }
+.interest-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.interest-chip { border: 1px solid #8a8f95; border-radius: 999px; padding: 4px 12px; background: #fff; min-height: 36px; }
+.interest-chip[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.interest-chip[aria-pressed="true"]::after { content: " ✓"; }
+
+/* Your trip: day, event and hotel cards, connectors */
+.day-card { margin-bottom: 8px; }
+.day-facts { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: .86rem; }
+.event-card { display: flex; gap: 10px; border: 1px solid var(--line); border-radius: 12px; background: #fff; padding: 10px 12px; }
+.event-card.is-active, .event-card:focus-within { border-color: var(--ink); box-shadow: 0 0 0 2px var(--ink); }
+.event-body { min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.event-time { font-weight: 600; }
+.hotel-card { border: 1px dashed var(--line); border-radius: 10px; padding: 6px 12px; background: transparent; font-size: .9rem; color: #4a5560; }
+.connector { margin: 2px 0 2px 18px; padding-left: 10px; border-left: 2px solid var(--line); font-size: .82rem; color: #4a5560; }
+.more-menu { position: relative; display: inline-block; }
+.more-menu > summary { list-style: none; cursor: pointer; }
+.more-menu > summary::-webkit-details-marker { display: none; }
+.more-items { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+
+.getting-around { height: 100%; }
+.ga-list > div { display: flex; justify-content: space-between; gap: 8px; padding: 2px 0; border-bottom: 1px solid var(--line); }
+.ga-list dt { font-weight: 400; color: #4a5560; }
+.ga-list dd { margin: 0; font-weight: 700; text-align: right; }
+.mini-bar { height: 10px; background: #e8e2d6; border-radius: 6px; overflow: hidden; min-width: 4rem; }
+.mini-bar-fill { height: 100%; background: var(--ink); }
+.budget-track { height: 12px; background: #e8e2d6; border-radius: 6px; overflow: hidden; margin: 4px 0; }
+.budget-fill { height: 100%; background: var(--ink); }
+.budget-fill.over { background: #b3261e; }
+.two-figures > div { margin-bottom: 4px; }
+.two-figures dt { display: inline; font-weight: 700; margin-right: 6px; }
+.two-figures dd { display: inline; margin: 0; }
+.day-chips { position: relative; display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+.day-chip { flex: 0 0 auto; border: 1px solid #8a8f95; border-radius: 999px; padding: 6px 14px; background: #fff; min-height: 44px; font-weight: 600; white-space: nowrap; }
+.day-chip[aria-selected="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.day-chip:focus-visible { outline: 3px solid var(--info); outline-offset: 2px; }
+.map-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.map-chip { border: 1px solid #8a8f95; border-radius: 999px; padding: 4px 10px; background: #fff; min-height: 36px; font-size: .85rem; }
+.map-chip[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.map-chip[aria-pressed="true"] .theme-count { background: rgba(255,255,255,.22); }
+.map-chip:focus-visible { outline: 3px solid var(--info); outline-offset: 2px; }
+.pin-active .pin { outline: 4px solid #f2b705; outline-offset: 2px; }
+.cost-panel { min-width: 0; max-width: 100%; }
+.cost-panel .table-responsive { max-width: 100%; }
+.cost-panel th[scope="row"] { overflow-wrap: anywhere; }
+.two-figures dd { overflow-wrap: anywhere; }
+.stack > * { min-width: 0; }
+.table-responsive { position: relative; }   /* keeps absolutely positioned screen-reader-only text inside the scroll box, so it cannot widen the page */
+.more-menu { position: relative; display: block; }
+.more-menu > summary { list-style: none; cursor: pointer; display: inline-block; }
+.more-menu > summary::-webkit-details-marker { display: none; }
+.more-items { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }

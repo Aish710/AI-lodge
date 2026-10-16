@@ -9,6 +9,7 @@ import { applyPatch, buildPreferences, DEFAULT_FORM, formFromDraft } from './lib
 import { addOp, buildReplanArgs, proposalToOps, removeOpAt } from './lib/replan.js'
 import limits from './lib/limits.json'
 import examples from './lib/examples.json'
+import { interestsToThemes } from './lib/themes.js'
 
 export const store = reactive({
   server: 'checking',            // checking | waking | ready | down
@@ -29,6 +30,9 @@ export const store = reactive({
   parseResult: null, parseError: null, proposal: null, proposalError: null,
   explanations: { optimise: null, compare: null, replan: null }, explainError: null, explaining: null,
   rateLimitUntil: 0, now: Date.now(),
+  theme: 'all',                  // the chosen theme tab on the Plan screen (UI only)
+  interestThemes: [], parsedInterests: [],   // interests that only HIGHLIGHT sights (UI only; the planner uses Must / Include / Skip)
+  selectedDay: 'all',            // the day chip on Your trip: 'all' or a day number (UI only)
   stage: null,                   // 'comparing' | 'planning' while the Plan-my-trip chain or a hotel switch runs
   comparisonPrefs: null, pendingHotel: null, solverBusyUntil: 0,
   pendingCity: null,             // a city the user asked to switch to; the confirmation dialog (App.vue) lists what will be cleared
@@ -62,6 +66,12 @@ export function noteSolverBusy(err) {
   startClock()
 }
 /** True while this tab has a solver request in flight. Every solver action is disabled meanwhile: one tab never has two solves running. */
+export const highlightThemes = computed(() => new Set([...store.interestThemes, ...interestsToThemes(store.parsedInterests)]))
+export function toggleInterestTheme(id) {
+  const i = store.interestThemes.indexOf(id)
+  if (i >= 0) store.interestThemes.splice(i, 1)
+  else store.interestThemes.push(id)
+}
 export const solverBusy = computed(() => store.busy.compare || store.busy.optimise || store.busy.replan || store.busy.sensitivity)
 
 // ---- boot: cold-start aware (decision 9) ----
@@ -142,6 +152,7 @@ function clearComputedResults() {
   store.sensitivityCancelled = false
   store.planFromReplan = false
   store.stage = null
+  store.selectedDay = 'all'
   store.comparisonPrefs = null
   store.pendingHotel = null
   store.solverBusyUntil = 0
@@ -157,6 +168,9 @@ export async function selectCity(cityId) {
   store.form = { ...DEFAULT_FORM(), budgetCurrency: store.city?.currency_code ?? 'JPY',
     valueOfTime: store.city?.id === 'seoul' ? 15000 : store.city?.id === 'singapore' ? 18 : store.city?.id === 'kuala_lumpur' ? 45 : 1000 }
   store.wishlist = {}
+  store.theme = 'all'
+  store.interestThemes = []
+  store.parsedInterests = []
   store.placesById = {}
   store.hotelsById = {}
   clearComputedResults()
@@ -240,6 +254,7 @@ export async function runOptimise(hotelId = store.chosenHotel) {
     store.planPrefs = prefs
     store.chosenHotel = hotelId           // the hotel and the plan change together; a failed request leaves both as they were
     store.planKey = keyOf(prefs, hotelId)
+    if (store.selectedDay !== 'all' && store.selectedDay > resp.result.days.length) store.selectedDay = 'all'
     store.planFromReplan = false
     resetReplanState()
   } catch (e) { fail('planError', e); noteSolverBusy(store.planError) } finally { store.busy.optimise = false }
@@ -373,6 +388,10 @@ function applyExample(kind) {
 export function resetAll() {
   abortAllInFlight()
   chainId += 1
+  store.theme = 'all'
+  store.interestThemes = []
+  store.parsedInterests = []
+  store.selectedDay = 'all'
   store.stage = null
   store.comparisonPrefs = null
   store.pendingHotel = null
@@ -434,7 +453,7 @@ export async function applyQueue({ confirmed = false } = {}) {
     store.explanations.replan = null
     if (r.status === 'applied') {
       store.previous = { plan: store.plan, prefs: store.planPrefs, hotel: store.chosenHotel, fromReplan: store.planFromReplan }
-      store.plan = { result: r.schedule, feasibility_report: r.feasibility_report, approximate: r.approximate, nights_used: r.nights_used,
+      store.plan = { result: r.schedule, cost_summary: r.cost_summary ?? null, feasibility_report: r.feasibility_report, approximate: r.approximate, nights_used: r.nights_used,
         nights_source: r.nights_source, approximate_note: r.approximate ? 'The solver stopped at its time limit without proving optimality: this plan is good but may not be the best.' : undefined }
       store.planPrefs = r.new_preferences
       store.chosenHotel = r.hotel_id
@@ -469,6 +488,7 @@ export async function runParse(text) {
   try {
     const r = await api.parseText(text, Number(store.form.startWeekday), store.cityId)
     store.parseResult = r
+    store.parsedInterests = r.draft?.interests ?? []
     if (r.draft) {
       const next = formFromDraft(r.draft, store.form, store.city?.currency_code)
       store.form = next.form

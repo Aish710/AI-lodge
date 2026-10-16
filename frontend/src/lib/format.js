@@ -108,3 +108,19 @@ export function formatHours1(h) {
 export function titleCase(s) {
   return String(s ?? '').replace(/[_-]+/g, ' ').replace(/^./, (c) => c.toUpperCase())
 }
+
+/**
+ * The price of one sight for people: zero is "Free", a missing price is "Price unknown" (never 0 and never "RM0 (~$0.00)"),
+ * anything else is the amount in the city's currency with the labelled sample conversion.
+ */
+export function formatPrice(cost, fx) {
+  if (missing(cost)) return 'Price unknown'
+  if (cost === 0) return 'Free'
+  return formatMoney(cost, fx)
+}
+
+/** A cash amount in a total: zero is "Free" for an admissions total and "No cost" is avoided; amounts keep the local currency. */
+export function formatCash(amount, currency) {
+  if (missing(amount)) return UNKNOWN
+  return formatLocalMoney(amount, currency)
+}
