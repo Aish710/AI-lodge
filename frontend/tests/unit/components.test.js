@@ -135,7 +135,7 @@ describe('DayTimeline and badges', () => {
         cost_status: 'unknown', is_must_visit: true, uncertainty_flags: ['price_unknown', 'advance_booking_required'] }] }
     const w = mount(DayTimeline, { props: { days: [day], placesById: byId, fx, hotelName: 'Hotel X' } })
     const stop = w.get('[data-testid=stop-teamlab_planets]')
-    expect(stop.text()).toContain('Admission: unknown')
+    expect(stop.text()).toContain('Admission: Price unknown')
     expect(stop.text()).toContain('not in the total')
     expect(stop.text()).not.toContain('¥0')
     expect(stop.text()).toContain('Must visit')

@@ -20,6 +20,7 @@ test('queue lock + remove, apply once, see the diff with warnings; then restore 
 
   const timelineBefore = await page.getByTestId('timeline').innerText()
   await page.locator('[data-testid^=stop-]').first().getByTestId('act-lock').click()
+  await optionalStop(page).locator('summary').click()                  // Remove now lives in the "…" menu
   await optionalStop(page).getByTestId('act-remove').click()
   await expect(page.getByTestId('pending-count')).toHaveText('2 of 20')
   await expect(page.getByTestId('pending-list')).toContainText('Lock')
@@ -52,6 +53,7 @@ test('removing a must-visit shows the dialog and sends the flag only after expli
   await toItinerary(page)
   const calls = []
   page.on('request', (r) => { if (r.url().endsWith('/replan')) calls.push(JSON.parse(r.postData())) })
+  await mustStop(page, 'senso_ji').locator('summary').click()
   await mustStop(page, 'senso_ji').getByTestId('act-remove').click()
   await page.getByTestId('apply-changes').click()
   const dialog = page.getByTestId('confirm-dialog')

@@ -1,4 +1,4 @@
-// Every screen of the two-screen flow (Plan idle, Plan with the example chosen, Your trip, Your trip after a hotel switch) for two different cities, on desktop and on a phone, plus the Proof and How it works pages.
+// Every screen of the two-screen flow (Plan idle, Plan with the example chosen, the Food theme tab, Your trip with costs and day cards, Your trip after a hotel switch) for two different cities, on desktop and on a phone, plus the Proof and How it works pages.
 // Real backend (sample mode) and a production build. Output: docs/screenshots/steps/<city>-<step>-<desktop|mobile>.png
 // Usage (from frontend/):  node scripts/take-step-screenshots.mjs [--offline-tiles]
 import { spawn } from 'node:child_process'
@@ -14,7 +14,8 @@ const OUT = resolve(FRONT, '../docs/screenshots/steps')
 const API = 'http://localhost:8010'
 const APP = 'http://localhost:4181'
 const offlineTiles = process.argv.includes('--offline-tiles')
-const CITIES = ['tokyo', 'seoul']
+const CITIES = ['kuala_lumpur', 'seoul']
+const CITY_NAME = { kuala_lumpur: 'Kuala Lumpur', seoul: 'Seoul', tokyo: 'Tokyo' }
 const VIEWPORTS = { desktop: { width: 1280, height: 900 }, mobile: { width: 375, height: 812 } }
 mkdirSync(OUT, { recursive: true })
 
@@ -46,12 +47,15 @@ async function flow(browser, city, device) {
   const tag = `${city}`
   await page.goto(APP)
   await wait(page.getByTestId('city-chip'))
-  if (city !== 'tokyo') { await page.getByTestId(`city-${city}`).click(); await page.getByTestId('city-chip').filter({ hasText: city === 'seoul' ? 'Seoul' : city }).waitFor() }
+  if (city !== 'tokyo') { await page.getByTestId(`city-${city}`).click(); await page.getByTestId('city-chip').filter({ hasText: CITY_NAME[city] }).first().waitFor() }
   await wait(page.locator('article[data-testid^="card-"]').first())
   await shot(page, `${tag}-1-plan-${device}.png`)
   await page.getByTestId('load-example').click()
   await wait(page.getByTestId('example-loaded'))
   await shot(page, `${tag}-2-plan-chosen-${device}.png`)
+  await page.getByTestId('tab-food').click()
+  await shot(page, `${tag}-2b-plan-theme-food-${device}.png`)
+  await page.getByTestId('tab-all').click()
   await page.getByTestId('plan-trip').click()
   await wait(page.getByTestId('timeline'))
   await wait(page.locator('.leaflet-container .pin').first())
