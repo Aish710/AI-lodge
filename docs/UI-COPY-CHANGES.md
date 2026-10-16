@@ -80,8 +80,16 @@ See the "Part 4: existing assertions that changed" entry in `docs/BUILD_NOTES.md
 | 46 | Plan: progress | (none) | "Comparing hotels…" then "Planning your days and checking the plan…" with Cancel |
 | 47 | Plan: preview | (none) | "Rough preview: not a plan": counts, known admissions (unknown prices listed, never counted as zero), areas, and "at most N sights fit" |
 | 48 | Your trip: hotel | A separate Hotels step with checkboxes and "Use this hotel" | A hotel switch at the top ("Best value" pre-selected); the full table is under "Compare hotels: the full true-cost breakdown" |
-| 49 | Your trip: tile | Travel time | Travel time, all days (with a hint: "Time spent moving between the hotel and the sights, added up over every day. It does not include time at the sights. Estimated from sample data.") |
+| 49 | Your trip: tile | Travel time | Travel time, all days (estimated), with the hint "Time moving between places, not time at sights." (stored values and API fields are unchanged) |
 | 50 | Your trip: slow analysis | Started by itself after the comparison | A button: "See how your value of time changes the winner", with elapsed time and Cancel |
 | 51 | Busy server | "Solver is busy. No request was started." | "Another plan is still being calculated. Try again in a few seconds." with a countdown and a manual Retry button |
 | 52 | Map without tiles | "Access blocked" pictures from the tile server | Pins on a plain background and "Map tiles unavailable. The pins are still in the right places, and the list next to the map has the same information." |
 | 53 | Navigation buttons | Back / Change hotel / Next | "Edit trip" (keeps everything), "Start over" (asks first), "Back to my trip" |
+| 54 | Prices | "¥0 (≈ S$0.00)" / "unknown" | A zero price shows "Free"; a missing price shows "Price unknown" (and "not in the total" on a trip card); never "RM0 (~$0.00)" |
+| 55 | Plan: themes | (none) | Tabs All / Sightseeing / Shopping / Food & drink, each with an icon, a text label and a count; a theme with fewer than 2 sights shows "Limited in the sample data" |
+| 56 | Plan: interests | (none) | "Most interested in:" chips; hint "This only highlights. The planner uses your Must / Include / Skip choices."; matching sights get "Matches your interests" |
+| 57 | Your trip: getting around | (none) | A "Getting around (estimated)" card: travel time all days, average per day, transport cost, hotel area |
+| 58 | Your trip: costs | Admissions + transport paragraph | A cost panel: one row per day, a Rooms row, "Trip total in cash", unknown prices listed, a budget meter, and two separate figures: "Cash cost" (money) and "True cost" ("a comparison figure, not money") |
+| 59 | Your trip: days | Day blocks of text lines | Day chips (Day 1 | Day 2 | All days), a day card (stops, time at sights, travel, cash, theme mix, one-line status), event cards with tags (Must visit, Include if it fits, Needs booking, Unknown hours, Locked) and one-line travel connectors ("Travel 18 min · RM3 · estimated"; no transport mode is named because the data has none) |
+| 60 | Stop actions | Lock / Move / Remove buttons | A visible Lock button and a "…" menu with Move and "Skip this (remove)" (still queued through the pending-changes tray) |
+| 61 | Map | Pins only | Filter chips with icon, text and count (Attractions, Food, Shopping, Hotels, Saved = your Must visit picks, Needs booking); overlapping pins are spread apart; hovering a card highlights its pin and the other way round |
