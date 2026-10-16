@@ -22,6 +22,7 @@ from app.hardening.llm_scope import LLMBudget, llm_for_request
 from app.hardening.logging_setup import configure_logging
 from app.hardening.middleware import HardeningMiddleware
 from app.hardening.disconnect import run_cancellable
+from app.optimiser.cost_summary import summarise_costs
 from app.hardening.solver_capacity import SolverCapacity
 from app.llm.client import LLMClient
 from app.llm.explain import OptimiseView, explain
@@ -224,6 +225,7 @@ def _replan_work(req: ReplanRequest, request: Request, client, ds, cfg):
                         max_seconds=cfg.replan_time_limit_seconds)
     out = result.model_dump()
     out["city_id"] = ds.city.id
+    out["cost_summary"] = summarise_costs(result.schedule, ds, result.hotel_id, result.nights_used)
     if req.explain:  # built from the result just computed here, never from client-supplied results
         out["explanation"] = explain(result, ds, client, request.state.llm_note, request.app.state.datasets).model_dump()
     return out
@@ -257,6 +259,7 @@ def _optimise_work(req: OptimiseRequest, request: Request, client, ds, cfg):
         approximate = res.status == "feasible" and res.solver_meta.solver_status != "OPTIMAL"
         out = {"city_id": ds.city.id, "result": res.model_dump(), "feasibility_report": rep.model_dump(), "approximate": approximate,
                "nights_used": nights, "nights_source": src}
+        out["cost_summary"] = summarise_costs(res, ds, req.hotel_id, nights)
         if approximate:
             out["approximate_note"] = "The solver stopped at its time limit without proving optimality: this plan is good but may not be the best."
     if req.explain:
