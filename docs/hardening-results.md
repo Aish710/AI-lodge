@@ -1,6 +1,6 @@
 # Hardening results (in-process abuse battery)
 
-Generated 2026-10-17 19:12 UTC by `backend/scripts/run_hardening_checks.py`. In-process app, scripted fake LLM, no network. Result: **33/33 cases passed**.
+Generated 2026-10-17 19:31 UTC by `backend/scripts/run_hardening_checks.py`. In-process app, scripted fake LLM, no network. Result: **33/33 cases passed**.
 
 | Case | Expected | Observed | Result |
 |---|---|---|---|
@@ -42,12 +42,12 @@ Generated 2026-10-17 19:12 UTC by `backend/scripts/run_hardening_checks.py`. In-
 
 | Request | p50 (ms) | p95 (ms) |
 |---|---|---|
-| GET /health | 0.3 | 0.3 |
-| GET /data/summary | 0.6 | 0.6 |
-| POST /optimise | 1.3 | 1.6 |
-| POST /compare-hotels (2 hotels) | 1.8 | 2.2 |
-| POST /replan (lock) | 1.7 | 1.9 |
-| POST /parse (sample mode) | 0.5 | 0.5 |
+| GET /health | 0.5 | 0.6 |
+| GET /data/summary | 1.1 | 1.1 |
+| POST /optimise | 2.2 | 2.9 |
+| POST /compare-hotels (2 hotels) | 3.3 | 3.7 |
+| POST /replan (lock) | 3.1 | 3.6 |
+| POST /parse (sample mode) | 0.9 | 0.9 |
 
 In-process latency excludes network and TLS. A free host with a fraction of a CPU will be slower (see docs/DEPLOY.md).
 Limits shown are the test configuration (small values so bursts are visible), not the production defaults.
