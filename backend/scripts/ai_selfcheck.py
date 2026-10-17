@@ -124,7 +124,7 @@ def write_report(results: list[Check], client, all_ds, out_dir: Path) -> Path:
     n_pass = sum(c.passed for c in results)
     per = {city: [c for c in results if c.city == city] for city in CITIES}
     lines = ["# AI self-check (live)", "",
-             f"Model: `{client.model}`. {lc.endpoint_stamp(client)} PROMPT_VERSION: `{PROMPT_VERSION}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. "
+             f"Model: `{client.model}`. {lc.endpoint_stamp(client)} PROMPT_VERSION: `{PROMPT_VERSION}`. LLM code fingerprint: `{lc.llm_fingerprint()}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. "
              f"Git: `{lc.git_hash()}`. Checks: N = {len(results)} ({len(CHECKS)} per city, 4 cities). Model calls used: {client.total_calls} of a hard cap of {config.SELFCHECK_MAX_CALLS}. "
              "Produced by `backend/scripts/ai_selfcheck.py`.", "",
              "This is a smoke check of the live pipeline, not a benchmark: one run, one prompt per check, a handful of checks per city. "

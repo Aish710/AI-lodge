@@ -12,7 +12,8 @@ DOCS = ROOT / "docs"
 CODE_PATHS = ["backend/app", "backend/scripts", "frontend/src"]
 # What each file depends on. The evaluations, hardening, hotel comparison and replanning run the backend only, so a frontend-only change does not make them stale;
 # Lighthouse measures the built frontend against the backend, so it depends on both.
-BACKEND_ONLY = ["backend/app", "backend/scripts"]
+BACKEND_ONLY = ["backend/app", "backend/scripts/run_evaluation.py", "backend/scripts/run_city_evaluation.py", "backend/scripts/run_hardening_checks.py",
+                "backend/scripts/run_hotel_comparison.py", "backend/scripts/run_replan_evaluation.py", "backend/scripts/build_travel_matrix.py"]   # not the opt-in live scripts, which these files do not use
 PATHS_FOR = {"lighthouse-results.md": CODE_PATHS}
 EVIDENCE = [
     ("eval-results.md", "Evaluation (Tokyo, 15 scenarios)"),

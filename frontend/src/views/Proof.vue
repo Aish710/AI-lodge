@@ -44,14 +44,14 @@ const hardening = computed(() => (d.value?.hardeningMd ? parseBlocks(d.value.har
 const hardeningResult = computed(() => /\*\*(\d+)\/(\d+) cases passed\*\*/.exec(d.value?.hardeningMd ?? ''))
 const live = computed(() => (d.value?.live ? parseBlocks(d.value.live) : null))
 const selfcheck = computed(() => (d.value?.selfcheck ? parseBlocks(d.value.selfcheck) : null))
-const holdoutStatus = computed(() => liveStatus(d.value?.holdout, promptVersion.value))
+const holdoutStatus = computed(() => liveStatus(d.value?.holdout, promptVersion.value, latestOpts.value))
 const holdoutInfo = computed(() => parseHoldout(d.value?.holdout))
 const holdoutBlocks = computed(() => blocksOf(d.value?.holdout))
 const redteam = computed(() => d.value?.redteam ?? null)
 const humanRedteam = computed(() => d.value?.humanRedteam ?? null)
 const attackCount = computed(() => redteam.value?.attacks ?? 0)
 const rtLiveBlocks = computed(() => blocksOf(d.value?.redteamLive))
-const rtLiveStatus = computed(() => liveStatus(d.value?.redteamLive, promptVersion.value))
+const rtLiveStatus = computed(() => liveStatus(d.value?.redteamLive, promptVersion.value, latestOpts.value))
 const rtFirstText = computed(() => d.value?.redteamFirst ?? d.value?.redteamLive ?? null)
 const rtFirstBlocks = computed(() => blocksOf(rtFirstText.value))
 const rtFirstStatus = computed(() => liveStatus(rtFirstText.value, promptVersion.value))
@@ -64,9 +64,12 @@ const selfcheckHistory = computed(() => blocksOf(d.value?.selfcheckHistory))
 const goldFirst = computed(() => blocksOf(d.value?.goldFirst))
 const goldAfter = computed(() => blocksOf(d.value?.goldAfter))
 const goldMock = computed(() => blocksOf(d.value?.goldMock))
-const selfStatus = computed(() => liveStatus(d.value?.selfcheck, promptVersion.value))
+const fp = computed(() => d.value?.llmFingerprint ?? null)
+const latestOpts = computed(() => ({ fingerprint: fp.value, enforce: true }))
+const staleWhy = (s) => (s.why === 'code' ? 'Made before the last change to the AI code (or without a code stamp); the live script has to be run again.' : `Made with prompt version ${s.version}; the current version is ${promptVersion.value}.`)
+const selfStatus = computed(() => liveStatus(d.value?.selfcheck, promptVersion.value, latestOpts.value))
 const firstStatus = computed(() => liveStatus(d.value?.goldFirst, promptVersion.value))
-const afterStatus = computed(() => liveStatus(d.value?.goldAfter, promptVersion.value))
+const afterStatus = computed(() => liveStatus(d.value?.goldAfter, promptVersion.value, latestOpts.value))
 const userTest = computed(() => d.value?.userTest ?? { rows: 0, summary: null })
 const userTestBlocks = computed(() => (userTest.value.rows && userTest.value.summary ? parseBlocks(userTest.value.summary) : []))
 const showRisks = ref(false)
@@ -241,14 +244,14 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
           <div class="col-12 col-lg-6" data-testid="rt-live-first">
             <h4 class="h6">First live run</h4>
             <p v-if="rtFirstStatus.state === 'missing'" class="small mb-0" data-testid="rt-live-none"><strong>Not run on this version.</strong> The opt-in script <code>backend/scripts/redteam_live.py</code> sends a sample of the same attacks to a real model; no live red-team result exists yet.</p>
-            <p v-else-if="rtFirstStatus.state === 'stale'" class="small mb-0" data-testid="rt-live-stale"><strong>Not run on this version.</strong> Made with prompt version {{ rtFirstStatus.version }}; the current version is {{ promptVersion }}.</p>
+            <p v-else-if="rtFirstStatus.state === 'stale'" class="small mb-0" data-testid="rt-live-stale"><strong>Not run on this version.</strong> {{ staleWhy(rtFirstStatus) }}</p>
             <MdBlocks v-else :blocks="rtFirstBlocks" />
           </div>
           <div class="col-12 col-lg-6" data-testid="rt-live-latest">
             <h4 class="h6">Latest live run</h4>
             <p v-if="rtLiveStatus.state === 'missing'" class="small mb-0"><strong>Not run yet.</strong></p>
             <p v-else-if="rtSame" class="small mb-0" data-testid="rt-live-same"><strong>Not re-run since the first run.</strong> Code changes made after the first run (see "Found and fixed") are tested with mocks only.</p>
-            <p v-else-if="rtLiveStatus.state === 'stale'" class="small mb-0" data-testid="rt-latest-stale"><strong>Not run on this version.</strong> Made with prompt version {{ rtLiveStatus.version }}; the current version is {{ promptVersion }}.</p>
+            <p v-else-if="rtLiveStatus.state === 'stale'" class="small mb-0" data-testid="rt-latest-stale"><strong>Not run on this version.</strong> {{ staleWhy(rtLiveStatus) }}</p>
             <div v-else data-testid="rt-live"><MdBlocks :blocks="rtLiveBlocks" /></div>
           </div>
         </div>
@@ -283,7 +286,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
 
         <h3 class="h6 mt-3">Smoke test (20 checks)</h3>
         <p v-if="selfStatus.state === 'missing'" class="mb-2" data-testid="selfcheck-none"><strong>Not run on this version.</strong> No self-check report is part of this build.</p>
-        <p v-else-if="selfStatus.state === 'stale'" class="mb-2" data-testid="selfcheck-stale"><strong>Not run on this version.</strong> The report in this build was made with prompt version {{ selfStatus.version }}; the current version is {{ promptVersion }}.</p>
+        <p v-else-if="selfStatus.state === 'stale'" class="mb-2" data-testid="selfcheck-stale"><strong>Not run on this version.</strong> {{ staleWhy(selfStatus) }}</p>
         <div v-else class="mb-2" data-testid="selfcheck"><MdBlocks :blocks="selfcheck" /></div>
         <details v-if="selfcheckHistory" class="small mb-2" open data-testid="selfcheck-history"><summary class="fw-semibold">Run history: every run, its root cause and its fix</summary><div class="mt-2"><MdBlocks :blocks="selfcheckHistory" /></div></details>
 
@@ -292,13 +295,13 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
           <div class="col-12 col-lg-6" data-testid="gold-first">
             <h4 class="h6">First run</h4>
             <p v-if="firstStatus.state === 'missing'" class="small mb-0"><strong>Not run yet.</strong> Run <code>score_gold.py --live --label first-run</code> and copy the file to <code>docs/eval/gold-results-live-first-run.md</code>.</p>
-            <p v-else-if="firstStatus.state === 'stale'" class="small mb-0"><strong>Not run on this version.</strong> Made with prompt version {{ firstStatus.version }}; the current version is {{ promptVersion }}.</p>
+            <p v-else-if="firstStatus.state === 'stale'" class="small mb-0"><strong>Not run on this version.</strong> {{ staleWhy(firstStatus) }}</p>
             <MdBlocks v-else :blocks="goldFirst" />
           </div>
           <div class="col-12 col-lg-6" data-testid="gold-after">
             <h4 class="h6">Latest run (final)</h4>
             <p v-if="afterStatus.state === 'missing'" class="small mb-0"><strong>Not run yet.</strong> Run <code>score_gold.py --live --label final</code> after the last code change and copy the file to <code>docs/eval/gold-results-live-final.md</code>; the first run is never overwritten.</p>
-            <p v-else-if="afterStatus.state === 'stale'" class="small mb-0"><strong>Not run on this version.</strong> Made with prompt version {{ afterStatus.version }}; the current version is {{ promptVersion }}.</p>
+            <p v-else-if="afterStatus.state === 'stale'" class="small mb-0"><strong>Not run on this version.</strong> {{ staleWhy(afterStatus) }}</p>
             <MdBlocks v-else :blocks="goldAfter" />
           </div>
         </div>

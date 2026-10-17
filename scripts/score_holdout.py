@@ -155,7 +155,7 @@ def render(res: dict, prompts: list[dict], all_ds, *, label: str, model: str, ca
     dates = sorted({p["written_on"] for p in prompts})
     head = ["# Independent holdout, per city " + ("(LIVE model)" if live else "(MOCK rule-based baseline: not a model)"), ""]
     head.append(f"Run label: `{label}`. " + (f"Model: `{model}`. {stamp} " if live else f"Scorer: `{model}` (a deterministic stand-in, NOT a measurement of any language model). ")
-                + f"PROMPT_VERSION: `{PROMPT_VERSION}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. Git: `{lc.git_hash()}`." + (f" Calls used: {calls} of a hard cap of {config.GOLD_MAX_CALLS}." if live else " Zero model calls."))
+                + f"PROMPT_VERSION: `{PROMPT_VERSION}`. LLM code fingerprint: `{lc.llm_fingerprint()}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. Git: `{lc.git_hash()}`." + (f" Calls used: {calls} of a hard cap of {config.GOLD_MAX_CALLS}." if live else " Zero model calls."))
     head += ["", f"**N = {len(prompts)} prompts, written by: {'; '.join(roles)}** (on {', '.join(dates)}), before any run. Small sample: indicative, not a benchmark. Reported per city, never pooled; a prompt is exact only if every scored field is right. "
              "\"Handled by code\" prompts were settled by the code-side destination check before any model call (a request about another city); \"called the model\" prompts used at least one model call.", ""]
     rows = ["| City | Prompts (N) | Field accuracy | Exact: handled by code before the model | Exact: called the model |", "|---|---|---|---|---|"]

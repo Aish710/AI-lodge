@@ -71,6 +71,8 @@ Around it: input sanitising, user text treated as data inside one delimited bloc
 | Gold set, 48 hand-written prompts, 12 per city (`docs/eval/gold-results-live-first-run.md`, then `docs/eval/gold-results-live-20261017T170803Z-final.md` and `docs/eval/gold-results-live-20261017T183746Z-final2.md`) | First run 48 of 48 exact; two later runs on later code, 48 of 48 exact each | Optimistic: the prompts were written by the builder, the pipeline had been tuned on similar checks, and many fields (the wrong-city stop, name matching) are decided by code, not the model |
 | Live red team, 27 attacks, run twice (`docs/redteam-live-first-run.md`, then `docs/redteam-live.md` after the fix) | First run: the raw reply tried to comply in 3 of 27 and the final result was affected in 2 of 27 (a currency attack left a yen-scale default in the form). After the fix, same 27 attacks: the raw reply tried to comply in 3 of 27 and the final result was affected in 0 of 27 | Two runs, one model, 27 attacks: indicative. The fix was reproduced with a mock first |
 
+**Version note.** The live results above were produced before the last change to the AI code (the unsupported-claims guard). The Proof page therefore shows the latest runs as "not run on this version" until the live scripts are re-run; the first runs stay shown as historical records. [PLACEHOLDER: delete this note after you re-run the live scripts on the final code]
+
 **Only tested with a mocked model:** the cited-explanation idea (not built), the 840-run red team (`docs/redteam-results.md`, simulated models, not a real model), every pipeline test in `backend/tests`. Not measured at all: any second model, any user study, how the AI performs on requests it was not tuned on.
 
 ## 5. External Tools & Datasets

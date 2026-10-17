@@ -288,7 +288,9 @@ describe('Live AI card (run history, first run vs after fix, stale and missing)'
     expect(card.get('[data-testid=gold-first]').text()).toContain('LIVE model')
     expect(card.get('[data-testid=gold-first]').text()).not.toContain('Not run')
     expect(card.get('[data-testid=gold-after]').text()).toContain('Latest run (final)')
-    expect(card.get('[data-testid=gold-after]').text()).toContain('LIVE model')
+    // the committed latest gold run was made before the last change to the AI code and carries no code stamp, so it must say so (re-run to make it current)
+    expect(card.get('[data-testid=gold-after]').text()).toContain('Not run on this version')
+    expect(card.get('[data-testid=gold-after]').text()).toContain('Made before the last change to the AI code')
     expect(card.get('[data-testid=gold-mock]').text()).toContain('Rule-based baseline, not a model')
     expect(card.get('[data-testid=gold-mock]').text()).toContain('This is not AI accuracy')
     vi.unstubAllGlobals()
@@ -337,7 +339,8 @@ describe('Red team card (simulated counts and the live result, never mixed)', ()
     const dir = mk(); syncProof({ root: ROOT, dest: dir })
     const pv = JSON.parse(readFileSync(join(dir, 'current-version.json'), 'utf8')).prompt_version
     const addToManifest = (n) => { const m = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8')); if (!m.copied.includes(n)) m.copied.push(n); writeFileSync(join(dir, 'manifest.json'), JSON.stringify(m)) }
-    const put = (name, v, extra = '') => { writeFileSync(join(dir, name), `# Red team against a real model (LIVE)\n\nModel: \`m\`. PROMPT_VERSION: \`${v}\`.${extra}\n`); addToManifest(name) }
+    const fp = JSON.parse(readFileSync(join(dir, 'current-version.json'), 'utf8')).llm_fingerprint
+    const put = (name, v, extra = '', stamp = true) => { writeFileSync(join(dir, name), `# Red team against a real model (LIVE)\n\nModel: \`m\`. PROMPT_VERSION: \`${v}\`. ${stamp ? `LLM code fingerprint: \`${fp}\`.` : ''}${extra}\n`); addToManifest(name) }
     put('redteam-live-first-run.md', pv); put('redteam-live.md', pv)
     let w = await mountDir(dir)
     expect(w.get('[data-testid=rt-live-first]').text()).toContain('LIVE')
@@ -349,6 +352,9 @@ describe('Red team card (simulated counts and the live result, never mixed)', ()
     put('redteam-live.md', '0', ' A stale run.')
     w = await mountDir(dir)
     expect(w.get('[data-testid=rt-latest-stale]').text()).toContain('Not run on this version')
+    put('redteam-live.md', pv, ' Run before the last AI code change.', false)       // right prompt version, but no (or an old) code fingerprint
+    w = await mountDir(dir)
+    expect(w.get('[data-testid=rt-latest-stale]').text()).toContain('Made before the last change to the AI code')
     put('redteam-live-first-run.md', '0')
     w = await mountDir(dir)
     expect(w.get('[data-testid=rt-live-stale]').text()).toContain('Not run on this version')
@@ -399,8 +405,9 @@ describe('Independent holdout line (only for a live results file made with the c
     await flushPromises(); await flushPromises()
     return w
   }
-  const put = (dir, v) => {
-    writeFileSync(join(dir, 'holdout-results-latest.md'), `# Independent holdout, per city (LIVE model)\n\nRun label: \`h1\`. PROMPT_VERSION: \`${v}\`.\n\n**N = 15 prompts, written by: a friend, not the builder** (on 2026-10-18), before any run.\n`)
+  const put = (dir, v, stamp = true) => {
+    const fp = JSON.parse(readFileSync(join(dir, 'current-version.json'), 'utf8')).llm_fingerprint
+    writeFileSync(join(dir, 'holdout-results-latest.md'), `# Independent holdout, per city (LIVE model)\n\nRun label: \`h1\`. PROMPT_VERSION: \`${v}\`. ${stamp ? `LLM code fingerprint: \`${fp}\`.` : ''}\n\n**N = 15 prompts, written by: a friend, not the builder** (on 2026-10-18), before any run.\n`)
     const m = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8')); if (!m.copied.includes('holdout-results-latest.md')) m.copied.push('holdout-results-latest.md'); writeFileSync(join(dir, 'manifest.json'), JSON.stringify(m))
   }
   it('says "not run" with no file, shows N and author_role when current, and "not run on this version" when stale', async () => {
@@ -411,6 +418,8 @@ describe('Independent holdout line (only for a live results file made with the c
     const w = await mountDir(dir)
     expect(w.get('[data-testid=holdout]').text()).toContain('Independent holdout: 15 prompts written by a friend, not the builder, small sample.')
     put(dir, '0')
+    expect((await mountDir(dir)).get('[data-testid=holdout-stale]').text()).toContain('not run on this version')
+    put(dir, pv, false)
     expect((await mountDir(dir)).get('[data-testid=holdout-stale]').text()).toContain('not run on this version')
     vi.unstubAllGlobals()
   })
@@ -423,5 +432,30 @@ describe('Independent holdout line (only for a live results file made with the c
     const only = mk(); const d2 = mk(); mkdirSync(join(only, 'docs', 'eval'), { recursive: true }); writeFileSync(join(only, 'docs', 'eval', 'holdout-results-20261018T090000Z-mock.md'), 'x')
     syncProof({ root: only, dest: d2 })
     expect(existsSync(join(d2, 'holdout-results-latest.md'))).toBe(false)
+  })
+})
+
+describe('The latest live reports must carry the fingerprint of the CURRENT AI code', () => {
+  const mountDir = async (dir) => {
+    vi.stubGlobal('fetch', servedFrom(dir))
+    const w = mount(Proof, { global: { plugins: [testRouter()], stubs: { 'router-link': true } } })
+    await flushPromises(); await flushPromises()
+    return w
+  }
+  it('a latest self-check and gold run with the current fingerprint read as current; a changed fingerprint reads as not run on this version; the first run is never judged by it', async () => {
+    const dir = mk(); syncProof({ root: ROOT, dest: dir })
+    const cv = JSON.parse(readFileSync(join(dir, 'current-version.json'), 'utf8'))
+    expect(cv.llm_fingerprint).toMatch(/^[0-9a-f]{12}$/)
+    const stamp = (n, fpr) => { const f = join(dir, n); writeFileSync(f, readFileSync(f, 'utf8').replace(/PROMPT_VERSION: `[^`]+`\./, `PROMPT_VERSION: \`${cv.prompt_version}\`. LLM code fingerprint: \`${fpr}\`.`)) }
+    stamp('ai-selfcheck.md', cv.llm_fingerprint); stamp('gold-results-live-final.md', cv.llm_fingerprint)
+    let w = await mountDir(dir)
+    expect(w.find('[data-testid=selfcheck]').exists()).toBe(true)
+    expect(w.get('[data-testid=gold-after]').text()).toContain('LIVE model')
+    stamp('ai-selfcheck.md', 'aaaaaaaaaaaa'); stamp('gold-results-live-final.md', 'aaaaaaaaaaaa')
+    w = await mountDir(dir)
+    expect(w.get('[data-testid=selfcheck-stale]').text()).toContain('Made before the last change to the AI code')
+    expect(w.get('[data-testid=gold-after]').text()).toContain('Not run on this version')
+    expect(w.get('[data-testid=gold-first]').text()).toContain('LIVE model')              // the first run is a historical record: not judged by the code stamp
+    vi.unstubAllGlobals()
   })
 })

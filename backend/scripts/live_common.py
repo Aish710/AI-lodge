@@ -96,6 +96,17 @@ def git_hash() -> str:
         return "unknown"
 
 
+def llm_fingerprint() -> str:
+    """A short hash of the code that sits between the user's text and the screen (everything under backend/app/llm). A live report stamps it, and the Proof page
+    compares it with the CURRENT value (frontend/scripts/sync-proof.mjs computes the same hash), so a report made before an LLM-code change reads "not run on this version"."""
+    import hashlib
+    d = ROOT / "app" / "llm"
+    h = hashlib.sha256()
+    for p in sorted(x for x in d.rglob("*") if x.is_file() and x.suffix in (".py", ".json") and "__pycache__" not in x.parts):
+        h.update(p.relative_to(d).as_posix().encode() + b"\n" + p.read_bytes().replace(b"\r\n", b"\n") + b"\n--\n")
+    return h.hexdigest()[:12]
+
+
 def real_result(ds):
     """A real hotel comparison computed by the solver for this city (the model only words it)."""
     hotels = list(ds.hotels)

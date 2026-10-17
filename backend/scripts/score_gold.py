@@ -116,10 +116,10 @@ def render(res: dict, all_ds, *, label: str, model: str, calls: int | None, endp
     live = calls is not None
     head = ["# Gold-set field accuracy, per city " + ("(LIVE model)" if live else "(MOCK rule-based baseline: not a model)"), ""]
     if live:
-        head.append(f"Run label: `{label}`. Model: `{model}`. {endpoint_note} PROMPT_VERSION: `{PROMPT_VERSION}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. Git: `{lc.git_hash()}`. "
+        head.append(f"Run label: `{label}`. Model: `{model}`. {endpoint_note} PROMPT_VERSION: `{PROMPT_VERSION}`. LLM code fingerprint: `{lc.llm_fingerprint()}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. Git: `{lc.git_hash()}`. "
                     f"Calls used: {calls} of a hard cap of {config.GOLD_MAX_CALLS}. Produced by `backend/scripts/score_gold.py --live`.")
     else:
-        head.append(f"Scorer: `{model}`. PROMPT_VERSION: `{PROMPT_VERSION}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. Git: `{lc.git_hash()}`. Zero model calls. "
+        head.append(f"Scorer: `{model}`. PROMPT_VERSION: `{PROMPT_VERSION}`. LLM code fingerprint: `{lc.llm_fingerprint()}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. Git: `{lc.git_hash()}`. Zero model calls. "
                     "Produced by `backend/scripts/score_gold.py`. This baseline is a deterministic stand-in made of regexes and alias scanning. It shows that the scoring and the validation pipeline work "
                     "and gives a floor to compare a model against. It is NOT a measurement of any language model.")
     head += ["", "Gold set: `docs/eval/gold-prompts.json`, 12 hand-written prompts per city (2 each of typical, vague, wrong-city, mixed-language, ambiguous, adversarial). "

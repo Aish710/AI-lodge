@@ -31,7 +31,7 @@ export async function loadProof(fetchImpl = (...a) => fetch(...a)) {
       text('user-test-results.csv'), text('user-test-summary.md'), json('verification-counts.json'), json('redteam-results.json'), text('redteam-live.md'), text('redteam-live-first-run.md'), text('redteam-human.csv'), text('holdout-results-latest.md')])
     return { state: 'ready', manifest, missing: manifest.missing ?? [], data: {
       results, claims: claimsMd ? parseClaims(claimsMd) : null, notShown: resultsMd ? sectionBullets(resultsMd, 'WHAT THESE NUMBERS DO NOT SHOW') : null,
-      hardeningMd: hardening, risks: safety ? parseRiskTable(safety) : null, live, selfcheck, selfcheckHistory, goldFirst, goldAfter, goldMock, promptVersion: version?.prompt_version ?? null, verification, redteam, redteamLive, redteamFirst, humanRedteam: humanCsv ? parseHumanRedteam(humanCsv) : null, holdout,
+      hardeningMd: hardening, risks: safety ? parseRiskTable(safety) : null, live, selfcheck, selfcheckHistory, goldFirst, goldAfter, goldMock, promptVersion: version?.prompt_version ?? null, llmFingerprint: version?.llm_fingerprint ?? null, verification, redteam, redteamLive, redteamFirst, humanRedteam: humanCsv ? parseHumanRedteam(humanCsv) : null, holdout,
       tests: { backend: backendTests ? testSummary(backendTests) : null, backendLatest: latestBackendTests ? testSummary(latestBackendTests) : null,
         vitest: vitestSummary(vitest), playwright: playwrightSummary(pw), frontend: front }, lighthouse: lh,
       // the card is shown with results ONLY when the CSV has participant rows; otherwise it says "not run yet"
@@ -63,11 +63,16 @@ export function readThisFirst(metrics, n) {
 }
 
 /** A live report is "current" only if it was made with the CURRENT prompt version. Missing -> not run; another version -> not run on this version. */
-export function liveStatus(text, currentVersion) {
-  if (!text) return { state: 'missing', version: null }
+export function liveStatus(text, currentVersion, { fingerprint = null, enforce = false } = {}) {
+  if (!text) return { state: 'missing', version: null, why: null }
   const v = text.match(/PROMPT_VERSION:\s*`([^`]+)`/)?.[1] ?? null
-  if (currentVersion && v && v !== currentVersion) return { state: 'stale', version: v }
-  return { state: 'current', version: v }
+  if (currentVersion && v && v !== currentVersion) return { state: 'stale', version: v, why: 'prompt' }
+  // The LATEST live reports must also carry the fingerprint of the CURRENT AI code (backend/app/llm): a report made before the last change to that code, or without the stamp, is not evidence about this version.
+  if (enforce && fingerprint) {
+    const f = text.match(/LLM code fingerprint:\s*`([^`]+)`/)?.[1] ?? null
+    if (f !== fingerprint) return { state: 'stale', version: v, why: 'code' }
+  }
+  return { state: 'current', version: v, why: null }
 }
 
 /** Rows of docs/user-test/redteam-human.csv (a real CSV parse: descriptions may hold commas and quotes). Returns {n, wrong} or null when there are no rows: the card shows a line only then. */

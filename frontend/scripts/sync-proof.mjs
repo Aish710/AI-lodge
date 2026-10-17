@@ -4,6 +4,7 @@
 //   --strict: exits 1 with a clear message if any REQUIRED file is missing (use before a submission build)
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
+import { llmFingerprint } from './llm-fingerprint.mjs'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 export const FILES = [
@@ -58,7 +59,7 @@ export function syncProof({ root, dest, strict = false, files = FILES } = {}) {
   }
   // The CURRENT prompt version, so the Proof page can say "not run on this version" for a live report made with another one.
   const pv = existsSync(join(root, 'backend/app/llm/prompts.py')) ? readFileSync(join(root, 'backend/app/llm/prompts.py'), 'utf8').match(/PROMPT_VERSION\s*=\s*"([^"]+)"/)?.[1] : null
-  writeFileSync(join(dest, 'current-version.json'), JSON.stringify({ prompt_version: pv ?? null }) + '\n')
+  writeFileSync(join(dest, 'current-version.json'), JSON.stringify({ prompt_version: pv ?? null, llm_fingerprint: llmFingerprint(root) }) + '\n')
   writeFileSync(join(dest, 'manifest.json'), JSON.stringify({ copied, missing }, null, 2) + '\n')
   return { copied, missing }
 }
