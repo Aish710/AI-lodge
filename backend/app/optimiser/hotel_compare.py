@@ -25,6 +25,7 @@ from app.money import code, missed_preference_penalty, money, per_hour
 from app.data.loader import Dataset, unknown_price_placeholder
 from app.optimiser.solver import ObjectiveSpec, solve
 from app.schemas import Conflict, Preferences, SolveResult, nights_for
+from app.optimiser.baselines import Baselines, build_baselines
 from app.validator.feasibility_report import build_report
 
 
@@ -128,6 +129,7 @@ class HotelComparison(BaseModel):
     elapsed_seconds: float
     time_limit_seconds: float
     sensitivity: Sensitivity | None = None
+    baselines: Baselines | None = None
 
 
 # ---------------------------------------------------------------------------
@@ -442,7 +444,8 @@ def compare_hotels(prefs: Preferences, hotel_ids: list[str], ds: Dataset, *, inc
         cheapest_by_rate=cheapest, best_by_true_cost=best, ranking=ranking,
         rate_winner_differs_from_true_winner=best is not None and best != cheapest,
         insight=_insight(ds, results, cheapest, best), warnings=warnings, approximate=approximate, partial=partial,
-        elapsed_seconds=0.0, time_limit_seconds=limit)
+        elapsed_seconds=0.0, time_limit_seconds=limit,
+        baselines=build_baselines(results, cheapest, best, prefs, hotel_ids, ds))
     if include_sensitivity:
         comp.sensitivity = sensitivity(prefs, hotel_ids, ds, vot_range, cache=cache, deadline=deadline)
         if comp.sensitivity.approximate:

@@ -1,0 +1,2186 @@
+{
+ "meta": {
+  "date": "2026-10-17 20:14 UTC",
+  "commit": "bf6471c + uncommitted changes",
+  "seeds": {
+   "tokyo": 20261013,
+   "others": 20261014
+  },
+  "multiples_of_default_value_of_time": [
+   0.5,
+   1,
+   2,
+   4
+  ],
+  "penalty_factors": [
+   0,
+   1,
+   2
+  ],
+  "quick": false,
+  "label": "seeded synthetic trips on SAMPLE data with made-up hotels; estimated travel times",
+  "elapsed_seconds": 94.3
+ },
+ "cities": {
+  "tokyo": {
+   "n_trips": 60,
+   "default_value_of_time": 1000,
+   "by_multiple": {
+    "0.5": {
+     "value_of_time_per_hour": 500,
+     "n_trips": 60,
+     "n_eligible": 52,
+     "ineligible": 8,
+     "joint_differs_from_cheapest": 1,
+     "joint_differs_from_convenience": 51,
+     "cheapest_equals_convenience": 0,
+     "all_three_agree": 0,
+     "score_gain_vs_cheapest": {
+      "n": 52,
+      "mean": 1.7,
+      "median": 0.0,
+      "min": 0,
+      "max": 88
+     },
+     "score_gain_vs_convenience": {
+      "n": 52,
+      "mean": 6815.5,
+      "median": 5065.0,
+      "min": 0,
+      "max": 15885
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 52,
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.44
+     },
+     "percent_gain_vs_convenience": {
+      "n": 52,
+      "mean": 18.3,
+      "median": 16.795,
+      "min": 0.0,
+      "max": 33.32
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 52,
+      "mean": 20.6,
+      "median": 0.0,
+      "min": 0,
+      "max": 1070
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 52,
+      "mean": 2.7,
+      "median": 0.0,
+      "min": 0,
+      "max": 139
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 52,
+      "mean": 0,
+      "median": 0.0,
+      "min": 0,
+      "max": 0
+     },
+     "no_gain_vs_cheapest": 51,
+     "no_gain_vs_convenience": 1,
+     "joint_worse_than_a_baseline": 0
+    },
+    "1": {
+     "value_of_time_per_hour": 1000,
+     "n_trips": 60,
+     "n_eligible": 52,
+     "ineligible": 8,
+     "joint_differs_from_cheapest": 4,
+     "joint_differs_from_convenience": 50,
+     "cheapest_equals_convenience": 0,
+     "all_three_agree": 0,
+     "score_gain_vs_cheapest": {
+      "n": 52,
+      "mean": 39.5,
+      "median": 0.0,
+      "min": 0,
+      "max": 1247
+     },
+     "score_gain_vs_convenience": {
+      "n": 52,
+      "mean": 6389.8,
+      "median": 4890.0,
+      "min": 0,
+      "max": 15740
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 52,
+      "mean": 0.2,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 5.48
+     },
+     "percent_gain_vs_convenience": {
+      "n": 52,
+      "mean": 16.2,
+      "median": 14.415,
+      "min": 0.0,
+      "max": 31.0
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 52,
+      "mean": 129.4,
+      "median": 0.0,
+      "min": -1210,
+      "max": 3820
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 52,
+      "mean": 6.7,
+      "median": 0.0,
+      "min": 0,
+      "max": 139
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 52,
+      "mean": 0.0,
+      "median": 0.0,
+      "min": -1,
+      "max": 1
+     },
+     "no_gain_vs_cheapest": 48,
+     "no_gain_vs_convenience": 2,
+     "joint_worse_than_a_baseline": 0
+    },
+    "2": {
+     "value_of_time_per_hour": 2000,
+     "n_trips": 60,
+     "n_eligible": 52,
+     "ineligible": 8,
+     "joint_differs_from_cheapest": 10,
+     "joint_differs_from_convenience": 47,
+     "cheapest_equals_convenience": 0,
+     "all_three_agree": 0,
+     "score_gain_vs_cheapest": {
+      "n": 52,
+      "mean": 174.7,
+      "median": 0.0,
+      "min": 0,
+      "max": 2573
+     },
+     "score_gain_vs_convenience": {
+      "n": 52,
+      "mean": 5781.9,
+      "median": 4516.5,
+      "min": 0,
+      "max": 15360
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 52,
+      "mean": 0.6,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 9.6
+     },
+     "percent_gain_vs_convenience": {
+      "n": 52,
+      "mean": 13.5,
+      "median": 12.225,
+      "min": 0.0,
+      "max": 30.81
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 52,
+      "mean": 701.5,
+      "median": 0.0,
+      "min": 0,
+      "max": 6320
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 52,
+      "mean": 3.8,
+      "median": 0.0,
+      "min": -69,
+      "max": 119
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 52,
+      "mean": 0.2,
+      "median": 0.0,
+      "min": 0,
+      "max": 3
+     },
+     "no_gain_vs_cheapest": 42,
+     "no_gain_vs_convenience": 5,
+     "joint_worse_than_a_baseline": 0
+    },
+    "4": {
+     "value_of_time_per_hour": 4000,
+     "n_trips": 60,
+     "n_eligible": 52,
+     "ineligible": 8,
+     "joint_differs_from_cheapest": 12,
+     "joint_differs_from_convenience": 47,
+     "cheapest_equals_convenience": 0,
+     "all_three_agree": 0,
+     "score_gain_vs_cheapest": {
+      "n": 52,
+      "mean": 439.2,
+      "median": 0.0,
+      "min": 0,
+      "max": 5080
+     },
+     "score_gain_vs_convenience": {
+      "n": 52,
+      "mean": 5606.8,
+      "median": 5216.0,
+      "min": 0,
+      "max": 16360
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 52,
+      "mean": 1.2,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 11.95
+     },
+     "percent_gain_vs_convenience": {
+      "n": 52,
+      "mean": 11.9,
+      "median": 10.915,
+      "min": 0.0,
+      "max": 32.17
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 52,
+      "mean": 618.5,
+      "median": 0.0,
+      "min": 0,
+      "max": 6190
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 52,
+      "mean": 6.3,
+      "median": 0.0,
+      "min": -48,
+      "max": 99
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 52,
+      "mean": 0.2,
+      "median": 0.0,
+      "min": -1,
+      "max": 3
+     },
+     "no_gain_vs_cheapest": 40,
+     "no_gain_vs_convenience": 5,
+     "joint_worse_than_a_baseline": 0
+    }
+   },
+   "decomposition": [
+    {
+     "id": "T001",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 16500,
+     "minutes_saved": 33,
+     "time_value_saved": 550,
+     "charge_saved": 0,
+     "break_even_vot": 30000
+    },
+    {
+     "id": "T002",
+     "least_travel_is_cheapest": true,
+     "extra_rooms": 0,
+     "minutes_saved": 0,
+     "time_value_saved": 0,
+     "charge_saved": 0,
+     "break_even_vot": null
+    },
+    {
+     "id": "T003",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 4000,
+     "minutes_saved": 77,
+     "time_value_saved": 1283,
+     "charge_saved": 0,
+     "break_even_vot": 3117
+    },
+    {
+     "id": "T004",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 16500,
+     "minutes_saved": 3,
+     "time_value_saved": 50,
+     "charge_saved": 3000,
+     "break_even_vot": 330000
+    },
+    {
+     "id": "T005",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 6000,
+     "minutes_saved": 89,
+     "time_value_saved": 1483,
+     "charge_saved": 0,
+     "break_even_vot": 4045
+    },
+    {
+     "id": "T008",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 5500,
+     "minutes_saved": 72,
+     "time_value_saved": 1200,
+     "charge_saved": 0,
+     "break_even_vot": 4583
+    },
+    {
+     "id": "T009",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 2000,
+     "minutes_saved": 16,
+     "time_value_saved": 267,
+     "charge_saved": 3000,
+     "break_even_vot": 7500
+    },
+    {
+     "id": "T010",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 6000,
+     "minutes_saved": 29,
+     "time_value_saved": 483,
+     "charge_saved": 3000,
+     "break_even_vot": 12414
+    },
+    {
+     "id": "T011",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 11000,
+     "minutes_saved": 72,
+     "time_value_saved": 1200,
+     "charge_saved": 0,
+     "break_even_vot": 9167
+    },
+    {
+     "id": "T012",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 11000,
+     "minutes_saved": 66,
+     "time_value_saved": 1100,
+     "charge_saved": 0,
+     "break_even_vot": 10000
+    },
+    {
+     "id": "T013",
+     "least_travel_is_cheapest": true,
+     "extra_rooms": 0,
+     "minutes_saved": 0,
+     "time_value_saved": 0,
+     "charge_saved": 0,
+     "break_even_vot": null
+    },
+    {
+     "id": "T014",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 6000,
+     "minutes_saved": 36,
+     "time_value_saved": 600,
+     "charge_saved": 0,
+     "break_even_vot": 10000
+    },
+    {
+     "id": "T015",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 2000,
+     "minutes_saved": 139,
+     "time_value_saved": 2317,
+     "charge_saved": -3000,
+     "break_even_vot": 863
+    },
+    {
+     "id": "T016",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 6000,
+     "minutes_saved": 36,
+     "time_value_saved": 600,
+     "charge_saved": 0,
+     "break_even_vot": 10000
+    },
+    {
+     "id": "T017",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 2000,
+     "minutes_saved": 77,
+     "time_value_saved": 1283,
+     "charge_saved": 0,
+     "break_even_vot": 1558
+    },
+    {
+     "id": "T020",
+     "least_travel_is_cheapest": true,
+     "extra_rooms": 0,
+     "minutes_saved": 0,
+     "time_value_saved": 0,
+     "charge_saved": 0,
+     "break_even_vot": null
+    },
+    {
+     "id": "T021",
+     "least_travel_is_cheapest": true,
+     "extra_rooms": 0,
+     "minutes_saved": 0,
+     "time_value_saved": 0,
+     "charge_saved": 0,
+     "break_even_vot": null
+    },
+    {
+     "id": "T022",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 5500,
+     "minutes_saved": 103,
+     "time_value_saved": 1717,
+     "charge_saved": 0,
+     "break_even_vot": 3204
+    },
+    {
+     "id": "T023",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 11000,
+     "minutes_saved": 68,
+     "time_value_saved": 1133,
+     "charge_saved": 0,
+     "break_even_vot": 9706
+    },
+    {
+     "id": "T024",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 2000,
+     "minutes_saved": 53,
+     "time_value_saved": 883,
+     "charge_saved": 3000,
+     "break_even_vot": 2264
+    },
+    {
+     "id": "T026",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 4000,
+     "minutes_saved": 53,
+     "time_value_saved": 883,
+     "charge_saved": 0,
+     "break_even_vot": 4528
+    },
+    {
+     "id": "T027",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 5500,
+     "minutes_saved": 70,
+     "time_value_saved": 1167,
+     "charge_saved": 0,
+     "break_even_vot": 4714
+    },
+    {
+     "id": "T028",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 2000,
+     "minutes_saved": 77,
+     "time_value_saved": 1283,
+     "charge_saved": 0,
+     "break_even_vot": 1558
+    },
+    {
+     "id": "T029",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 11000,
+     "minutes_saved": 148,
+     "time_value_saved": 2467,
+     "charge_saved": -3000,
+     "break_even_vot": 4459
+    },
+    {
+     "id": "T030",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 6000,
+     "minutes_saved": 72,
+     "time_value_saved": 1200,
+     "charge_saved": 0,
+     "break_even_vot": 5000
+    },
+    {
+     "id": "T031",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 11000,
+     "minutes_saved": 72,
+     "time_value_saved": 1200,
+     "charge_saved": 0,
+     "break_even_vot": 9167
+    },
+    {
+     "id": "T032",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 11000,
+     "minutes_saved": 78,
+     "time_value_saved": 1300,
+     "charge_saved": 0,
+     "break_even_vot": 8462
+    },
+    {
+     "id": "T033",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 4000,
+     "minutes_saved": 50,
+     "time_value_saved": 833,
+     "charge_saved": 3000,
+     "break_even_vot": 4800
+    },
+    {
+     "id": "T034",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 6000,
+     "minutes_saved": 69,
+     "time_value_saved": 1150,
+     "charge_saved": 0,
+     "break_even_vot": 5217
+    },
+    {
+     "id": "T035",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 6000,
+     "minutes_saved": 94,
+     "time_value_saved": 1567,
+     "charge_saved": 0,
+     "break_even_vot": 3830
+    },
+    {
+     "id": "T036",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 5500,
+     "minutes_saved": 3,
+     "time_value_saved": 50,
+     "charge_saved": 3000,
+     "break_even_vot": 110000
+    },
+    {
+     "id": "T037",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 16500,
+     "minutes_saved": 89,
+     "time_value_saved": 1483,
+     "charge_saved": -3000,
+     "break_even_vot": 11124
+    },
+    {
+     "id": "T039",
+     "least_travel_is_cheapest": true,
+     "extra_rooms": 0,
+     "minutes_saved": 0,
+     "time_value_saved": 0,
+     "charge_saved": 0,
+     "break_even_vot": null
+    },
+    {
+     "id": "T040",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 11000,
+     "minutes_saved": 83,
+     "time_value_saved": 1383,
+     "charge_saved": 0,
+     "break_even_vot": 7952
+    },
+    {
+     "id": "T041",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 4000,
+     "minutes_saved": 119,
+     "time_value_saved": 1983,
+     "charge_saved": 0,
+     "break_even_vot": 2017
+    },
+    {
+     "id": "T042",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 16500,
+     "minutes_saved": 73,
+     "time_value_saved": 1217,
+     "charge_saved": 0,
+     "break_even_vot": 13562
+    },
+    {
+     "id": "T043",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 11000,
+     "minutes_saved": 88,
+     "time_value_saved": 1467,
+     "charge_saved": 0,
+     "break_even_vot": 7500
+    },
+    {
+     "id": "T044",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 11000,
+     "minutes_saved": 156,
+     "time_value_saved": 2600,
+     "charge_saved": 0,
+     "break_even_vot": 4231
+    },
+    {
+     "id": "T045",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 2000,
+     "minutes_saved": 38,
+     "time_value_saved": 633,
+     "charge_saved": 0,
+     "break_even_vot": 3158
+    },
+    {
+     "id": "T046",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 6000,
+     "minutes_saved": 119,
+     "time_value_saved": 1983,
+     "charge_saved": 0,
+     "break_even_vot": 3025
+    },
+    {
+     "id": "T047",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 6000,
+     "minutes_saved": 11,
+     "time_value_saved": 183,
+     "charge_saved": 3000,
+     "break_even_vot": 32727
+    },
+    {
+     "id": "T048",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 5500,
+     "minutes_saved": 31,
+     "time_value_saved": 517,
+     "charge_saved": 0,
+     "break_even_vot": 10645
+    },
+    {
+     "id": "T049",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 5500,
+     "minutes_saved": 59,
+     "time_value_saved": 983,
+     "charge_saved": 0,
+     "break_even_vot": 5593
+    },
+    {
+     "id": "T050",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 6000,
+     "minutes_saved": 3,
+     "time_value_saved": 50,
+     "charge_saved": 3000,
+     "break_even_vot": 120000
+    },
+    {
+     "id": "T051",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 2000,
+     "minutes_saved": 3,
+     "time_value_saved": 50,
+     "charge_saved": 0,
+     "break_even_vot": 40000
+    },
+    {
+     "id": "T053",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 4000,
+     "minutes_saved": 79,
+     "time_value_saved": 1317,
+     "charge_saved": 0,
+     "break_even_vot": 3038
+    },
+    {
+     "id": "T054",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 16500,
+     "minutes_saved": 93,
+     "time_value_saved": 1550,
+     "charge_saved": 0,
+     "break_even_vot": 10645
+    },
+    {
+     "id": "T055",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 2000,
+     "minutes_saved": 139,
+     "time_value_saved": 2317,
+     "charge_saved": 0,
+     "break_even_vot": 863
+    },
+    {
+     "id": "T056",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 11000,
+     "minutes_saved": 67,
+     "time_value_saved": 1117,
+     "charge_saved": 0,
+     "break_even_vot": 9851
+    },
+    {
+     "id": "T057",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 2000,
+     "minutes_saved": 16,
+     "time_value_saved": 267,
+     "charge_saved": 0,
+     "break_even_vot": 7500
+    },
+    {
+     "id": "T059",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 2000,
+     "minutes_saved": 67,
+     "time_value_saved": 1117,
+     "charge_saved": 0,
+     "break_even_vot": 1791
+    },
+    {
+     "id": "T060",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 4000,
+     "minutes_saved": 79,
+     "time_value_saved": 1317,
+     "charge_saved": 0,
+     "break_even_vot": 3038
+    }
+   ],
+   "penalty": {
+    "n_eligible": 52,
+    "changes_when_charge_removed": 4,
+    "changes_when_charge_doubled": 2,
+    "joint_pick_is_cheapest_with_no_charge": 52,
+    "joint_pick_is_cheapest_at_default_charge": 48
+   },
+   "data": {
+    "hotels": 3,
+    "attractions": 12,
+    "nightly_rates": [
+     8500,
+     10500,
+     14000
+    ],
+    "rate_ratio_max_over_min": 1.65,
+    "default_penalty_per_missed_sight": 3000,
+    "currency": "JPY"
+   },
+   "decomposition_summary": {
+    "n": 52,
+    "least_travel_hotel_is_also_cheapest": 5,
+    "extra_rooms": {
+     "n": 47,
+     "mean": 7010.6,
+     "median": 6000,
+     "min": 2000,
+     "max": 16500
+    },
+    "time_value_saved": {
+     "n": 47,
+     "mean": 1123.0,
+     "median": 1200,
+     "min": 50,
+     "max": 2600
+    },
+    "charge_saved": {
+     "n": 47,
+     "mean": 319.1,
+     "median": 0,
+     "min": -3000,
+     "max": 3000
+    },
+    "minutes_saved": {
+     "n": 47,
+     "mean": 67.4,
+     "median": 72,
+     "min": 3,
+     "max": 156
+    },
+    "break_even_value_of_time": {
+     "n": 47,
+     "mean": 19328,
+     "median": 5593,
+     "min": 863,
+     "max": 330000
+    },
+    "trips_where_hotels_differ_by_under_15_minutes": 10
+   }
+  },
+  "singapore": {
+   "n_trips": 20,
+   "default_value_of_time": 18,
+   "by_multiple": {
+    "0.5": {
+     "value_of_time_per_hour": 9,
+     "n_trips": 20,
+     "n_eligible": 18,
+     "ineligible": 2,
+     "joint_differs_from_cheapest": 0,
+     "joint_differs_from_convenience": 14,
+     "cheapest_equals_convenience": 4,
+     "all_three_agree": 4,
+     "score_gain_vs_cheapest": {
+      "n": 18,
+      "mean": 0,
+      "median": 0.0,
+      "min": 0,
+      "max": 0
+     },
+     "score_gain_vs_convenience": {
+      "n": 18,
+      "mean": 178.8,
+      "median": 122.0,
+      "min": 0,
+      "max": 404
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 18,
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0
+     },
+     "percent_gain_vs_convenience": {
+      "n": 18,
+      "mean": 31.2,
+      "median": 36.989999999999995,
+      "min": 0.0,
+      "max": 49.07
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 18,
+      "mean": 0,
+      "median": 0.0,
+      "min": 0,
+      "max": 0
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 18,
+      "mean": 0,
+      "median": 0.0,
+      "min": 0,
+      "max": 0
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 18,
+      "mean": 0,
+      "median": 0.0,
+      "min": 0,
+      "max": 0
+     },
+     "no_gain_vs_cheapest": 18,
+     "no_gain_vs_convenience": 4,
+     "joint_worse_than_a_baseline": 0
+    },
+    "1": {
+     "value_of_time_per_hour": 18,
+     "n_trips": 20,
+     "n_eligible": 18,
+     "ineligible": 2,
+     "joint_differs_from_cheapest": 0,
+     "joint_differs_from_convenience": 14,
+     "cheapest_equals_convenience": 4,
+     "all_three_agree": 4,
+     "score_gain_vs_cheapest": {
+      "n": 18,
+      "mean": 0,
+      "median": 0.0,
+      "min": 0,
+      "max": 0
+     },
+     "score_gain_vs_convenience": {
+      "n": 18,
+      "mean": 173.9,
+      "median": 115.0,
+      "min": 0,
+      "max": 405
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 18,
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0
+     },
+     "percent_gain_vs_convenience": {
+      "n": 18,
+      "mean": 28.9,
+      "median": 33.04,
+      "min": 0.0,
+      "max": 47.51
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 18,
+      "mean": 0,
+      "median": 0.0,
+      "min": 0,
+      "max": 0
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 18,
+      "mean": 0,
+      "median": 0.0,
+      "min": 0,
+      "max": 0
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 18,
+      "mean": 0,
+      "median": 0.0,
+      "min": 0,
+      "max": 0
+     },
+     "no_gain_vs_cheapest": 18,
+     "no_gain_vs_convenience": 4,
+     "joint_worse_than_a_baseline": 0
+    },
+    "2": {
+     "value_of_time_per_hour": 36,
+     "n_trips": 20,
+     "n_eligible": 18,
+     "ineligible": 2,
+     "joint_differs_from_cheapest": 0,
+     "joint_differs_from_convenience": 14,
+     "cheapest_equals_convenience": 4,
+     "all_three_agree": 4,
+     "score_gain_vs_cheapest": {
+      "n": 18,
+      "mean": 0,
+      "median": 0.0,
+      "min": 0,
+      "max": 0
+     },
+     "score_gain_vs_convenience": {
+      "n": 18,
+      "mean": 159.9,
+      "median": 101.5,
+      "min": 0,
+      "max": 404
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 18,
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0
+     },
+     "percent_gain_vs_convenience": {
+      "n": 18,
+      "mean": 24.6,
+      "median": 25.8,
+      "min": 0.0,
+      "max": 44.44
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 18,
+      "mean": 0,
+      "median": 0.0,
+      "min": 0,
+      "max": 0
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 18,
+      "mean": 0,
+      "median": 0.0,
+      "min": 0,
+      "max": 0
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 18,
+      "mean": 0,
+      "median": 0.0,
+      "min": 0,
+      "max": 0
+     },
+     "no_gain_vs_cheapest": 18,
+     "no_gain_vs_convenience": 4,
+     "joint_worse_than_a_baseline": 0
+    },
+    "4": {
+     "value_of_time_per_hour": 72,
+     "n_trips": 20,
+     "n_eligible": 18,
+     "ineligible": 2,
+     "joint_differs_from_cheapest": 2,
+     "joint_differs_from_convenience": 14,
+     "cheapest_equals_convenience": 4,
+     "all_three_agree": 4,
+     "score_gain_vs_cheapest": {
+      "n": 18,
+      "mean": 1.7,
+      "median": 0.0,
+      "min": 0,
+      "max": 20
+     },
+     "score_gain_vs_convenience": {
+      "n": 18,
+      "mean": 150.8,
+      "median": 85.0,
+      "min": 0,
+      "max": 405
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 18,
+      "mean": 0.4,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 4.71
+     },
+     "percent_gain_vs_convenience": {
+      "n": 18,
+      "mean": 20.8,
+      "median": 19.685000000000002,
+      "min": 0.0,
+      "max": 42.2
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 18,
+      "mean": 10.2,
+      "median": 0.0,
+      "min": 0,
+      "max": 93
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 18,
+      "mean": -2.7,
+      "median": 0.0,
+      "min": -41,
+      "max": 0
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 18,
+      "mean": 0.3,
+      "median": 0.0,
+      "min": 0,
+      "max": 3
+     },
+     "no_gain_vs_cheapest": 16,
+     "no_gain_vs_convenience": 4,
+     "joint_worse_than_a_baseline": 0
+    }
+   },
+   "decomposition": [
+    {
+     "id": "T002",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 405,
+     "minutes_saved": 78,
+     "time_value_saved": 23,
+     "charge_saved": 0,
+     "break_even_vot": 312
+    },
+    {
+     "id": "T003",
+     "least_travel_is_cheapest": true,
+     "extra_rooms": 0,
+     "minutes_saved": 0,
+     "time_value_saved": 0,
+     "charge_saved": 0,
+     "break_even_vot": null
+    },
+    {
+     "id": "T004",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 135,
+     "minutes_saved": 77,
+     "time_value_saved": 23,
+     "charge_saved": 0,
+     "break_even_vot": 105
+    },
+    {
+     "id": "T005",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 135,
+     "minutes_saved": 36,
+     "time_value_saved": 11,
+     "charge_saved": 0,
+     "break_even_vot": 225
+    },
+    {
+     "id": "T006",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 135,
+     "minutes_saved": 75,
+     "time_value_saved": 22,
+     "charge_saved": 0,
+     "break_even_vot": 108
+    },
+    {
+     "id": "T007",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 405,
+     "minutes_saved": 38,
+     "time_value_saved": 11,
+     "charge_saved": 0,
+     "break_even_vot": 639
+    },
+    {
+     "id": "T008",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 270,
+     "minutes_saved": 32,
+     "time_value_saved": 10,
+     "charge_saved": 0,
+     "break_even_vot": 506
+    },
+    {
+     "id": "T010",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 135,
+     "minutes_saved": 75,
+     "time_value_saved": 22,
+     "charge_saved": 0,
+     "break_even_vot": 108
+    },
+    {
+     "id": "T011",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 120,
+     "minutes_saved": 37,
+     "time_value_saved": 11,
+     "charge_saved": 0,
+     "break_even_vot": 195
+    },
+    {
+     "id": "T012",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 270,
+     "minutes_saved": 38,
+     "time_value_saved": 11,
+     "charge_saved": 0,
+     "break_even_vot": 426
+    },
+    {
+     "id": "T013",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 405,
+     "minutes_saved": 36,
+     "time_value_saved": 11,
+     "charge_saved": 0,
+     "break_even_vot": 675
+    },
+    {
+     "id": "T014",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 270,
+     "minutes_saved": 4,
+     "time_value_saved": 1,
+     "charge_saved": 0,
+     "break_even_vot": 4050
+    },
+    {
+     "id": "T015",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 270,
+     "minutes_saved": 33,
+     "time_value_saved": 10,
+     "charge_saved": 0,
+     "break_even_vot": 491
+    },
+    {
+     "id": "T016",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 135,
+     "minutes_saved": 34,
+     "time_value_saved": 10,
+     "charge_saved": 0,
+     "break_even_vot": 238
+    },
+    {
+     "id": "T017",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 135,
+     "minutes_saved": 1,
+     "time_value_saved": 0,
+     "charge_saved": 0,
+     "break_even_vot": 8100
+    },
+    {
+     "id": "T018",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 405,
+     "minutes_saved": 39,
+     "time_value_saved": 12,
+     "charge_saved": 0,
+     "break_even_vot": 623
+    },
+    {
+     "id": "T019",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 120,
+     "minutes_saved": 34,
+     "time_value_saved": 10,
+     "charge_saved": 0,
+     "break_even_vot": 212
+    },
+    {
+     "id": "T020",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 135,
+     "minutes_saved": 69,
+     "time_value_saved": 21,
+     "charge_saved": 0,
+     "break_even_vot": 117
+    }
+   ],
+   "penalty": {
+    "n_eligible": 18,
+    "changes_when_charge_removed": 0,
+    "changes_when_charge_doubled": 0,
+    "joint_pick_is_cheapest_with_no_charge": 18,
+    "joint_pick_is_cheapest_at_default_charge": 18
+   },
+   "data": {
+    "hotels": 3,
+    "attractions": 10,
+    "nightly_rates": [
+     125,
+     185,
+     260
+    ],
+    "rate_ratio_max_over_min": 2.08,
+    "default_penalty_per_missed_sight": 54,
+    "currency": "SGD"
+   },
+   "decomposition_summary": {
+    "n": 18,
+    "least_travel_hotel_is_also_cheapest": 1,
+    "extra_rooms": {
+     "n": 17,
+     "mean": 228.5,
+     "median": 135,
+     "min": 120,
+     "max": 405
+    },
+    "time_value_saved": {
+     "n": 17,
+     "mean": 12.9,
+     "median": 11,
+     "min": 0,
+     "max": 23
+    },
+    "charge_saved": {
+     "n": 17,
+     "mean": 0,
+     "median": 0,
+     "min": 0,
+     "max": 0
+    },
+    "minutes_saved": {
+     "n": 17,
+     "mean": 43.3,
+     "median": 37,
+     "min": 1,
+     "max": 78
+    },
+    "break_even_value_of_time": {
+     "n": 17,
+     "mean": 1007.6,
+     "median": 312,
+     "min": 105,
+     "max": 8100
+    },
+    "trips_where_hotels_differ_by_under_15_minutes": 3
+   }
+  },
+  "seoul": {
+   "n_trips": 20,
+   "default_value_of_time": 15000,
+   "by_multiple": {
+    "0.5": {
+     "value_of_time_per_hour": 7500,
+     "n_trips": 20,
+     "n_eligible": 15,
+     "ineligible": 5,
+     "joint_differs_from_cheapest": 0,
+     "joint_differs_from_convenience": 15,
+     "cheapest_equals_convenience": 0,
+     "all_three_agree": 0,
+     "score_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "score_gain_vs_convenience": {
+      "n": 15,
+      "mean": 94348.1,
+      "median": 79237,
+      "min": 26564,
+      "max": 229493
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0
+     },
+     "percent_gain_vs_convenience": {
+      "n": 15,
+      "mean": 25.7,
+      "median": 26.26,
+      "min": 13.89,
+      "max": 40.04
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "no_gain_vs_cheapest": 15,
+     "no_gain_vs_convenience": 0,
+     "joint_worse_than_a_baseline": 0
+    },
+    "1": {
+     "value_of_time_per_hour": 15000,
+     "n_trips": 20,
+     "n_eligible": 15,
+     "ineligible": 5,
+     "joint_differs_from_cheapest": 0,
+     "joint_differs_from_convenience": 15,
+     "cheapest_equals_convenience": 0,
+     "all_three_agree": 0,
+     "score_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "score_gain_vs_convenience": {
+      "n": 15,
+      "mean": 81315.8,
+      "median": 65543,
+      "min": 8189,
+      "max": 220630
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0
+     },
+     "percent_gain_vs_convenience": {
+      "n": 15,
+      "mean": 20.6,
+      "median": 21.66,
+      "min": 4.08,
+      "max": 38.02
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "no_gain_vs_cheapest": 15,
+     "no_gain_vs_convenience": 0,
+     "joint_worse_than_a_baseline": 0
+    },
+    "2": {
+     "value_of_time_per_hour": 30000,
+     "n_trips": 20,
+     "n_eligible": 15,
+     "ineligible": 5,
+     "joint_differs_from_cheapest": 3,
+     "joint_differs_from_convenience": 13,
+     "cheapest_equals_convenience": 0,
+     "all_three_agree": 0,
+     "score_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 4609.3,
+      "median": 0,
+      "min": 0,
+      "max": 28561
+     },
+     "score_gain_vs_convenience": {
+      "n": 15,
+      "mean": 62863.4,
+      "median": 54543,
+      "min": 0,
+      "max": 204562
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 1.7,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 11.13
+     },
+     "percent_gain_vs_convenience": {
+      "n": 15,
+      "mean": 14.2,
+      "median": 15.45,
+      "min": 0.0,
+      "max": 34.41
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 15,
+      "mean": 9057.3,
+      "median": 0,
+      "min": 0,
+      "max": 45550
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 27.3,
+      "median": 0,
+      "min": 0,
+      "max": 147
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "no_gain_vs_cheapest": 12,
+     "no_gain_vs_convenience": 2,
+     "joint_worse_than_a_baseline": 0
+    },
+    "4": {
+     "value_of_time_per_hour": 60000,
+     "n_trips": 20,
+     "n_eligible": 15,
+     "ineligible": 5,
+     "joint_differs_from_cheapest": 4,
+     "joint_differs_from_convenience": 12,
+     "cheapest_equals_convenience": 0,
+     "all_three_agree": 0,
+     "score_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 12888.9,
+      "median": 0,
+      "min": 0,
+      "max": 64918
+     },
+     "score_gain_vs_convenience": {
+      "n": 15,
+      "mean": 50159.8,
+      "median": 43608,
+      "min": 0,
+      "max": 233062
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 3.4,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 18.65
+     },
+     "percent_gain_vs_convenience": {
+      "n": 15,
+      "mean": 10.1,
+      "median": 9.68,
+      "min": 0.0,
+      "max": 37.41
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 15,
+      "mean": 19577.7,
+      "median": 0,
+      "min": 0,
+      "max": 107299
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 5.5,
+      "median": 0,
+      "min": -5,
+      "max": 53
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 0.6,
+      "median": 0,
+      "min": 0,
+      "max": 3
+     },
+     "no_gain_vs_cheapest": 11,
+     "no_gain_vs_convenience": 3,
+     "joint_worse_than_a_baseline": 0
+    }
+   },
+   "decomposition": [
+    {
+     "id": "T002",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 150000,
+     "minutes_saved": 63,
+     "time_value_saved": 15750,
+     "charge_saved": 0,
+     "break_even_vot": 142857
+    },
+    {
+     "id": "T003",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 150000,
+     "minutes_saved": 163,
+     "time_value_saved": 40750,
+     "charge_saved": 0,
+     "break_even_vot": 55215
+    },
+    {
+     "id": "T005",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 50000,
+     "minutes_saved": 67,
+     "time_value_saved": 16750,
+     "charge_saved": 0,
+     "break_even_vot": 44776
+    },
+    {
+     "id": "T006",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 50000,
+     "minutes_saved": 70,
+     "time_value_saved": 17500,
+     "charge_saved": 0,
+     "break_even_vot": 42857
+    },
+    {
+     "id": "T007",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 150000,
+     "minutes_saved": 132,
+     "time_value_saved": 33000,
+     "charge_saved": 0,
+     "break_even_vot": 68182
+    },
+    {
+     "id": "T010",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 50000,
+     "minutes_saved": 147,
+     "time_value_saved": 36750,
+     "charge_saved": 0,
+     "break_even_vot": 20408
+    },
+    {
+     "id": "T011",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 160000,
+     "minutes_saved": 25,
+     "time_value_saved": 6250,
+     "charge_saved": 45000,
+     "break_even_vot": 384000
+    },
+    {
+     "id": "T012",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 100000,
+     "minutes_saved": 130,
+     "time_value_saved": 32500,
+     "charge_saved": 0,
+     "break_even_vot": 46154
+    },
+    {
+     "id": "T013",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 150000,
+     "minutes_saved": 68,
+     "time_value_saved": 17000,
+     "charge_saved": 0,
+     "break_even_vot": 132353
+    },
+    {
+     "id": "T014",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 100000,
+     "minutes_saved": 44,
+     "time_value_saved": 11000,
+     "charge_saved": 45000,
+     "break_even_vot": 136364
+    },
+    {
+     "id": "T015",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 100000,
+     "minutes_saved": 131,
+     "time_value_saved": 32750,
+     "charge_saved": 0,
+     "break_even_vot": 45802
+    },
+    {
+     "id": "T016",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 50000,
+     "minutes_saved": 134,
+     "time_value_saved": 33500,
+     "charge_saved": 0,
+     "break_even_vot": 22388
+    },
+    {
+     "id": "T018",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 150000,
+     "minutes_saved": 157,
+     "time_value_saved": 39250,
+     "charge_saved": 0,
+     "break_even_vot": 57325
+    },
+    {
+     "id": "T019",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 160000,
+     "minutes_saved": 50,
+     "time_value_saved": 12500,
+     "charge_saved": 0,
+     "break_even_vot": 192000
+    },
+    {
+     "id": "T020",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 50000,
+     "minutes_saved": 129,
+     "time_value_saved": 32250,
+     "charge_saved": 0,
+     "break_even_vot": 23256
+    }
+   ],
+   "penalty": {
+    "n_eligible": 15,
+    "changes_when_charge_removed": 0,
+    "changes_when_charge_doubled": 0,
+    "joint_pick_is_cheapest_with_no_charge": 15,
+    "joint_pick_is_cheapest_at_default_charge": 15
+   },
+   "data": {
+    "hotels": 3,
+    "attractions": 10,
+    "nightly_rates": [
+     85000,
+     135000,
+     165000
+    ],
+    "rate_ratio_max_over_min": 1.94,
+    "default_penalty_per_missed_sight": 45000,
+    "currency": "KRW"
+   },
+   "decomposition_summary": {
+    "n": 15,
+    "least_travel_hotel_is_also_cheapest": 0,
+    "extra_rooms": {
+     "n": 15,
+     "mean": 108000,
+     "median": 100000,
+     "min": 50000,
+     "max": 160000
+    },
+    "time_value_saved": {
+     "n": 15,
+     "mean": 25166.7,
+     "median": 32250,
+     "min": 6250,
+     "max": 40750
+    },
+    "charge_saved": {
+     "n": 15,
+     "mean": 6000,
+     "median": 0,
+     "min": 0,
+     "max": 45000
+    },
+    "minutes_saved": {
+     "n": 15,
+     "mean": 100.7,
+     "median": 129,
+     "min": 25,
+     "max": 163
+    },
+    "break_even_value_of_time": {
+     "n": 15,
+     "mean": 94262.5,
+     "median": 55215,
+     "min": 20408,
+     "max": 384000
+    },
+    "trips_where_hotels_differ_by_under_15_minutes": 0
+   }
+  },
+  "kuala_lumpur": {
+   "n_trips": 20,
+   "default_value_of_time": 45,
+   "by_multiple": {
+    "0.5": {
+     "value_of_time_per_hour": 22,
+     "n_trips": 20,
+     "n_eligible": 15,
+     "ineligible": 5,
+     "joint_differs_from_cheapest": 0,
+     "joint_differs_from_convenience": 14,
+     "cheapest_equals_convenience": 1,
+     "all_three_agree": 1,
+     "score_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "score_gain_vs_convenience": {
+      "n": 15,
+      "mean": 166.1,
+      "median": 151,
+      "min": 0,
+      "max": 524
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0
+     },
+     "percent_gain_vs_convenience": {
+      "n": 15,
+      "mean": 25.1,
+      "median": 27.45,
+      "min": 0.0,
+      "max": 47.25
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "no_gain_vs_cheapest": 15,
+     "no_gain_vs_convenience": 1,
+     "joint_worse_than_a_baseline": 0
+    },
+    "1": {
+     "value_of_time_per_hour": 45,
+     "n_trips": 20,
+     "n_eligible": 15,
+     "ineligible": 5,
+     "joint_differs_from_cheapest": 0,
+     "joint_differs_from_convenience": 14,
+     "cheapest_equals_convenience": 1,
+     "all_three_agree": 1,
+     "score_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "score_gain_vs_convenience": {
+      "n": 15,
+      "mean": 158.8,
+      "median": 144,
+      "min": 0,
+      "max": 513
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0
+     },
+     "percent_gain_vs_convenience": {
+      "n": 15,
+      "mean": 22.0,
+      "median": 23.19,
+      "min": 0.0,
+      "max": 44.69
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "no_gain_vs_cheapest": 15,
+     "no_gain_vs_convenience": 1,
+     "joint_worse_than_a_baseline": 0
+    },
+    "2": {
+     "value_of_time_per_hour": 90,
+     "n_trips": 20,
+     "n_eligible": 15,
+     "ineligible": 5,
+     "joint_differs_from_cheapest": 0,
+     "joint_differs_from_convenience": 14,
+     "cheapest_equals_convenience": 1,
+     "all_three_agree": 1,
+     "score_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "score_gain_vs_convenience": {
+      "n": 15,
+      "mean": 149.3,
+      "median": 135,
+      "min": 0,
+      "max": 534
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0
+     },
+     "percent_gain_vs_convenience": {
+      "n": 15,
+      "mean": 17.9,
+      "median": 17.95,
+      "min": 0.0,
+      "max": 43.63
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "no_gain_vs_cheapest": 15,
+     "no_gain_vs_convenience": 1,
+     "joint_worse_than_a_baseline": 0
+    },
+    "4": {
+     "value_of_time_per_hour": 180,
+     "n_trips": 20,
+     "n_eligible": 15,
+     "ineligible": 5,
+     "joint_differs_from_cheapest": 0,
+     "joint_differs_from_convenience": 14,
+     "cheapest_equals_convenience": 1,
+     "all_three_agree": 1,
+     "score_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "score_gain_vs_convenience": {
+      "n": 15,
+      "mean": 136.3,
+      "median": 113,
+      "min": 0,
+      "max": 540
+     },
+     "percent_gain_vs_cheapest": {
+      "n": 15,
+      "mean": 0.0,
+      "median": 0.0,
+      "min": 0.0,
+      "max": 0.0
+     },
+     "percent_gain_vs_convenience": {
+      "n": 15,
+      "mean": 14.1,
+      "median": 12.57,
+      "min": 0.0,
+      "max": 43.9
+     },
+     "known_spend_joint_minus_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "travel_minutes_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "omitted_sights_saved_vs_cheapest": {
+      "n": 15,
+      "mean": 0,
+      "median": 0,
+      "min": 0,
+      "max": 0
+     },
+     "no_gain_vs_cheapest": 15,
+     "no_gain_vs_convenience": 1,
+     "joint_worse_than_a_baseline": 0
+    }
+   },
+   "decomposition": [
+    {
+     "id": "T003",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 240,
+     "minutes_saved": 38,
+     "time_value_saved": 28,
+     "charge_saved": 0,
+     "break_even_vot": 379
+    },
+    {
+     "id": "T005",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 180,
+     "minutes_saved": 25,
+     "time_value_saved": 19,
+     "charge_saved": 0,
+     "break_even_vot": 432
+    },
+    {
+     "id": "T006",
+     "least_travel_is_cheapest": true,
+     "extra_rooms": 0,
+     "minutes_saved": 0,
+     "time_value_saved": 0,
+     "charge_saved": 0,
+     "break_even_vot": null
+    },
+    {
+     "id": "T007",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 240,
+     "minutes_saved": 20,
+     "time_value_saved": 15,
+     "charge_saved": 0,
+     "break_even_vot": 720
+    },
+    {
+     "id": "T008",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 160,
+     "minutes_saved": 19,
+     "time_value_saved": 14,
+     "charge_saved": 0,
+     "break_even_vot": 505
+    },
+    {
+     "id": "T010",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 80,
+     "minutes_saved": 22,
+     "time_value_saved": 16,
+     "charge_saved": 0,
+     "break_even_vot": 218
+    },
+    {
+     "id": "T011",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 160,
+     "minutes_saved": 24,
+     "time_value_saved": 18,
+     "charge_saved": 0,
+     "break_even_vot": 400
+    },
+    {
+     "id": "T012",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 160,
+     "minutes_saved": 19,
+     "time_value_saved": 14,
+     "charge_saved": 0,
+     "break_even_vot": 505
+    },
+    {
+     "id": "T013",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 540,
+     "minutes_saved": 30,
+     "time_value_saved": 22,
+     "charge_saved": 0,
+     "break_even_vot": 1080
+    },
+    {
+     "id": "T014",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 160,
+     "minutes_saved": 29,
+     "time_value_saved": 22,
+     "charge_saved": 0,
+     "break_even_vot": 331
+    },
+    {
+     "id": "T015",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 160,
+     "minutes_saved": 19,
+     "time_value_saved": 14,
+     "charge_saved": 0,
+     "break_even_vot": 505
+    },
+    {
+     "id": "T016",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 80,
+     "minutes_saved": 12,
+     "time_value_saved": 9,
+     "charge_saved": 0,
+     "break_even_vot": 400
+    },
+    {
+     "id": "T018",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 240,
+     "minutes_saved": 27,
+     "time_value_saved": 20,
+     "charge_saved": 0,
+     "break_even_vot": 533
+    },
+    {
+     "id": "T019",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 160,
+     "minutes_saved": 3,
+     "time_value_saved": 2,
+     "charge_saved": 0,
+     "break_even_vot": 3200
+    },
+    {
+     "id": "T020",
+     "least_travel_is_cheapest": false,
+     "extra_rooms": 80,
+     "minutes_saved": 4,
+     "time_value_saved": 3,
+     "charge_saved": 0,
+     "break_even_vot": 1200
+    }
+   ],
+   "penalty": {
+    "n_eligible": 15,
+    "changes_when_charge_removed": 0,
+    "changes_when_charge_doubled": 0,
+    "joint_pick_is_cheapest_with_no_charge": 15,
+    "joint_pick_is_cheapest_at_default_charge": 15
+   },
+   "data": {
+    "hotels": 3,
+    "attractions": 10,
+    "nightly_rates": [
+     140,
+     220,
+     320
+    ],
+    "rate_ratio_max_over_min": 2.29,
+    "default_penalty_per_missed_sight": 135,
+    "currency": "MYR"
+   },
+   "decomposition_summary": {
+    "n": 15,
+    "least_travel_hotel_is_also_cheapest": 1,
+    "extra_rooms": {
+     "n": 14,
+     "mean": 188.6,
+     "median": 160.0,
+     "min": 80,
+     "max": 540
+    },
+    "time_value_saved": {
+     "n": 14,
+     "mean": 15.4,
+     "median": 15.5,
+     "min": 2,
+     "max": 28
+    },
+    "charge_saved": {
+     "n": 14,
+     "mean": 0,
+     "median": 0.0,
+     "min": 0,
+     "max": 0
+    },
+    "minutes_saved": {
+     "n": 14,
+     "mean": 20.8,
+     "median": 21.0,
+     "min": 3,
+     "max": 38
+    },
+    "break_even_value_of_time": {
+     "n": 14,
+     "mean": 743.4,
+     "median": 505.0,
+     "min": 218,
+     "max": 3200
+    },
+    "trips_where_hotels_differ_by_under_15_minutes": 4
+   }
+  }
+ }
+}
