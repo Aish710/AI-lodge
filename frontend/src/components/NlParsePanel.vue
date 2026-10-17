@@ -11,7 +11,8 @@ import AiMark from './AiMark.vue'
 import AiLegend from './AiLegend.vue'
 import AiDrawer from './AiDrawer.vue'
 import aiExamples from '../lib/aiExamples.json'
-import { assumedList, understoodRows } from '../lib/understood.js'
+import { appliedRows, assumedList, FIELD_CONTROL } from '../lib/understood.js'
+import { detectHeard, HEARD_FOOTER, suggestionFor } from '../lib/heard.js'
 import { store, runParse, chooseName, rateLimited, maxInputChars, applyParseToForm, cancelParse } from '../store.js'
 import { originOf, parseState } from '../lib/rules.js'
 import { titleCase } from '../lib/format.js'
@@ -38,11 +39,19 @@ const cityExamples = computed(() => aiExamples[store.cityId] ?? null)
 const EXAMPLES = [['typical', 'A typical request', 'ex-typical'], ['wrong_city', 'Try a wrong-city request', 'ex-wrong-city'], ['vague_place', 'Try a vague place', 'ex-vague']]
 // Example prompts only FILL the box. Nothing is sent until "Ask the AI" is clicked.
 function fill(kind) { text.value = cityExamples.value?.[kind] ?? ''; document.getElementById('nl-text')?.focus() }
-const rows = computed(() => understoodRows(r.value, { places: store.places ?? [], currency: store.city?.currency_code }))
+const rows = computed(() => appliedRows(r.value, { places: store.places ?? [], currency: store.city?.currency_code }))
+// "Heard, but the planner can't act on this yet": the AI's own `unclear` notes, interests (they only highlight), and keywords found in the user's OWN sentence.
+const heardGroups = computed(() => detectHeard(r.value?.raw_input_echo ?? ''))
+const heardInterests = computed(() => r.value?.draft?.interests ?? [])
+const hasHeard = computed(() => heardGroups.value.length > 0 || (r.value?.unclear?.length ?? 0) > 0 || heardInterests.value.length > 0)
+const accepted = ref([])
+const suggestions = computed(() => heardGroups.value.map((g) => suggestionFor(g.id, store.form)).filter(Boolean).filter((s, i, a) => a.findIndex((x) => x.field === s.field && x.value === s.value) === i))
+// Nothing changes unless the user clicks Accept: this is the ONLY place a suggestion reaches the form.
+function accept(s) { store.form[s.field] = s.value; accepted.value.push(`${s.field === 'pace' ? 'Pace' : s.field} set to ${s.value}. You can change it in the form.`) }
 const assumed = computed(() => assumedList(r.value?.defaults_applied ?? []))
 const applied = ref(false)
-function apply() { applied.value = applyParseToForm(); document.getElementById('f-days')?.focus() }
-function changeField(id) { const el = document.getElementById(id); el?.closest('details')?.setAttribute('open', ''); el?.focus() }
+function apply() { applied.value = applyParseToForm(); accepted.value = []; document.getElementById('f-days')?.focus() }
+function changeField(id) { const el = document.getElementById(id); el?.closest('details')?.setAttribute('open', ''); if (el && !/^(INPUT|SELECT|TEXTAREA|BUTTON)$/.test(el.tagName)) el.setAttribute('tabindex', '-1'); el?.scrollIntoView?.({ block: 'center' }); el?.focus() }
 const unresolved = computed(() => (r.value?.unresolved_names ?? []).filter((u) => !placed.value.some((p) => p.includes(u.input))))
 </script>
 <template>
@@ -84,14 +93,26 @@ const unresolved = computed(() => (r.value?.unresolved_names ?? []).filter((u) =
       <CurrencyConfirm :items="r.currency_confirmations ?? []" />
       <div class="understood-grid">
         <div><h4 class="h6">What you wrote</h4><div class="json-box" data-testid="nl-raw">{{ r.raw_input_echo }}</div></div>
-        <div v-if="rows.length" data-testid="nl-rows"><h4 class="h6">What the AI set <AiMark kind="ai" label="AI read" /></h4>
-          <ul class="understood-rows"><li v-for="row in rows" :key="row.field" :data-testid="`row-${row.field}`"><strong>{{ row.label }}:</strong> <span>{{ row.value }}</span> <AiMark kind="ai" label="AI read" /></li></ul></div>
+        <div v-if="r.draft" data-testid="nl-rows"><h4 class="h6">Applied to the form <AiMark kind="ai" label="AI read" /></h4>
+          <p v-if="!rows.length" class="small mb-0">No field was set from your words; the form below keeps its defaults.</p>
+          <ul v-else class="understood-rows"><li v-for="row in rows" :key="row.field" :data-testid="`row-${row.field}`"><strong>{{ row.label }}:</strong> <span>{{ row.value }}</span> <AiMark kind="ai" label="AI read" />
+            <button type="button" class="btn btn-link btn-sm p-0 ms-1 align-baseline" @click="changeField(FIELD_CONTROL[row.field])" :data-testid="`change-${row.field}`">Change</button></li></ul></div>
       </div>
       <div v-if="assumed.length" data-testid="nl-defaults"><h4 class="h6">I assumed (you did not say)</h4>
         <ul class="mb-0 small"><li v-for="d in assumed" :key="d.text">{{ d.text }} <AiMark kind="calc" label="Default" />
           <button v-if="d.field" type="button" class="btn btn-link btn-sm p-0 ms-1 align-baseline" @click="changeField(d.field)">Change</button></li></ul></div>
       <div v-if="assumptions.length" data-testid="nl-assumptions"><h4 class="h6">Assumptions</h4><ul class="mb-0 small"><li v-for="[k, v] in assumptions" :key="k"><strong>{{ k }}:</strong> {{ v }}</li></ul></div>
-      <div v-if="r.unclear.length" data-testid="nl-unclear"><h4 class="h6">The assistant was unsure about</h4><ul class="mb-0 small"><li v-for="u in r.unclear" :key="u">{{ u }}</li></ul></div>
+      <div v-if="hasHeard" class="notice notice-info" data-testid="nl-heard"><span class="glyph" aria-hidden="true">i</span><div>
+        <h4 class="h6 mb-1">Heard, but the planner can't act on this yet</h4>
+        <ul class="mb-1 small" data-testid="nl-unclear">
+          <li v-for="u in r.unclear" :key="`u-${u}`"><strong>The AI was unsure about:</strong> {{ u }} <AiMark kind="ai" label="AI read" /></li>
+          <li v-for="g in heardGroups" :key="g.id" :data-testid="`heard-${g.id}`"><strong>{{ g.label }}:</strong> you wrote “{{ g.terms.join('”, “') }}”.</li>
+          <li v-if="heardInterests.length" data-testid="heard-interests"><strong>Interests:</strong> {{ heardInterests.join(', ') }}. They only highlight sights; the planner uses your Must / Include / Skip choices.</li>
+        </ul>
+        <p class="small mb-1" data-testid="heard-footer">{{ HEARD_FOOTER }}</p>
+        <div v-for="s in suggestions" :key="s.field + s.value" class="small mb-1" data-testid="suggestion"><strong>Suggestion:</strong> {{ s.text }} {{ s.why }}
+          <button type="button" class="btn btn-outline-primary btn-sm ms-1" @click="accept(s)" data-testid="suggestion-accept">Accept</button></div>
+        <ul v-if="accepted.length" class="small mb-0" aria-live="polite" data-testid="suggestion-accepted"><li v-for="a in accepted" :key="a">{{ a }}</li></ul></div></div>
       <p v-if="r.ambiguities.length || unresolved.length" class="small mb-0" data-testid="nl-optional-note">Optional: pick a place below if you want it in your trip. "Apply to my trip" does not wait for this.</p>
       <NameResolution :unresolved="unresolved" :ambiguities="r.ambiguities" @pick="pick" />
       <ul v-if="placed.length" class="small mb-0" aria-live="polite"><li v-for="p in placed" :key="p">{{ p }}</li></ul>

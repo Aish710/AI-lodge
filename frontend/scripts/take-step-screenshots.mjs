@@ -87,10 +87,10 @@ async function aiFlow(browser, city, device) {
   const must = Object.entries(ex.wishlist).filter(([, v]) => v === 'must').map(([k]) => k)
   const skip = Object.entries(ex.wishlist).filter(([, v]) => v === 'skip').map(([k]) => k)
   await page.route('**/health', canned({ status: 'ok', mode: 'llm', llm_configured: true, llm_mode: 'llm', llm_limit_reached: false, llm_endpoint: 'gateway.example.test', llm_relay: true }))
-  await page.route('**/parse', canned({ status: 'ok', draft: { days: 3, budget: null, strict_budget: false, pace: 'balanced', interests: [], must_visit: must, skip, day_start: '09:00', day_end: '19:00',
+  await page.route('**/parse', canned({ status: 'ok', draft: { days: 3, budget: null, strict_budget: false, pace: 'balanced', interests: ['food'], must_visit: must, skip, day_start: '09:00', day_end: '19:00',
     value_of_time_per_hour: ex.form.valueOfTime, max_walking_minutes_per_day: 90, start_weekday: 2, allow_unknown_hours: false, nights: null, locked: [] },
-    raw_input_echo: aiTexts[city].typical, extracted_json: { days: 3, must_visit_names: must }, resolved_names: [], unresolved_names: [{ input: 'Moon Base', message: 'Not a place in this dataset, so it cannot be scheduled.', suggestions: [] }],
-    ambiguities: [], defaults_applied: ['pace: balanced (not stated)', 'day start: 09:00 (not stated)'], clarifications: [], unclear: [], assumptions: {}, call_count: 1, mode: 'llm', prompt_version: 'canned', city_id: city, city_name: CITY_NAME[city] }))
+    raw_input_echo: aiTexts[city].typical + ' I do not want to walk much, I prefer quiet places and I am vegetarian.', extracted_json: { days: 3, must_visit_names: must }, resolved_names: [], unresolved_names: [{ input: 'Moon Base', message: 'Not a place in this dataset, so it cannot be scheduled.', suggestions: [] }],
+    ambiguities: [], defaults_applied: ['pace: balanced (not stated)', 'day start: 09:00 (not stated)'], clarifications: [], unclear: ['How busy the places are'], assumptions: {}, call_count: 1, mode: 'llm', prompt_version: 'canned', city_id: city, city_name: CITY_NAME[city] }))
   await page.goto(APP)
   await wait(page.getByTestId('city-chip'))
   if (city !== 'tokyo') { await page.getByTestId(`city-${city}`).click(); await page.getByTestId('city-chip').filter({ hasText: CITY_NAME[city] }).first().waitFor() }
