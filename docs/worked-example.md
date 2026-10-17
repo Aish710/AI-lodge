@@ -1,6 +1,6 @@
 # Worked examples (from real output)
 
-Generated 2026-10-17 19:32 UTC by `scripts/make_worked_example.py` at git `5d6562b`. Each table is the real `/compare-hotels` answer of the app (sample mode, no language model) for the city's pinned example trip in `frontend/src/lib/examples.json`.
+Generated 2026-10-17 20:01 UTC by `scripts/make_worked_example.py` at git `4ce46ae`. Each table is the real `/compare-hotels` answer of the app (sample mode, no language model) for the city's pinned example trip in `frontend/src/lib/examples.json`.
 
 **These example trips were chosen to show the trade-off. They are not representative.** Where the winner changes (Tokyo, Seoul) it is because the example uses a high value of time; where it does not (Singapore, Kuala Lumpur) the arithmetic simply confirms the cheapest rate. The measured frequency under each example is the honest picture, and it differs by city: how often the lowest-rate hotel is not the best is stated under each one. Sample data, made-up hotels, estimated travel times and fares.
 

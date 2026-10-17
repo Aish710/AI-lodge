@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-17T19:32:32.861Z",
+  "generated": "2026-10-17T20:01:11.388Z",
   "tool": "lighthouse 13.5.0",
   "preset": "mobile (default), simulated throttling",
   "pages": [
@@ -7,14 +7,14 @@
       "name": "Plan (home)",
       "url": "/",
       "mode": "navigation",
-      "performance": 92,
+      "performance": 93,
       "accessibility": 100,
       "bestPractices": 100,
       "metrics": {
-        "First Contentful Paint": "2.3 s",
-        "Largest Contentful Paint": "2.8 s",
-        "Total Blocking Time": "70 ms",
-        "Cumulative Layout Shift": "0.066"
+        "First Contentful Paint": "2.2 s",
+        "Largest Contentful Paint": "2.6 s",
+        "Total Blocking Time": "40 ms",
+        "Cumulative Layout Shift": "0.068"
       },
       "failedAudits": []
     },
@@ -22,12 +22,12 @@
       "name": "Proof",
       "url": "/proof",
       "mode": "navigation",
-      "performance": 93,
+      "performance": 89,
       "accessibility": 100,
       "bestPractices": 100,
       "metrics": {
         "First Contentful Paint": "2.2 s",
-        "Largest Contentful Paint": "2.8 s",
+        "Largest Contentful Paint": "3.4 s",
         "Total Blocking Time": "0 ms",
         "Cumulative Layout Shift": "0.053"
       },
