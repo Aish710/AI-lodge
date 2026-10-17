@@ -5,7 +5,7 @@ import { computed, nextTick, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import BarRow from '../components/BarRow.vue'
 import Skeleton from '../components/Skeleton.vue'
-import { loadProof, readThisFirst } from '../lib/proof.js'
+import { liveStatus, loadProof, readThisFirst } from '../lib/proof.js'
 import { parseBlocks } from '../lib/mdparse.js'
 import { formatLocalMoney } from '../lib/format.js'
 const formatJpy = (n) => formatLocalMoney(n, 'JPY')  // the evaluation is the Tokyo (JPY) pack
@@ -46,7 +46,15 @@ const live = computed(() => (d.value?.live ? parseBlocks(d.value.live) : null))
 const selfcheck = computed(() => (d.value?.selfcheck ? parseBlocks(d.value.selfcheck) : null))
 const verification = computed(() => d.value?.verification ?? null)
 const cityLabel = (c) => c.split('_').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ')
-const goldLive = computed(() => (d.value?.goldLive ? parseBlocks(d.value.goldLive) : null))
+const promptVersion = computed(() => d.value?.promptVersion ?? null)
+const blocksOf = (t) => (t ? parseBlocks(t) : null)
+const selfcheckHistory = computed(() => blocksOf(d.value?.selfcheckHistory))
+const goldFirst = computed(() => blocksOf(d.value?.goldFirst))
+const goldAfter = computed(() => blocksOf(d.value?.goldAfter))
+const goldMock = computed(() => blocksOf(d.value?.goldMock))
+const selfStatus = computed(() => liveStatus(d.value?.selfcheck, promptVersion.value))
+const firstStatus = computed(() => liveStatus(d.value?.goldFirst, promptVersion.value))
+const afterStatus = computed(() => liveStatus(d.value?.goldAfter, promptVersion.value))
 const userTest = computed(() => d.value?.userTest ?? { rows: 0, summary: null })
 const userTestBlocks = computed(() => (userTest.value.rows && userTest.value.summary ? parseBlocks(userTest.value.summary) : []))
 const showRisks = ref(false)
@@ -226,17 +234,36 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
       </section>
 
       <section class="card-soft" aria-labelledby="lv-h" data-testid="live-eval">
-        <h2 id="lv-h" class="h5">7. Live AI evaluation</h2>
-        <template v-if="live">
-          <template v-for="(b, i) in live" :key="i">
-            <h3 v-if="b.type === 'h'" class="h6 mt-2">{{ b.text }}</h3><p v-else-if="b.type === 'p'" class="small">{{ b.text }}</p>
-            <div v-else-if="b.type === 'table'" class="table-responsive"><table class="table table-honest"><thead><tr><th v-for="h in b.head" :key="h" scope="col">{{ h }}</th></tr></thead><tbody><tr v-for="(row, j) in b.rows" :key="j"><td v-for="(c, k) in row" :key="k">{{ c }}</td></tr></tbody></table></div>
-            <ul v-else-if="b.type === 'ul'" class="small"><li v-for="x in b.items" :key="x">{{ x }}</li></ul>
-          </template>
-        </template>
-        <p v-else class="mb-0" data-testid="live-not-run"><strong>Not run yet.</strong> Measuring how well the AI reads requests and writes explanations needs a real API key and spends model calls, so it is a separate, opt-in script (<code>backend/scripts/run_llm_live_eval.py</code>). Until it has been run, nothing here makes a claim about the AI's parsing or explanation quality: the AI scenarios above use a scripted stand-in.</p>
-        <div v-if="selfcheck" class="mt-3" data-testid="selfcheck"><MdBlocks :blocks="selfcheck" /></div>
-        <div v-if="goldLive" class="mt-3" data-testid="gold-live"><MdBlocks :blocks="goldLive" /></div>
+        <h2 id="lv-h" class="h5">7. Live AI evidence</h2>
+        <p class="small" data-testid="live-framing"><strong>Tuned on these checks; small sample; one model, through a third-party gateway.</strong> The planner and the checks around the AI are tested with scripted stand-ins; this card is the only place a real model's behaviour is reported.</p>
+
+        <h3 class="h6 mt-3">Smoke test (20 checks)</h3>
+        <p v-if="selfStatus.state === 'missing'" class="mb-2" data-testid="selfcheck-none"><strong>Not run on this version.</strong> No self-check report is part of this build.</p>
+        <p v-else-if="selfStatus.state === 'stale'" class="mb-2" data-testid="selfcheck-stale"><strong>Not run on this version.</strong> The report in this build was made with prompt version {{ selfStatus.version }}; the current version is {{ promptVersion }}.</p>
+        <div v-else class="mb-2" data-testid="selfcheck"><MdBlocks :blocks="selfcheck" /></div>
+        <details v-if="selfcheckHistory" class="small mb-2" open data-testid="selfcheck-history"><summary class="fw-semibold">Run history: every run, its root cause and its fix</summary><div class="mt-2"><MdBlocks :blocks="selfcheckHistory" /></div></details>
+
+        <h3 class="h6 mt-3">Gold set: 48 hand-written prompts (12 per city, never pooled)</h3>
+        <div class="row g-3" data-testid="gold-live">
+          <div class="col-12 col-lg-6" data-testid="gold-first">
+            <h4 class="h6">First run</h4>
+            <p v-if="firstStatus.state === 'missing'" class="small mb-0"><strong>Not run yet.</strong> Run <code>score_gold.py --live --label first-run</code> and copy the file to <code>docs/eval/gold-results-live-first-run.md</code>.</p>
+            <p v-else-if="firstStatus.state === 'stale'" class="small mb-0"><strong>Not run on this version.</strong> Made with prompt version {{ firstStatus.version }}; the current version is {{ promptVersion }}.</p>
+            <MdBlocks v-else :blocks="goldFirst" />
+          </div>
+          <div class="col-12 col-lg-6" data-testid="gold-after">
+            <h4 class="h6">After fixes</h4>
+            <p v-if="afterStatus.state === 'missing'" class="small mb-0"><strong>Not run yet.</strong> If a later fix is made, re-run with <code>--label after-fix</code>; the first run is never overwritten.</p>
+            <p v-else-if="afterStatus.state === 'stale'" class="small mb-0"><strong>Not run on this version.</strong> Made with prompt version {{ afterStatus.version }}; the current version is {{ promptVersion }}.</p>
+            <MdBlocks v-else :blocks="goldAfter" />
+          </div>
+        </div>
+        <p class="small muted mt-2 mb-0">The hand-written prompts and their expected answers were written by the same person who built the pipeline, and the pipeline was tuned on similar checks, so a high score here is optimistic. Many fields (the wrong-city stop, place-name matching) are decided by code, not the model.</p>
+
+        <details v-if="goldMock" class="small mt-3" data-testid="gold-mock"><summary class="fw-semibold">Rule-based baseline, not a model</summary>
+          <p class="mb-1 mt-2"><strong>This is not AI accuracy.</strong> It is a deterministic stand-in (regexes and alias scanning) that shows the scoring works and gives a floor to compare a model against.</p><MdBlocks :blocks="goldMock" /></details>
+
+        <template v-if="live"><h3 class="h6 mt-3">Larger live evaluation</h3><MdBlocks :blocks="live" /></template>
         <p class="small muted mt-2 mb-0" data-testid="live-source">Model name and endpoint host are copied from the generated files above, never from a fixed provider name. If the files say "third-party relay", the cleaned text and computed facts passed through that gateway to the model provider.</p>
       </section>
     </template>

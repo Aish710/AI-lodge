@@ -161,7 +161,8 @@ describe('Proof page', () => {
     for (const li of w.findAll('[data-testid=claims] li')) expect(claims).toContain(li.text())
     await w.get('[data-testid=toggle-risks]').trigger('click')
     expect(w.findAll('[data-testid=risk-table] tbody tr').length).toBeGreaterThanOrEqual(74)
-    expect(w.get('[data-testid=live-not-run]').text()).toContain('Not run yet')
+    expect(w.get('[data-testid=live-framing]').text()).toContain('Tuned on these checks; small sample; one model')      // the old "live-not-run" card said nothing was measured, which was no longer true
+    expect(w.get('[data-testid=gold-after]').text()).toContain('Not run yet')
     expect(w.get('[data-testid=hardening]').text()).toContain('abuse cases passed')
     expect(w.html()).not.toMatch(/<script/i)
     vi.unstubAllGlobals()
@@ -261,6 +262,48 @@ describe('Data verification card (counts come from the generated file)', () => {
     const w2 = mount(Proof, { global: { plugins: [testRouter()], stubs: { 'router-link': true } } })
     await flushPromises(); await flushPromises()
     expect(w2.find('[data-testid=data-verification]').exists()).toBe(false)
+    vi.unstubAllGlobals()
+  })
+})
+
+describe('Live AI card (run history, first run vs after fix, stale and missing)', () => {
+  const mountDir = async (dir) => {
+    vi.stubGlobal('fetch', servedFrom(dir))
+    const w = mount(Proof, { global: { plugins: [testRouter()], stubs: { 'router-link': true } } })
+    await flushPromises(); await flushPromises()
+    return w
+  }
+  const drop = (dir, name) => {
+    rmSync(join(dir, name), { force: true })
+    const m = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8')); m.copied = m.copied.filter((n) => n !== name)
+    writeFileSync(join(dir, 'manifest.json'), JSON.stringify(m))
+  }
+  it('shows the framing, the full run history, the first run, and "not run yet" for the after-fix run; the baseline is labelled as not a model', async () => {
+    const dir = mk(); syncProof({ root: ROOT, dest: dir })
+    const w = await mountDir(dir)
+    const card = w.get('[data-testid=live-eval]')
+    expect(card.text()).toContain('Tuned on these checks; small sample; one model')
+    expect(card.get('[data-testid=selfcheck-history]').text()).toContain('HTTP 400')
+    expect(card.get('[data-testid=selfcheck-history]').text()).toContain('19 of 20')
+    expect(card.get('[data-testid=gold-first]').text()).toContain('LIVE model')
+    expect(card.get('[data-testid=gold-first]').text()).not.toContain('Not run')
+    expect(card.get('[data-testid=gold-after]').text()).toContain('Not run yet')
+    expect(card.get('[data-testid=gold-mock]').text()).toContain('Rule-based baseline, not a model')
+    expect(card.get('[data-testid=gold-mock]').text()).toContain('This is not AI accuracy')
+    vi.unstubAllGlobals()
+  })
+  it('says "not run on this version" when a report was made with another prompt version, and "not run" when it is missing', async () => {
+    const dir = mk(); syncProof({ root: ROOT, dest: dir })
+    const f = join(dir, 'gold-results-live-first-run.md')
+    writeFileSync(f, readFileSync(f, 'utf8').replace(/PROMPT_VERSION: `[^`]+`/, 'PROMPT_VERSION: `0`'))
+    const s = join(dir, 'ai-selfcheck.md')
+    writeFileSync(s, readFileSync(s, 'utf8').replace(/PROMPT_VERSION: `[^`]+`/, 'PROMPT_VERSION: `0`'))
+    const w = await mountDir(dir)
+    expect(w.get('[data-testid=gold-first]').text()).toContain('Not run on this version')
+    expect(w.get('[data-testid=selfcheck-stale]').text()).toContain('Not run on this version')
+    drop(dir, 'ai-selfcheck.md')
+    const w2 = await mountDir(dir)
+    expect(w2.get('[data-testid=selfcheck-none]').text()).toContain('Not run on this version')
     vi.unstubAllGlobals()
   })
 })

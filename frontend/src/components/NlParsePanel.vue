@@ -9,6 +9,7 @@ import ModeIndicator from './ModeIndicator.vue'
 import CurrencyConfirm from './CurrencyConfirm.vue'
 import AiMark from './AiMark.vue'
 import AiLegend from './AiLegend.vue'
+import AiDrawer from './AiDrawer.vue'
 import aiExamples from '../lib/aiExamples.json'
 import { assumedList, understoodRows } from '../lib/understood.js'
 import { store, runParse, chooseName, rateLimited, maxInputChars, applyParseToForm, cancelParse } from '../store.js'
@@ -94,6 +95,7 @@ const unresolved = computed(() => (r.value?.unresolved_names ?? []).filter((u) =
       <p v-if="r.ambiguities.length || unresolved.length" class="small mb-0" data-testid="nl-optional-note">Optional: pick a place below if you want it in your trip. "Apply to my trip" does not wait for this.</p>
       <NameResolution :unresolved="unresolved" :ambiguities="r.ambiguities" @pick="pick" />
       <ul v-if="placed.length" class="small mb-0" aria-live="polite"><li v-for="p in placed" :key="p">{{ p }}</li></ul>
+      <AiDrawer kind="parse" :result="r" />
       <details class="small" data-testid="nl-raw-json"><summary>What the assistant extracted (before checking)</summary><pre class="json-box mb-0 mt-1" data-testid="nl-json">{{ json ?? 'nothing extracted' }}</pre></details>
       <div v-if="r.draft" class="d-flex flex-wrap align-items-center gap-2">
         <button type="button" class="btn btn-outline-primary" @click="apply" data-testid="nl-apply">Apply to my trip</button>

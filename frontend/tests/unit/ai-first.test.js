@@ -185,3 +185,39 @@ describe('the pitch line', () => {
     expect(PITCH).toBe('Choose a hotel based on the trip it makes possible, then build a feasible itinerary around it.')
   })
 })
+
+describe('"What the AI did" drawer', () => {
+  it('shows calls, raw model output beside what code rejected or changed, the code-only parts, and never a prompt or key', async () => {
+    store.health = { mode: 'llm', llm_model: 'model-x', llm_endpoint: 'gw.example.test', llm_limit_reached: false }
+    store.parseResult = { ...ok, call_count: 2 }
+    const w = mount(NlParsePanel, { attachTo: document.body })
+    const d = w.get('[data-testid=ai-drawer-parse]')
+    expect(d.text()).not.toContain('Moon Base')                        // closed: nothing technical is rendered
+    d.element.open = true
+    await d.trigger('toggle')
+    expect(d.get('[data-testid=drawer-calls]').text()).toBe('2')
+    expect(d.get('[data-testid=drawer-raw]').text()).toContain('"must_visit_names"')
+    const changes = d.get('[data-testid=drawer-changes]').text()
+    expect(changes).toContain('"Moon Base" was dropped')
+    expect(changes).toContain('"the museum" was not guessed')
+    expect(changes).toContain('Defaults filled in by code')
+    expect(d.get('[data-testid=drawer-code]').text()).toContain("Matched every name to this city's places")
+    expect(d.text()).toContain('model-x')
+    expect(d.text()).not.toMatch(/system prompt:|api[_ -]?key|sk-/i)
+    w.unmount()
+  })
+  it('explain: a rejected sentence is explained, and an AI-off result says no model was called', async () => {
+    const { drawerModel } = await import('../../src/lib/aiDrawer.js')
+    const m = drawerModel('explain', { source: 'template', text: 't', warnings: ['W'], call_count: 1, reason: 'grounding check failed', grounding: { checked: 3, rejected_tokens: ['9,999'] } })
+    expect(m.changes.map((c) => c.what).join(' ')).toContain('9,999')
+    expect(m.changes.some((c) => c.what.includes('1 warning'))).toBe(true)
+    const off = drawerModel('parse', { ...ok, mode: 'sample', call_count: 0, extracted_json: null }, { health: { llm_model: 'secret-model' } })
+    expect(off.calls).toBe(0)
+    expect(off.source).toContain('nothing was sent to a model')
+    expect(off.model).toBeNull()
+  })
+  it('a proposal that removes a must-visit says only the user can allow it', async () => {
+    const { drawerModel } = await import('../../src/lib/aiDrawer.js')
+    expect(drawerModel('proposal', { requires_confirmation: true, call_count: 1, mode: 'llm', unresolved_names: [], ambiguities: [] }).changes[0].why).toContain('the AI cannot set it')
+  })
+})

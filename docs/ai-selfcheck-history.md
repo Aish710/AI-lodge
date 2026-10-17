@@ -1,0 +1,11 @@
+# AI self-check: run history
+
+Tuned on these checks; small sample; one model. The numbers below are the results of the same 20-check smoke test (`backend/scripts/ai_selfcheck.py`: 4 cities, 5 checks each, one prompt per check) run repeatedly against one model (`claude-haiku-4-5-20251001`) through a third-party gateway, while problems it found were fixed. Because the fixes were made between runs, the later runs measure code that was changed in response to the earlier ones. They show that the found problems were fixed, not how the AI performs on unseen requests. Sources: `docs/BUILD_NOTES.md`, `docs/SAFETY_LOG.md` rows 130 to 132.
+
+| Stage | Result | What went wrong (root cause) | Fix |
+|---|---|---|---|
+| First attempts | Stopped at the first call | The model rejected a parameter the app always sent (HTTP 400 "This model does not support the effort parameter"). The `.env` had `LLM_EFFORT=low`, copied from `.env.example`. | The default effort is never sent to Haiku models and an explicit value is ignored with a logged warning; `.env.example` has the line commented out. Reproduced first with a mock that rejects the parameter. |
+| Next runs | 16 of 20, then 18 of 20, then 19 of 20 (twice, a different check each time) | (a) The model files a vague place ("the museum", "the bay", "the temple") under `interests` (as "museums", "bay", "bay views") instead of the place names, so the wish was silently dropped. (b) The check's own matching was too literal ("the bay" against "bay"). (c) One Seoul explanation was rejected because the model wrote "2 hours 38 minutes" for "158 min (2:38)". (d) One Tokyo explanation was rejected; its cause was not captured at the time. | (a) Ambiguous interests become choose-one questions; nothing is guessed. (b) The check ignores "the" and plurals. (c) The grounding check accepts the hour and minute parts of a duration it printed as "158 min (2:38)", and only those. (d) The report now lists rejected tokens, so a future rejection can be explained. Each fix was reproduced with a mock test before the change. |
+| Latest | 20 of 20 on two consecutive runs | None found in these runs. | None. |
+
+What this does not show: how the AI performs on requests it was not tuned on (see the gold-set files, when present), or anything about other models.

@@ -2,7 +2,7 @@
 // Usage: node scripts/sync-proof.mjs [--strict]
 //   default: copies what exists, writes manifest.json listing what is missing (the Proof page then says so instead of showing placeholders)
 //   --strict: exits 1 with a clear message if any REQUIRED file is missing (use before a submission build)
-import { copyFileSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
@@ -16,7 +16,10 @@ export const FILES = [
   { name: 'backend-tests-latest.md', src: 'backend/tests/results/latest.md', required: false },
   { name: 'llm-live-eval.md', src: 'docs/llm-live-eval.md', required: false },
   { name: 'ai-selfcheck.md', src: 'docs/ai-selfcheck.md', required: false },
-  { name: 'gold-results-live.md', src: 'docs/eval/gold-results-live.md', required: false },
+  { name: 'ai-selfcheck-history.md', src: 'docs/ai-selfcheck-history.md', required: false },
+  { name: 'gold-results-live-first-run.md', src: 'docs/eval/gold-results-live-first-run.md', required: false },
+  { name: 'gold-results-live-after-fix.md', src: 'docs/eval/gold-results-live-after-fix.md', required: false },
+  { name: 'gold-results-mock.md', src: 'docs/eval/gold-results-mock.md', required: false },
   { name: 'frontend-vitest.json', src: 'frontend/test-results/vitest.json', required: false },
   { name: 'frontend-playwright.json', src: 'frontend/test-results/playwright.json', required: false },
   { name: 'frontend-test-summary.json', src: 'docs/test-summary-frontend.json', required: true },
@@ -42,6 +45,9 @@ export function syncProof({ root, dest, strict = false, files = FILES } = {}) {
   if (strict && requiredMissing.length) {
     throw new MissingProofError(`Proof is missing: ${requiredMissing.map((m) => m.src).join(', ')}. Generate it first (backend: python scripts/run_evaluation.py --full; pytest) and run this again.`)
   }
+  // The CURRENT prompt version, so the Proof page can say "not run on this version" for a live report made with another one.
+  const pv = existsSync(join(root, 'backend/app/llm/prompts.py')) ? readFileSync(join(root, 'backend/app/llm/prompts.py'), 'utf8').match(/PROMPT_VERSION\s*=\s*"([^"]+)"/)?.[1] : null
+  writeFileSync(join(dest, 'current-version.json'), JSON.stringify({ prompt_version: pv ?? null }) + '\n')
   writeFileSync(join(dest, 'manifest.json'), JSON.stringify({ copied, missing }, null, 2) + '\n')
   return { copied, missing }
 }

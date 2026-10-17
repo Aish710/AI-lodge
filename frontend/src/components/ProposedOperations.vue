@@ -7,6 +7,7 @@ import ErrorPanel from './ErrorPanel.vue'
 import SwitchOffer from './SwitchOffer.vue'
 import CurrencyConfirm from './CurrencyConfirm.vue'
 import AiMark from './AiMark.vue'
+import AiDrawer from './AiDrawer.vue'
 import { store, runProposal, discardProposal, queueProposal, rateLimited, maxInputChars } from '../store.js'
 import { parseState } from '../lib/rules.js'
 
@@ -68,6 +69,7 @@ const chips = computed(() => {
       <div v-if="p.unclear.length" class="small"><strong>The assistant was unsure about:</strong> {{ p.unclear.join('; ') }}</div>
       <NameResolution :unresolved="p.unresolved_names" :ambiguities="p.ambiguities" @pick="pick" />
       <p v-if="p.unresolved_names.length || p.ambiguities.length" class="small muted mb-0">Choosing a name puts it into your text above. Press "Propose changes" again to see the updated proposal.</p>
+      <AiDrawer kind="proposal" :result="p" />
       <div class="d-flex gap-2">
         <button type="button" class="btn btn-primary" :disabled="!canQueue" @click="queue" data-testid="proposal-queue">Add to my changes</button>
         <button type="button" class="btn btn-outline-secondary" @click="discardProposal" data-testid="proposal-discard">Discard</button>

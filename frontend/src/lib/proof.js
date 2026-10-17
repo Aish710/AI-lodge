@@ -22,15 +22,16 @@ export async function loadProof(fetchImpl = (...a) => fetch(...a)) {
   }
   const has = (n) => manifest.copied.includes(n)
   const text = async (n) => (has(n) ? getText(fetchImpl, n) : null)
+  const fetchVersion = async () => { try { return JSON.parse(await getText(fetchImpl, 'current-version.json')) } catch { return null } }
   const json = async (n) => { const t = await text(n); return t === null ? null : JSON.parse(t) }
   try {
-    const [results, resultsMd, claimsMd, hardening, safety, backendTests, latestBackendTests, live, selfcheck, goldLive, vitest, pw, front, lh, utCsv, utSummary, verification] = await Promise.all([
+    const [results, resultsMd, claimsMd, hardening, safety, backendTests, latestBackendTests, live, selfcheck, selfcheckHistory, goldFirst, goldAfter, goldMock, version, vitest, pw, front, lh, utCsv, utSummary, verification] = await Promise.all([
       json('eval-results.json'), text('eval-results.md'), text('README-claims.md'), text('hardening-results.md'), text('SAFETY_LOG.md'),
-      text('backend-tests-full.md'), text('backend-tests-latest.md'), text('llm-live-eval.md'), text('ai-selfcheck.md'), text('gold-results-live.md'), json('frontend-vitest.json'), json('frontend-playwright.json'), json('frontend-test-summary.json'), json('lighthouse-summary.json'),
+      text('backend-tests-full.md'), text('backend-tests-latest.md'), text('llm-live-eval.md'), text('ai-selfcheck.md'), text('ai-selfcheck-history.md'), text('gold-results-live-first-run.md'), text('gold-results-live-after-fix.md'), text('gold-results-mock.md'), fetchVersion(), json('frontend-vitest.json'), json('frontend-playwright.json'), json('frontend-test-summary.json'), json('lighthouse-summary.json'),
       text('user-test-results.csv'), text('user-test-summary.md'), json('verification-counts.json')])
     return { state: 'ready', manifest, missing: manifest.missing ?? [], data: {
       results, claims: claimsMd ? parseClaims(claimsMd) : null, notShown: resultsMd ? sectionBullets(resultsMd, 'WHAT THESE NUMBERS DO NOT SHOW') : null,
-      hardeningMd: hardening, risks: safety ? parseRiskTable(safety) : null, live, selfcheck, goldLive, verification,
+      hardeningMd: hardening, risks: safety ? parseRiskTable(safety) : null, live, selfcheck, selfcheckHistory, goldFirst, goldAfter, goldMock, promptVersion: version?.prompt_version ?? null, verification,
       tests: { backend: backendTests ? testSummary(backendTests) : null, backendLatest: latestBackendTests ? testSummary(latestBackendTests) : null,
         vitest: vitestSummary(vitest), playwright: playwrightSummary(pw), frontend: front }, lighthouse: lh,
       // the card is shown with results ONLY when the CSV has participant rows; otherwise it says "not run yet"
@@ -59,4 +60,12 @@ export function readThisFirst(metrics, n) {
   const au = metrics.must_visit.infeasible_audit
   if (Object.keys(au.by_code).length === 1) notes.push(`The audit of infeasibility reports covers only one kind of conflict (${Object.keys(au.by_code)[0].replace(/_/g, ' ')}) in these ${n} trips.`)
   return notes
+}
+
+/** A live report is "current" only if it was made with the CURRENT prompt version. Missing -> not run; another version -> not run on this version. */
+export function liveStatus(text, currentVersion) {
+  if (!text) return { state: 'missing', version: null }
+  const v = text.match(/PROMPT_VERSION:\s*`([^`]+)`/)?.[1] ?? null
+  if (currentVersion && v && v !== currentVersion) return { state: 'stale', version: v }
+  return { state: 'current', version: v }
 }

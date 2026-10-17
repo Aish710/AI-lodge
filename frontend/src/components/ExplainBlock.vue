@@ -3,6 +3,7 @@
 import { computed } from 'vue'
 import { explanationBadge } from '../lib/rules.js'
 import AiMark from './AiMark.vue'
+import AiDrawer from './AiDrawer.vue'
 const props = defineProps({ explanation: { type: Object, default: null }, busy: Boolean, disabled: Boolean, error: { type: Object, default: null }, title: { type: String, default: 'Explain this plan' } })
 const emit = defineEmits(['explain'])
 const badge = computed(() => explanationBadge(props.explanation))
@@ -22,6 +23,7 @@ const badge = computed(() => explanationBadge(props.explanation))
         <div><strong>Warnings from the planner</strong><ul class="mb-0"><li v-for="w in explanation.warnings" :key="w">{{ w }}</li></ul></div>
       </div>
       <p class="small muted mb-1">Supporting text only; the tables are the source of truth.</p>
+      <AiDrawer kind="explain" :result="explanation" class="mb-2" />
       <details class="small"><summary>How was this checked?</summary>
         <p class="mb-0 mt-1">The AI gets only this result's computed numbers and names, never place descriptions. Every number, time and name in its text is compared with them; on any mismatch its text is discarded and a template summary is shown.</p></details>
     </template>
