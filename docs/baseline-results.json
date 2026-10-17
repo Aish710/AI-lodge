@@ -1,7 +1,7 @@
 {
  "meta": {
-  "date": "2026-10-17 20:14 UTC",
-  "commit": "bf6471c + uncommitted changes",
+  "date": "2026-10-17 20:33 UTC",
+  "commit": "45d3d0b",
   "seeds": {
    "tokyo": 20261013,
    "others": 20261014
@@ -19,7 +19,7 @@
   ],
   "quick": false,
   "label": "seeded synthetic trips on SAMPLE data with made-up hotels; estimated travel times",
-  "elapsed_seconds": 94.3
+  "elapsed_seconds": 94.9
  },
  "cities": {
   "tokyo": {

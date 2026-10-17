@@ -1,6 +1,6 @@
 # Baseline comparison (sample data)
 
-Generated 2026-10-17 20:14 UTC by `backend/scripts/run_baseline_evaluation.py`. Code version: bf6471c + uncommitted changes. **Seeded synthetic trips on SAMPLE data with made-up hotels and estimated travel times; not user-tested; each city reported separately, never pooled.**
+Generated 2026-10-17 20:33 UTC by `backend/scripts/run_baseline_evaluation.py`. Code version: 45d3d0b. **Seeded synthetic trips on SAMPLE data with made-up hotels and estimated travel times; not user-tested; each city reported separately, never pooled.**
 
 Three strategies, all using the same candidate hotels, constraints, estimated travel times, itinerary optimiser and objective (`app/optimiser/baselines.py`): **A** cheapest hotel first, **B** convenience-first (the hotel with the smallest total estimated travel time to the target sights, a documented rule that looks only at hotel-to-sight times), **C** joint optimisation (the hotel whose optimised itinerary has the lowest optimisation score). The score is true cost = rooms + admissions + estimated transport + monetised travel time + a charge per optional sight left out. **It is not money spent**: the known monetary spend is reported next to it.
 
