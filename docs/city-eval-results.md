@@ -1,8 +1,6 @@
 # Multi-city evaluation
 
-> **STALE: do not cite as current.** Generated before the per-city missed-sight charge, before the multi-city changes since, and without Kuala Lumpur. It is regenerated at the evidence re-run (see `docs/EVIDENCE-STATUS.md`).
-
-Generated 2026-10-14 07:13 UTC by `backend/scripts/run_city_evaluation.py`. Code version: a1a9cb6 + uncommitted changes.
+Generated 2026-10-17 15:15 UTC by `backend/scripts/run_city_evaluation.py`. Code version: 6589019.
 
 Singapore and Seoul use smaller seeded samples than Tokyo. They are reported separately and are not pooled into headline claims.
 All city data is sample data; hotels are fictional; travel times, prices and hours must be verified before real use.
@@ -24,7 +22,7 @@ All city data is sample data; hotels are fictional; travel times, prices and hou
 - Solver plans checked independently: 15 of 20 had a plan/check result; 0 failed.
 - Like-for-like vs input-order baseline: 14 comparable trips; mean minutes reduction 9.214285714285714.
 - Like-for-like vs nearest-neighbour baseline: 14 comparable trips; mean minutes reduction 12.428571428571429.
-- Hotel value at the middle tested value-of-time (1000 local units/hour): cheapest nightly rate was not best in 14 of 15 eligible trips.
+- Hotel value at the middle tested value-of-time (1000 local units/hour): cheapest nightly rate was not best in 8 of 15 eligible trips.
 
 ### Seoul
 
@@ -38,9 +36,9 @@ All city data is sample data; hotels are fictional; travel times, prices and hou
 
 - Sample size: 20 generated trips (smaller sample, not a headline).
 - Solver plans checked independently: 18 of 20 had a plan/check result; 0 failed.
-- Like-for-like vs input-order baseline: 17 comparable trips; mean minutes reduction 14.470588235294118.
-- Like-for-like vs nearest-neighbour baseline: 17 comparable trips; mean minutes reduction 4.882352941176471.
-- Hotel value at the middle tested value-of-time (1000 local units/hour): cheapest nightly rate was not best in 16 of 18 eligible trips.
+- Like-for-like vs input-order baseline: 15 comparable trips; mean minutes reduction 17.666666666666668.
+- Like-for-like vs nearest-neighbour baseline: 16 comparable trips; mean minutes reduction 8.9375.
+- Hotel value at the middle tested value-of-time (1000 local units/hour): cheapest nightly rate was not best in 7 of 18 eligible trips.
 
 ## What these numbers do not show
 

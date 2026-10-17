@@ -1,10 +1,10 @@
 {
  "meta": {
-  "date": "2026-10-14 07:13 UTC",
-  "commit": "a1a9cb6 + uncommitted changes",
+  "date": "2026-10-17 15:15 UTC",
+  "commit": "6589019",
   "seed": 20261014,
   "trips_per_added_city": 20,
-  "elapsed_seconds": 15.5
+  "elapsed_seconds": 5.6
  },
  "integrity": [
   {
@@ -631,7 +631,7 @@
       "conflict_codes": [
        "unknown_hours_not_allowed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -657,7 +657,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0002,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 202,
       "total_jpy": 204,
@@ -733,7 +733,7 @@
       "conflict_codes": [
        "unknown_hours_not_allowed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -758,7 +758,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 182,
       "total_jpy": 102,
@@ -785,7 +785,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 184,
       "total_jpy": 102,
@@ -840,7 +840,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0657,
+      "runtime_seconds": 0.0085,
       "solver_status": "OPTIMAL",
       "travel_minutes": 154,
       "total_jpy": 23,
@@ -862,7 +862,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 155,
       "total_jpy": 23,
@@ -884,7 +884,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 158,
       "total_jpy": 24,
@@ -921,7 +921,7 @@
       "conflict_codes": [
        "unknown_hours_not_allowed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -944,7 +944,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 143,
       "total_jpy": 135,
@@ -968,7 +968,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 110,
       "total_jpy": 32,
@@ -1015,7 +1015,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0064,
+      "runtime_seconds": 0.0023,
       "solver_status": "OPTIMAL",
       "travel_minutes": 120,
       "total_jpy": 177,
@@ -1034,7 +1034,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 122,
       "total_jpy": 176,
@@ -1053,7 +1053,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 122,
       "total_jpy": 176,
@@ -1092,7 +1092,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.021,
+      "runtime_seconds": 0.0084,
       "solver_status": "OPTIMAL",
       "travel_minutes": 92,
       "total_jpy": 127,
@@ -1114,7 +1114,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 113,
       "total_jpy": 132,
@@ -1136,7 +1136,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 113,
       "total_jpy": 131,
@@ -1181,7 +1181,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.1137,
+      "runtime_seconds": 0.0337,
       "solver_status": "OPTIMAL",
       "travel_minutes": 204,
       "total_jpy": 31,
@@ -1206,7 +1206,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 205,
       "total_jpy": 30,
@@ -1231,7 +1231,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0002,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 238,
       "total_jpy": 36,
@@ -1275,7 +1275,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0903,
+      "runtime_seconds": 0.014,
       "solver_status": "OPTIMAL",
       "travel_minutes": 185,
       "total_jpy": 42,
@@ -1297,7 +1297,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0039,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 188,
       "total_jpy": 42,
@@ -1319,7 +1319,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0003,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 210,
       "total_jpy": 45,
@@ -1360,7 +1360,7 @@
       "conflict_codes": [
        "unknown_hours_not_allowed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -1388,7 +1388,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0003,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 273,
       "total_jpy": 213,
@@ -1418,7 +1418,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0002,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 262,
       "total_jpy": 211,
@@ -1475,7 +1475,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0261,
+      "runtime_seconds": 0.0089,
       "solver_status": "OPTIMAL",
       "travel_minutes": 207,
       "total_jpy": 202,
@@ -1497,7 +1497,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 223,
       "total_jpy": 205,
@@ -1520,7 +1520,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0028,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 194,
       "total_jpy": 103,
@@ -1570,7 +1570,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0682,
+      "runtime_seconds": 0.0204,
       "solver_status": "OPTIMAL",
       "travel_minutes": 131,
       "total_jpy": 180,
@@ -1593,7 +1593,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0008,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 158,
       "total_jpy": 185,
@@ -1663,7 +1663,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0724,
+      "runtime_seconds": 0.0221,
       "solver_status": "OPTIMAL",
       "travel_minutes": 202,
       "total_jpy": 104,
@@ -1688,7 +1688,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0003,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 230,
       "total_jpy": 110,
@@ -1713,7 +1713,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0003,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 216,
       "total_jpy": 106,
@@ -1750,7 +1750,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0124,
+      "runtime_seconds": 0.0026,
       "solver_status": "OPTIMAL",
       "travel_minutes": 131,
       "total_jpy": 117,
@@ -1772,7 +1772,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 131,
       "total_jpy": 117,
@@ -1794,7 +1794,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0003,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 131,
       "total_jpy": 117,
@@ -1836,7 +1836,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0533,
+      "runtime_seconds": 0.0198,
       "solver_status": "OPTIMAL",
       "travel_minutes": 108,
       "total_jpy": 178,
@@ -1858,7 +1858,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 122,
       "total_jpy": 178,
@@ -1880,7 +1880,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0002,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 133,
       "total_jpy": 179,
@@ -1922,7 +1922,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0399,
+      "runtime_seconds": 0.0113,
       "solver_status": "OPTIMAL",
       "travel_minutes": 191,
       "total_jpy": 42,
@@ -1944,7 +1944,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 199,
       "total_jpy": 44,
@@ -1966,7 +1966,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 203,
       "total_jpy": 44,
@@ -2011,7 +2011,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0734,
+      "runtime_seconds": 0.0219,
       "solver_status": "OPTIMAL",
       "travel_minutes": 146,
       "total_jpy": 38,
@@ -2035,7 +2035,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 151,
       "total_jpy": 38,
@@ -2094,7 +2094,7 @@
       "conflict_codes": [
        "unknown_hours_not_allowed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -2115,7 +2115,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 58,
       "total_jpy": 10,
@@ -2138,7 +2138,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 71,
       "total_jpy": 12,
@@ -2194,7 +2194,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.1198,
+      "runtime_seconds": 0.0418,
       "solver_status": "OPTIMAL",
       "travel_minutes": 175,
       "total_jpy": 87,
@@ -2219,7 +2219,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0002,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 178,
       "total_jpy": 88,
@@ -2244,7 +2244,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0002,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 175,
       "total_jpy": 87,
@@ -2284,7 +2284,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0121,
+      "runtime_seconds": 0.0046,
       "solver_status": "OPTIMAL",
       "travel_minutes": 81,
       "total_jpy": 73,
@@ -2304,7 +2304,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 81,
       "total_jpy": 73,
@@ -2324,7 +2324,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 89,
       "total_jpy": 74,
@@ -2371,7 +2371,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0743,
+      "runtime_seconds": 0.0256,
       "solver_status": "OPTIMAL",
       "travel_minutes": 139,
       "total_jpy": 195,
@@ -2395,7 +2395,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 222,
       "total_jpy": 191,
@@ -2533,19 +2533,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 82,
-       "gap_travel_hours": 0.63,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 2015,
-        "hotel_bukit_bintang_lane": 1933,
-        "hotel_klcc_lantern": 2266
+        "hotel_bangsar_edge": 1809,
+        "hotel_bukit_bintang_lane": 1864,
+        "hotel_klcc_lantern": 2164
        }
       },
       "1000": {
@@ -2561,13 +2561,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 398,
-       "gap_travel_hours": 0.63,
+       "gap_jpy": 129,
+       "gap_travel_hours": 0.37,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 3581,
-        "hotel_bukit_bintang_lane": 3183,
-        "hotel_klcc_lantern": 3550
+        "hotel_bangsar_edge": 3043,
+        "hotel_bukit_bintang_lane": 2914,
+        "hotel_klcc_lantern": 3214
        }
       },
       "2000": {
@@ -2583,13 +2583,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 1032,
-       "gap_travel_hours": 0.63,
+       "gap_jpy": 495,
+       "gap_travel_hours": 0.37,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 6715,
-        "hotel_bukit_bintang_lane": 5683,
-        "hotel_klcc_lantern": 6116
+        "hotel_bangsar_edge": 5509,
+        "hotel_bukit_bintang_lane": 5014,
+        "hotel_klcc_lantern": 5314
        }
       }
      },
@@ -2650,19 +2650,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 96,
-       "gap_travel_hours": 0.35,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 1493,
-        "hotel_bukit_bintang_lane": 1397,
-        "hotel_klcc_lantern": 1462
+        "hotel_bangsar_edge": 545,
+        "hotel_bukit_bintang_lane": 625,
+        "hotel_klcc_lantern": 725
        }
       },
       "1000": {
@@ -2672,19 +2672,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 271,
-       "gap_travel_hours": 0.35,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 2668,
-        "hotel_bukit_bintang_lane": 2397,
-        "hotel_klcc_lantern": 2428
+        "hotel_bangsar_edge": 545,
+        "hotel_bukit_bintang_lane": 625,
+        "hotel_klcc_lantern": 725
        }
       },
       "2000": {
@@ -2694,19 +2694,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_klcc_lantern",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 656,
-       "gap_travel_hours": 0.42,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 5018,
-        "hotel_bukit_bintang_lane": 4397,
-        "hotel_klcc_lantern": 4362
+        "hotel_bangsar_edge": 545,
+        "hotel_bukit_bintang_lane": 625,
+        "hotel_klcc_lantern": 725
        }
       }
      },
@@ -2722,19 +2722,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 122,
-       "gap_travel_hours": 0.4,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 1262,
-        "hotel_bukit_bintang_lane": 1140,
-        "hotel_klcc_lantern": 1214
+        "hotel_bangsar_edge": 680,
+        "hotel_bukit_bintang_lane": 760,
+        "hotel_klcc_lantern": 860
        }
       },
       "1000": {
@@ -2744,19 +2744,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 322,
-       "gap_travel_hours": 0.4,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 2253,
-        "hotel_bukit_bintang_lane": 1931,
-        "hotel_klcc_lantern": 1980
+        "hotel_bangsar_edge": 680,
+        "hotel_bukit_bintang_lane": 760,
+        "hotel_klcc_lantern": 860
        }
       },
       "2000": {
@@ -2766,19 +2766,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_klcc_lantern",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 723,
-       "gap_travel_hours": 0.45,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 4237,
-        "hotel_bukit_bintang_lane": 3515,
-        "hotel_klcc_lantern": 3514
+        "hotel_bangsar_edge": 680,
+        "hotel_bukit_bintang_lane": 760,
+        "hotel_klcc_lantern": 860
        }
       }
      },
@@ -2802,64 +2802,14 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": true,
+       "same_nice_set": false,
        "true_cost": {
-        "hotel_bangsar_edge": 2151,
-        "hotel_bukit_bintang_lane": 2230,
-        "hotel_klcc_lantern": 2580
+        "hotel_bangsar_edge": 1301,
+        "hotel_bukit_bintang_lane": 1423,
+        "hotel_klcc_lantern": 1774
        }
       },
       "1000": {
-       "solver_status": {
-        "hotel_bangsar_edge": "OPTIMAL",
-        "hotel_bukit_bintang_lane": "OPTIMAL",
-        "hotel_klcc_lantern": "OPTIMAL"
-       },
-       "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
-       "eligible": true,
-       "ineligible_reason": null,
-       "partial": false,
-       "approximate": false,
-       "differs": true,
-       "gap_jpy": 80,
-       "gap_travel_hours": 0.32,
-       "same_nice_set": true,
-       "true_cost": {
-        "hotel_bangsar_edge": 3851,
-        "hotel_bukit_bintang_lane": 3771,
-        "hotel_klcc_lantern": 4171
-       }
-      },
-      "2000": {
-       "solver_status": {
-        "hotel_bangsar_edge": "OPTIMAL",
-        "hotel_bukit_bintang_lane": "OPTIMAL",
-        "hotel_klcc_lantern": "OPTIMAL"
-       },
-       "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
-       "eligible": true,
-       "ineligible_reason": null,
-       "partial": false,
-       "approximate": false,
-       "differs": true,
-       "gap_jpy": 384,
-       "gap_travel_hours": -1.18,
-       "same_nice_set": false,
-       "true_cost": {
-        "hotel_bangsar_edge": 7239,
-        "hotel_bukit_bintang_lane": 6855,
-        "hotel_klcc_lantern": 7355
-       }
-      }
-     },
-     "flip": null
-    },
-    {
-     "id": "T008",
-     "by_vot": {
-      "500": {
        "solver_status": {
         "hotel_bangsar_edge": "OPTIMAL",
         "hotel_bukit_bintang_lane": "OPTIMAL",
@@ -2876,31 +2826,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 2024,
-        "hotel_bukit_bintang_lane": 2024,
-        "hotel_klcc_lantern": 2274
-       }
-      },
-      "1000": {
-       "solver_status": {
-        "hotel_bangsar_edge": "OPTIMAL",
-        "hotel_bukit_bintang_lane": "OPTIMAL",
-        "hotel_klcc_lantern": "OPTIMAL"
-       },
-       "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
-       "eligible": true,
-       "ineligible_reason": null,
-       "partial": false,
-       "approximate": false,
-       "differs": true,
-       "gap_jpy": 159,
-       "gap_travel_hours": 0.32,
-       "same_nice_set": true,
-       "true_cost": {
-        "hotel_bangsar_edge": 3724,
-        "hotel_bukit_bintang_lane": 3565,
-        "hotel_klcc_lantern": 3865
+        "hotel_bangsar_edge": 1701,
+        "hotel_bukit_bintang_lane": 1806,
+        "hotel_klcc_lantern": 2173
        }
       },
       "2000": {
@@ -2916,13 +2844,85 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 463,
-       "gap_travel_hours": -1.18,
+       "gap_jpy": 29,
+       "gap_travel_hours": 0.13,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 2435,
+        "hotel_bukit_bintang_lane": 2406,
+        "hotel_klcc_lantern": 2839
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T008",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 42,
+       "gap_travel_hours": 0.9,
        "same_nice_set": false,
        "true_cost": {
-        "hotel_bangsar_edge": 7112,
-        "hotel_bukit_bintang_lane": 6649,
-        "hotel_klcc_lantern": 7049
+        "hotel_bangsar_edge": 1226,
+        "hotel_bukit_bintang_lane": 1184,
+        "hotel_klcc_lantern": 1453
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 377,
+       "gap_travel_hours": 0.53,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 1761,
+        "hotel_bukit_bintang_lane": 1384,
+        "hotel_klcc_lantern": 1719
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 911,
+       "gap_travel_hours": 0.53,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 2695,
+        "hotel_bukit_bintang_lane": 1784,
+        "hotel_klcc_lantern": 2253
        }
       }
      },
@@ -2989,13 +2989,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 104,
-       "gap_travel_hours": 0.37,
+       "gap_jpy": 55,
+       "gap_travel_hours": 0.27,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 2067,
-        "hotel_bukit_bintang_lane": 1963,
-        "hotel_klcc_lantern": 2070
+        "hotel_bangsar_edge": 1361,
+        "hotel_bukit_bintang_lane": 1306,
+        "hotel_klcc_lantern": 1390
        }
       },
       "1000": {
@@ -3011,13 +3011,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 288,
-       "gap_travel_hours": 0.37,
+       "gap_jpy": 187,
+       "gap_travel_hours": 0.27,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 3792,
-        "hotel_bukit_bintang_lane": 3504,
-        "hotel_klcc_lantern": 3620
+        "hotel_bangsar_edge": 2052,
+        "hotel_bukit_bintang_lane": 1865,
+        "hotel_klcc_lantern": 1931
        }
       },
       "2000": {
@@ -3033,13 +3033,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 654,
-       "gap_travel_hours": 0.37,
+       "gap_jpy": 455,
+       "gap_travel_hours": 0.27,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 7242,
-        "hotel_bukit_bintang_lane": 6588,
-        "hotel_klcc_lantern": 6720
+        "hotel_bangsar_edge": 3436,
+        "hotel_bukit_bintang_lane": 2981,
+        "hotel_klcc_lantern": 3015
        }
       }
      },
@@ -3047,78 +3047,6 @@
     },
     {
      "id": "T011",
-     "by_vot": {
-      "500": {
-       "solver_status": {
-        "hotel_bangsar_edge": "OPTIMAL",
-        "hotel_bukit_bintang_lane": "OPTIMAL",
-        "hotel_klcc_lantern": "OPTIMAL"
-       },
-       "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
-       "eligible": true,
-       "ineligible_reason": null,
-       "partial": false,
-       "approximate": false,
-       "differs": true,
-       "gap_jpy": 43,
-       "gap_travel_hours": 0.4,
-       "same_nice_set": true,
-       "true_cost": {
-        "hotel_bangsar_edge": 1755,
-        "hotel_bukit_bintang_lane": 1712,
-        "hotel_klcc_lantern": 1970
-       }
-      },
-      "1000": {
-       "solver_status": {
-        "hotel_bangsar_edge": "OPTIMAL",
-        "hotel_bukit_bintang_lane": "OPTIMAL",
-        "hotel_klcc_lantern": "OPTIMAL"
-       },
-       "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
-       "eligible": true,
-       "ineligible_reason": null,
-       "partial": false,
-       "approximate": false,
-       "differs": true,
-       "gap_jpy": 243,
-       "gap_travel_hours": 0.4,
-       "same_nice_set": true,
-       "true_cost": {
-        "hotel_bangsar_edge": 3046,
-        "hotel_bukit_bintang_lane": 2803,
-        "hotel_klcc_lantern": 3120
-       }
-      },
-      "2000": {
-       "solver_status": {
-        "hotel_bangsar_edge": "OPTIMAL",
-        "hotel_bukit_bintang_lane": "OPTIMAL",
-        "hotel_klcc_lantern": "OPTIMAL"
-       },
-       "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
-       "eligible": true,
-       "ineligible_reason": null,
-       "partial": false,
-       "approximate": false,
-       "differs": true,
-       "gap_jpy": 643,
-       "gap_travel_hours": 0.4,
-       "same_nice_set": true,
-       "true_cost": {
-        "hotel_bangsar_edge": 5630,
-        "hotel_bukit_bintang_lane": 4987,
-        "hotel_klcc_lantern": 5420
-       }
-      }
-     },
-     "flip": null
-    },
-    {
-     "id": "T012",
      "by_vot": {
       "500": {
        "solver_status": {
@@ -3137,9 +3065,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 2169,
-        "hotel_bukit_bintang_lane": 2169,
-        "hotel_klcc_lantern": 2427
+        "hotel_bangsar_edge": 1539,
+        "hotel_bukit_bintang_lane": 1614,
+        "hotel_klcc_lantern": 1814
        }
       },
       "1000": {
@@ -3155,13 +3083,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 159,
-       "gap_travel_hours": 0.32,
+       "gap_jpy": 7,
+       "gap_travel_hours": 0.17,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 3953,
-        "hotel_bukit_bintang_lane": 3794,
-        "hotel_klcc_lantern": 4111
+        "hotel_bangsar_edge": 2280,
+        "hotel_bukit_bintang_lane": 2273,
+        "hotel_klcc_lantern": 2473
        }
       },
       "2000": {
@@ -3177,13 +3105,85 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 475,
-       "gap_travel_hours": 0.32,
+       "gap_jpy": 175,
+       "gap_travel_hours": 0.17,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 7519,
-        "hotel_bukit_bintang_lane": 7044,
-        "hotel_klcc_lantern": 7477
+        "hotel_bangsar_edge": 3764,
+        "hotel_bukit_bintang_lane": 3589,
+        "hotel_klcc_lantern": 3789
+       }
+      }
+     },
+     "flip": null
+    },
+    {
+     "id": "T012",
+     "by_vot": {
+      "500": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 26,
+       "gap_travel_hours": 0.37,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 1939,
+        "hotel_bukit_bintang_lane": 1913,
+        "hotel_klcc_lantern": 2113
+       }
+      },
+      "1000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 210,
+       "gap_travel_hours": 0.37,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 3039,
+        "hotel_bukit_bintang_lane": 2829,
+        "hotel_klcc_lantern": 3029
+       }
+      },
+      "2000": {
+       "solver_status": {
+        "hotel_bangsar_edge": "OPTIMAL",
+        "hotel_bukit_bintang_lane": "OPTIMAL",
+        "hotel_klcc_lantern": "OPTIMAL"
+       },
+       "cheapest_by_rate": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "eligible": true,
+       "ineligible_reason": null,
+       "partial": false,
+       "approximate": false,
+       "differs": true,
+       "gap_jpy": 576,
+       "gap_travel_hours": 0.37,
+       "same_nice_set": true,
+       "true_cost": {
+        "hotel_bangsar_edge": 5239,
+        "hotel_bukit_bintang_lane": 4663,
+        "hotel_klcc_lantern": 4863
        }
       }
      },
@@ -3209,9 +3209,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 1629,
-        "hotel_bukit_bintang_lane": 1682,
-        "hotel_klcc_lantern": 1914
+        "hotel_bangsar_edge": 690,
+        "hotel_bukit_bintang_lane": 930,
+        "hotel_klcc_lantern": 1230
        }
       },
       "1000": {
@@ -3221,19 +3221,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 129,
-       "gap_travel_hours": 0.37,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 2720,
-        "hotel_bukit_bintang_lane": 2591,
-        "hotel_klcc_lantern": 2755
+        "hotel_bangsar_edge": 690,
+        "hotel_bukit_bintang_lane": 930,
+        "hotel_klcc_lantern": 1230
        }
       },
       "2000": {
@@ -3243,19 +3243,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 497,
-       "gap_travel_hours": 0.37,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 4904,
-        "hotel_bukit_bintang_lane": 4407,
-        "hotel_klcc_lantern": 4439
+        "hotel_bangsar_edge": 690,
+        "hotel_bukit_bintang_lane": 930,
+        "hotel_klcc_lantern": 1230
        }
       }
      },
@@ -3271,19 +3271,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 101,
-       "gap_travel_hours": 0.52,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 1619,
-        "hotel_bukit_bintang_lane": 1518,
-        "hotel_klcc_lantern": 1744
+        "hotel_bangsar_edge": 955,
+        "hotel_bukit_bintang_lane": 1115,
+        "hotel_klcc_lantern": 1315
        }
       },
       "1000": {
@@ -3293,19 +3293,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 360,
-       "gap_travel_hours": 0.52,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 2778,
-        "hotel_bukit_bintang_lane": 2418,
-        "hotel_klcc_lantern": 2669
+        "hotel_bangsar_edge": 955,
+        "hotel_bukit_bintang_lane": 1115,
+        "hotel_klcc_lantern": 1315
        }
       },
       "2000": {
@@ -3315,19 +3315,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 876,
-       "gap_travel_hours": 0.52,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 5094,
-        "hotel_bukit_bintang_lane": 4218,
-        "hotel_klcc_lantern": 4519
+        "hotel_bangsar_edge": 955,
+        "hotel_bukit_bintang_lane": 1115,
+        "hotel_klcc_lantern": 1315
        }
       }
      },
@@ -3343,19 +3343,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 1,
-       "gap_travel_hours": 0.32,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 2016,
-        "hotel_bukit_bintang_lane": 2015,
-        "hotel_klcc_lantern": 2274
+        "hotel_bangsar_edge": 955,
+        "hotel_bukit_bintang_lane": 1115,
+        "hotel_klcc_lantern": 1315
        }
       },
       "1000": {
@@ -3365,19 +3365,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 158,
-       "gap_travel_hours": 0.32,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 3707,
-        "hotel_bukit_bintang_lane": 3549,
-        "hotel_klcc_lantern": 3865
+        "hotel_bangsar_edge": 955,
+        "hotel_bukit_bintang_lane": 1115,
+        "hotel_klcc_lantern": 1315
        }
       },
       "2000": {
@@ -3387,19 +3387,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 464,
-       "gap_travel_hours": -1.18,
-       "same_nice_set": false,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
+       "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 7079,
-        "hotel_bukit_bintang_lane": 6615,
-        "hotel_klcc_lantern": 7049
+        "hotel_bangsar_edge": 955,
+        "hotel_bukit_bintang_lane": 1115,
+        "hotel_klcc_lantern": 1315
        }
       }
      },
@@ -3421,13 +3421,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 14,
-       "gap_travel_hours": 0.18,
-       "same_nice_set": true,
+       "gap_jpy": 101,
+       "gap_travel_hours": 0.88,
+       "same_nice_set": false,
        "true_cost": {
-        "hotel_bangsar_edge": 1395,
-        "hotel_bukit_bintang_lane": 1381,
-        "hotel_klcc_lantern": 1583
+        "hotel_bangsar_edge": 1200,
+        "hotel_bukit_bintang_lane": 1099,
+        "hotel_klcc_lantern": 1268
        }
       },
       "1000": {
@@ -3443,13 +3443,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 105,
-       "gap_travel_hours": 0.18,
+       "gap_jpy": 457,
+       "gap_travel_hours": 0.53,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 2611,
-        "hotel_bukit_bintang_lane": 2506,
-        "hotel_klcc_lantern": 2808
+        "hotel_bangsar_edge": 1756,
+        "hotel_bukit_bintang_lane": 1299,
+        "hotel_klcc_lantern": 1534
        }
       },
       "2000": {
@@ -3465,13 +3465,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 289,
-       "gap_travel_hours": 0.18,
+       "gap_jpy": 991,
+       "gap_travel_hours": 0.53,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 5045,
-        "hotel_bukit_bintang_lane": 4756,
-        "hotel_klcc_lantern": 5258
+        "hotel_bangsar_edge": 2690,
+        "hotel_bukit_bintang_lane": 1699,
+        "hotel_klcc_lantern": 2068
        }
       }
      },
@@ -3540,11 +3540,11 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": true,
+       "same_nice_set": false,
        "true_cost": {
-        "hotel_bangsar_edge": 2160,
-        "hotel_bukit_bintang_lane": 2172,
-        "hotel_klcc_lantern": 2505
+        "hotel_bangsar_edge": 1345,
+        "hotel_bukit_bintang_lane": 1448,
+        "hotel_klcc_lantern": 1807
        }
       },
       "1000": {
@@ -3560,13 +3560,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 213,
-       "gap_travel_hours": 0.45,
+       "gap_jpy": 112,
+       "gap_travel_hours": 0.35,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 3810,
-        "hotel_bukit_bintang_lane": 3597,
-        "hotel_klcc_lantern": 3964
+        "hotel_bangsar_edge": 1935,
+        "hotel_bukit_bintang_lane": 1823,
+        "hotel_klcc_lantern": 2241
        }
       },
       "2000": {
@@ -3582,13 +3582,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 663,
-       "gap_travel_hours": 0.45,
+       "gap_jpy": 462,
+       "gap_travel_hours": 0.35,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 7110,
-        "hotel_bukit_bintang_lane": 6447,
-        "hotel_klcc_lantern": 6880
+        "hotel_bangsar_edge": 3035,
+        "hotel_bukit_bintang_lane": 2573,
+        "hotel_klcc_lantern": 3107
        }
       }
      },
@@ -3604,19 +3604,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": false,
-       "gap_jpy": 0,
-       "gap_travel_hours": 0.0,
-       "same_nice_set": true,
+       "differs": true,
+       "gap_jpy": 18,
+       "gap_travel_hours": 0.62,
+       "same_nice_set": false,
        "true_cost": {
-        "hotel_bangsar_edge": 1028,
-        "hotel_bukit_bintang_lane": 1163,
-        "hotel_klcc_lantern": 1405
+        "hotel_bangsar_edge": 1027,
+        "hotel_bukit_bintang_lane": 1009,
+        "hotel_klcc_lantern": 1226
        }
       },
       "1000": {
@@ -3626,19 +3626,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": false,
-       "gap_jpy": 0,
-       "gap_travel_hours": 0.0,
+       "differs": true,
+       "gap_jpy": 275,
+       "gap_travel_hours": 0.43,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 1703,
-        "hotel_bukit_bintang_lane": 1813,
-        "hotel_klcc_lantern": 2096
+        "hotel_bangsar_edge": 1518,
+        "hotel_bukit_bintang_lane": 1243,
+        "hotel_klcc_lantern": 1476
        }
       },
       "2000": {
@@ -3648,19 +3648,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bangsar_edge",
+       "best_by_true_cost": "hotel_bukit_bintang_lane",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": false,
-       "gap_jpy": 0,
-       "gap_travel_hours": 0.0,
+       "differs": true,
+       "gap_jpy": 709,
+       "gap_travel_hours": 0.43,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 3053,
-        "hotel_bukit_bintang_lane": 3113,
-        "hotel_klcc_lantern": 3480
+        "hotel_bangsar_edge": 2418,
+        "hotel_bukit_bintang_lane": 1709,
+        "hotel_klcc_lantern": 1976
        }
       }
      },
@@ -3676,19 +3676,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 12,
-       "gap_travel_hours": 0.18,
-       "same_nice_set": true,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
+       "same_nice_set": false,
        "true_cost": {
-        "hotel_bangsar_edge": 4585,
-        "hotel_bukit_bintang_lane": 4573,
-        "hotel_klcc_lantern": 4715
+        "hotel_bangsar_edge": 1272,
+        "hotel_bukit_bintang_lane": 1403,
+        "hotel_klcc_lantern": 1561
        }
       },
       "1000": {
@@ -3698,19 +3698,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 103,
-       "gap_travel_hours": 0.18,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 5835,
-        "hotel_bukit_bintang_lane": 5732,
-        "hotel_klcc_lantern": 5915
+        "hotel_bangsar_edge": 1788,
+        "hotel_bukit_bintang_lane": 1986,
+        "hotel_klcc_lantern": 2187
        }
       },
       "2000": {
@@ -3720,19 +3720,19 @@
         "hotel_klcc_lantern": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_bangsar_edge",
-       "best_by_true_cost": "hotel_bukit_bintang_lane",
+       "best_by_true_cost": "hotel_bangsar_edge",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 287,
-       "gap_travel_hours": 0.18,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bangsar_edge": 8335,
-        "hotel_bukit_bintang_lane": 8048,
-        "hotel_klcc_lantern": 8315
+        "hotel_bangsar_edge": 2738,
+        "hotel_bukit_bintang_lane": 3052,
+        "hotel_klcc_lantern": 3353
        }
       }
      },
@@ -4244,29 +4244,29 @@
        "ineligible_reasons": {
         "hotel_infeasible": 5
        },
-       "cheapest_by_rate_not_best": 9,
+       "cheapest_by_rate_not_best": 5,
        "gap_jpy": {
         "n": 15,
-        "mean": 38.333333333333336,
-        "median": 12,
+        "mean": 16.133333333333333,
+        "median": 0,
         "min": 0,
-        "max": 122
+        "max": 101
        },
        "gap_travel_hours": {
         "n": 15,
-        "mean": 0.22333333333333333,
-        "median": 0.18,
+        "mean": 0.20266666666666666,
+        "median": 0.0,
         "min": 0.0,
-        "max": 0.63
+        "max": 0.9
        },
-       "n_same_nice_set": 15,
-       "cheapest_by_rate_not_best_same_nice_set": 9,
+       "n_same_nice_set": 9,
+       "cheapest_by_rate_not_best_same_nice_set": 2,
        "gap_jpy_same_nice_set": {
-        "n": 15,
-        "mean": 38.333333333333336,
-        "median": 12,
+        "n": 9,
+        "mean": 9.0,
+        "median": 0,
         "min": 0,
-        "max": 122
+        "max": 55
        },
        "not_proven_optimal": 0
       },
@@ -4276,29 +4276,29 @@
        "ineligible_reasons": {
         "hotel_infeasible": 5
        },
-       "cheapest_by_rate_not_best": 14,
+       "cheapest_by_rate_not_best": 8,
        "gap_jpy": {
         "n": 15,
-        "mean": 199.2,
-        "median": 159,
+        "mean": 116.93333333333334,
+        "median": 7,
         "min": 0,
-        "max": 398
+        "max": 457
        },
        "gap_travel_hours": {
         "n": 15,
-        "mean": 0.34199999999999997,
-        "median": 0.35,
+        "mean": 0.20133333333333334,
+        "median": 0.17,
         "min": 0.0,
-        "max": 0.63
+        "max": 0.53
        },
        "n_same_nice_set": 15,
-       "cheapest_by_rate_not_best_same_nice_set": 14,
+       "cheapest_by_rate_not_best_same_nice_set": 8,
        "gap_jpy_same_nice_set": {
         "n": 15,
-        "mean": 199.2,
-        "median": 159,
+        "mean": 116.93333333333334,
+        "median": 7,
         "min": 0,
-        "max": 398
+        "max": 457
        },
        "not_proven_optimal": 0
       },
@@ -4308,29 +4308,29 @@
        "ineligible_reasons": {
         "hotel_infeasible": 5
        },
-       "cheapest_by_rate_not_best": 14,
+       "cheapest_by_rate_not_best": 9,
        "gap_jpy": {
         "n": 15,
-        "mean": 540.4,
-        "median": 497,
+        "mean": 320.2,
+        "median": 175,
         "min": 0,
-        "max": 1032
+        "max": 991
        },
        "gap_travel_hours": {
         "n": 15,
-        "mean": 0.05000000000000002,
-        "median": 0.37,
-        "min": -1.18,
-        "max": 0.63
+        "mean": 0.21,
+        "median": 0.17,
+        "min": 0.0,
+        "max": 0.53
        },
-       "n_same_nice_set": 12,
-       "cheapest_by_rate_not_best_same_nice_set": 11,
+       "n_same_nice_set": 15,
+       "cheapest_by_rate_not_best_same_nice_set": 9,
        "gap_jpy_same_nice_set": {
-        "n": 12,
-        "mean": 566.25,
-        "median": 648.5,
+        "n": 15,
+        "mean": 320.2,
+        "median": 175,
         "min": 0,
-        "max": 1032
+        "max": 991
        },
        "not_proven_optimal": 0
       }
@@ -4353,8 +4353,8 @@
     "machine_dependent": {
      "solver_runtime_seconds": {
       "n": 20,
-      "mean": 0.042475,
-      "max": 0.1198
+      "mean": 0.012295,
+      "max": 0.0418
      }
     }
    }
@@ -4829,7 +4829,7 @@
       "conflict_codes": [
        "unknown_hours_not_allowed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -4855,7 +4855,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 369,
       "total_jpy": 76053,
@@ -4938,7 +4938,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0191,
+      "runtime_seconds": 0.0091,
       "solver_status": "OPTIMAL",
       "travel_minutes": 136,
       "total_jpy": 39828,
@@ -4961,7 +4961,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 135,
       "total_jpy": 42860,
@@ -5033,7 +5033,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.018,
+      "runtime_seconds": 0.009,
       "solver_status": "OPTIMAL",
       "travel_minutes": 62,
       "total_jpy": 9311,
@@ -5055,7 +5055,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 97,
       "total_jpy": 12605,
@@ -5077,7 +5077,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 91,
       "total_jpy": 12393,
@@ -5114,7 +5114,7 @@
       "conflict_codes": [
        "budget_too_low"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -5135,7 +5135,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 145,
       "total_jpy": 12137,
@@ -5158,7 +5158,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 141,
       "total_jpy": 11998,
@@ -5201,7 +5201,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0045,
+      "runtime_seconds": 0.0019,
       "solver_status": "OPTIMAL",
       "travel_minutes": 0,
       "total_jpy": 0,
@@ -5239,7 +5239,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 69,
       "total_jpy": 30523,
@@ -5273,7 +5273,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0053,
+      "runtime_seconds": 0.0027,
       "solver_status": "OPTIMAL",
       "travel_minutes": 0,
       "total_jpy": 0,
@@ -5295,7 +5295,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 183,
       "total_jpy": 67486,
@@ -5317,7 +5317,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 176,
       "total_jpy": 67288,
@@ -5361,7 +5361,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0317,
+      "runtime_seconds": 0.016,
       "solver_status": "OPTIMAL",
       "travel_minutes": 138,
       "total_jpy": 8932,
@@ -5386,7 +5386,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 266,
       "total_jpy": 19470,
@@ -5447,7 +5447,7 @@
       "conflict_codes": [
        "budget_too_low"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -5465,7 +5465,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 0,
       "total_jpy": 0,
@@ -5485,7 +5485,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 0,
       "total_jpy": 0,
@@ -5536,7 +5536,7 @@
       "conflict_codes": [
        "unknown_hours_not_allowed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -5564,7 +5564,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 267,
       "total_jpy": 78635,
@@ -5594,7 +5594,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0002,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 261,
       "total_jpy": 78400,
@@ -5647,7 +5647,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0074,
+      "runtime_seconds": 0.0037,
       "solver_status": "OPTIMAL",
       "travel_minutes": 140,
       "total_jpy": 33001,
@@ -5670,7 +5670,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 283,
       "total_jpy": 44038,
@@ -5693,7 +5693,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 259,
       "total_jpy": 43239,
@@ -5737,7 +5737,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0123,
+      "runtime_seconds": 0.0063,
       "solver_status": "OPTIMAL",
       "travel_minutes": 85,
       "total_jpy": 28081,
@@ -5760,7 +5760,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 130,
       "total_jpy": 34693,
@@ -5783,7 +5783,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 121,
       "total_jpy": 16394,
@@ -5830,7 +5830,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0292,
+      "runtime_seconds": 0.0149,
       "solver_status": "OPTIMAL",
       "travel_minutes": 69,
       "total_jpy": 6505,
@@ -5854,7 +5854,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 260,
       "total_jpy": 56309,
@@ -5913,7 +5913,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.007,
+      "runtime_seconds": 0.0036,
       "solver_status": "OPTIMAL",
       "travel_minutes": 0,
       "total_jpy": 0,
@@ -5934,7 +5934,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 204,
       "total_jpy": 63194,
@@ -5955,7 +5955,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 206,
       "total_jpy": 63222,
@@ -5993,7 +5993,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0092,
+      "runtime_seconds": 0.0048,
       "solver_status": "OPTIMAL",
       "travel_minutes": 41,
       "total_jpy": 4543,
@@ -6016,7 +6016,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 96,
       "total_jpy": 33567,
@@ -6039,7 +6039,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0009,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 96,
       "total_jpy": 33553,
@@ -6079,7 +6079,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0161,
+      "runtime_seconds": 0.0081,
       "solver_status": "OPTIMAL",
       "travel_minutes": 69,
       "total_jpy": 6505,
@@ -6101,7 +6101,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0005,
       "solver_status": "N/A",
       "travel_minutes": 146,
       "total_jpy": 15296,
@@ -6123,7 +6123,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 143,
       "total_jpy": 15198,
@@ -6165,7 +6165,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0297,
+      "runtime_seconds": 0.0153,
       "solver_status": "OPTIMAL",
       "travel_minutes": 139,
       "total_jpy": 8917,
@@ -6189,7 +6189,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 347,
       "total_jpy": 54281,
@@ -6249,7 +6249,7 @@
       "conflict_codes": [
        "no_feasible_schedule"
       ],
-      "runtime_seconds": 0.0043,
+      "runtime_seconds": 0.0022,
       "solver_status": "INFEASIBLE",
       "travel_minutes": null,
       "total_jpy": null,
@@ -6269,7 +6269,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 119,
       "total_jpy": 38224,
@@ -6292,7 +6292,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 130,
       "total_jpy": 39629,
@@ -6346,7 +6346,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0129,
+      "runtime_seconds": 0.0066,
       "solver_status": "OPTIMAL",
       "travel_minutes": 62,
       "total_jpy": 9311,
@@ -6370,7 +6370,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 121,
       "total_jpy": 17481,
@@ -6394,7 +6394,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 98,
       "total_jpy": 15612,
@@ -6432,7 +6432,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0033,
+      "runtime_seconds": 0.0017,
       "solver_status": "OPTIMAL",
       "travel_minutes": 125,
       "total_jpy": 10450,
@@ -6517,7 +6517,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0103,
+      "runtime_seconds": 0.0053,
       "solver_status": "OPTIMAL",
       "travel_minutes": 95,
       "total_jpy": 7409,
@@ -6541,7 +6541,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 176,
       "total_jpy": 41338,
@@ -6642,9 +6642,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 304685,
-        "hotel_jongno_garden": 451961,
-        "hotel_myeongdong_sky": 542057
+        "hotel_guro_river": 388685,
+        "hotel_jongno_garden": 535961,
+        "hotel_myeongdong_sky": 626057
        }
       },
       "1000": {
@@ -6664,9 +6664,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 306344,
-        "hotel_jongno_garden": 453095,
-        "hotel_myeongdong_sky": 543207
+        "hotel_guro_river": 390344,
+        "hotel_jongno_garden": 537095,
+        "hotel_myeongdong_sky": 627207
        }
       },
       "2000": {
@@ -6686,9 +6686,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 309660,
-        "hotel_jongno_garden": 455361,
-        "hotel_myeongdong_sky": 545507
+        "hotel_guro_river": 393660,
+        "hotel_jongno_garden": 539361,
+        "hotel_myeongdong_sky": 629507
        }
       }
      },
@@ -6714,9 +6714,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 271046,
-        "hotel_jongno_garden": 417634,
-        "hotel_myeongdong_sky": 507828
+        "hotel_guro_river": 274633,
+        "hotel_jongno_garden": 417660,
+        "hotel_myeongdong_sky": 508149
        }
       },
       "1000": {
@@ -6736,9 +6736,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 272187,
-        "hotel_jongno_garden": 418118,
-        "hotel_myeongdong_sky": 508344
+        "hotel_guro_river": 276658,
+        "hotel_jongno_garden": 418326,
+        "hotel_myeongdong_sky": 508908
        }
       },
       "2000": {
@@ -6758,9 +6758,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 274471,
-        "hotel_jongno_garden": 419084,
-        "hotel_myeongdong_sky": 509378
+        "hotel_guro_river": 280708,
+        "hotel_jongno_garden": 419660,
+        "hotel_myeongdong_sky": 510424
        }
       }
      },
@@ -6831,9 +6831,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 94000,
-        "hotel_jongno_garden": 144000,
-        "hotel_myeongdong_sky": 174000
+        "hotel_guro_river": 118967,
+        "hotel_jongno_garden": 166081,
+        "hotel_myeongdong_sky": 196081
        }
       },
       "1000": {
@@ -6853,9 +6853,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 94000,
-        "hotel_jongno_garden": 144000,
-        "hotel_myeongdong_sky": 174000
+        "hotel_guro_river": 120101,
+        "hotel_jongno_garden": 166656,
+        "hotel_myeongdong_sky": 196656
        }
       },
       "2000": {
@@ -6875,9 +6875,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 94000,
-        "hotel_jongno_garden": 144000,
-        "hotel_myeongdong_sky": 174000
+        "hotel_guro_river": 122367,
+        "hotel_jongno_garden": 167806,
+        "hotel_myeongdong_sky": 197806
        }
       }
      },
@@ -6903,9 +6903,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 97000,
-        "hotel_jongno_garden": 147000,
-        "hotel_myeongdong_sky": 177000
+        "hotel_guro_river": 158776,
+        "hotel_jongno_garden": 203091,
+        "hotel_myeongdong_sky": 233263
        }
       },
       "1000": {
@@ -6925,9 +6925,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 97000,
-        "hotel_jongno_garden": 147000,
-        "hotel_myeongdong_sky": 177000
+        "hotel_guro_river": 161217,
+        "hotel_jongno_garden": 204425,
+        "hotel_myeongdong_sky": 234629
        }
       },
       "2000": {
@@ -6947,9 +6947,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 97000,
-        "hotel_jongno_garden": 147000,
-        "hotel_myeongdong_sky": 177000
+        "hotel_guro_river": 166101,
+        "hotel_jongno_garden": 207091,
+        "hotel_myeongdong_sky": 237363
        }
       }
      },
@@ -6973,11 +6973,11 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": false,
+       "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 274080,
-        "hotel_jongno_garden": 420629,
-        "hotel_myeongdong_sky": 510834
+        "hotel_guro_river": 321360,
+        "hotel_jongno_garden": 465684,
+        "hotel_myeongdong_sky": 555877
        }
       },
       "1000": {
@@ -6997,9 +6997,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 275232,
-        "hotel_jongno_garden": 421113,
-        "hotel_myeongdong_sky": 511359
+        "hotel_guro_river": 323519,
+        "hotel_jongno_garden": 466743,
+        "hotel_myeongdong_sky": 556968
        }
       },
       "2000": {
@@ -7019,9 +7019,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 277532,
-        "hotel_jongno_garden": 422079,
-        "hotel_myeongdong_sky": 512409
+        "hotel_guro_river": 327835,
+        "hotel_jongno_garden": 468859,
+        "hotel_myeongdong_sky": 559152
        }
       }
      },
@@ -7137,9 +7137,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 125168,
-        "hotel_jongno_garden": 172154,
-        "hotel_myeongdong_sky": 202159
+        "hotel_guro_river": 130286,
+        "hotel_jongno_garden": 174000,
+        "hotel_myeongdong_sky": 204149
        }
       },
       "1000": {
@@ -7159,9 +7159,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 126334,
-        "hotel_jongno_garden": 172738,
-        "hotel_myeongdong_sky": 202743
+        "hotel_guro_river": 132427,
+        "hotel_jongno_garden": 174916,
+        "hotel_myeongdong_sky": 205099
        }
       },
       "2000": {
@@ -7181,9 +7181,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 128668,
-        "hotel_jongno_garden": 173904,
-        "hotel_myeongdong_sky": 203909
+        "hotel_guro_river": 136711,
+        "hotel_jongno_garden": 176750,
+        "hotel_myeongdong_sky": 206999
        }
       }
      },
@@ -7207,11 +7207,11 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": true,
+       "same_nice_set": false,
        "true_cost": {
-        "hotel_guro_river": 206978,
-        "hotel_jongno_garden": 304789,
-        "hotel_myeongdong_sky": 364681
+        "hotel_guro_river": 290978,
+        "hotel_jongno_garden": 350049,
+        "hotel_myeongdong_sky": 410006
        }
       },
       "1000": {
@@ -7229,11 +7229,11 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": true,
+       "same_nice_set": false,
        "true_cost": {
-        "hotel_guro_river": 208112,
-        "hotel_jongno_garden": 305498,
-        "hotel_myeongdong_sky": 365365
+        "hotel_guro_river": 292112,
+        "hotel_jongno_garden": 350990,
+        "hotel_myeongdong_sky": 410931
        }
       },
       "2000": {
@@ -7251,11 +7251,11 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": true,
+       "same_nice_set": false,
        "true_cost": {
-        "hotel_guro_river": 210378,
-        "hotel_jongno_garden": 306914,
-        "hotel_myeongdong_sky": 366731
+        "hotel_guro_river": 294378,
+        "hotel_jongno_garden": 352874,
+        "hotel_myeongdong_sky": 412781
        }
       }
      },
@@ -7281,9 +7281,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 192259,
-        "hotel_jongno_garden": 288910,
-        "hotel_myeongdong_sky": 349080
+        "hotel_guro_river": 234865,
+        "hotel_jongno_garden": 327113,
+        "hotel_myeongdong_sky": 387341
        }
       },
       "1000": {
@@ -7303,9 +7303,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 193450,
-        "hotel_jongno_garden": 289451,
-        "hotel_myeongdong_sky": 349655
+        "hotel_guro_river": 238265,
+        "hotel_jongno_garden": 329004,
+        "hotel_myeongdong_sky": 389275
        }
       },
       "2000": {
@@ -7325,9 +7325,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 195834,
-        "hotel_jongno_garden": 290535,
-        "hotel_myeongdong_sky": 350805
+        "hotel_guro_river": 245065,
+        "hotel_jongno_garden": 332788,
+        "hotel_myeongdong_sky": 393141
        }
       }
      },
@@ -7353,9 +7353,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 264000,
-        "hotel_jongno_garden": 414000,
-        "hotel_myeongdong_sky": 504000
+        "hotel_guro_river": 319894,
+        "hotel_jongno_garden": 467119,
+        "hotel_myeongdong_sky": 557125
        }
       },
       "1000": {
@@ -7375,9 +7375,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 264000,
-        "hotel_jongno_garden": 414000,
-        "hotel_myeongdong_sky": 504000
+        "hotel_guro_river": 321594,
+        "hotel_jongno_garden": 468285,
+        "hotel_myeongdong_sky": 558291
        }
       },
       "2000": {
@@ -7397,9 +7397,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 264000,
-        "hotel_jongno_garden": 414000,
-        "hotel_myeongdong_sky": 504000
+        "hotel_guro_river": 324994,
+        "hotel_jongno_garden": 470619,
+        "hotel_myeongdong_sky": 560625
        }
       }
      },
@@ -7423,11 +7423,11 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": false,
+       "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 182000,
-        "hotel_jongno_garden": 280885,
-        "hotel_myeongdong_sky": 341089
+        "hotel_guro_river": 210161,
+        "hotel_jongno_garden": 304166,
+        "hotel_myeongdong_sky": 364240
        }
       },
       "1000": {
@@ -7445,11 +7445,11 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": false,
+       "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 182000,
-        "hotel_jongno_garden": 281226,
-        "hotel_myeongdong_sky": 341473
+        "hotel_guro_river": 212095,
+        "hotel_jongno_garden": 304932,
+        "hotel_myeongdong_sky": 365024
        }
       },
       "2000": {
@@ -7467,11 +7467,11 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": false,
+       "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 182000,
-        "hotel_jongno_garden": 281910,
-        "hotel_myeongdong_sky": 342000
+        "hotel_guro_river": 215961,
+        "hotel_jongno_garden": 306466,
+        "hotel_myeongdong_sky": 366590
        }
       }
      },
@@ -7495,11 +7495,11 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": false,
+       "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 185000,
-        "hotel_jongno_garden": 282910,
-        "hotel_myeongdong_sky": 343080
+        "hotel_guro_river": 191489,
+        "hotel_jongno_garden": 285819,
+        "hotel_myeongdong_sky": 346000
        }
       },
       "1000": {
@@ -7517,11 +7517,11 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": false,
+       "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 185000,
-        "hotel_jongno_garden": 283451,
-        "hotel_myeongdong_sky": 343655
+        "hotel_guro_river": 193664,
+        "hotel_jongno_garden": 286903,
+        "hotel_myeongdong_sky": 347109
        }
       },
       "2000": {
@@ -7539,11 +7539,11 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": false,
+       "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 185000,
-        "hotel_jongno_garden": 284535,
-        "hotel_myeongdong_sky": 344805
+        "hotel_guro_river": 198014,
+        "hotel_jongno_garden": 289069,
+        "hotel_myeongdong_sky": 349325
        }
       }
      },
@@ -7569,9 +7569,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 104075,
-        "hotel_jongno_garden": 150653,
-        "hotel_myeongdong_sky": 180832
+        "hotel_guro_river": 141373,
+        "hotel_jongno_garden": 185762,
+        "hotel_myeongdong_sky": 215832
        }
       },
       "1000": {
@@ -7591,9 +7591,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 105234,
-        "hotel_jongno_garden": 151137,
-        "hotel_myeongdong_sky": 181357
+        "hotel_guro_river": 144114,
+        "hotel_jongno_garden": 187403,
+        "hotel_myeongdong_sky": 217491
        }
       },
       "2000": {
@@ -7613,9 +7613,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 107550,
-        "hotel_jongno_garden": 152103,
-        "hotel_myeongdong_sky": 182407
+        "hotel_guro_river": 149598,
+        "hotel_jongno_garden": 190687,
+        "hotel_myeongdong_sky": 220807
        }
       }
      },
@@ -7686,9 +7686,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 274046,
-        "hotel_jongno_garden": 420634,
-        "hotel_myeongdong_sky": 510828
+        "hotel_guro_river": 322600,
+        "hotel_jongno_garden": 465834,
+        "hotel_myeongdong_sky": 556197
        }
       },
       "1000": {
@@ -7708,9 +7708,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 275187,
-        "hotel_jongno_garden": 421118,
-        "hotel_myeongdong_sky": 511344
+        "hotel_guro_river": 324609,
+        "hotel_jongno_garden": 466534,
+        "hotel_myeongdong_sky": 556963
        }
       },
       "2000": {
@@ -7730,9 +7730,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 277471,
-        "hotel_jongno_garden": 422084,
-        "hotel_myeongdong_sky": 512378
+        "hotel_guro_river": 328625,
+        "hotel_jongno_garden": 467934,
+        "hotel_myeongdong_sky": 558497
        }
       }
      },
@@ -7756,10 +7756,10 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": false,
+       "same_nice_set": true,
        "true_cost": {
         "hotel_guro_river": 181492,
-        "hotel_jongno_garden": 279291,
+        "hotel_jongno_garden": 279377,
         "hotel_myeongdong_sky": 339343
        }
       },
@@ -7778,11 +7778,11 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": false,
+       "same_nice_set": true,
        "true_cost": {
         "hotel_guro_river": 182533,
-        "hotel_jongno_garden": 279525,
-        "hotel_myeongdong_sky": 339819
+        "hotel_jongno_garden": 280011,
+        "hotel_myeongdong_sky": 339968
        }
       },
       "2000": {
@@ -7800,11 +7800,11 @@
        "differs": false,
        "gap_jpy": 0,
        "gap_travel_hours": 0.0,
-       "same_nice_set": false,
+       "same_nice_set": true,
        "true_cost": {
         "hotel_guro_river": 184617,
-        "hotel_jongno_garden": 279991,
-        "hotel_myeongdong_sky": 340385
+        "hotel_jongno_garden": 281277,
+        "hotel_myeongdong_sky": 341218
        }
       }
      },
@@ -7830,9 +7830,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 104388,
-        "hotel_jongno_garden": 152201,
-        "hotel_myeongdong_sky": 182189
+        "hotel_guro_river": 131911,
+        "hotel_jongno_garden": 176386,
+        "hotel_myeongdong_sky": 206535
        }
       },
       "1000": {
@@ -7852,9 +7852,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 105597,
-        "hotel_jongno_garden": 152992,
-        "hotel_myeongdong_sky": 182973
+        "hotel_guro_river": 134161,
+        "hotel_jongno_garden": 177561,
+        "hotel_myeongdong_sky": 207744
        }
       },
       "2000": {
@@ -7874,9 +7874,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_guro_river": 108013,
-        "hotel_jongno_garden": 154576,
-        "hotel_myeongdong_sky": 184539
+        "hotel_guro_river": 138661,
+        "hotel_jongno_garden": 179911,
+        "hotel_myeongdong_sky": 210160
        }
       }
      },
@@ -8165,12 +8165,12 @@
         "min": 0.0,
         "max": 0.0
        },
-       "n_same_nice_set": 11,
+       "n_same_nice_set": 14,
        "cheapest_by_rate_not_best_same_nice_set": 0,
        "gap_jpy_same_nice_set": {
-        "n": 11,
+        "n": 14,
         "mean": 0.0,
-        "median": 0,
+        "median": 0.0,
         "min": 0,
         "max": 0
        },
@@ -8197,10 +8197,10 @@
         "min": 0.0,
         "max": 0.0
        },
-       "n_same_nice_set": 12,
+       "n_same_nice_set": 14,
        "cheapest_by_rate_not_best_same_nice_set": 0,
        "gap_jpy_same_nice_set": {
-        "n": 12,
+        "n": 14,
         "mean": 0.0,
         "median": 0.0,
         "min": 0,
@@ -8229,10 +8229,10 @@
         "min": 0.0,
         "max": 0.0
        },
-       "n_same_nice_set": 12,
+       "n_same_nice_set": 14,
        "cheapest_by_rate_not_best_same_nice_set": 0,
        "gap_jpy_same_nice_set": {
-        "n": 12,
+        "n": 14,
         "mean": 0.0,
         "median": 0.0,
         "min": 0,
@@ -8261,8 +8261,8 @@
     "machine_dependent": {
      "solver_runtime_seconds": {
       "n": 20,
-      "mean": 0.011035,
-      "max": 0.0317
+      "mean": 0.00556,
+      "max": 0.016
      }
     }
    }
@@ -8737,7 +8737,7 @@
       "conflict_codes": [
        "unknown_hours_not_allowed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -8763,7 +8763,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 142,
       "total_jpy": 84,
@@ -8791,7 +8791,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0002,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 138,
       "total_jpy": 83,
@@ -8848,7 +8848,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0735,
+      "runtime_seconds": 0.0373,
       "solver_status": "OPTIMAL",
       "travel_minutes": 165,
       "total_jpy": 78,
@@ -8873,7 +8873,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 176,
       "total_jpy": 78,
@@ -8898,7 +8898,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 176,
       "total_jpy": 78,
@@ -8943,7 +8943,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0282,
+      "runtime_seconds": 0.014,
       "solver_status": "OPTIMAL",
       "travel_minutes": 192,
       "total_jpy": 79,
@@ -8965,7 +8965,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 199,
       "total_jpy": 80,
@@ -8987,7 +8987,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 199,
       "total_jpy": 80,
@@ -9031,7 +9031,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0111,
+      "runtime_seconds": 0.0051,
       "solver_status": "OPTIMAL",
       "travel_minutes": 113,
       "total_jpy": 80,
@@ -9054,7 +9054,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0002,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 125,
       "total_jpy": 81,
@@ -9076,7 +9076,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0002,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 107,
       "total_jpy": 78,
@@ -9113,7 +9113,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0104,
+      "runtime_seconds": 0.0031,
       "solver_status": "OPTIMAL",
       "travel_minutes": 117,
       "total_jpy": 39,
@@ -9132,7 +9132,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 121,
       "total_jpy": 39,
@@ -9151,7 +9151,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 117,
       "total_jpy": 39,
@@ -9190,7 +9190,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0203,
+      "runtime_seconds": 0.009,
       "solver_status": "OPTIMAL",
       "travel_minutes": 112,
       "total_jpy": 48,
@@ -9212,7 +9212,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 116,
       "total_jpy": 48,
@@ -9234,7 +9234,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 112,
       "total_jpy": 48,
@@ -9269,19 +9269,19 @@
       "placed": [
        "jewel_changi",
        "sultan_mosque_haji_lane",
-       "artscience_museum",
        "mbs_skypark",
        "buddha_tooth_relic_temple",
-       "national_gallery_singapore"
+       "national_gallery_singapore",
+       "artscience_museum"
       ],
       "stops_per_day": [
-       0,
-       0,
        3,
+       0,
+       0,
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.1288,
+      "runtime_seconds": 0.0455,
       "solver_status": "OPTIMAL",
       "travel_minutes": 208,
       "total_jpy": 101,
@@ -9295,20 +9295,21 @@
        "jewel_changi",
        "sultan_mosque_haji_lane",
        "national_gallery_singapore",
-       "mbs_skypark",
-       "buddha_tooth_relic_temple"
+       "mbs_skypark"
       ],
       "stops_per_day": [
        0,
-       3,
-       3,
-       0
+       2,
+       0,
+       3
       ],
-      "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "conflict_codes": [
+       "baseline_not_placed"
+      ],
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
-      "travel_minutes": 214,
-      "total_jpy": 102,
+      "travel_minutes": 198,
+      "total_jpy": 100,
       "validator": "pass_with_warnings",
       "failed_checks": []
      },
@@ -9324,15 +9325,15 @@
       ],
       "stops_per_day": [
        3,
-       3,
-       0,
+       2,
+       1,
        0
       ],
       "conflict_codes": [],
       "runtime_seconds": 0.0001,
       "solver_status": "N/A",
-      "travel_minutes": 208,
-      "total_jpy": 101,
+      "travel_minutes": 227,
+      "total_jpy": 104,
       "validator": "pass_with_warnings",
       "failed_checks": []
      },
@@ -9361,19 +9362,19 @@
      "solver": {
       "status": "feasible",
       "placed": [
-       "jewel_changi",
-       "sultan_mosque_haji_lane",
-       "gardens_by_the_bay",
+       "artscience_museum",
        "mbs_skypark",
-       "artscience_museum"
+       "gardens_by_the_bay",
+       "jewel_changi",
+       "sultan_mosque_haji_lane"
       ],
       "stops_per_day": [
-       2,
        3,
+       2,
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0645,
+      "runtime_seconds": 0.0219,
       "solver_status": "OPTIMAL",
       "travel_minutes": 219,
       "total_jpy": 94,
@@ -9395,7 +9396,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 234,
       "total_jpy": 95,
@@ -9417,7 +9418,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 225,
       "total_jpy": 93,
@@ -9458,7 +9459,7 @@
       "conflict_codes": [
        "unknown_hours_not_allowed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "NOT_RUN",
       "travel_minutes": null,
       "total_jpy": null,
@@ -9479,17 +9480,17 @@
       ],
       "stops_per_day": [
        3,
-       3,
        2,
+       3,
        0
       ],
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
-      "travel_minutes": 207,
-      "total_jpy": 120,
+      "travel_minutes": 198,
+      "total_jpy": 118,
       "validator": "fail",
       "failed_checks": [
        "must_visits"
@@ -9498,13 +9499,13 @@
      "nn": {
       "status": "infeasible",
       "placed": [
-       "sultan_mosque_haji_lane",
+       "national_gallery_singapore",
        "artscience_museum",
        "mbs_skypark",
-       "national_gallery_singapore",
+       "sultan_mosque_haji_lane",
+       "gardens_by_the_bay",
        "buddha_tooth_relic_temple",
        "maxwell_food_centre",
-       "gardens_by_the_bay",
        "singapore_botanic_gardens"
       ],
       "stops_per_day": [
@@ -9516,10 +9517,10 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0002,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
-      "travel_minutes": 187,
-      "total_jpy": 117,
+      "travel_minutes": 189,
+      "total_jpy": 118,
       "validator": "fail",
       "failed_checks": [
        "must_visits"
@@ -9571,7 +9572,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0127,
+      "runtime_seconds": 0.0061,
       "solver_status": "OPTIMAL",
       "travel_minutes": 115,
       "total_jpy": 53,
@@ -9594,7 +9595,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 117,
       "total_jpy": 53,
@@ -9617,7 +9618,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 125,
       "total_jpy": 54,
@@ -9653,17 +9654,17 @@
       "placed": [
        "jewel_changi",
        "sultan_mosque_haji_lane",
-       "singapore_botanic_gardens",
+       "maxwell_food_centre",
        "buddha_tooth_relic_temple",
-       "maxwell_food_centre"
+       "singapore_botanic_gardens"
       ],
       "stops_per_day": [
        2,
-       3,
-       0
+       0,
+       3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0547,
+      "runtime_seconds": 0.0258,
       "solver_status": "OPTIMAL",
       "travel_minutes": 255,
       "total_jpy": 28,
@@ -9681,13 +9682,13 @@
       ],
       "stops_per_day": [
        3,
-       2,
-       0
+       0,
+       2
       ],
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 268,
       "total_jpy": 29,
@@ -9711,7 +9712,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 262,
       "total_jpy": 29,
@@ -9746,12 +9747,12 @@
      "solver": {
       "status": "feasible",
       "placed": [
-       "jewel_changi",
-       "gardens_by_the_bay",
-       "artscience_museum",
-       "buddha_tooth_relic_temple",
-       "maxwell_food_centre",
        "national_gallery_singapore",
+       "maxwell_food_centre",
+       "buddha_tooth_relic_temple",
+       "artscience_museum",
+       "gardens_by_the_bay",
+       "jewel_changi",
        "sultan_mosque_haji_lane"
       ],
       "stops_per_day": [
@@ -9760,7 +9761,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.1325,
+      "runtime_seconds": 0.0438,
       "solver_status": "OPTIMAL",
       "travel_minutes": 239,
       "total_jpy": 87,
@@ -9784,7 +9785,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 266,
       "total_jpy": 90,
@@ -9836,9 +9837,9 @@
      "solver": {
       "status": "feasible",
       "placed": [
-       "national_gallery_singapore",
+       "artscience_museum",
        "singapore_botanic_gardens",
-       "artscience_museum"
+       "national_gallery_singapore"
       ],
       "stops_per_day": [
        0,
@@ -9847,7 +9848,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0112,
+      "runtime_seconds": 0.0052,
       "solver_status": "OPTIMAL",
       "travel_minutes": 79,
       "total_jpy": 55,
@@ -9868,7 +9869,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 79,
       "total_jpy": 55,
@@ -9889,7 +9890,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 79,
       "total_jpy": 55,
@@ -9929,7 +9930,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0168,
+      "runtime_seconds": 0.0083,
       "solver_status": "OPTIMAL",
       "travel_minutes": 208,
       "total_jpy": 55,
@@ -9952,7 +9953,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 295,
       "total_jpy": 61,
@@ -9975,7 +9976,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0007,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 208,
       "total_jpy": 55,
@@ -10008,16 +10009,16 @@
        "gardens_by_the_bay",
        "artscience_museum",
        "buddha_tooth_relic_temple",
-       "jewel_changi",
-       "sultan_mosque_haji_lane"
+       "sultan_mosque_haji_lane",
+       "jewel_changi"
       ],
       "stops_per_day": [
-       0,
        3,
-       2
+       2,
+       0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0459,
+      "runtime_seconds": 0.0124,
       "solver_status": "OPTIMAL",
       "travel_minutes": 204,
       "total_jpy": 61,
@@ -10039,7 +10040,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 216,
       "total_jpy": 62,
@@ -10061,7 +10062,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 212,
       "total_jpy": 61,
@@ -10094,19 +10095,19 @@
      "solver": {
       "status": "feasible",
       "placed": [
+       "mbs_skypark",
+       "buddha_tooth_relic_temple",
+       "national_gallery_singapore",
        "sultan_mosque_haji_lane",
        "jewel_changi",
-       "gardens_by_the_bay",
-       "national_gallery_singapore",
-       "buddha_tooth_relic_temple",
-       "mbs_skypark"
+       "gardens_by_the_bay"
       ],
       "stops_per_day": [
        3,
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0574,
+      "runtime_seconds": 0.017,
       "solver_status": "OPTIMAL",
       "travel_minutes": 209,
       "total_jpy": 89,
@@ -10114,52 +10115,54 @@
       "failed_checks": []
      },
      "naive": {
-      "status": "feasible",
+      "status": "infeasible",
       "placed": [
        "buddha_tooth_relic_temple",
        "mbs_skypark",
        "sultan_mosque_haji_lane",
        "gardens_by_the_bay",
-       "national_gallery_singapore",
-       "jewel_changi"
+       "national_gallery_singapore"
       ],
       "stops_per_day": [
-       3,
+       2,
        3
       ],
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
-      "travel_minutes": 223,
-      "total_jpy": 89,
-      "validator": "pass_with_warnings",
-      "failed_checks": []
+      "travel_minutes": 102,
+      "total_jpy": 80,
+      "validator": "fail",
+      "failed_checks": [
+       "must_visits"
+      ]
      },
      "nn": {
-      "status": "feasible",
+      "status": "infeasible",
       "placed": [
        "mbs_skypark",
        "gardens_by_the_bay",
        "national_gallery_singapore",
        "buddha_tooth_relic_temple",
-       "sultan_mosque_haji_lane",
-       "jewel_changi"
+       "sultan_mosque_haji_lane"
       ],
       "stops_per_day": [
        3,
-       3
+       2
       ],
       "conflict_codes": [
        "nn_not_placed"
       ],
       "runtime_seconds": 0.0001,
       "solver_status": "N/A",
-      "travel_minutes": 212,
-      "total_jpy": 89,
-      "validator": "pass_with_warnings",
-      "failed_checks": []
+      "travel_minutes": 99,
+      "total_jpy": 80,
+      "validator": "fail",
+      "failed_checks": [
+       "must_visits"
+      ]
      },
      "audit": null,
      "trivially_easy": false
@@ -10186,20 +10189,20 @@
      "solver": {
       "status": "feasible",
       "placed": [
-       "national_gallery_singapore",
        "jewel_changi",
+       "national_gallery_singapore",
        "buddha_tooth_relic_temple",
        "mbs_skypark"
       ],
       "stops_per_day": [
-       2,
-       2
+       1,
+       3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0047,
+      "runtime_seconds": 0.0034,
       "solver_status": "OPTIMAL",
-      "travel_minutes": 227,
-      "total_jpy": 76,
+      "travel_minutes": 183,
+      "total_jpy": 73,
       "validator": "pass_with_warnings",
       "failed_checks": []
      },
@@ -10216,7 +10219,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 229,
       "total_jpy": 76,
@@ -10236,7 +10239,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 229,
       "total_jpy": 76,
@@ -10269,20 +10272,20 @@
      "solver": {
       "status": "feasible",
       "placed": [
+       "jewel_changi",
+       "artscience_museum",
        "national_gallery_singapore",
        "maxwell_food_centre",
-       "buddha_tooth_relic_temple",
-       "jewel_changi",
-       "artscience_museum"
+       "buddha_tooth_relic_temple"
       ],
       "stops_per_day": [
        0,
-       0,
+       2,
        3,
-       2
+       0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0439,
+      "runtime_seconds": 0.0431,
       "solver_status": "OPTIMAL",
       "travel_minutes": 204,
       "total_jpy": 69,
@@ -10300,16 +10303,16 @@
       ],
       "stops_per_day": [
        1,
-       1,
        3,
+       1,
        0
       ],
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
-      "travel_minutes": 234,
+      "travel_minutes": 229,
       "total_jpy": 73,
       "validator": "pass_with_warnings",
       "failed_checks": []
@@ -10332,7 +10335,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 215,
       "total_jpy": 69,
@@ -10361,8 +10364,8 @@
      "solver": {
       "status": "feasible",
       "placed": [
-       "sultan_mosque_haji_lane",
-       "maxwell_food_centre"
+       "maxwell_food_centre",
+       "sultan_mosque_haji_lane"
       ],
       "stops_per_day": [
        2,
@@ -10370,7 +10373,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.004,
+      "runtime_seconds": 0.0021,
       "solver_status": "OPTIMAL",
       "travel_minutes": 50,
       "total_jpy": 8,
@@ -10449,16 +10452,16 @@
        "singapore_botanic_gardens",
        "buddha_tooth_relic_temple",
        "maxwell_food_centre",
-       "sultan_mosque_haji_lane",
+       "gardens_by_the_bay",
        "artscience_museum",
-       "gardens_by_the_bay"
+       "sultan_mosque_haji_lane"
       ],
       "stops_per_day": [
        3,
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0246,
+      "runtime_seconds": 0.0113,
       "solver_status": "OPTIMAL",
       "travel_minutes": 204,
       "total_jpy": 61,
@@ -10479,7 +10482,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 121,
       "total_jpy": 39,
@@ -10578,13 +10581,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 332,
-       "gap_travel_hours": 1.02,
+       "gap_jpy": 72,
+       "gap_travel_hours": 0.5,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 1576,
-        "hotel_east_coast_pier": 1828,
-        "hotel_river_rochore": 1496
+        "hotel_bay_lantern": 1370,
+        "hotel_east_coast_pier": 1284,
+        "hotel_river_rochore": 1212
        }
       },
       "1000": {
@@ -10594,19 +10597,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_river_rochore",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 902,
-       "gap_travel_hours": 1.3,
+       "gap_jpy": 322,
+       "gap_travel_hours": 0.5,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2301,
-        "hotel_east_coast_pier": 3203,
-        "hotel_river_rochore": 2362
+        "hotel_bay_lantern": 1786,
+        "hotel_east_coast_pier": 2018,
+        "hotel_river_rochore": 1696
        }
       },
       "2000": {
@@ -10622,13 +10625,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 2202,
-       "gap_travel_hours": 1.3,
+       "gap_jpy": 864,
+       "gap_travel_hours": 0.63,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 3751,
-        "hotel_east_coast_pier": 5953,
-        "hotel_river_rochore": 4096
+        "hotel_bay_lantern": 2620,
+        "hotel_east_coast_pier": 3484,
+        "hotel_river_rochore": 2662
        }
       }
      },
@@ -10654,9 +10657,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2374,
-        "hotel_east_coast_pier": 1961,
-        "hotel_river_rochore": 2234
+        "hotel_bay_lantern": 2225,
+        "hotel_east_coast_pier": 1813,
+        "hotel_river_rochore": 2018
        }
       },
       "1000": {
@@ -10676,9 +10679,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 3890,
-        "hotel_east_coast_pier": 3470,
-        "hotel_river_rochore": 3834
+        "hotel_bay_lantern": 3575,
+        "hotel_east_coast_pier": 3154,
+        "hotel_river_rochore": 3384
        }
       },
       "2000": {
@@ -10698,9 +10701,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 6924,
-        "hotel_east_coast_pier": 6486,
-        "hotel_river_rochore": 7034
+        "hotel_bay_lantern": 6275,
+        "hotel_east_coast_pier": 5838,
+        "hotel_river_rochore": 6118
        }
       }
      },
@@ -10716,19 +10719,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_river_rochore",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 512,
-       "gap_travel_hours": 1.28,
+       "gap_jpy": 192,
+       "gap_travel_hours": 0.5,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 1282,
-        "hotel_east_coast_pier": 1794,
-        "hotel_river_rochore": 1317
+        "hotel_bay_lantern": 793,
+        "hotel_east_coast_pier": 978,
+        "hotel_river_rochore": 786
        }
       },
       "1000": {
@@ -10744,13 +10747,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 1155,
-       "gap_travel_hours": 1.28,
+       "gap_jpy": 501,
+       "gap_travel_hours": 0.63,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2223,
-        "hotel_east_coast_pier": 3378,
-        "hotel_river_rochore": 2367
+        "hotel_bay_lantern": 1127,
+        "hotel_east_coast_pier": 1628,
+        "hotel_river_rochore": 1186
        }
       },
       "2000": {
@@ -10766,13 +10769,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 2437,
-       "gap_travel_hours": 1.28,
+       "gap_jpy": 1135,
+       "gap_travel_hours": 0.63,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 4107,
-        "hotel_east_coast_pier": 6544,
-        "hotel_river_rochore": 4467
+        "hotel_bay_lantern": 1793,
+        "hotel_east_coast_pier": 2928,
+        "hotel_river_rochore": 1986
        }
       }
      },
@@ -10788,19 +10791,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 235,
-       "gap_travel_hours": 0.58,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 970,
-        "hotel_east_coast_pier": 1139,
-        "hotel_river_rochore": 904
+        "hotel_bay_lantern": 422,
+        "hotel_east_coast_pier": 287,
+        "hotel_river_rochore": 347
        }
       },
       "1000": {
@@ -10810,19 +10813,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 526,
-       "gap_travel_hours": 0.58,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 1645,
-        "hotel_east_coast_pier": 2114,
-        "hotel_river_rochore": 1588
+        "hotel_bay_lantern": 422,
+        "hotel_east_coast_pier": 287,
+        "hotel_river_rochore": 347
        }
       },
       "2000": {
@@ -10832,19 +10835,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 1110,
-       "gap_travel_hours": 0.58,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2995,
-        "hotel_east_coast_pier": 4064,
-        "hotel_river_rochore": 2954
+        "hotel_bay_lantern": 422,
+        "hotel_east_coast_pier": 287,
+        "hotel_river_rochore": 347
        }
       }
      },
@@ -10860,19 +10863,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 503,
-       "gap_travel_hours": 1.12,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 1173,
-        "hotel_east_coast_pier": 1669,
-        "hotel_river_rochore": 1166
+        "hotel_bay_lantern": 476,
+        "hotel_east_coast_pier": 341,
+        "hotel_river_rochore": 401
        }
       },
       "1000": {
@@ -10882,19 +10885,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 1121,
-       "gap_travel_hours": 1.25,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2039,
-        "hotel_east_coast_pier": 3160,
-        "hotel_river_rochore": 2100
+        "hotel_bay_lantern": 476,
+        "hotel_east_coast_pier": 341,
+        "hotel_river_rochore": 401
        }
       },
       "2000": {
@@ -10904,19 +10907,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 2371,
-       "gap_travel_hours": 1.25,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 3773,
-        "hotel_east_coast_pier": 6144,
-        "hotel_river_rochore": 3966
+        "hotel_bay_lantern": 476,
+        "hotel_east_coast_pier": 341,
+        "hotel_river_rochore": 401
        }
       }
      },
@@ -10938,13 +10941,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 54,
-       "gap_travel_hours": 0.47,
+       "gap_jpy": 20,
+       "gap_travel_hours": 0.4,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2614,
-        "hotel_east_coast_pier": 2529,
-        "hotel_river_rochore": 2475
+        "hotel_bay_lantern": 1253,
+        "hotel_east_coast_pier": 1183,
+        "hotel_river_rochore": 1163
        }
       },
       "1000": {
@@ -10954,19 +10957,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_bay_lantern",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 288,
-       "gap_travel_hours": 0.47,
+       "gap_jpy": 264,
+       "gap_travel_hours": 0.67,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 4348,
-        "hotel_east_coast_pier": 4579,
-        "hotel_river_rochore": 4291
+        "hotel_bay_lantern": 1419,
+        "hotel_east_coast_pier": 1683,
+        "hotel_river_rochore": 1463
        }
       },
       "2000": {
@@ -10982,13 +10985,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 1740,
-       "gap_travel_hours": 2.57,
-       "same_nice_set": false,
+       "gap_jpy": 930,
+       "gap_travel_hours": 0.67,
+       "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 6939,
-        "hotel_east_coast_pier": 8679,
-        "hotel_river_rochore": 7048
+        "hotel_bay_lantern": 1753,
+        "hotel_east_coast_pier": 2683,
+        "hotel_river_rochore": 2063
        }
       }
      },
@@ -11004,19 +11007,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 56,
-       "gap_travel_hours": 0.35,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2178,
-        "hotel_east_coast_pier": 2169,
-        "hotel_river_rochore": 2113
+        "hotel_bay_lantern": 1848,
+        "hotel_east_coast_pier": 1226,
+        "hotel_river_rochore": 1681
        }
       },
       "1000": {
@@ -11026,19 +11029,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 250,
-       "gap_travel_hours": 0.52,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 3744,
-        "hotel_east_coast_pier": 3994,
-        "hotel_river_rochore": 3763
+        "hotel_bay_lantern": 2948,
+        "hotel_east_coast_pier": 1976,
+        "hotel_river_rochore": 2765
        }
       },
       "2000": {
@@ -11048,19 +11051,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 766,
-       "gap_travel_hours": 0.52,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 6878,
-        "hotel_east_coast_pier": 7644,
-        "hotel_river_rochore": 7063
+        "hotel_bay_lantern": 5148,
+        "hotel_east_coast_pier": 3476,
+        "hotel_river_rochore": 4931
        }
       }
      },
@@ -11121,19 +11124,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_river_rochore",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 497,
-       "gap_travel_hours": 1.25,
+       "gap_jpy": 217,
+       "gap_travel_hours": 0.55,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 1271,
-        "hotel_east_coast_pier": 1768,
-        "hotel_river_rochore": 1291
+        "hotel_bay_lantern": 1091,
+        "hotel_east_coast_pier": 1251,
+        "hotel_river_rochore": 1034
        }
       },
       "1000": {
@@ -11143,19 +11146,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_river_rochore",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 1122,
-       "gap_travel_hours": 1.25,
+       "gap_jpy": 492,
+       "gap_travel_hours": 0.55,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2230,
-        "hotel_east_coast_pier": 3352,
-        "hotel_river_rochore": 2341
+        "hotel_bay_lantern": 1791,
+        "hotel_east_coast_pier": 2242,
+        "hotel_river_rochore": 1750
        }
       },
       "2000": {
@@ -11165,19 +11168,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_river_rochore",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 2372,
-       "gap_travel_hours": 1.25,
+       "gap_jpy": 1042,
+       "gap_travel_hours": 0.55,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 4146,
-        "hotel_east_coast_pier": 6518,
-        "hotel_river_rochore": 4441
+        "hotel_bay_lantern": 3191,
+        "hotel_east_coast_pier": 4226,
+        "hotel_river_rochore": 3184
        }
       }
      },
@@ -11193,19 +11196,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 191,
-       "gap_travel_hours": 0.62,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2411,
-        "hotel_east_coast_pier": 2403,
-        "hotel_river_rochore": 2212
+        "hotel_bay_lantern": 2179,
+        "hotel_east_coast_pier": 1851,
+        "hotel_river_rochore": 1963
        }
       },
       "1000": {
@@ -11215,19 +11218,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 500,
-       "gap_travel_hours": 0.62,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 4277,
-        "hotel_east_coast_pier": 4528,
-        "hotel_river_rochore": 4028
+        "hotel_bay_lantern": 3713,
+        "hotel_east_coast_pier": 3326,
+        "hotel_river_rochore": 3429
        }
       },
       "2000": {
@@ -11237,19 +11240,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 1116,
-       "gap_travel_hours": 0.62,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 8011,
-        "hotel_east_coast_pier": 8778,
-        "hotel_river_rochore": 7662
+        "hotel_bay_lantern": 6779,
+        "hotel_east_coast_pier": 6276,
+        "hotel_river_rochore": 6363
        }
       }
      },
@@ -11265,19 +11268,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 132,
-       "gap_travel_hours": 0.5,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2523,
-        "hotel_east_coast_pier": 2581,
-        "hotel_river_rochore": 2449
+        "hotel_bay_lantern": 2021,
+        "hotel_east_coast_pier": 1735,
+        "hotel_river_rochore": 1913
        }
       },
       "1000": {
@@ -11287,19 +11290,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 383,
-       "gap_travel_hours": 0.65,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 4439,
-        "hotel_east_coast_pier": 4822,
-        "hotel_river_rochore": 4440
+        "hotel_bay_lantern": 3212,
+        "hotel_east_coast_pier": 2910,
+        "hotel_river_rochore": 3147
        }
       },
       "2000": {
@@ -11309,19 +11312,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 1033,
-       "gap_travel_hours": 0.65,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 8273,
-        "hotel_east_coast_pier": 9306,
-        "hotel_river_rochore": 8424
+        "hotel_bay_lantern": 5596,
+        "hotel_east_coast_pier": 5260,
+        "hotel_river_rochore": 5613
        }
       }
      },
@@ -11337,19 +11340,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 115,
-       "gap_travel_hours": 0.58,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 1493,
-        "hotel_east_coast_pier": 1392,
-        "hotel_river_rochore": 1277
+        "hotel_bay_lantern": 942,
+        "hotel_east_coast_pier": 537,
+        "hotel_river_rochore": 717
        }
       },
       "1000": {
@@ -11359,19 +11362,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 408,
-       "gap_travel_hours": 0.58,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2152,
-        "hotel_east_coast_pier": 2351,
-        "hotel_river_rochore": 1943
+        "hotel_bay_lantern": 942,
+        "hotel_east_coast_pier": 537,
+        "hotel_river_rochore": 717
        }
       },
       "2000": {
@@ -11381,19 +11384,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 990,
-       "gap_travel_hours": 0.58,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 3468,
-        "hotel_east_coast_pier": 4267,
-        "hotel_river_rochore": 3277
+        "hotel_bay_lantern": 942,
+        "hotel_east_coast_pier": 537,
+        "hotel_river_rochore": 717
        }
       }
      },
@@ -11419,9 +11422,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2274,
-        "hotel_east_coast_pier": 2038,
-        "hotel_river_rochore": 2208
+        "hotel_bay_lantern": 736,
+        "hotel_east_coast_pier": 466,
+        "hotel_river_rochore": 586
        }
       },
       "1000": {
@@ -11441,9 +11444,9 @@
        "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 3974,
-        "hotel_east_coast_pier": 3772,
-        "hotel_river_rochore": 3992
+        "hotel_bay_lantern": 736,
+        "hotel_east_coast_pier": 466,
+        "hotel_river_rochore": 586
        }
       },
       "2000": {
@@ -11453,19 +11456,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 1015,
-       "gap_travel_hours": 0.57,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 6262,
-        "hotel_east_coast_pier": 7228,
-        "hotel_river_rochore": 6213
+        "hotel_bay_lantern": 736,
+        "hotel_east_coast_pier": 466,
+        "hotel_river_rochore": 586
        }
       }
      },
@@ -11481,19 +11484,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 90,
-       "gap_travel_hours": 0.42,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2222,
-        "hotel_east_coast_pier": 2221,
-        "hotel_river_rochore": 2131
+        "hotel_bay_lantern": 790,
+        "hotel_east_coast_pier": 520,
+        "hotel_river_rochore": 640
        }
       },
       "1000": {
@@ -11503,19 +11506,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 299,
-       "gap_travel_hours": 0.42,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 3863,
-        "hotel_east_coast_pier": 4130,
-        "hotel_river_rochore": 3831
+        "hotel_bay_lantern": 790,
+        "hotel_east_coast_pier": 520,
+        "hotel_river_rochore": 640
        }
       },
       "2000": {
@@ -11525,19 +11528,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 1592,
-       "gap_travel_hours": 2.35,
-       "same_nice_set": false,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
+       "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 6370,
-        "hotel_east_coast_pier": 7946,
-        "hotel_river_rochore": 6354
+        "hotel_bay_lantern": 790,
+        "hotel_east_coast_pier": 520,
+        "hotel_river_rochore": 640
        }
       }
      },
@@ -11553,19 +11556,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 167,
-       "gap_travel_hours": 0.6,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2091,
-        "hotel_east_coast_pier": 2258,
-        "hotel_river_rochore": 2092
+        "hotel_bay_lantern": 1642,
+        "hotel_east_coast_pier": 1155,
+        "hotel_river_rochore": 1550
        }
       },
       "1000": {
@@ -11575,19 +11578,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 467,
-       "gap_travel_hours": 0.6,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 3832,
-        "hotel_east_coast_pier": 4299,
-        "hotel_river_rochore": 3908
+        "hotel_bay_lantern": 2742,
+        "hotel_east_coast_pier": 1905,
+        "hotel_river_rochore": 2634
        }
       },
       "2000": {
@@ -11597,19 +11600,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 1067,
-       "gap_travel_hours": 0.6,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 7316,
-        "hotel_east_coast_pier": 8383,
-        "hotel_river_rochore": 7542
+        "hotel_bay_lantern": 4942,
+        "hotel_east_coast_pier": 3405,
+        "hotel_river_rochore": 4800
        }
       }
      },
@@ -11631,13 +11634,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 227,
-       "gap_travel_hours": 0.57,
+       "gap_jpy": 252,
+       "gap_travel_hours": 0.62,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 1882,
-        "hotel_east_coast_pier": 2093,
-        "hotel_river_rochore": 1866
+        "hotel_bay_lantern": 744,
+        "hotel_east_coast_pier": 955,
+        "hotel_river_rochore": 703
        }
       },
       "1000": {
@@ -11647,19 +11650,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_river_rochore",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 552,
-       "gap_travel_hours": 0.68,
+       "gap_jpy": 559,
+       "gap_travel_hours": 0.62,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 3432,
-        "hotel_east_coast_pier": 3984,
-        "hotel_river_rochore": 3475
+        "hotel_bay_lantern": 1094,
+        "hotel_east_coast_pier": 1646,
+        "hotel_river_rochore": 1087
        }
       },
       "2000": {
@@ -11675,13 +11678,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 2213,
-       "gap_travel_hours": 2.67,
-       "same_nice_set": false,
+       "gap_jpy": 1236,
+       "gap_travel_hours": 0.68,
+       "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 5555,
-        "hotel_east_coast_pier": 7768,
-        "hotel_river_rochore": 5916
+        "hotel_bay_lantern": 1794,
+        "hotel_east_coast_pier": 3030,
+        "hotel_river_rochore": 1853
        }
       }
      },
@@ -11697,19 +11700,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 73,
-       "gap_travel_hours": 0.5,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2472,
-        "hotel_east_coast_pier": 2397,
-        "hotel_river_rochore": 2324
+        "hotel_bay_lantern": 2223,
+        "hotel_east_coast_pier": 1819,
+        "hotel_river_rochore": 2015
        }
       },
       "1000": {
@@ -11719,19 +11722,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 323,
-       "gap_travel_hours": 0.5,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 4097,
-        "hotel_east_coast_pier": 4347,
-        "hotel_river_rochore": 4024
+        "hotel_bay_lantern": 3489,
+        "hotel_east_coast_pier": 3085,
+        "hotel_river_rochore": 3299
        }
       },
       "2000": {
@@ -11741,19 +11744,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_bay_lantern",
+       "best_by_true_cost": "hotel_east_coast_pier",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
-       "differs": true,
-       "gap_jpy": 900,
-       "gap_travel_hours": 0.65,
+       "differs": false,
+       "gap_jpy": 0,
+       "gap_travel_hours": 0.0,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 7347,
-        "hotel_east_coast_pier": 8247,
-        "hotel_river_rochore": 7424
+        "hotel_bay_lantern": 6023,
+        "hotel_east_coast_pier": 5619,
+        "hotel_river_rochore": 5865
        }
       }
      },
@@ -11779,9 +11782,9 @@
        "gap_travel_hours": 0.57,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 945,
-        "hotel_east_coast_pier": 960,
-        "hotel_river_rochore": 795
+        "hotel_bay_lantern": 828,
+        "hotel_east_coast_pier": 912,
+        "hotel_river_rochore": 747
        }
       },
       "1000": {
@@ -11801,9 +11804,9 @@
        "gap_travel_hours": 0.57,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 1361,
-        "hotel_east_coast_pier": 1660,
-        "hotel_river_rochore": 1211
+        "hotel_bay_lantern": 1078,
+        "hotel_east_coast_pier": 1512,
+        "hotel_river_rochore": 1063
        }
       },
       "2000": {
@@ -11813,19 +11816,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_bay_lantern",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 1015,
-       "gap_travel_hours": 0.57,
+       "gap_jpy": 1134,
+       "gap_travel_hours": 0.7,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2195,
-        "hotel_east_coast_pier": 3060,
-        "hotel_river_rochore": 2045
+        "hotel_bay_lantern": 1578,
+        "hotel_east_coast_pier": 2712,
+        "hotel_river_rochore": 1697
        }
       }
      },
@@ -11847,13 +11850,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 511,
-       "gap_travel_hours": 1.13,
+       "gap_jpy": 174,
+       "gap_travel_hours": 0.47,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 1441,
-        "hotel_east_coast_pier": 1886,
-        "hotel_river_rochore": 1375
+        "hotel_bay_lantern": 871,
+        "hotel_east_coast_pier": 995,
+        "hotel_river_rochore": 821
        }
       },
       "1000": {
@@ -11869,13 +11872,13 @@
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 1077,
-       "gap_travel_hours": 1.13,
+       "gap_jpy": 408,
+       "gap_travel_hours": 0.47,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 2566,
-        "hotel_east_coast_pier": 3586,
-        "hotel_river_rochore": 2509
+        "hotel_bay_lantern": 1246,
+        "hotel_east_coast_pier": 1629,
+        "hotel_river_rochore": 1221
        }
       },
       "2000": {
@@ -11885,19 +11888,19 @@
         "hotel_river_rochore": "OPTIMAL"
        },
        "cheapest_by_rate": "hotel_east_coast_pier",
-       "best_by_true_cost": "hotel_river_rochore",
+       "best_by_true_cost": "hotel_bay_lantern",
        "eligible": true,
        "ineligible_reason": null,
        "partial": false,
        "approximate": false,
        "differs": true,
-       "gap_jpy": 2211,
-       "gap_travel_hours": 1.13,
+       "gap_jpy": 899,
+       "gap_travel_hours": 0.52,
        "same_nice_set": true,
        "true_cost": {
-        "hotel_bay_lantern": 4816,
-        "hotel_east_coast_pier": 6986,
-        "hotel_river_rochore": 4775
+        "hotel_bay_lantern": 1996,
+        "hotel_east_coast_pier": 2895,
+        "hotel_river_rochore": 2021
        }
       }
      },
@@ -11925,35 +11928,35 @@
      "naive": {
       "baseline": "naive",
       "n_trips": 20,
-      "n_comparable": 17,
+      "n_comparable": 15,
       "excluded": {
-       "n": 3,
+       "n": 5,
        "reasons": {
         "solver_infeasible": 2,
-        "baseline_dropped_sights": 1
+        "baseline_dropped_sights": 3
        }
       },
       "minutes_reduction": {
-       "n": 17,
-       "mean": 14.470588235294118,
-       "median": 11,
+       "n": 15,
+       "mean": 17.666666666666668,
+       "median": 12,
        "min": 0,
        "max": 87
       },
       "percent_reduction": {
-       "n": 17,
-       "mean": 6.297950042511618,
-       "median": 4.850746268656716,
+       "n": 15,
+       "mean": 7.68625846969402,
+       "median": 5.555555555555555,
        "min": 0.0,
        "max": 29.491525423728813
       },
-      "better": 15,
+      "better": 13,
       "equal": 2,
       "worse": 0,
       "pooled": {
-       "solver_minutes": 2916,
-       "baseline_minutes": 3162,
-       "percent": 7.7798861480075905
+       "solver_minutes": 2455,
+       "baseline_minutes": 2720,
+       "percent": 9.742647058823529
       },
       "terciles": [
        {
@@ -11976,37 +11979,37 @@
        },
        {
         "group": "middle third",
-        "n": 6,
+        "n": 5,
         "baseline_minutes_range": [
          125,
-         223
+         229
         ],
         "percent_reduction": {
-         "n": 6,
-         "mean": 5.667484786473442,
-         "median": 5.902777777777778,
-         "min": 2.803738317757009,
-         "max": 9.6
+         "n": 5,
+         "mean": 9.002095947959107,
+         "median": 6.25,
+         "min": 3.5175879396984926,
+         "max": 20.087336244541486
         },
-        "better": 6,
+        "better": 5,
         "equal": 0,
         "worse": 0
        },
        {
         "group": "highest third",
-        "n": 6,
+        "n": 5,
         "baseline_minutes_range": [
          229,
          295
         ],
         "percent_reduction": {
-         "n": 6,
-         "mean": 10.766129884736538,
-         "median": 8.280316175053017,
-         "min": 0.8733624454148472,
+         "n": 5,
+         "mean": 12.363986922035432,
+         "median": 10.150375939849624,
+         "min": 4.850746268656716,
          "max": 29.491525423728813
         },
-        "better": 6,
+        "better": 5,
         "equal": 0,
         "worse": 0
        }
@@ -12046,13 +12049,6 @@
         "baseline_minutes": 116,
         "reduction_minutes": 4,
         "reduction_percent": 3.4482758620689653
-       },
-       {
-        "id": "T007",
-        "solver_minutes": 208,
-        "baseline_minutes": 214,
-        "reduction_minutes": 6,
-        "reduction_percent": 2.803738317757009
        },
        {
         "id": "T008",
@@ -12104,25 +12100,18 @@
         "reduction_percent": 5.555555555555555
        },
        {
-        "id": "T016",
-        "solver_minutes": 209,
-        "baseline_minutes": 223,
-        "reduction_minutes": 14,
-        "reduction_percent": 6.278026905829597
-       },
-       {
         "id": "T017",
-        "solver_minutes": 227,
+        "solver_minutes": 183,
         "baseline_minutes": 229,
-        "reduction_minutes": 2,
-        "reduction_percent": 0.8733624454148472
+        "reduction_minutes": 46,
+        "reduction_percent": 20.087336244541486
        },
        {
         "id": "T018",
         "solver_minutes": 204,
-        "baseline_minutes": 234,
-        "reduction_minutes": 30,
-        "reduction_percent": 12.820512820512821
+        "baseline_minutes": 229,
+        "reduction_minutes": 25,
+        "reduction_percent": 10.91703056768559
        },
        {
         "id": "T019",
@@ -12136,35 +12125,35 @@
      "nn": {
       "baseline": "nn",
       "n_trips": 20,
-      "n_comparable": 17,
+      "n_comparable": 16,
       "excluded": {
-       "n": 3,
+       "n": 4,
        "reasons": {
         "solver_infeasible": 2,
-        "baseline_dropped_sights": 1
+        "baseline_dropped_sights": 2
        }
       },
       "minutes_reduction": {
-       "n": 17,
-       "mean": 4.882352941176471,
-       "median": 6,
+       "n": 16,
+       "mean": 8.9375,
+       "median": 7.0,
        "min": 0,
-       "max": 12
+       "max": 46
       },
       "percent_reduction": {
-       "n": 17,
-       "mean": 2.487580367024329,
-       "median": 2.4489795918367347,
+       "n": 16,
+       "mean": 4.278611859486315,
+       "median": 3.094671832444666,
        "min": 0.0,
-       "max": 8.0
+       "max": 20.087336244541486
       },
       "better": 11,
-      "equal": 6,
+      "equal": 5,
       "worse": 0,
       "pooled": {
-       "solver_minutes": 3007,
-       "baseline_minutes": 3090,
-       "percent": 2.686084142394822
+       "solver_minutes": 2754,
+       "baseline_minutes": 2897,
+       "percent": 4.936140835346911
       },
       "terciles": [
        {
@@ -12187,35 +12176,35 @@
        },
        {
         "group": "middle third",
-        "n": 6,
+        "n": 5,
         "baseline_minutes_range": [
          176,
-         212
+         215
         ],
         "percent_reduction": {
-         "n": 6,
-         "mean": 2.4927111974969187,
-         "median": 2.466341139660567,
+         "n": 5,
+         "mean": 3.7314903830252626,
+         "median": 3.7735849056603774,
          "min": 0.0,
          "max": 6.25
         },
         "better": 4,
-        "equal": 2,
+        "equal": 1,
         "worse": 0
        },
        {
         "group": "highest third",
         "n": 6,
         "baseline_minutes_range": [
-         215,
+         216,
          262
         ],
         "percent_reduction": {
          "n": 6,
-         "mean": 3.2220998424053473,
-         "median": 2.669211195928753,
-         "min": 0.8733624454148472,
-         "max": 5.555555555555555
+         "mean": 6.966722972775787,
+         "median": 4.113655640373198,
+         "min": 2.4489795918367347,
+         "max": 20.087336244541486
         },
         "better": 6,
         "equal": 0,
@@ -12254,9 +12243,9 @@
        {
         "id": "T007",
         "solver_minutes": 208,
-        "baseline_minutes": 208,
-        "reduction_minutes": 0,
-        "reduction_percent": 0.0
+        "baseline_minutes": 227,
+        "reduction_minutes": 19,
+        "reduction_percent": 8.370044052863436
        },
        {
         "id": "T008",
@@ -12308,18 +12297,11 @@
         "reduction_percent": 3.7735849056603774
        },
        {
-        "id": "T016",
-        "solver_minutes": 209,
-        "baseline_minutes": 212,
-        "reduction_minutes": 3,
-        "reduction_percent": 1.4150943396226414
-       },
-       {
         "id": "T017",
-        "solver_minutes": 227,
+        "solver_minutes": 183,
         "baseline_minutes": 229,
-        "reduction_minutes": 2,
-        "reduction_percent": 0.8733624454148472
+        "reduction_minutes": 46,
+        "reduction_percent": 20.087336244541486
        },
        {
         "id": "T018",
@@ -12353,10 +12335,10 @@
       "placed": 84
      },
      "naive": {
-      "placed": 81
+      "placed": 79
      },
      "nn": {
-      "placed": 83
+      "placed": 82
      }
     },
     "validation": {
@@ -12372,22 +12354,22 @@
      "naive": {
       "n_trips": 20,
       "pass": 0,
-      "pass_with_warnings": 17,
-      "fail": 3,
+      "pass_with_warnings": 16,
+      "fail": 4,
       "no_plan": 0,
       "failed_checks": {
-       "must_visits": 3
+       "must_visits": 4
       },
       "fail_hard_constraint_beyond_missing_must_visit": 0
      },
      "nn": {
       "n_trips": 20,
       "pass": 0,
-      "pass_with_warnings": 18,
-      "fail": 2,
+      "pass_with_warnings": 17,
+      "fail": 3,
       "no_plan": 0,
       "failed_checks": {
-       "must_visits": 2
+       "must_visits": 3
       },
       "fail_hard_constraint_beyond_missing_must_visit": 0
      }
@@ -12418,13 +12400,13 @@
       "silently_dropped": 0
      },
      "naive": {
-      "all_placed": 12,
-      "reported_infeasible": 3,
+      "all_placed": 11,
+      "reported_infeasible": 4,
       "silently_dropped": 0
      },
      "nn": {
-      "all_placed": 13,
-      "reported_infeasible": 2,
+      "all_placed": 12,
+      "reported_infeasible": 3,
       "silently_dropped": 0
      },
      "infeasible_audit": {
@@ -12451,29 +12433,29 @@
        "ineligible_reasons": {
         "hotel_infeasible": 2
        },
-       "cheapest_by_rate_not_best": 16,
+       "cheapest_by_rate_not_best": 7,
        "gap_jpy": {
         "n": 18,
-        "mean": 214.44444444444446,
-        "median": 166.0,
+        "mean": 60.666666666666664,
+        "median": 0.0,
         "min": 0,
-        "max": 512
+        "max": 252
        },
        "gap_travel_hours": {
         "n": 18,
-        "mean": 0.6422222222222222,
-        "median": 0.575,
+        "mean": 0.20055555555555554,
+        "median": 0.0,
         "min": 0.0,
-        "max": 1.28
+        "max": 0.62
        },
        "n_same_nice_set": 18,
-       "cheapest_by_rate_not_best_same_nice_set": 16,
+       "cheapest_by_rate_not_best_same_nice_set": 7,
        "gap_jpy_same_nice_set": {
         "n": 18,
-        "mean": 214.44444444444446,
-        "median": 166.0,
+        "mean": 60.666666666666664,
+        "median": 0.0,
         "min": 0,
-        "max": 512
+        "max": 252
        },
        "not_proven_optimal": 0
       },
@@ -12483,29 +12465,29 @@
        "ineligible_reasons": {
         "hotel_infeasible": 2
        },
-       "cheapest_by_rate_not_best": 16,
+       "cheapest_by_rate_not_best": 7,
        "gap_jpy": {
         "n": 18,
-        "mean": 545.6666666666666,
-        "median": 458.0,
+        "mean": 166.38888888888889,
+        "median": 0.0,
         "min": 0,
-        "max": 1155
+        "max": 559
        },
        "gap_travel_hours": {
         "n": 18,
-        "mean": 0.6888888888888889,
-        "median": 0.59,
+        "mean": 0.22277777777777777,
+        "median": 0.0,
         "min": 0.0,
-        "max": 1.3
+        "max": 0.67
        },
        "n_same_nice_set": 18,
-       "cheapest_by_rate_not_best_same_nice_set": 16,
+       "cheapest_by_rate_not_best_same_nice_set": 7,
        "gap_jpy_same_nice_set": {
         "n": 18,
-        "mean": 545.6666666666666,
-        "median": 458.0,
+        "mean": 166.38888888888889,
+        "median": 0.0,
         "min": 0,
-        "max": 1155
+        "max": 559
        },
        "not_proven_optimal": 0
       },
@@ -12515,29 +12497,29 @@
        "ineligible_reasons": {
         "hotel_infeasible": 2
        },
-       "cheapest_by_rate_not_best": 17,
+       "cheapest_by_rate_not_best": 7,
        "gap_jpy": {
         "n": 18,
-        "mean": 1452.7777777777778,
-        "median": 1113.0,
+        "mean": 402.22222222222223,
+        "median": 0.0,
         "min": 0,
-        "max": 2437
+        "max": 1236
        },
        "gap_travel_hours": {
         "n": 18,
-        "mean": 1.0633333333333335,
-        "median": 0.65,
+        "mean": 0.24333333333333332,
+        "median": 0.0,
         "min": 0.0,
-        "max": 2.67
+        "max": 0.7
        },
-       "n_same_nice_set": 15,
-       "cheapest_by_rate_not_best_same_nice_set": 14,
+       "n_same_nice_set": 18,
+       "cheapest_by_rate_not_best_same_nice_set": 7,
        "gap_jpy_same_nice_set": {
-        "n": 15,
-        "mean": 1373.6666666666667,
-        "median": 1067,
+        "n": 18,
+        "mean": 402.22222222222223,
+        "median": 0.0,
         "min": 0,
-        "max": 2437
+        "max": 1236
        },
        "not_proven_optimal": 0
       }
@@ -12560,8 +12542,8 @@
     "machine_dependent": {
      "solver_runtime_seconds": {
       "n": 20,
-      "mean": 0.03727,
-      "max": 0.1325
+      "mean": 0.01572,
+      "max": 0.0455
      }
     }
    }
