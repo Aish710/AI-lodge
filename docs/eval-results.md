@@ -1,6 +1,6 @@
 # Evaluation results (SAMPLE data)
 
-Generated 2026-10-17 15:18 UTC by `backend/scripts/run_evaluation.py` (full mode). Code version: e9b90d8. Every number below was produced by that run; raw per-trip results are in `docs/eval-results.json`, the trips in `docs/eval-scenarios.json`. Claim-safe sentences generated from these numbers: `docs/README-claims.md`. Method: `docs/EVALUATION.md`.
+Generated 2026-10-17 17:20 UTC by `backend/scripts/run_evaluation.py` (full mode). Code version: b54e707. Every number below was produced by that run; raw per-trip results are in `docs/eval-results.json`, the trips in `docs/eval-scenarios.json`. Claim-safe sentences generated from these numbers: `docs/README-claims.md`. Method: `docs/EVALUATION.md`.
 
 ## The 15 scenarios
 
@@ -194,7 +194,7 @@ Solver status is deterministic (fixed seed, one worker, deterministic-time limit
 
 **Wall-clock runtime (machine-dependent: depends on this computer and its load, not a property of the method).**
 
-Solver time per generated trip: mean 0.069 s, max 0.823 s (N=60). Whole evaluation run (full mode): 156.2 s. The free hosting tier is slower (see docs/DEPLOY.md).
+Solver time per generated trip: mean 0.139 s, max 1.714 s (N=60). Whole evaluation run (full mode): 314.7 s. The free hosting tier is slower (see docs/DEPLOY.md).
 
 ## Every generated trip
 

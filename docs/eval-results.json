@@ -1,11 +1,11 @@
 {
  "meta": {
-  "date": "2026-10-17 15:18 UTC",
+  "date": "2026-10-17 17:20 UTC",
   "mode": "full",
-  "commit": "e9b90d8",
+  "commit": "b54e707",
   "live_eval_exists": false,
   "selfcheck_exists": true,
-  "elapsed_seconds": 156.2
+  "elapsed_seconds": 314.7
  },
  "parameters": [
   [
@@ -244,7 +244,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0193,
+    "runtime_seconds": 0.0374,
     "solver_status": "OPTIMAL",
     "travel_minutes": 152,
     "total_jpy": 1340,
@@ -267,7 +267,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 186,
     "total_jpy": 3660,
@@ -326,7 +326,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0015,
+    "runtime_seconds": 0.0029,
     "solver_status": "OPTIMAL",
     "travel_minutes": 36,
     "total_jpy": 400,
@@ -417,7 +417,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0674,
+    "runtime_seconds": 0.1347,
     "solver_status": "OPTIMAL",
     "travel_minutes": 223,
     "total_jpy": 2640,
@@ -440,7 +440,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 197,
     "total_jpy": 3900,
@@ -514,7 +514,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0644,
+    "runtime_seconds": 0.141,
     "solver_status": "OPTIMAL",
     "travel_minutes": 149,
     "total_jpy": 1810,
@@ -539,7 +539,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 563,
     "total_jpy": 11850,
@@ -610,7 +610,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0429,
+    "runtime_seconds": 0.1052,
     "solver_status": "OPTIMAL",
     "travel_minutes": 241,
     "total_jpy": 6860,
@@ -664,7 +664,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 355,
     "total_jpy": 8780,
@@ -700,7 +700,7 @@
     "conflict_codes": [
      "unknown_hours_not_allowed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "NOT_RUN",
     "travel_minutes": null,
     "total_jpy": null,
@@ -722,7 +722,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 137,
     "total_jpy": 4940,
@@ -746,7 +746,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 132,
     "total_jpy": 4900,
@@ -797,7 +797,7 @@
     "conflict_codes": [
      "unknown_hours_not_allowed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "NOT_RUN",
     "travel_minutes": null,
     "total_jpy": null,
@@ -854,7 +854,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 555,
     "total_jpy": 9300,
@@ -911,7 +911,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0313,
+    "runtime_seconds": 0.0621,
     "solver_status": "OPTIMAL",
     "travel_minutes": 226,
     "total_jpy": 7950,
@@ -933,7 +933,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 289,
     "total_jpy": 8360,
@@ -997,7 +997,7 @@
      2
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0071,
+    "runtime_seconds": 0.0143,
     "solver_status": "OPTIMAL",
     "travel_minutes": 141,
     "total_jpy": 3920,
@@ -1019,7 +1019,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 137,
     "total_jpy": 5000,
@@ -1041,7 +1041,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 135,
     "total_jpy": 4480,
@@ -1086,7 +1086,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0316,
+    "runtime_seconds": 0.0622,
     "solver_status": "OPTIMAL",
     "travel_minutes": 180,
     "total_jpy": 2030,
@@ -1109,7 +1109,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 180,
     "total_jpy": 3020,
@@ -1177,7 +1177,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0256,
+    "runtime_seconds": 0.0511,
     "solver_status": "OPTIMAL",
     "travel_minutes": 168,
     "total_jpy": 3110,
@@ -1201,7 +1201,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 273,
     "total_jpy": 6170,
@@ -1263,7 +1263,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0069,
+    "runtime_seconds": 0.0147,
     "solver_status": "OPTIMAL",
     "travel_minutes": 127,
     "total_jpy": 3180,
@@ -1286,7 +1286,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 243,
     "total_jpy": 6300,
@@ -1309,7 +1309,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 218,
     "total_jpy": 6140,
@@ -1349,7 +1349,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0322,
+    "runtime_seconds": 0.0634,
     "solver_status": "OPTIMAL",
     "travel_minutes": 153,
     "total_jpy": 2840,
@@ -1372,7 +1372,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 406,
     "total_jpy": 8970,
@@ -1436,7 +1436,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0047,
+    "runtime_seconds": 0.0091,
     "solver_status": "OPTIMAL",
     "travel_minutes": 146,
     "total_jpy": 3390,
@@ -1457,7 +1457,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 171,
     "total_jpy": 3560,
@@ -1478,7 +1478,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 146,
     "total_jpy": 3390,
@@ -1523,7 +1523,7 @@
      2
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0582,
+    "runtime_seconds": 0.1129,
     "solver_status": "OPTIMAL",
     "travel_minutes": 170,
     "total_jpy": 4700,
@@ -1547,7 +1547,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 407,
     "total_jpy": 9550,
@@ -1615,7 +1615,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0052,
+    "runtime_seconds": 0.0099,
     "solver_status": "OPTIMAL",
     "travel_minutes": 158,
     "total_jpy": 3870,
@@ -1636,7 +1636,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 226,
     "total_jpy": 4400,
@@ -1657,7 +1657,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 226,
     "total_jpy": 4400,
@@ -1702,7 +1702,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0086,
+    "runtime_seconds": 0.0166,
     "solver_status": "OPTIMAL",
     "travel_minutes": 229,
     "total_jpy": 2680,
@@ -1726,7 +1726,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 319,
     "total_jpy": 4870,
@@ -1789,7 +1789,7 @@
     "conflict_codes": [
      "unknown_hours_not_allowed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "NOT_RUN",
     "travel_minutes": null,
     "total_jpy": null,
@@ -1810,7 +1810,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 150,
     "total_jpy": 4920,
@@ -1911,7 +1911,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 462,
     "total_jpy": 10680,
@@ -1940,7 +1940,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 416,
     "total_jpy": 10450,
@@ -1997,7 +1997,7 @@
      1
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0582,
+    "runtime_seconds": 0.115,
     "solver_status": "OPTIMAL",
     "travel_minutes": 179,
     "total_jpy": 1680,
@@ -2020,7 +2020,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 185,
     "total_jpy": 1550,
@@ -2096,7 +2096,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.2727,
+    "runtime_seconds": 0.5355,
     "solver_status": "OPTIMAL",
     "travel_minutes": 293,
     "total_jpy": 7950,
@@ -2149,7 +2149,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 344,
     "total_jpy": 10570,
@@ -2194,7 +2194,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0428,
+    "runtime_seconds": 0.0838,
     "solver_status": "OPTIMAL",
     "travel_minutes": 353,
     "total_jpy": 5910,
@@ -2217,7 +2217,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 288,
     "total_jpy": 6570,
@@ -2282,7 +2282,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0039,
+    "runtime_seconds": 0.0077,
     "solver_status": "OPTIMAL",
     "travel_minutes": 110,
     "total_jpy": 2560,
@@ -2302,7 +2302,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 129,
     "total_jpy": 2770,
@@ -2322,7 +2322,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 112,
     "total_jpy": 2580,
@@ -2369,7 +2369,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0108,
+    "runtime_seconds": 0.0216,
     "solver_status": "OPTIMAL",
     "travel_minutes": 194,
     "total_jpy": 5040,
@@ -2393,7 +2393,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 245,
     "total_jpy": 7570,
@@ -2458,7 +2458,7 @@
     "conflict_codes": [
      "unknown_hours_not_allowed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "NOT_RUN",
     "travel_minutes": null,
     "total_jpy": null,
@@ -2516,7 +2516,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 560,
     "total_jpy": 11920,
@@ -2568,7 +2568,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0034,
+    "runtime_seconds": 0.0067,
     "solver_status": "OPTIMAL",
     "travel_minutes": 133,
     "total_jpy": 3410,
@@ -2608,7 +2608,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 133,
     "total_jpy": 3410,
@@ -2650,7 +2650,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0042,
+    "runtime_seconds": 0.0081,
     "solver_status": "OPTIMAL",
     "travel_minutes": 217,
     "total_jpy": 5000,
@@ -2673,7 +2673,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 349,
     "total_jpy": 5890,
@@ -2696,7 +2696,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 304,
     "total_jpy": 6090,
@@ -2744,7 +2744,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0279,
+    "runtime_seconds": 0.0545,
     "solver_status": "OPTIMAL",
     "travel_minutes": 388,
     "total_jpy": 6330,
@@ -2767,7 +2767,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 417,
     "total_jpy": 6560,
@@ -2841,7 +2841,7 @@
      2
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0253,
+    "runtime_seconds": 0.0494,
     "solver_status": "OPTIMAL",
     "travel_minutes": 159,
     "total_jpy": 4320,
@@ -2864,7 +2864,7 @@
      1
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 294,
     "total_jpy": 7490,
@@ -2934,7 +2934,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0562,
+    "runtime_seconds": 0.1098,
     "solver_status": "OPTIMAL",
     "travel_minutes": 233,
     "total_jpy": 5900,
@@ -2959,7 +2959,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 243,
     "total_jpy": 5880,
@@ -3023,7 +3023,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0019,
+    "runtime_seconds": 0.0037,
     "solver_status": "OPTIMAL",
     "travel_minutes": 141,
     "total_jpy": 1680,
@@ -3110,7 +3110,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0764,
+    "runtime_seconds": 0.1482,
     "solver_status": "OPTIMAL",
     "travel_minutes": 226,
     "total_jpy": 5150,
@@ -3136,7 +3136,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 386,
     "total_jpy": 7380,
@@ -3209,7 +3209,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.097,
+    "runtime_seconds": 0.1887,
     "solver_status": "OPTIMAL",
     "travel_minutes": 225,
     "total_jpy": 3150,
@@ -3303,7 +3303,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.072,
+    "runtime_seconds": 0.1394,
     "solver_status": "OPTIMAL",
     "travel_minutes": 296,
     "total_jpy": 5210,
@@ -3327,7 +3327,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 451,
     "total_jpy": 6330,
@@ -3400,7 +3400,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.1697,
+    "runtime_seconds": 0.3293,
     "solver_status": "OPTIMAL",
     "travel_minutes": 239,
     "total_jpy": 6850,
@@ -3452,7 +3452,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 417,
     "total_jpy": 11470,
@@ -3493,7 +3493,7 @@
      2
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0039,
+    "runtime_seconds": 0.0076,
     "solver_status": "OPTIMAL",
     "travel_minutes": 177,
     "total_jpy": 2090,
@@ -3514,7 +3514,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 171,
     "total_jpy": 3050,
@@ -3537,7 +3537,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 135,
     "total_jpy": 3220,
@@ -3576,7 +3576,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0032,
+    "runtime_seconds": 0.0062,
     "solver_status": "OPTIMAL",
     "travel_minutes": 180,
     "total_jpy": 5220,
@@ -3618,7 +3618,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 180,
     "total_jpy": 5220,
@@ -3661,7 +3661,7 @@
      1
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0031,
+    "runtime_seconds": 0.006,
     "solver_status": "OPTIMAL",
     "travel_minutes": 252,
     "total_jpy": 4170,
@@ -3681,7 +3681,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 194,
     "total_jpy": 2530,
@@ -3703,7 +3703,7 @@
      1
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 257,
     "total_jpy": 4190,
@@ -3747,7 +3747,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0777,
+    "runtime_seconds": 0.1517,
     "solver_status": "OPTIMAL",
     "travel_minutes": 185,
     "total_jpy": 5400,
@@ -3773,7 +3773,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 265,
     "total_jpy": 8220,
@@ -3848,7 +3848,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.1264,
+    "runtime_seconds": 0.2499,
     "solver_status": "OPTIMAL",
     "travel_minutes": 299,
     "total_jpy": 4150,
@@ -3949,7 +3949,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.1429,
+    "runtime_seconds": 0.2768,
     "solver_status": "OPTIMAL",
     "travel_minutes": 289,
     "total_jpy": 6070,
@@ -4003,7 +4003,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 413,
     "total_jpy": 11440,
@@ -4050,7 +4050,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.238,
+    "runtime_seconds": 0.4411,
     "solver_status": "OPTIMAL",
     "travel_minutes": 236,
     "total_jpy": 4230,
@@ -4104,7 +4104,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 343,
     "total_jpy": 7210,
@@ -4152,7 +4152,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.1439,
+    "runtime_seconds": 0.2824,
     "solver_status": "OPTIMAL",
     "travel_minutes": 304,
     "total_jpy": 4670,
@@ -4178,7 +4178,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 576,
     "total_jpy": 8340,
@@ -4203,7 +4203,7 @@
      2
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 562,
     "total_jpy": 9830,
@@ -4255,7 +4255,7 @@
      2
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.1614,
+    "runtime_seconds": 0.3191,
     "solver_status": "OPTIMAL",
     "travel_minutes": 366,
     "total_jpy": 9520,
@@ -4309,7 +4309,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 397,
     "total_jpy": 9730,
@@ -4351,7 +4351,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0124,
+    "runtime_seconds": 0.0243,
     "solver_status": "OPTIMAL",
     "travel_minutes": 109,
     "total_jpy": 2040,
@@ -4372,7 +4372,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 137,
     "total_jpy": 1720,
@@ -4394,7 +4394,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 44,
     "total_jpy": 2640,
@@ -4448,7 +4448,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.8222,
+    "runtime_seconds": 1.7133,
     "solver_status": "OPTIMAL",
     "travel_minutes": 401,
     "total_jpy": 8860,
@@ -4502,7 +4502,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 516,
     "total_jpy": 10710,
@@ -4546,7 +4546,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0129,
+    "runtime_seconds": 0.0255,
     "solver_status": "OPTIMAL",
     "travel_minutes": 143,
     "total_jpy": 1280,
@@ -4570,7 +4570,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 241,
     "total_jpy": 4200,
@@ -4594,7 +4594,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 218,
     "total_jpy": 4030,
@@ -4631,7 +4631,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0032,
+    "runtime_seconds": 0.0064,
     "solver_status": "OPTIMAL",
     "travel_minutes": 141,
     "total_jpy": 2760,
@@ -4669,7 +4669,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 141,
     "total_jpy": 2760,
@@ -4710,7 +4710,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0028,
+    "runtime_seconds": 0.0058,
     "solver_status": "OPTIMAL",
     "travel_minutes": 247,
     "total_jpy": 2970,
@@ -4730,7 +4730,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 236,
     "total_jpy": 2820,
@@ -4751,7 +4751,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 247,
     "total_jpy": 2970,
@@ -4795,7 +4795,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0499,
+    "runtime_seconds": 0.1044,
     "solver_status": "OPTIMAL",
     "travel_minutes": 166,
     "total_jpy": 5380,
@@ -4819,7 +4819,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 311,
     "total_jpy": 7500,
@@ -4843,7 +4843,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 271,
     "total_jpy": 7150,
@@ -4881,7 +4881,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0019,
+    "runtime_seconds": 0.004,
     "solver_status": "OPTIMAL",
     "travel_minutes": 91,
     "total_jpy": 850,
@@ -4900,7 +4900,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 233,
     "total_jpy": 2880,
@@ -4919,7 +4919,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 233,
     "total_jpy": 2880,
@@ -4959,7 +4959,7 @@
     "conflict_codes": [
      "unknown_hours_not_allowed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "NOT_RUN",
     "travel_minutes": null,
     "total_jpy": null,
@@ -5017,7 +5017,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 512,
     "total_jpy": 11670,
@@ -5071,7 +5071,7 @@
      1
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0077,
+    "runtime_seconds": 0.0151,
     "solver_status": "OPTIMAL",
     "travel_minutes": 257,
     "total_jpy": 4690,
@@ -5092,7 +5092,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 312,
     "total_jpy": 5050,
@@ -5113,7 +5113,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 257,
     "total_jpy": 4690,
@@ -5165,7 +5165,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.7635,
+    "runtime_seconds": 1.5461,
     "solver_status": "OPTIMAL",
     "travel_minutes": 271,
     "total_jpy": 8500,
@@ -5221,7 +5221,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 313,
     "total_jpy": 8760,
@@ -5265,7 +5265,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0122,
+    "runtime_seconds": 0.0252,
     "solver_status": "OPTIMAL",
     "travel_minutes": 303,
     "total_jpy": 6190,
@@ -5286,7 +5286,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 190,
     "total_jpy": 4790,
@@ -5312,7 +5312,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 362,
     "total_jpy": 8850,
@@ -5358,7 +5358,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.1267,
+    "runtime_seconds": 0.2616,
     "solver_status": "OPTIMAL",
     "travel_minutes": 229,
     "total_jpy": 4180,
@@ -5382,7 +5382,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0003,
     "solver_status": "N/A",
     "travel_minutes": 229,
     "total_jpy": 4780,
@@ -5407,7 +5407,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 216,
     "total_jpy": 4790,
@@ -5447,7 +5447,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0025,
+    "runtime_seconds": 0.0064,
     "solver_status": "OPTIMAL",
     "travel_minutes": 109,
     "total_jpy": 1050,
@@ -5467,7 +5467,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 99,
     "total_jpy": 900,
@@ -5488,7 +5488,7 @@
      0
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 109,
     "total_jpy": 1050,
@@ -5526,7 +5526,7 @@
     "conflict_codes": [
      "unknown_hours_not_allowed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "NOT_RUN",
     "travel_minutes": null,
     "total_jpy": null,
@@ -5549,7 +5549,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0001,
     "solver_status": "N/A",
     "travel_minutes": 447,
     "total_jpy": 10350,
@@ -5629,7 +5629,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0271,
+    "runtime_seconds": 0.0559,
     "solver_status": "OPTIMAL",
     "travel_minutes": 231,
     "total_jpy": 5190,
@@ -5653,7 +5653,7 @@
     "conflict_codes": [
      "baseline_not_placed"
     ],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 270,
     "total_jpy": 7540,
@@ -5677,7 +5677,7 @@
     "conflict_codes": [
      "nn_not_placed"
     ],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 252,
     "total_jpy": 6430,
@@ -5725,7 +5725,7 @@
      3
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0417,
+    "runtime_seconds": 0.1488,
     "solver_status": "OPTIMAL",
     "travel_minutes": 311,
     "total_jpy": 3720,
@@ -5748,7 +5748,7 @@
      1
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0,
+    "runtime_seconds": 0.0002,
     "solver_status": "N/A",
     "travel_minutes": 438,
     "total_jpy": 4630,
@@ -5771,7 +5771,7 @@
      1
     ],
     "conflict_codes": [],
-    "runtime_seconds": 0.0001,
+    "runtime_seconds": 0.0006,
     "solver_status": "N/A",
     "travel_minutes": 405,
     "total_jpy": 4410,
@@ -10323,7 +10323,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0972,
+     "runtime_seconds": 0.1891,
      "solver_status": "OPTIMAL",
      "travel_minutes": 324,
      "total_jpy": 3650,
@@ -10345,7 +10345,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0017,
+     "runtime_seconds": 0.0033,
      "solver_status": "OPTIMAL",
      "travel_minutes": 36,
      "total_jpy": 400,
@@ -10371,7 +10371,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.1565,
+     "runtime_seconds": 0.3076,
      "solver_status": "OPTIMAL",
      "travel_minutes": 271,
      "total_jpy": 3030,
@@ -10399,7 +10399,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.2752,
+     "runtime_seconds": 0.533,
      "solver_status": "OPTIMAL",
      "travel_minutes": 558,
      "total_jpy": 11890,
@@ -10427,7 +10427,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.1639,
+     "runtime_seconds": 0.315,
      "solver_status": "OPTIMAL",
      "travel_minutes": 424,
      "total_jpy": 9320,
@@ -10444,7 +10444,7 @@
      "conflict_codes": [
       "unknown_hours_not_allowed"
      ],
-     "runtime_seconds": 0.0,
+     "runtime_seconds": 0.0001,
      "solver_status": "NOT_RUN",
      "travel_minutes": null,
      "total_jpy": null,
@@ -10461,7 +10461,7 @@
      "conflict_codes": [
       "unknown_hours_not_allowed"
      ],
-     "runtime_seconds": 0.0,
+     "runtime_seconds": 0.0001,
      "solver_status": "NOT_RUN",
      "travel_minutes": null,
      "total_jpy": null,
@@ -10486,7 +10486,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0362,
+     "runtime_seconds": 0.0695,
      "solver_status": "OPTIMAL",
      "travel_minutes": 226,
      "total_jpy": 7950,
@@ -10509,7 +10509,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0212,
+     "runtime_seconds": 0.0408,
      "solver_status": "OPTIMAL",
      "travel_minutes": 141,
      "total_jpy": 3920,
@@ -10533,7 +10533,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.1367,
+     "runtime_seconds": 0.2633,
      "solver_status": "OPTIMAL",
      "travel_minutes": 366,
      "total_jpy": 3440,
@@ -10559,7 +10559,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0579,
+     "runtime_seconds": 0.1112,
      "solver_status": "OPTIMAL",
      "travel_minutes": 338,
      "total_jpy": 7670,
@@ -10583,7 +10583,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0139,
+     "runtime_seconds": 0.0269,
      "solver_status": "OPTIMAL",
      "travel_minutes": 283,
      "total_jpy": 6660,
@@ -10608,7 +10608,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0417,
+     "runtime_seconds": 0.0807,
      "solver_status": "OPTIMAL",
      "travel_minutes": 402,
      "total_jpy": 9010,
@@ -10632,7 +10632,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0039,
+     "runtime_seconds": 0.0075,
      "solver_status": "OPTIMAL",
      "travel_minutes": 282,
      "total_jpy": 4460,
@@ -10657,7 +10657,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0677,
+     "runtime_seconds": 0.1306,
      "solver_status": "OPTIMAL",
      "travel_minutes": 218,
      "total_jpy": 7300,
@@ -10681,7 +10681,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0087,
+     "runtime_seconds": 0.0169,
      "solver_status": "OPTIMAL",
      "travel_minutes": 278,
      "total_jpy": 4820,
@@ -10706,7 +10706,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0121,
+     "runtime_seconds": 0.0231,
      "solver_status": "OPTIMAL",
      "travel_minutes": 229,
      "total_jpy": 2680,
@@ -10723,7 +10723,7 @@
      "conflict_codes": [
       "unknown_hours_not_allowed"
      ],
-     "runtime_seconds": 0.0,
+     "runtime_seconds": 0.0001,
      "solver_status": "NOT_RUN",
      "travel_minutes": null,
      "total_jpy": null,
@@ -10765,7 +10765,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.1499,
+     "runtime_seconds": 0.2913,
      "solver_status": "OPTIMAL",
      "travel_minutes": 207,
      "total_jpy": 1860,
@@ -10794,7 +10794,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.5239,
+     "runtime_seconds": 1.0031,
      "solver_status": "OPTIMAL",
      "travel_minutes": 341,
      "total_jpy": 10530,
@@ -10818,7 +10818,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0478,
+     "runtime_seconds": 0.0922,
      "solver_status": "OPTIMAL",
      "travel_minutes": 353,
      "total_jpy": 5910,
@@ -10841,7 +10841,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0034,
+     "runtime_seconds": 0.0065,
      "solver_status": "OPTIMAL",
      "travel_minutes": 142,
      "total_jpy": 2940,
@@ -10866,7 +10866,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0146,
+     "runtime_seconds": 0.0284,
      "solver_status": "OPTIMAL",
      "travel_minutes": 194,
      "total_jpy": 5040,
@@ -10883,7 +10883,7 @@
      "conflict_codes": [
       "unknown_hours_not_allowed"
      ],
-     "runtime_seconds": 0.0,
+     "runtime_seconds": 0.0001,
      "solver_status": "NOT_RUN",
      "travel_minutes": null,
      "total_jpy": null,
@@ -10906,7 +10906,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0034,
+     "runtime_seconds": 0.0065,
      "solver_status": "OPTIMAL",
      "travel_minutes": 178,
      "total_jpy": 3860,
@@ -10931,7 +10931,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0039,
+     "runtime_seconds": 0.0075,
      "solver_status": "OPTIMAL",
      "travel_minutes": 341,
      "total_jpy": 6910,
@@ -10956,7 +10956,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.016,
+     "runtime_seconds": 0.031,
      "solver_status": "OPTIMAL",
      "travel_minutes": 388,
      "total_jpy": 6330,
@@ -10982,7 +10982,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0757,
+     "runtime_seconds": 0.1471,
      "solver_status": "OPTIMAL",
      "travel_minutes": 251,
      "total_jpy": 7200,
@@ -11009,7 +11009,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.1105,
+     "runtime_seconds": 0.215,
      "solver_status": "OPTIMAL",
      "travel_minutes": 267,
      "total_jpy": 6290,
@@ -11031,7 +11031,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.002,
+     "runtime_seconds": 0.0039,
      "solver_status": "OPTIMAL",
      "travel_minutes": 141,
      "total_jpy": 1680,
@@ -11057,7 +11057,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.1314,
+     "runtime_seconds": 0.2549,
      "solver_status": "OPTIMAL",
      "travel_minutes": 248,
      "total_jpy": 5380,
@@ -11083,7 +11083,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.1978,
+     "runtime_seconds": 0.3804,
      "solver_status": "OPTIMAL",
      "travel_minutes": 247,
      "total_jpy": 3370,
@@ -11110,7 +11110,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.091,
+     "runtime_seconds": 0.1744,
      "solver_status": "OPTIMAL",
      "travel_minutes": 416,
      "total_jpy": 6180,
@@ -11139,7 +11139,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.357,
+     "runtime_seconds": 0.6982,
      "solver_status": "OPTIMAL",
      "travel_minutes": 452,
      "total_jpy": 11780,
@@ -11161,7 +11161,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0069,
+     "runtime_seconds": 0.0138,
      "solver_status": "OPTIMAL",
      "travel_minutes": 177,
      "total_jpy": 2090,
@@ -11185,7 +11185,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.008,
+     "runtime_seconds": 0.0164,
      "solver_status": "OPTIMAL",
      "travel_minutes": 366,
      "total_jpy": 6620,
@@ -11208,7 +11208,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0088,
+     "runtime_seconds": 0.0179,
      "solver_status": "OPTIMAL",
      "travel_minutes": 252,
      "total_jpy": 4170,
@@ -11235,7 +11235,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.1362,
+     "runtime_seconds": 0.2689,
      "solver_status": "OPTIMAL",
      "travel_minutes": 294,
      "total_jpy": 8570,
@@ -11261,7 +11261,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.2337,
+     "runtime_seconds": 0.4578,
      "solver_status": "OPTIMAL",
      "travel_minutes": 299,
      "total_jpy": 4150,
@@ -11289,7 +11289,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.1103,
+     "runtime_seconds": 0.2149,
      "solver_status": "OPTIMAL",
      "travel_minutes": 355,
      "total_jpy": 11060,
@@ -11317,7 +11317,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 2.073,
+     "runtime_seconds": 4.0667,
      "solver_status": "OPTIMAL",
      "travel_minutes": 322,
      "total_jpy": 7150,
@@ -11345,7 +11345,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.645,
+     "runtime_seconds": 1.2533,
      "solver_status": "OPTIMAL",
      "travel_minutes": 525,
      "total_jpy": 9590,
@@ -11373,7 +11373,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.2972,
+     "runtime_seconds": 0.5867,
      "solver_status": "OPTIMAL",
      "travel_minutes": 366,
      "total_jpy": 9520,
@@ -11395,7 +11395,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0187,
+     "runtime_seconds": 0.0368,
      "solver_status": "OPTIMAL",
      "travel_minutes": 121,
      "total_jpy": 2200,
@@ -11424,7 +11424,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 1.355,
+     "runtime_seconds": 2.6179,
      "solver_status": "OPTIMAL",
      "travel_minutes": 500,
      "total_jpy": 9610,
@@ -11449,7 +11449,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0188,
+     "runtime_seconds": 0.0368,
      "solver_status": "OPTIMAL",
      "travel_minutes": 338,
      "total_jpy": 5000,
@@ -11471,7 +11471,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0054,
+     "runtime_seconds": 0.0105,
      "solver_status": "OPTIMAL",
      "travel_minutes": 192,
      "total_jpy": 3180,
@@ -11493,7 +11493,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0053,
+     "runtime_seconds": 0.0104,
      "solver_status": "OPTIMAL",
      "travel_minutes": 247,
      "total_jpy": 2970,
@@ -11520,7 +11520,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0693,
+     "runtime_seconds": 0.1359,
      "solver_status": "OPTIMAL",
      "travel_minutes": 299,
      "total_jpy": 7500,
@@ -11542,7 +11542,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0034,
+     "runtime_seconds": 0.0067,
      "solver_status": "OPTIMAL",
      "travel_minutes": 271,
      "total_jpy": 3210,
@@ -11559,7 +11559,7 @@
      "conflict_codes": [
       "unknown_hours_not_allowed"
      ],
-     "runtime_seconds": 0.0,
+     "runtime_seconds": 0.0001,
      "solver_status": "NOT_RUN",
      "travel_minutes": null,
      "total_jpy": null,
@@ -11583,7 +11583,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0131,
+     "runtime_seconds": 0.0252,
      "solver_status": "OPTIMAL",
      "travel_minutes": 309,
      "total_jpy": 5110,
@@ -11612,7 +11612,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.6566,
+     "runtime_seconds": 1.2855,
      "solver_status": "OPTIMAL",
      "travel_minutes": 344,
      "total_jpy": 9060,
@@ -11637,7 +11637,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0097,
+     "runtime_seconds": 0.0195,
      "solver_status": "OPTIMAL",
      "travel_minutes": 358,
      "total_jpy": 8830,
@@ -11663,7 +11663,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.1992,
+     "runtime_seconds": 0.3935,
      "solver_status": "OPTIMAL",
      "travel_minutes": 269,
      "total_jpy": 4510,
@@ -11685,7 +11685,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0032,
+     "runtime_seconds": 0.0064,
      "solver_status": "OPTIMAL",
      "travel_minutes": 151,
      "total_jpy": 1410,
@@ -11702,7 +11702,7 @@
      "conflict_codes": [
       "unknown_hours_not_allowed"
      ],
-     "runtime_seconds": 0.0,
+     "runtime_seconds": 0.0001,
      "solver_status": "NOT_RUN",
      "travel_minutes": null,
      "total_jpy": null,
@@ -11727,7 +11727,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0299,
+     "runtime_seconds": 0.0583,
      "solver_status": "OPTIMAL",
      "travel_minutes": 231,
      "total_jpy": 5190,
@@ -11753,7 +11753,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0525,
+     "runtime_seconds": 0.1023,
      "solver_status": "OPTIMAL",
      "travel_minutes": 359,
      "total_jpy": 4110,
@@ -11780,7 +11780,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0854,
+     "runtime_seconds": 0.1665,
      "solver_status": "OPTIMAL",
      "travel_minutes": 308,
      "total_jpy": 3530,
@@ -11802,7 +11802,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0016,
+     "runtime_seconds": 0.0035,
      "solver_status": "OPTIMAL",
      "travel_minutes": 36,
      "total_jpy": 400,
@@ -11828,7 +11828,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0855,
+     "runtime_seconds": 0.1677,
      "solver_status": "OPTIMAL",
      "travel_minutes": 223,
      "total_jpy": 2640,
@@ -11856,7 +11856,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.3899,
+     "runtime_seconds": 0.7628,
      "solver_status": "OPTIMAL",
      "travel_minutes": 461,
      "total_jpy": 11160,
@@ -11884,7 +11884,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0636,
+     "runtime_seconds": 0.1236,
      "solver_status": "OPTIMAL",
      "travel_minutes": 355,
      "total_jpy": 8780,
@@ -11901,7 +11901,7 @@
      "conflict_codes": [
       "unknown_hours_not_allowed"
      ],
-     "runtime_seconds": 0.0,
+     "runtime_seconds": 0.0001,
      "solver_status": "NOT_RUN",
      "travel_minutes": null,
      "total_jpy": null,
@@ -11943,7 +11943,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.017,
+     "runtime_seconds": 0.0329,
      "solver_status": "OPTIMAL",
      "travel_minutes": 226,
      "total_jpy": 7950,
@@ -11966,7 +11966,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.008,
+     "runtime_seconds": 0.0156,
      "solver_status": "OPTIMAL",
      "travel_minutes": 141,
      "total_jpy": 3920,
@@ -11990,7 +11990,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.1086,
+     "runtime_seconds": 0.2107,
      "solver_status": "OPTIMAL",
      "travel_minutes": 180,
      "total_jpy": 2030,
@@ -12016,7 +12016,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0273,
+     "runtime_seconds": 0.0532,
      "solver_status": "OPTIMAL",
      "travel_minutes": 292,
      "total_jpy": 7300,
@@ -12040,7 +12040,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0065,
+     "runtime_seconds": 0.0126,
      "solver_status": "OPTIMAL",
      "travel_minutes": 208,
      "total_jpy": 6080,
@@ -12065,7 +12065,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0438,
+     "runtime_seconds": 0.0844,
      "solver_status": "OPTIMAL",
      "travel_minutes": 402,
      "total_jpy": 9010,
@@ -12089,7 +12089,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0037,
+     "runtime_seconds": 0.0073,
      "solver_status": "OPTIMAL",
      "travel_minutes": 146,
      "total_jpy": 3390,
@@ -12114,7 +12114,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0529,
+     "runtime_seconds": 0.1024,
      "solver_status": "OPTIMAL",
      "travel_minutes": 218,
      "total_jpy": 7300,
@@ -12138,7 +12138,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0044,
+     "runtime_seconds": 0.0087,
      "solver_status": "OPTIMAL",
      "travel_minutes": 158,
      "total_jpy": 3870,
@@ -12163,7 +12163,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0096,
+     "runtime_seconds": 0.0189,
      "solver_status": "OPTIMAL",
      "travel_minutes": 229,
      "total_jpy": 2680,
@@ -12180,7 +12180,7 @@
      "conflict_codes": [
       "unknown_hours_not_allowed"
      ],
-     "runtime_seconds": 0.0,
+     "runtime_seconds": 0.0001,
      "solver_status": "NOT_RUN",
      "travel_minutes": null,
      "total_jpy": null,
@@ -12222,7 +12222,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0563,
+     "runtime_seconds": 0.1106,
      "solver_status": "OPTIMAL",
      "travel_minutes": 179,
      "total_jpy": 1680,
@@ -12251,7 +12251,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.5535,
+     "runtime_seconds": 1.08,
      "solver_status": "OPTIMAL",
      "travel_minutes": 341,
      "total_jpy": 10530,
@@ -12275,7 +12275,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0441,
+     "runtime_seconds": 0.086,
      "solver_status": "OPTIMAL",
      "travel_minutes": 353,
      "total_jpy": 5910,
@@ -12298,7 +12298,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0033,
+     "runtime_seconds": 0.0064,
      "solver_status": "OPTIMAL",
      "travel_minutes": 110,
      "total_jpy": 2560,
@@ -12322,7 +12322,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0109,
+     "runtime_seconds": 0.0214,
      "solver_status": "OPTIMAL",
      "travel_minutes": 178,
      "total_jpy": 2750,
@@ -12339,7 +12339,7 @@
      "conflict_codes": [
       "unknown_hours_not_allowed"
      ],
-     "runtime_seconds": 0.0,
+     "runtime_seconds": 0.0001,
      "solver_status": "NOT_RUN",
      "travel_minutes": null,
      "total_jpy": null,
@@ -12362,7 +12362,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0029,
+     "runtime_seconds": 0.0057,
      "solver_status": "OPTIMAL",
      "travel_minutes": 133,
      "total_jpy": 3410,
@@ -12387,7 +12387,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0038,
+     "runtime_seconds": 0.0075,
      "solver_status": "OPTIMAL",
      "travel_minutes": 341,
      "total_jpy": 6910,
@@ -12412,7 +12412,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0254,
+     "runtime_seconds": 0.0496,
      "solver_status": "OPTIMAL",
      "travel_minutes": 388,
      "total_jpy": 6330,
@@ -12438,7 +12438,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0327,
+     "runtime_seconds": 0.0635,
      "solver_status": "OPTIMAL",
      "travel_minutes": 205,
      "total_jpy": 6820,
@@ -12465,7 +12465,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.048,
+     "runtime_seconds": 0.0936,
      "solver_status": "OPTIMAL",
      "travel_minutes": 233,
      "total_jpy": 5900,
@@ -12487,7 +12487,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0018,
+     "runtime_seconds": 0.0034,
      "solver_status": "OPTIMAL",
      "travel_minutes": 141,
      "total_jpy": 1680,
@@ -12514,7 +12514,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0723,
+     "runtime_seconds": 0.1417,
      "solver_status": "OPTIMAL",
      "travel_minutes": 339,
      "total_jpy": 7060,
@@ -12540,7 +12540,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.105,
+     "runtime_seconds": 0.2065,
      "solver_status": "OPTIMAL",
      "travel_minutes": 225,
      "total_jpy": 3150,
@@ -12567,7 +12567,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0738,
+     "runtime_seconds": 0.144,
      "solver_status": "OPTIMAL",
      "travel_minutes": 296,
      "total_jpy": 5210,
@@ -12596,7 +12596,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.4767,
+     "runtime_seconds": 0.8974,
      "solver_status": "OPTIMAL",
      "travel_minutes": 382,
      "total_jpy": 11240,
@@ -12618,7 +12618,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0038,
+     "runtime_seconds": 0.0075,
      "solver_status": "OPTIMAL",
      "travel_minutes": 177,
      "total_jpy": 2090,
@@ -12642,7 +12642,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.004,
+     "runtime_seconds": 0.0077,
      "solver_status": "OPTIMAL",
      "travel_minutes": 180,
      "total_jpy": 5220,
@@ -12665,7 +12665,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0034,
+     "runtime_seconds": 0.0062,
      "solver_status": "OPTIMAL",
      "travel_minutes": 252,
      "total_jpy": 4170,
@@ -12692,7 +12692,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0878,
+     "runtime_seconds": 0.1726,
      "solver_status": "OPTIMAL",
      "travel_minutes": 230,
      "total_jpy": 7980,
@@ -12718,7 +12718,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0851,
+     "runtime_seconds": 0.1684,
      "solver_status": "OPTIMAL",
      "travel_minutes": 299,
      "total_jpy": 4150,
@@ -12746,7 +12746,7 @@
       2
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.1282,
+     "runtime_seconds": 0.2515,
      "solver_status": "OPTIMAL",
      "travel_minutes": 355,
      "total_jpy": 11060,
@@ -12775,7 +12775,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.6368,
+     "runtime_seconds": 1.2225,
      "solver_status": "OPTIMAL",
      "travel_minutes": 403,
      "total_jpy": 8670,
@@ -12803,7 +12803,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.1735,
+     "runtime_seconds": 0.3394,
      "solver_status": "OPTIMAL",
      "travel_minutes": 525,
      "total_jpy": 9590,
@@ -12831,7 +12831,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.2285,
+     "runtime_seconds": 0.4489,
      "solver_status": "OPTIMAL",
      "travel_minutes": 366,
      "total_jpy": 9520,
@@ -12853,7 +12853,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0168,
+     "runtime_seconds": 0.0338,
      "solver_status": "OPTIMAL",
      "travel_minutes": 109,
      "total_jpy": 2040,
@@ -12883,7 +12883,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 1.3972,
+     "runtime_seconds": 2.8115,
      "solver_status": "OPTIMAL",
      "travel_minutes": 513,
      "total_jpy": 10690,
@@ -12908,7 +12908,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.008,
+     "runtime_seconds": 0.0175,
      "solver_status": "OPTIMAL",
      "travel_minutes": 202,
      "total_jpy": 3930,
@@ -12930,7 +12930,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.003,
+     "runtime_seconds": 0.0069,
      "solver_status": "OPTIMAL",
      "travel_minutes": 141,
      "total_jpy": 2760,
@@ -12952,7 +12952,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0027,
+     "runtime_seconds": 0.0062,
      "solver_status": "OPTIMAL",
      "travel_minutes": 247,
      "total_jpy": 2970,
@@ -12979,7 +12979,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.05,
+     "runtime_seconds": 0.1051,
      "solver_status": "OPTIMAL",
      "travel_minutes": 259,
      "total_jpy": 7070,
@@ -13001,7 +13001,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0023,
+     "runtime_seconds": 0.005,
      "solver_status": "OPTIMAL",
      "travel_minutes": 230,
      "total_jpy": 2860,
@@ -13018,7 +13018,7 @@
      "conflict_codes": [
       "unknown_hours_not_allowed"
      ],
-     "runtime_seconds": 0.0,
+     "runtime_seconds": 0.0001,
      "solver_status": "NOT_RUN",
      "travel_minutes": null,
      "total_jpy": null,
@@ -13042,7 +13042,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0075,
+     "runtime_seconds": 0.0153,
      "solver_status": "OPTIMAL",
      "travel_minutes": 257,
      "total_jpy": 4690,
@@ -13070,7 +13070,7 @@
       1
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.3899,
+     "runtime_seconds": 0.7458,
      "solver_status": "OPTIMAL",
      "travel_minutes": 245,
      "total_jpy": 6040,
@@ -13095,7 +13095,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0077,
+     "runtime_seconds": 0.0145,
      "solver_status": "OPTIMAL",
      "travel_minutes": 358,
      "total_jpy": 8830,
@@ -13121,7 +13121,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.1316,
+     "runtime_seconds": 0.2601,
      "solver_status": "OPTIMAL",
      "travel_minutes": 229,
      "total_jpy": 4180,
@@ -13143,7 +13143,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0024,
+     "runtime_seconds": 0.0046,
      "solver_status": "OPTIMAL",
      "travel_minutes": 109,
      "total_jpy": 1050,
@@ -13160,7 +13160,7 @@
      "conflict_codes": [
       "unknown_hours_not_allowed"
      ],
-     "runtime_seconds": 0.0,
+     "runtime_seconds": 0.0001,
      "solver_status": "NOT_RUN",
      "travel_minutes": null,
      "total_jpy": null,
@@ -13185,7 +13185,7 @@
       3
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0266,
+     "runtime_seconds": 0.0484,
      "solver_status": "OPTIMAL",
      "travel_minutes": 231,
      "total_jpy": 5190,
@@ -13211,7 +13211,7 @@
       0
      ],
      "conflict_codes": [],
-     "runtime_seconds": 0.0814,
+     "runtime_seconds": 0.1524,
      "solver_status": "OPTIMAL",
      "travel_minutes": 311,
      "total_jpy": 3720,
@@ -13924,27 +13924,27 @@
     "infeasible": 0,
     "rejected": 3,
     "runtime_seconds": [
-     0.0174,
-     0.0035,
-     0.0091,
-     0.0153,
-     0.011,
-     0.0058,
-     0.0117,
-     0.0032,
-     0.008,
-     0.0088,
-     0.0061,
+     0.0328,
      0.0063,
-     0.0181,
-     0.007,
-     0.005,
-     0.0147,
-     0.0093,
-     0.0141,
-     0.0486,
+     0.0177,
+     0.0285,
+     0.0229,
+     0.012,
+     0.0243,
+     0.0068,
+     0.0166,
+     0.0178,
      0.0131,
-     0.0215
+     0.0128,
+     0.0352,
+     0.0132,
+     0.0099,
+     0.0303,
+     0.0187,
+     0.0293,
+     0.0975,
+     0.0271,
+     0.0439
     ]
    },
    "naive": {
@@ -13999,27 +13999,27 @@
     "infeasible": 0,
     "rejected": 3,
     "runtime_seconds": [
-     0.0767,
-     0.0041,
-     0.0236,
-     0.1959,
-     0.0269,
-     0.0096,
-     0.0167,
-     0.003,
-     0.0078,
-     0.0179,
-     0.0061,
-     0.0076,
-     0.032,
-     0.007,
-     0.0039,
-     0.1609,
-     0.0172,
-     0.0625,
-     0.4946,
-     0.0169,
-     0.2284
+     0.1416,
+     0.0073,
+     0.0446,
+     0.3613,
+     0.0534,
+     0.0196,
+     0.0342,
+     0.006,
+     0.0158,
+     0.0387,
+     0.0128,
+     0.0153,
+     0.0619,
+     0.0133,
+     0.0077,
+     0.3067,
+     0.0365,
+     0.1242,
+     0.9571,
+     0.0384,
+     0.4392
     ]
    },
    "n_both_applied": 21,
@@ -15359,8 +15359,8 @@
   "machine_dependent": {
    "solver_runtime_seconds": {
     "n": 60,
-    "mean": 0.06860833333333334,
-    "max": 0.8222
+    "mean": 0.13871833333333333,
+    "max": 1.7133
    }
   }
  }

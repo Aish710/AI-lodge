@@ -1,10 +1,10 @@
 # Submission facts (generated)
 
-Generated 2026-10-17 17:13 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
+Generated 2026-10-17 17:28 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
 
 ## Tests
 
-- Backend full suite: 638 passed, 0 failed, 0 skipped, 638 total (pytest), revision e9b90d8c86fc9e2bd6090b251ed1a5808e98d337 + uncommitted changes.  
+- Backend full suite: 642 passed, 0 failed, 0 skipped, 642 total (pytest), revision b54e7072c1d28071238508cb2ab827293c87be75 + uncommitted changes.  
   *Source: backend/tests/results/latest-full.md*
 - Frontend unit and component tests: 260 passed, 0 failed, 260 total (Vitest).  
   *Source: frontend/test-results/vitest.json (npm run test:report)*
@@ -13,7 +13,7 @@ Generated 2026-10-17 17:13 UTC by `frontend/scripts/make-submission-facts.mjs`. 
 
 ## Evaluation
 
-- Evaluation run 2026-10-17 15:18 UTC, code version e9b90d8, mode full, 60 seeded synthetic trips on sample data (12 attractions, 3 fictional hotels).  
+- Evaluation run 2026-10-17 17:20 UTC, code version b54e707, mode full, 60 seeded synthetic trips on sample data (12 attractions, 3 fictional hotels).  
   *Source: docs/eval-results.json (docs/eval-results.md, docs/README-claims.md)*
 - 15 of 15 named scenarios pass (3 of them use a scripted stand-in for the AI: they verify the pipeline, not the model).  
   *Source: docs/eval-results.json (docs/eval-results.md, docs/README-claims.md)*
@@ -40,9 +40,9 @@ Generated 2026-10-17 17:13 UTC by `frontend/scripts/make-submission-facts.mjs`. 
 
 ## Lighthouse
 
-- Plan (home) (navigation): performance 94, accessibility 100, best practices 100. Measured with lighthouse 13.5.0, mobile (default), simulated throttling, on a local machine.  
+- Plan (home) (navigation): performance 92, accessibility 100, best practices 100. Measured with lighthouse 13.5.0, mobile (default), simulated throttling, on a local machine.  
   *Source: docs/lighthouse-summary.json (docs/lighthouse-results.md)*
-- Proof (navigation): performance 92, accessibility 100, best practices 100. Measured with lighthouse 13.5.0, mobile (default), simulated throttling, on a local machine.  
+- Proof (navigation): performance 91, accessibility 100, best practices 100. Measured with lighthouse 13.5.0, mobile (default), simulated throttling, on a local machine.  
   *Source: docs/lighthouse-summary.json (docs/lighthouse-results.md)*
 - Your trip (after the example flow) (snapshot): performance not measured, accessibility 100, best practices 100. Measured with lighthouse 13.5.0, mobile (default), simulated throttling, on a local machine.  
   *Source: docs/lighthouse-summary.json (docs/lighthouse-results.md)*
