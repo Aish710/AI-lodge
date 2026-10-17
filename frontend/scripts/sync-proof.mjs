@@ -21,6 +21,7 @@ export const FILES = [
   { name: 'frontend-playwright.json', src: 'frontend/test-results/playwright.json', required: false },
   { name: 'frontend-test-summary.json', src: 'docs/test-summary-frontend.json', required: true },
   { name: 'lighthouse-summary.json', src: 'docs/lighthouse-summary.json', required: false },
+  { name: 'verification-counts.json', src: 'docs/data-verification/counts.json', required: false },
   { name: 'user-test-results.csv', src: 'docs/user-test/results.csv', required: false },
   { name: 'user-test-summary.md', src: 'docs/user-test/summary.md', required: false },
 ]

@@ -75,7 +75,36 @@
       "Gardens",
       "Supertree Grove",
       "滨海湾花园"
-    ]
+    ],
+    "verification": {
+      "hours": {
+        "state": "source_checked",
+        "source_url": "https://www.gardensbythebay.com.sg/en/plan-your-visit/opening-hours.html",
+        "checked_on": "2026-10-17",
+        "checked_by": "web-assisted",
+        "note": "Flower Dome and Cloud Forest: Daily 9.00am-9.00pm (last admission 8.30pm / 8.00pm); no weekly closing day is stated; each closes once a month for maintenance (dates on the page, not modelled). The record is treated as the Flower Dome, whose adult price it carries. The outdoor Gardens (with Supertree Grove) are listed as Daily 5.00am-2.00am."
+      },
+      "admission": {
+        "state": "unchecked",
+        "note": "The Flower Dome page shows adult S$12 under 'Singapore Resident'; no stand-alone non-resident price is stated and the outdoor Gardens' admission is not stated, so the value is not confirmed for a visitor."
+      },
+      "booking": {
+        "state": "unchecked",
+        "note": "The page does not say whether advance booking is required."
+      },
+      "coordinates": {
+        "state": "unchecked",
+        "note": "Not checked (see the OneMap script)."
+      },
+      "name_area": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "visit_duration": {
+        "state": "not_applicable",
+        "note": "Visit durations are the project's own estimates, not a checkable fact."
+      }
+    }
   },
   {
     "id": "mbs_skypark",
@@ -154,7 +183,33 @@
       "SkyPark observation deck",
       "Marina Bay Sands observation deck",
       "滨海湾金沙空中花园"
-    ]
+    ],
+    "verification": {
+      "hours": {
+        "state": "unchecked",
+        "note": "The official Marina Bay Sands pages timed out on three attempts. A search summary of the official page suggested daily 9.30am-10pm with peak and non-peak tickets (S$32/36 or S$35/39); it was not read from the page, so it is not used. The record's 11:00-21:00 is unconfirmed."
+      },
+      "admission": {
+        "state": "unchecked",
+        "note": "Official page unreachable at check time; figures in search summaries disagree with each other."
+      },
+      "booking": {
+        "state": "unchecked",
+        "note": "Official page unreachable at check time."
+      },
+      "coordinates": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "name_area": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "visit_duration": {
+        "state": "not_applicable",
+        "note": "Visit durations are the project's own estimates, not a checkable fact."
+      }
+    }
   },
   {
     "id": "singapore_botanic_gardens",
@@ -167,43 +222,43 @@
       "mon": [
         [
           "05:00",
-          "23:00"
+          "23:59"
         ]
       ],
       "tue": [
         [
           "05:00",
-          "23:00"
+          "23:59"
         ]
       ],
       "wed": [
         [
           "05:00",
-          "23:00"
+          "23:59"
         ]
       ],
       "thu": [
         [
           "05:00",
-          "23:00"
+          "23:59"
         ]
       ],
       "fri": [
         [
           "05:00",
-          "23:00"
+          "23:59"
         ]
       ],
       "sat": [
         [
           "05:00",
-          "23:00"
+          "23:59"
         ]
       ],
       "sun": [
         [
           "05:00",
-          "23:00"
+          "23:59"
         ]
       ]
     },
@@ -233,7 +288,39 @@
       "Singapore Botanical Gardens",
       "新加坡植物园",
       "Taman Botani Singapura"
-    ]
+    ],
+    "verification": {
+      "hours": {
+        "state": "source_checked",
+        "source_url": "https://sbg.nparks.gov.sg/visit/general-info/",
+        "checked_on": "2026-10-17",
+        "checked_by": "web-assisted",
+        "note": "'Gardens 5am to 12mn daily'. Midnight is stored as 23:59 (the format has no 24:00). The National Orchid Garden inside is 8.30am-7pm (last ticket 6pm) and charges a fee; it is not modelled."
+      },
+      "admission": {
+        "state": "source_checked",
+        "source_url": "https://sbg.nparks.gov.sg/visit/general-info/",
+        "checked_on": "2026-10-17",
+        "checked_by": "web-assisted",
+        "note": "'The Gardens is free entry for everyone, everyday.' The National Orchid Garden is a separate paid area (adult S$5 local, S$15 non-local) and is not modelled."
+      },
+      "booking": {
+        "state": "unchecked",
+        "note": "The page does not state a booking requirement."
+      },
+      "coordinates": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "name_area": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "visit_duration": {
+        "state": "not_applicable",
+        "note": "Visit durations are the project's own estimates, not a checkable fact."
+      }
+    }
   },
   {
     "id": "buddha_tooth_relic_temple",
@@ -306,7 +393,33 @@
       "Buddha Tooth Temple",
       "BTRT",
       "佛牙寺"
-    ]
+    ],
+    "verification": {
+      "hours": {
+        "state": "unchecked",
+        "note": "The official site's home and contact pages that were fetched do not show opening hours (the contact page gives directions only). A search summary suggested Mon-Sun 07:00-17:00, but no fetched page showed it. The record's Monday closure and 09:00 start are therefore UNVERIFIED and may be wrong."
+      },
+      "admission": {
+        "state": "unchecked",
+        "note": "Not stated on the fetched pages."
+      },
+      "booking": {
+        "state": "unchecked",
+        "note": "Not stated on the fetched pages."
+      },
+      "coordinates": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "name_area": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "visit_duration": {
+        "state": "not_applicable",
+        "note": "Visit durations are the project's own estimates, not a checkable fact."
+      }
+    }
   },
   {
     "id": "national_gallery_singapore",
@@ -322,7 +435,12 @@
           "19:00"
         ]
       ],
-      "tue": null,
+      "tue": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
       "wed": [
         [
           "10:00",
@@ -379,7 +497,39 @@
       "National Gallery",
       "NGS",
       "新加坡国家美术馆"
-    ]
+    ],
+    "verification": {
+      "hours": {
+        "state": "source_checked",
+        "source_url": "https://www.nationalgallery.sg/sg/en/visit/visitor-information.html",
+        "checked_on": "2026-10-17",
+        "checked_by": "web-assisted",
+        "note": "'Daily, 10am - 7pm', last admission 6.30pm; no closing day listed."
+      },
+      "admission": {
+        "state": "source_checked",
+        "source_url": "https://www.nationalgallery.sg/sg/en/visit/visitor-information.html",
+        "checked_on": "2026-10-17",
+        "checked_by": "web-assisted",
+        "note": "General Admission 'Standard - Other Nationalities: $20' (base adult price); Singapore citizens and PRs are listed free and concessions are $5 less. Special exhibitions cost extra and are not modelled."
+      },
+      "booking": {
+        "state": "unchecked",
+        "note": "The page describes buying online or at a counter but does not state a requirement to book in advance."
+      },
+      "coordinates": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "name_area": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "visit_duration": {
+        "state": "not_applicable",
+        "note": "Visit durations are the project's own estimates, not a checkable fact."
+      }
+    }
   },
   {
     "id": "sultan_mosque_haji_lane",
@@ -392,43 +542,62 @@
       "mon": [
         [
           "10:00",
-          "18:00"
+          "12:00"
+        ],
+        [
+          "14:00",
+          "16:00"
         ]
       ],
       "tue": [
         [
           "10:00",
-          "18:00"
+          "12:00"
+        ],
+        [
+          "14:00",
+          "16:00"
         ]
       ],
       "wed": [
         [
           "10:00",
-          "18:00"
+          "12:00"
+        ],
+        [
+          "14:00",
+          "16:00"
         ]
       ],
       "thu": [
         [
           "10:00",
-          "18:00"
-        ]
-      ],
-      "fri": [
+          "12:00"
+        ],
         [
-          "10:00",
-          "18:00"
+          "14:00",
+          "16:00"
         ]
       ],
+      "fri": null,
       "sat": [
         [
           "10:00",
-          "18:00"
+          "12:00"
+        ],
+        [
+          "14:00",
+          "16:00"
         ]
       ],
       "sun": [
         [
           "10:00",
-          "18:00"
+          "12:00"
+        ],
+        [
+          "14:00",
+          "16:00"
         ]
       ]
     },
@@ -458,7 +627,36 @@
       "Haji Lane",
       "Kampong Glam",
       "苏丹回教堂"
-    ]
+    ],
+    "verification": {
+      "hours": {
+        "state": "source_checked",
+        "source_url": "https://www.sultanmosque.sg/visitors-info/",
+        "checked_on": "2026-10-17",
+        "checked_by": "web-assisted",
+        "note": "Walk-in visits 'Saturday to Thursday: 10.00 AM to 12.00 PM & 2.00 PM to 4.00 PM', 'Friday: Closed'. Applies to the mosque only; Haji Lane shop hours are not covered."
+      },
+      "admission": {
+        "state": "unchecked",
+        "note": "The page states no fee; it calls walk-in tours 'a free & easy tour', which is not a price statement."
+      },
+      "booking": {
+        "state": "unchecked",
+        "note": "Walk-ins are accepted; group tours must be booked. The flag is for walk-in visitors and is not confirmed."
+      },
+      "coordinates": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "name_area": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "visit_duration": {
+        "state": "not_applicable",
+        "note": "Visit durations are the project's own estimates, not a checkable fact."
+      }
+    }
   },
   {
     "id": "maxwell_food_centre",
@@ -536,7 +734,33 @@
       "Maxwell",
       "Maxwell Hawker Centre",
       "麦士威熟食中心"
-    ]
+    ],
+    "verification": {
+      "hours": {
+        "state": "unchecked",
+        "note": "No official page stating the food centre's hours was found; hours vary by stall."
+      },
+      "admission": {
+        "state": "unchecked",
+        "note": "Unknown price is deliberate sample data (a food centre has no admission)."
+      },
+      "booking": {
+        "state": "unchecked",
+        "note": "Not applicable to check."
+      },
+      "coordinates": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "name_area": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "visit_duration": {
+        "state": "not_applicable",
+        "note": "Visit durations are the project's own estimates, not a checkable fact."
+      }
+    }
   },
   {
     "id": "jewel_changi",
@@ -615,7 +839,36 @@
       "Jewel Changi Airport",
       "Rain Vortex",
       "星耀樟宜"
-    ]
+    ],
+    "verification": {
+      "hours": {
+        "state": "source_checked",
+        "source_url": "https://www.jewelchangiairport.com/en/attractions/rain-vortex.html",
+        "checked_on": "2026-10-17",
+        "checked_by": "web-assisted",
+        "note": "Rain Vortex: 'Daily: 10:00AM - 10:00PM'; no closing day listed. The Canopy Park inside has shorter weekday hours and the building is open 24 hours; the record is treated as the Rain Vortex and shops."
+      },
+      "admission": {
+        "state": "unchecked",
+        "note": "The page does not say whether viewing the Rain Vortex costs anything."
+      },
+      "booking": {
+        "state": "unchecked",
+        "note": "Not stated."
+      },
+      "coordinates": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "name_area": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "visit_duration": {
+        "state": "not_applicable",
+        "note": "Visit durations are the project's own estimates, not a checkable fact."
+      }
+    }
   },
   {
     "id": "artscience_museum",
@@ -687,7 +940,33 @@
     "aliases": [
       "Art Science Museum",
       "艺术科学博物馆"
-    ]
+    ],
+    "verification": {
+      "hours": {
+        "state": "unchecked",
+        "note": "The official museum pages timed out. A search summary suggested Sun-Thu 10am-7pm and Fri-Sat 10am-9pm, open every day, which would contradict the record's Wednesday closure; it was not read from a page, so nothing is changed. The Wednesday closure is UNVERIFIED and may be wrong."
+      },
+      "admission": {
+        "state": "unchecked",
+        "note": "Official page unreachable; prices depend on the exhibition."
+      },
+      "booking": {
+        "state": "unchecked",
+        "note": "Official page unreachable."
+      },
+      "coordinates": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "name_area": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "visit_duration": {
+        "state": "not_applicable",
+        "note": "Visit durations are the project's own estimates, not a checkable fact."
+      }
+    }
   },
   {
     "id": "sentosa",
@@ -729,6 +1008,32 @@
     "aliases": [
       "Sentosa Island",
       "圣淘沙"
-    ]
+    ],
+    "verification": {
+      "hours": {
+        "state": "unchecked",
+        "note": "Hours are deliberately 'unknown' in the sample data (an unknown-hours edge case); not changed."
+      },
+      "admission": {
+        "state": "unchecked",
+        "note": "Official pages describe island entry as free on foot and by the island buses, S$4 by monorail from VivoCity and a time-of-day fee for vehicles; the record's S$6 matches none of these clearly, so it is not confirmed."
+      },
+      "booking": {
+        "state": "unchecked",
+        "note": "Not applicable to check."
+      },
+      "coordinates": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "name_area": {
+        "state": "unchecked",
+        "note": "Not checked."
+      },
+      "visit_duration": {
+        "state": "not_applicable",
+        "note": "Visit durations are the project's own estimates, not a checkable fact."
+      }
+    }
   }
 ]

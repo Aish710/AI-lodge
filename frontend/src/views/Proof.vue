@@ -44,6 +44,8 @@ const hardening = computed(() => (d.value?.hardeningMd ? parseBlocks(d.value.har
 const hardeningResult = computed(() => /\*\*(\d+)\/(\d+) cases passed\*\*/.exec(d.value?.hardeningMd ?? ''))
 const live = computed(() => (d.value?.live ? parseBlocks(d.value.live) : null))
 const selfcheck = computed(() => (d.value?.selfcheck ? parseBlocks(d.value.selfcheck) : null))
+const verification = computed(() => d.value?.verification ?? null)
+const cityLabel = (c) => c.split('_').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ')
 const goldLive = computed(() => (d.value?.goldLive ? parseBlocks(d.value.goldLive) : null))
 const userTest = computed(() => d.value?.userTest ?? { rows: 0, summary: null })
 const userTestBlocks = computed(() => (userTest.value.rows && userTest.value.summary ? parseBlocks(userTest.value.summary) : []))
@@ -198,6 +200,14 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         <p class="small muted">Verbatim from README-claims.md. Each carries its N and its caveat.</p>
         <ul v-if="d.claims?.length" class="mb-0"><li v-for="c in d.claims" :key="c.id" class="mb-2" :data-testid="`claim-${c.id}`">{{ c.text }}</li></ul>
         <p v-else class="mb-0 muted">The claim sentences were not found in this build.</p>
+      </section>
+
+      <section v-if="verification" id="data-verification" class="card-soft" aria-labelledby="dv-h" data-testid="data-verification">
+        <h2 id="dv-h" class="h5">Data verification</h2>
+        <p class="mb-2" data-testid="dv-sentence"><strong>{{ verification.readme_sentence }}.</strong></p>
+        <p class="small muted">Counted by a script from the data files. "Source-checked" means an official page stated the value (the page and date are recorded in the data); "human-verified" means a person confirmed it. A field is a checkable group (hours and closing days, admission, advance booking, coordinates, name and area), an alias spelling, or a hotel rate; made-up hotel rates and our own visit-duration estimates are "not applicable".</p>
+        <div class="table-responsive"><table class="table table-honest" data-testid="dv-table"><thead><tr><th scope="col">City</th><th scope="col">Unchecked</th><th scope="col">Source-checked</th><th scope="col">Human-verified</th><th scope="col">Not applicable</th></tr></thead>
+          <tbody><tr v-for="(v, c) in verification.cities" :key="c"><th scope="row">{{ cityLabel(c) }}</th><td>{{ v.unchecked }}</td><td>{{ v.source_checked }}</td><td>{{ v.human_verified }}</td><td>{{ v.not_applicable }}</td></tr></tbody></table></div>
       </section>
 
       <section id="user-test" class="card-soft" aria-labelledby="ut-h" data-testid="user-test">

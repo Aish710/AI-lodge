@@ -74,6 +74,53 @@ class Provenance(_Strict):
         return self
 
 
+VerificationState = Literal["unchecked", "source_checked", "human_verified", "not_applicable"]
+CheckedBy = Literal["web-assisted", "human"]
+
+
+class FieldVerification(_Strict):
+    """Per-field-group verification record, SEPARATE from `source_status` (which stays "sample" on every record).
+    source_checked = an official page actually states the value (url + date recorded); human_verified = a person confirmed it;
+    not_applicable = not a checkable fact (a made-up demo hotel rate, our own visit-duration estimate), with the reason in `note`."""
+    state: VerificationState = "unchecked"
+    source_url: str | None = None
+    checked_on: str | None = None   # ISO date
+    checked_by: CheckedBy | None = None
+    note: str = ""
+
+    @model_validator(mode="after")
+    def _consistent(self):
+        if self.checked_on is not None and not _ISO_DATE.match(self.checked_on):
+            raise ValueError("checked_on must be YYYY-MM-DD or null")
+        if self.state == "source_checked" and not (self.source_url and self.checked_on and self.checked_by):
+            raise ValueError("source_checked needs source_url, checked_on and checked_by")
+        if self.state == "human_verified":
+            if not (self.checked_on and self.checked_by == "human"):
+                raise ValueError("human_verified needs checked_on and checked_by 'human'")
+        if self.state == "not_applicable" and not self.note:
+            raise ValueError("not_applicable needs a note giving the reason")
+        return self
+
+
+def _na(reason: str) -> "FieldVerification":
+    return FieldVerification(state="not_applicable", note=reason)
+
+
+class Verification(_Strict):
+    """Checkable field groups of an attraction. Absent block = everything unchecked (visit duration is always not_applicable)."""
+    hours: FieldVerification = FieldVerification()           # opening hours AND weekly closing days
+    admission: FieldVerification = FieldVerification()
+    booking: FieldVerification = FieldVerification()         # advance-booking / timed-entry flag
+    coordinates: FieldVerification = FieldVerification()
+    name_area: FieldVerification = FieldVerification()
+    visit_duration: FieldVerification = _na("Visit durations are the project's own estimates, not a checkable fact.")
+    aliases: dict[str, FieldVerification] = {}                # alias spelling -> record; an alias not listed is unchecked
+
+
+class HotelVerification(_Strict):
+    nightly_rate: FieldVerification = _na("Made-up demo hotel: the rate is invented, so there is nothing to check.")
+
+
 class CoordinateBounds(_Strict):
     lat_min: float
     lat_max: float
@@ -146,6 +193,7 @@ class Attraction(_Strict):
     provenance: Provenance
     hours_provenance: Provenance
     cost_provenance: Provenance
+    verification: Verification | None = None   # per-field-group verification; None = everything unchecked
 
     @model_validator(mode="after")
     def _checks(self, info: ValidationInfo):
@@ -164,6 +212,7 @@ class Hotel(_Strict):
     lon: float
     nightly_rate: int = Field(gt=0)  # JPY
     provenance: Provenance
+    verification: HotelVerification | None = None
 
     @model_validator(mode="after")
     def _checks(self, info: ValidationInfo):

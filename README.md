@@ -2,6 +2,8 @@
 
 **Choose a hotel based on the trip it makes possible, then build a feasible itinerary around it.**
 
+> **Data notice.** Four cities of sample data, with made-up demo hotels and estimated travel times; not live prices; holidays are not modelled. Singapore: 7 fields source-checked, 0 rows human-verified, 75 unchecked; other cities unchecked; all data is still sample data. (Counts are generated: `docs/data-verification/counts.md`.)
+
 ## Problem Statement
 
 Planning a city trip is not just picking attractions. The hotel changes travel time, transport cost, and what can realistically fit into each day. Fitinerary helps a traveller compare those trade-offs instead of treating hotel choice and itinerary planning as separate decisions.

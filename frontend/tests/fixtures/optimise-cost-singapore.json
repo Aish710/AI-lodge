@@ -9,6 +9,27 @@
     "weekday": "mon",
     "stops": [
      {
+      "attraction_id": "jewel_changi",
+      "start": "12:33",
+      "end": "14:33",
+      "travel_minutes_from_previous": 65,
+      "transport_jpy_from_previous": 6,
+      "cost": 0,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": []
+     }
+    ],
+    "hotel_departure": "11:28",
+    "hotel_return": "15:38",
+    "return_travel_minutes": 65,
+    "return_transport_jpy": 6
+   },
+   {
+    "day": 2,
+    "weekday": "tue",
+    "stops": [
+     {
       "attraction_id": "sultan_mosque_haji_lane",
       "start": "10:00",
       "end": "11:30",
@@ -20,10 +41,23 @@
       "uncertainty_flags": []
      },
      {
+      "attraction_id": "artscience_museum",
+      "start": "11:45",
+      "end": "13:45",
+      "travel_minutes_from_previous": 15,
+      "transport_jpy_from_previous": 2,
+      "cost": 25,
+      "cost_status": "known",
+      "is_must_visit": false,
+      "uncertainty_flags": [
+       "advance_booking_required"
+      ]
+     },
+     {
       "attraction_id": "mbs_skypark",
-      "start": "11:48",
-      "end": "13:18",
-      "travel_minutes_from_previous": 16,
+      "start": "13:56",
+      "end": "15:26",
+      "travel_minutes_from_previous": 11,
       "transport_jpy_from_previous": 2,
       "cost": 32,
       "cost_status": "known",
@@ -34,76 +68,42 @@
      },
      {
       "attraction_id": "gardens_by_the_bay",
-      "start": "13:29",
-      "end": "15:59",
+      "start": "15:37",
+      "end": "18:07",
       "travel_minutes_from_previous": 11,
       "transport_jpy_from_previous": 2,
       "cost": 12,
       "cost_status": "known",
       "is_must_visit": false,
       "uncertainty_flags": []
-     },
-     {
-      "attraction_id": "artscience_museum",
-      "start": "16:11",
-      "end": "18:11",
-      "travel_minutes_from_previous": 12,
-      "transport_jpy_from_previous": 2,
-      "cost": 25,
-      "cost_status": "known",
-      "is_must_visit": false,
-      "uncertainty_flags": [
-       "advance_booking_required"
-      ]
      }
     ],
     "hotel_departure": "09:48",
-    "hotel_return": "18:28",
-    "return_travel_minutes": 17,
+    "hotel_return": "18:26",
+    "return_travel_minutes": 19,
     "return_transport_jpy": 3
-   },
-   {
-    "day": 2,
-    "weekday": "tue",
-    "stops": [
-     {
-      "attraction_id": "jewel_changi",
-      "start": "10:06",
-      "end": "12:06",
-      "travel_minutes_from_previous": 65,
-      "transport_jpy_from_previous": 6,
-      "cost": 0,
-      "cost_status": "known",
-      "is_must_visit": false,
-      "uncertainty_flags": []
-     }
-    ],
-    "hotel_departure": "09:01",
-    "hotel_return": "13:11",
-    "return_travel_minutes": 65,
-    "return_transport_jpy": 6
    },
    {
     "day": 3,
     "weekday": "wed",
     "stops": [
      {
-      "attraction_id": "national_gallery_singapore",
-      "start": "10:00",
-      "end": "12:30",
-      "travel_minutes_from_previous": 14,
-      "transport_jpy_from_previous": 2,
-      "cost": 20,
+      "attraction_id": "singapore_botanic_gardens",
+      "start": "09:24",
+      "end": "11:24",
+      "travel_minutes_from_previous": 24,
+      "transport_jpy_from_previous": 3,
+      "cost": 0,
       "cost_status": "known",
       "is_must_visit": false,
       "uncertainty_flags": []
      },
      {
       "attraction_id": "buddha_tooth_relic_temple",
-      "start": "12:44",
-      "end": "13:59",
-      "travel_minutes_from_previous": 14,
-      "transport_jpy_from_previous": 2,
+      "start": "11:50",
+      "end": "13:05",
+      "travel_minutes_from_previous": 26,
+      "transport_jpy_from_previous": 3,
       "cost": 0,
       "cost_status": "known",
       "is_must_visit": false,
@@ -111,8 +111,8 @@
      },
      {
       "attraction_id": "maxwell_food_centre",
-      "start": "14:09",
-      "end": "15:09",
+      "start": "13:15",
+      "end": "14:15",
       "travel_minutes_from_previous": 10,
       "transport_jpy_from_previous": 2,
       "cost": 0,
@@ -123,21 +123,21 @@
       ]
      },
      {
-      "attraction_id": "singapore_botanic_gardens",
-      "start": "15:35",
-      "end": "17:35",
-      "travel_minutes_from_previous": 26,
-      "transport_jpy_from_previous": 3,
-      "cost": 0,
+      "attraction_id": "national_gallery_singapore",
+      "start": "15:46",
+      "end": "18:16",
+      "travel_minutes_from_previous": 14,
+      "transport_jpy_from_previous": 2,
+      "cost": 20,
       "cost_status": "known",
       "is_must_visit": false,
       "uncertainty_flags": []
      }
     ],
-    "hotel_departure": "09:46",
-    "hotel_return": "17:59",
-    "return_travel_minutes": 24,
-    "return_transport_jpy": 3
+    "hotel_departure": "09:00",
+    "hotel_return": "18:30",
+    "return_travel_minutes": 14,
+    "return_transport_jpy": 2
    }
   ],
   "totals": {
@@ -160,7 +160,7 @@
   "solver_meta": {
    "solver": "ortools-cp-sat",
    "solver_status": "OPTIMAL",
-   "runtime_seconds": 0.8852,
+   "runtime_seconds": 0.3628,
    "seed": 42,
    "objective": 12948.0
   }
@@ -295,23 +295,23 @@
    {
     "day": 1,
     "weekday": "mon",
-    "stops": 4,
-    "admissions": 69,
-    "transport": 11,
-    "day_total": 80,
-    "travel_minutes": 68,
-    "minutes_at_sights": 450,
-    "unknown_price_ids": []
-   },
-   {
-    "day": 2,
-    "weekday": "tue",
     "stops": 1,
     "admissions": 0,
     "transport": 12,
     "day_total": 12,
     "travel_minutes": 130,
     "minutes_at_sights": 120,
+    "unknown_price_ids": []
+   },
+   {
+    "day": 2,
+    "weekday": "tue",
+    "stops": 4,
+    "admissions": 69,
+    "transport": 11,
+    "day_total": 80,
+    "travel_minutes": 68,
+    "minutes_at_sights": 450,
     "unknown_price_ids": []
    },
    {

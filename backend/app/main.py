@@ -33,6 +33,7 @@ from app.optimiser.hotel_compare import ComparisonInputError, compare_hotels
 from app.optimiser.replan import Operation, ReplanError, replan
 from app.optimiser.solver import ObjectiveSpec, solve
 from app.schemas import Preferences, SolveResult, nights_for
+from app.verification import count_dataset
 from app.untrusted import rebuild_client_schedule
 from app.validator.feasibility_report import build_report
 
@@ -122,6 +123,7 @@ def data_summary(request: Request, city_id: str = Query(DEFAULT_CITY_ID, max_len
             "attractions_with_unknown_cost": sum(a.admission_cost is None for a in atts),
             "verified_records": sum(a.provenance.source_status == "verified" for a in atts),
         },
+        "verification": count_dataset(ds),   # per-field verification states, computed from the data
         "disclaimer": "Sample data, not live prices. Hotels are fictional. Travel times are estimates.",
         "fx": {"jpy_per_sgd": SAMPLE_FX_JPY_PER_SGD, "label": FX_LABEL},
         "city": _city_payload(ds),

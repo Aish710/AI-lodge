@@ -66,7 +66,7 @@ def test_health_reports_sample_mode_and_never_echoes_a_key(monkeypatch):
         monkeypatch.setenv("LLM_MODEL", "some-model")
         r = c.get("/health")
         assert r.json()["llm_configured"] is True and r.json()["llm_mode"] == "llm"
-        assert KEY not in r.text and "some-model" not in r.text
+        assert KEY not in r.text and r.json()["llm_model"] == "some-model"   # the model NAME is shown on purpose (approved); the key never is
 
 
 def test_parse_and_parse_replan_work_in_sample_mode_without_500():

@@ -10,6 +10,12 @@
       "source_status": "sample",
       "note": "FICTIONAL hotel. Name and rate are invented for this demo; location is only an approximate area. Central and mid-range.",
       "last_checked": null
+    },
+    "verification": {
+      "nightly_rate": {
+        "state": "not_applicable",
+        "note": "Made-up demo hotel: the rate is invented, so there is nothing to check."
+      }
     }
   },
   {
@@ -23,6 +29,12 @@
       "source_status": "sample",
       "note": "FICTIONAL hotel. Name and rate are invented for this demo; location is only an approximate area. Expensive and central.",
       "last_checked": null
+    },
+    "verification": {
+      "nightly_rate": {
+        "state": "not_applicable",
+        "note": "Made-up demo hotel: the rate is invented, so there is nothing to check."
+      }
     }
   },
   {
@@ -36,6 +48,12 @@
       "source_status": "sample",
       "note": "FICTIONAL hotel. Name and rate are invented for this demo; location is only an approximate area. Cheaper but farther from many sights.",
       "last_checked": null
+    },
+    "verification": {
+      "nightly_rate": {
+        "state": "not_applicable",
+        "note": "Made-up demo hotel: the rate is invented, so there is nothing to check."
+      }
     }
   }
 ]

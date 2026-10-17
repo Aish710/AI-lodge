@@ -138,6 +138,14 @@ def check(root: Path) -> list[tuple[str, int, str, str]]:
                 n, src = facts.verified
                 if int(m.group(1)) != n:
                     conflicts.append((rel, i, m.group(0), f"{n} human-verified per {src}"))
+            m2 = re.search(r"(\d+) fields source-checked, (\d+) rows human-verified, (\d+) unchecked", line)
+            vc = root / "docs/data-verification/counts.json"
+            if m2 and vc.exists():
+                d = json.loads(vc.read_text())
+                c = d["cities"][d["first_city"]]
+                want = (c["source_checked"], c["human_verified"], c["unchecked"])
+                if tuple(int(x) for x in m2.groups()) != want:
+                    conflicts.append((rel, i, m2.group(0), f"{want[0]} fields source-checked, {want[1]} rows human-verified, {want[2]} unchecked per docs/data-verification/counts.json"))
             # 3. test counts
             low = line.lower()
             if facts.backend_total[0] is not None:

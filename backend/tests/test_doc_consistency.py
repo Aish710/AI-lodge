@@ -82,3 +82,13 @@ def test_history_logs_and_conditional_vue_copy_are_not_scanned(tmp_path):
 def test_the_real_repository_passes_except_for_files_regenerated_in_the_evidence_refresh():
     conflicts = cdc.check(ROOT)
     assert {f for f, _, _, _ in conflicts} <= {"docs/eval-results.md"}, conflicts
+
+
+def test_the_verification_sentence_must_match_the_generated_counts(tmp_path):
+    t = tree(tmp_path, readme="# X\n\nSingapore: 9 fields source-checked, 0 rows human-verified, 75 unchecked; other cities unchecked.\n",
+             extra={"docs/data-verification/counts.json": json.dumps({"first_city": "singapore", "cities": {"singapore": {"source_checked": 7, "human_verified": 0, "unchecked": 75}}})})
+    c = cdc.check(t)
+    assert len(c) == 1 and "7 fields source-checked" in c[0][3]
+    ok = tree(tmp_path / "ok", readme="# X\n\nSingapore: 7 fields source-checked, 0 rows human-verified, 75 unchecked.\n",
+              extra={"docs/data-verification/counts.json": json.dumps({"first_city": "singapore", "cities": {"singapore": {"source_checked": 7, "human_verified": 0, "unchecked": 75}}})}) if (tmp_path / "ok").mkdir() is None else None
+    assert cdc.check(ok) == []
