@@ -1,5 +1,6 @@
 // App state: a plain reactive module (no Pinia: the state is small and this keeps dependencies minimal).
 // Everything lives in memory only: nothing is persisted by the browser (decision 10).
+import { pushState, summariseRun } from './lib/tradeoff.js'
 import { reactive, computed } from 'vue'
 import * as api from './api/routes.js'
 import { abortKey, ApiError, isAborted, setCityProvider, setRateLimitHandler, waitForServer } from './api/client.js'
@@ -26,6 +27,7 @@ export const store = reactive({
   busy: { compare: false, sensitivity: false, optimise: false, replan: false, parse: false, proposal: false },
   sensitivityError: null, sensitivityCancelled: false, sensitivityStartedAt: 0,
   planFromReplan: false,
+  history: [], historySeq: 0, explorer: { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null },
   queue: [], queueError: null, previous: null, lastReplan: null, lastReplanRequest: null, replanError: null, restored: false,
   parseResult: null, parseError: null, proposal: null, proposalError: null,
   explanations: { optimise: null, compare: null, replan: null }, explainError: null, explaining: null,
@@ -173,6 +175,8 @@ export async function selectCity(cityId) {
   store.interestThemes = []
   store.parsedInterests = []
   store.placesById = {}
+  store.history = []
+  store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null }
   store.hotelsById = {}
   clearComputedResults()
   await loadPlaces()
@@ -258,6 +262,7 @@ export async function runOptimise(hotelId = store.chosenHotel) {
     if (store.selectedDay !== 'all' && store.selectedDay > resp.result.days.length) store.selectedDay = 'all'
     store.planFromReplan = false
     resetReplanState()
+    recordState('Planned')
   } catch (e) { fail('planError', e); noteSolverBusy(store.planError) } finally { store.busy.optimise = false }
 }
 
@@ -384,6 +389,8 @@ function applyExample(kind) {
   store.planKey = null
   store.planError = null
   store.comparisonError = null
+  store.history = []
+  store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null }
 }
 
 export function resetAll() {
@@ -461,8 +468,81 @@ export async function applyQueue({ confirmed = false } = {}) {
       store.planFromReplan = true
       store.queue = []
       store.queueError = null
+      recordState('Changed')
     }
   } catch (e) { fail('replanError', e); noteSolverBusy(store.replanError) } finally { store.busy.replan = false }
+}
+
+// ---- plan history: every valid server-produced plan state, restorable in any order ----
+/** Remember the current plan (already produced by the server). Nothing is recomputed; restoring is a plain swap. */
+function recordState(label) {
+  if (!store.plan || !store.chosenHotel) return
+  const result = store.plan.result
+  const t = store.plan.cost_summary?.totals ?? null
+  const hotelName = store.hotelsById?.[store.chosenHotel]?.name ?? store.chosenHotel
+  const id = ++store.historySeq
+  store.history = pushState(store.history, { id, label, hotel: store.chosenHotel, hotelName, plan: store.plan, prefs: store.planPrefs, fromReplan: store.planFromReplan,
+    vot: store.planPrefs?.value_of_time_per_hour ?? null, days: result?.days?.length ?? 0, travelMinutes: t?.travel_minutes ?? null, at: Date.now() })
+}
+
+/** Put back any remembered plan state. A swap of server results already held in memory; no solver call, nothing edited. */
+export function restoreState(id) {
+  const s = store.history.find((h) => h.id === id)
+  if (!s || solverBusy.value) return false
+  store.plan = s.plan
+  store.planPrefs = s.prefs
+  store.chosenHotel = s.hotel
+  store.planFromReplan = s.fromReplan || (s.prefs?.locked?.length ?? 0) > 0
+  store.previous = null
+  store.lastReplan = null
+  store.queue = []
+  store.restored = true
+  if (store.selectedDay !== 'all' && store.selectedDay > (s.plan.result?.days?.length ?? 0)) store.selectedDay = 'all'
+  return true
+}
+
+// ---- Trip Trade-off Explorer: real optimiser reruns at another value of time; locks and explicit preferences are carried over ----
+/** The preferences the explorer reruns: the CURRENT plan's preferences (so locks and replan edits survive), with only the value of time changed. */
+export function explorerPrefs(vot) {
+  return { ...store.planPrefs, value_of_time_per_hour: Number(vot) }
+}
+
+export async function runExplorer(vot) {
+  if (solverBusy.value || rateLimited.value || !store.planPrefs) return
+  const ids = store.comparison?.results?.map((r) => r.hotel_id) ?? hotelsToCompare()
+  if (ids.length < 2) { store.explorer.error = new ApiError({ code: 'invalid_input', message: 'This city needs at least two hotels to compare.' }); return }
+  store.explorer.busy = true
+  store.explorer.error = null
+  store.explorer.vot = Number(vot)
+  try {
+    const comp = await api.compareHotels(explorerPrefs(vot), ids, { sensitivity: false, cityId: store.cityId })
+    const run = summariseRun(Number(vot), comp)
+    store.explorer.runs = [run, ...store.explorer.runs.filter((r) => r.vot !== run.vot)].slice(0, 8)
+    store.explorer.last = comp
+  } catch (e) { fail2(e) } finally { store.explorer.busy = false }
+}
+function fail2(e) { if (!isAborted(e)) { store.explorer.error = e instanceof ApiError ? e : new ApiError({ code: 'unexpected', message: 'Something unexpected went wrong.' }); noteSolverBusy(store.explorer.error) } }
+
+/** Adopt a plan from the explorer: a real /optimise at the explored value of time, for the chosen hotel (or the user's kept hotel). */
+export async function adoptExplorerPlan(hotelId) {
+  if (solverBusy.value || rateLimited.value || !store.planPrefs || store.explorer.vot === null) return
+  const target = store.explorer.keepHotel ? store.chosenHotel : hotelId
+  const prefs = explorerPrefs(store.explorer.vot)
+  store.busy.optimise = true
+  store.planError = null
+  try {
+    const resp = await api.optimise(prefs, target, { cityId: store.cityId })
+    store.plan = resp
+    store.planPrefs = prefs
+    store.chosenHotel = target
+    store.form.valueOfTime = Number(store.explorer.vot)
+    store.planFromReplan = store.planFromReplan || (prefs.locked?.length ?? 0) > 0   // keeps ensurePlan from re-running without the locks
+    store.planKey = keyOf(prefs, target)
+    store.queue = []; store.previous = null; store.lastReplan = null; store.restored = false
+    if (store.selectedDay !== 'all' && store.selectedDay > resp.result.days.length) store.selectedDay = 'all'
+    if (store.explorer.last) { store.comparison = store.explorer.last; store.comparisonPrefs = prefs; store.comparisonKey = keyOf(prefs, store.hotelIds) }
+    recordState('Explorer')
+  } catch (e) { fail('planError', e); noteSolverBusy(store.planError) } finally { store.busy.optimise = false }
 }
 
 /** Switch back to the previous server-produced plan held in memory. A plain swap of two server results; nothing is edited or recomputed. */
