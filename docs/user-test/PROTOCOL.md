@@ -2,48 +2,35 @@
 
 **Status: not run.** This file is the protocol only. `results.csv` is an empty template. No result in this repository comes from a real participant until you add rows yourself.
 
+It measures three things, informally: **planning time**, **decision confidence**, and **whether the hotel comparison changes the traveller's choice**. It is small-N. Never call a result significant and never quote a percentage saving that a script did not compute.
+
 ## Who and how many
-- **5 participants**, adults who plan their own trips. Not teammates. Do not coach them.
-- Anonymous: record **no name, email, phone number, employer or photo**. Use ids `P1` to `P5`. The summary script refuses a quote that looks like an email address or phone number.
+- **5 to 10 target travellers**: budget-conscious travellers and students who plan their own trips. Not teammates. Do not coach.
+- Anonymous ids **P1 to P10**. Record **no name, email, phone number, employer or photo**. The scripts refuse text that looks like an email or phone number.
+- Read `TEST-CARD.md` aloud. It includes the consent line (permission to note answers and to quote them anonymously). Record the answer in `quote_ok`.
 - Tell each person: it is the app being tested, not them; they can stop at any time; nothing they type is kept (the app holds it in memory only).
 
-## Setup (the same for everyone)
-- The live site (or a local run) in sample mode or AI mode; note which in the `date` row notes if you like, but not in the CSV.
-- City: **Tokyo** for all five (so results are comparable). A different city is allowed only if you record it in the `city` column.
-- Fresh browser tab, no saved state. Screen visible to the facilitator.
+## Setup
+- The live site or a local run. Fresh tab, no saved state, screen visible to the observer.
+- City: their choice of the four, or the city's example. Record it in `city`.
 
-## The task (fixed, 5 minutes maximum)
-Read this aloud, then start a timer:
-
-> "Plan a 3-day trip to Tokyo. You want to see at least two places you choose, you have a budget in mind, and you want to pick a hotel. Stop when you have an itinerary you would be happy to follow."
-
-- Stop the timer when the participant says they have an itinerary, or at 5:00.
-- `completed_task` = `yes` if they reached an itinerary they accepted within 5 minutes, else `no`.
-- `task_seconds` = the facilitator's stopwatch time in whole seconds (leave blank if not completed).
-- Do not explain the screens. If they are stuck for more than 60 seconds, note it, give a neutral prompt ("what would you do next?"), and write the stuck point in your own notes (not in the CSV).
-
-## Estimate for the manual way (after the task)
-Ask: **"How long would the same task take you without this app, in minutes?"** Write the number in `manual_estimate_minutes`. This is the participant's own estimate, not a measured time. The summary labels it that way.
-
-## Five questions (1 = strongly disagree, 5 = strongly agree)
-1. `q1_clear`: "It was clear what to do at each step."
-2. `q2_trust`: "I trust the costs shown."
-3. `q3_understood`: "I understand why the plan looks the way it does."
-4. `q4_useful`: "This would save me effort when planning a trip."
-5. `q5_would_use`: "I would use something like this for a real trip."
-
-Then ask one open question: **"What one thing would you change?"** Write a short verbatim quote in `quote` (leave blank if they have none). Quote exactly; do not tidy or choose only flattering ones.
+## Steps
+1. **Plan with no help.** The tester plans a trip (their own picks, or the city's example). The observer starts a timer at landing and stops it when the first plan appears: `time_to_first_plan_seconds`. Note hesitations in your own notes; do not coach.
+2. **Before the comparison.** When the three hotels are on screen with nightly rates only (before opening the comparison), ask: "Which would you book?" (`hotel_before`) and "How confident are you, 1 to 5?" (`confidence_before`).
+3. **After the comparison.** Show the comparison and ask again: final choice (`hotel_after`), confidence 1 to 5 (`confidence_after`), "Did the comparison change your choice?" yes or no (`changed_choice`), and why in a few words (`why_changed`).
+   - Read `winner_changed_in_comparison` **from the app**, not from the tester: did the best-value hotel differ from the cheapest-rate hotel for this trip? yes or no.
+4. **Without the app.** Ask: "How long would this planning take you without the app, in minutes?" (`self_estimated_manual_minutes`). This is **self-reported**, not measured.
+5. **Ratings, 1 to 5** (1 = strongly disagree): `rating_clear` (clear what to do), `rating_trust` (trust in the result), `rating_use` (would use something like this), `rating_ai_helped` (the AI part helped), `rating_ai_findable` (easy to find the AI). Then one free-text question: "What confused you most?" (`confused_most`, verbatim, blank if nothing).
 
 ## Recording
-Add one row per participant to `docs/user-test/results.csv` (columns are fixed; extra columns are refused so personal data cannot slip in). Then run:
-
 ```
-python scripts/summarise_user_test.py
+python scripts/add_user_test_row.py      # prompts for each column; refuses names, emails and phone numbers; never pre-fills
+python scripts/summarise_user_test.py    # writes docs/user-test/summary.md
 ```
-
-It writes `docs/user-test/summary.md` (N, medians, and your quotes verbatim). The Proof page shows a "User test" card with these figures only when the CSV has rows; otherwise it says "Not run yet".
+The summary reports N, median time to first plan, median confidence before and after, how many of N changed their choice (and separately for trips where the best-value hotel differed from the cheapest-rate hotel and where it did not), the median self-estimated manual minutes next to the median app time (labelled self-reported), median ratings, and quotes only where `quote_ok` is yes. The Proof page "User test" card shows it only when rows exist; otherwise "Not run yet".
 
 ## What the results can and cannot show
-- N = 5 is a small sample: it can reveal confusing steps and rough reactions. It is not a benchmark and does not prove time savings.
-- Time saved compares a measured time with a self-estimate; it is not a controlled comparison.
-- Report failures (people who did not complete the task) as they are.
+- 5 to 10 people can reveal confusing steps and rough reactions. They are not a benchmark and prove nothing about travellers in general.
+- The time comparison sets a measured time against a self-estimate; it is not a controlled comparison.
+- Confidence and "changed my choice" are self-reported by people who knew they were being observed.
+- Report people who struggled or did not change their mind exactly as they are.

@@ -204,7 +204,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         <h2 id="ut-h" class="h5">User test</h2>
         <p v-if="!userTest.rows" class="mb-0" data-testid="user-test-none"><strong>Not run yet.</strong> No one outside the team has tried the app under the written protocol, so there are no user figures here. Nothing is filled in until real results exist.</p>
         <template v-else>
-          <p class="mb-2"><strong>{{ userTest.rows }}</strong> participant(s). Small sample: indicative, not a benchmark. Generated from the results file by a script.</p>
+          <p class="mb-2"><strong>{{ userTest.rows }}</strong> participant(s). Informal, small N, self-reported where stated: indicative, not a benchmark. Generated from the results file by a script.</p>
           <template v-for="(b, i) in userTestBlocks" :key="i">
             <h3 v-if="b.type === 'h'" class="h6 mt-3">{{ b.text }}</h3>
             <p v-else-if="b.type === 'p'" class="small">{{ b.text }}</p>

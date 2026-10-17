@@ -197,7 +197,7 @@ describe('Proof page', () => {
 })
 
 describe('User test card (never pre-filled)', () => {
-  const header = 'participant_id,date,city,completed_task,task_seconds,manual_estimate_minutes,q1_clear,q2_trust,q3_understood,q4_useful,q5_would_use,quote'
+  const header = 'participant_id,city,winner_changed_in_comparison,time_to_first_plan_seconds,hotel_before,confidence_before,hotel_after,confidence_after,changed_choice,why_changed,self_estimated_manual_minutes,rating_clear,rating_trust,rating_use,rating_ai_helped,rating_ai_findable,confused_most,quote_ok'
   const mountWith = async (dir) => {
     vi.stubGlobal('fetch', servedFrom(dir))
     const w = mount(Proof, { global: { plugins: [testRouter()], stubs: { 'router-link': true } } })
