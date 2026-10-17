@@ -10,6 +10,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 CODE_PATHS = ["backend/app", "backend/scripts", "frontend/src"]
+# What each file depends on. The evaluations, hardening, hotel comparison and replanning run the backend only, so a frontend-only change does not make them stale;
+# Lighthouse measures the built frontend against the backend, so it depends on both.
+BACKEND_ONLY = ["backend/app", "backend/scripts"]
+PATHS_FOR = {"lighthouse-results.md": CODE_PATHS}
 EVIDENCE = [
     ("eval-results.md", "Evaluation (Tokyo, 15 scenarios)"),
     ("city-eval-results.md", "City evaluation"),
@@ -30,7 +34,7 @@ def inspect(name: str, label: str) -> dict:
     text = (DOCS / name).read_text(encoding="utf-8") if (DOCS / name).exists() else ""
     gen, ver = GEN.search(text), VER.search(text)
     generated = datetime.strptime(f"{gen.group(1)} {gen.group(2)}", "%Y-%m-%d %H:%M").replace(tzinfo=timezone.utc) if gen else None
-    since = int(git("rev-list", "--count", f"--since={generated.isoformat()}", "HEAD", "--", *CODE_PATHS) or 0) if generated else None
+    since = int(git("rev-list", "--count", f"--since={generated.isoformat()}", "HEAD", "--", *PATHS_FOR.get(name, BACKEND_ONLY)) or 0) if generated else None
     return {"name": name, "label": label, "exists": bool(text), "generated": generated, "version": ver.group(1) if ver else None,
             "dirty": bool(ver and ver.group(2)), "code_commits_since": since}
 
