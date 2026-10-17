@@ -1,6 +1,6 @@
 # Submission facts (generated)
 
-Generated 2026-10-17 22:30 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
+Generated 2026-10-17 22:40 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
 
 ## Tests
 
@@ -77,7 +77,7 @@ Generated 2026-10-17 22:30 UTC by `frontend/scripts/make-submission-facts.mjs`. 
 
 ## AI evaluation
 
-- A live smoke test is recorded in docs/ai-selfcheck.md: 20 of 20 checks passed in the latest run, model claude-haiku-4-5-20251001, via api.apiyi.com. It is a small check on one model, tuned on those checks, not a benchmark. The larger evaluation file docs/llm-live-eval.md does not exist.  
+- A live smoke test is recorded in docs/ai-selfcheck.md: 19 of 20 checks passed in the latest run, model claude-haiku-4-5-20251001, via api.apiyi.com. It is a small check on one model, tuned on those checks, not a benchmark. The larger evaluation file docs/llm-live-eval.md does not exist.  
   *Source: docs/ai-selfcheck.md*
 - Gold-set live run (first run, hand-written prompts, one model claude-haiku-4-5-20251001 via api.apiyi.com, 44 model calls): Tokyo 12 of 12 exact; Singapore 12 of 12 exact; Seoul 12 of 12 exact; Kuala Lumpur 12 of 12 exact. Small sample per city; the pipeline had been tuned on similar checks, so treat it as optimistic.  
   *Source: docs/eval/gold-results-live-first-run.md*
