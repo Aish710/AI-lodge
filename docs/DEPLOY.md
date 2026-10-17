@@ -14,9 +14,9 @@ Measured locally (not on Render): process start to first `/health` 200 in about 
 
 ## Steps
 1. Push the repo to GitHub (never commit `.env`; `.gitignore` already excludes it).
-2. Render dashboard: **New > Blueprint**, select the repo. It reads `render.yaml` (service `tokyo-trip-planner-api`, region Singapore, Docker, free plan, health check `/health`).
+2. Render dashboard: **New > Blueprint**, select the repo. It reads `render.yaml` (service `fitinerary-api`, region Singapore, Docker, free plan, health check `/health`).
 3. When prompted for `sync: false` variables, enter them (see table). Leave `LLM_API_KEY` empty to launch in sample mode first (recommended).
-4. Wait for the build. Note the service URL (`https://tokyo-trip-planner-api.onrender.com` or similar).
+4. Wait for the build. Note the service URL (`https://fitinerary-api.onrender.com` or similar).
 5. **Set a spending cap at your LLM provider before putting a key on the host** (provider console > billing/usage limits). The in-app `LLM_DAILY_CALL_CAP` is per process and resets on restart; the provider cap is the real backstop.
 6. Verify: `python backend/scripts/smoke_test.py https://<your-service>.onrender.com` (waits up to 150 s for the cold start; exits non-zero on any failure).
 7. Later, when the frontend is deployed (e.g. Vercel/Netlify), set `ALLOWED_ORIGINS` to its exact origin (e.g. `https://your-app.vercel.app`, no trailing path; several origins comma-separated) and redeploy/restart. Do not use `*`: the app refuses to start.
@@ -25,8 +25,9 @@ Measured locally (not on Render): process start to first `/health` 200 in about 
 | Variable | Secret? | Recommended | Notes |
 |---|---|---|---|
 | `LLM_API_KEY` | **YES** | empty first, then your key | Dashboard only. Never in git. |
-| `LLM_MODEL` | no | e.g. `claude-opus-5-5` or a cheaper model of your choice | Required together with the key. |
-| `LLM_EFFORT` | no | `low` (default) | Empty = do not send the parameter (for models that reject it). |
+| `LLM_MODEL` | no | the exact model ID your provider or gateway offers (the live checks in this repository used `claude-haiku-4-5-20251001`) | Required together with the key. Shown (name only) in `/health` and the header popover. |
+| `LLM_BASE_URL` | no (but private) | unset, or the gateway's ROOT domain, `https`, no `/v1` | Only if your key is for a third-party gateway. An `http://`, credentialed or query-bearing URL is refused and the AI stays off. `/health` then shows the gateway host and says it is a relay; the cleaned request text and computed facts pass through that gateway (see `docs/PRIVACY.md`). |
+| `LLM_EFFORT` | no | **leave it unset** | Haiku models reject the effort parameter (HTTP 400); the app never sends it to them and ignores an explicit value with a logged warning. `.env.example` has it commented out. |
 | `ALLOWED_ORIGINS` | no | frontend origin | Exact origins only. |
 | `TRUSTED_PROXY_HOPS` | no | `1` to start, then verify | See below. |
 | `RATE_LIMIT_EXPENSIVE_PER_MIN` | no | `6` | `/parse`, `/parse-replan`, `explain: true`. Must be <= the standard limit. |
@@ -58,7 +59,7 @@ The first request after 15 idle minutes takes about a minute while Render wakes 
 Render dashboard > service > Logs. After a smoke test, search for: your key prefix (`sk-ant`), a test phrase you sent in a `/parse` request, `Bearer`, and a query string you appended (`/health?q=SECRET123`). None of them should appear: lines are JSON objects with request id, route, status, latency, tier, LLM call and token counts. Server errors show the exception type and frame locations only.
 
 ## If you run the container yourself
-`docker build -t tokyo-planner ./backend && docker run -p 8000:8000 -e ALLOWED_ORIGINS=http://localhost:5173 tokyo-planner`. The Dockerfile uses a slim Python image, a non-root user, pinned runtime dependencies (`requirements.txt`; test dependencies are in `requirements-dev.txt`), and a health check. Not built here (no Docker available); the same commands were verified outside Docker with uvicorn.
+`docker build -t fitinerary-api ./backend && docker run -p 8000:8000 -e ALLOWED_ORIGINS=http://localhost:5173 fitinerary-api`. The Dockerfile uses a slim Python image, a non-root user, pinned runtime dependencies (`requirements.txt`; test dependencies are in `requirements-dev.txt`), and a health check. Not built here (no Docker available); the same commands were verified outside Docker with uvicorn.
 
 ## Frontend deployment (addendum, Netlify)
 **Why Netlify:** its docs confirm the two things this app needs from a static host: a `_headers` file in the publish directory for response headers, and a `/*  /index.html  200` rewrite for single-page-app routes (https://docs.netlify.com/manage/routing/headers/ and .../redirects/rewrites-proxies/). Its pricing page lists the Free plan as "$0 forever" with a 300-credit limit; that page does not state build minutes or whether a card is required, so check both when you sign up. Vercel was not evaluated.
@@ -72,7 +73,7 @@ Render dashboard > service > Logs. After a smoke test, search for: your key pref
 2. Netlify: **Add new site > Import from Git**, pick the repo. `netlify.toml` at the repo root already sets base `frontend`, command `npm ci && npm run build`, publish `dist`, Node 22.
 3. Site configuration > Environment variables: set `VITE_API_BASE_URL` to the backend URL (no trailing slash). It is a public URL, not a secret. Never put an LLM key here. Deploy.
 4. Note the production origin, e.g. `https://<site>.netlify.app` (or your custom domain). **Set `ALLOWED_ORIGINS` on the backend to exactly that origin** (scheme + host, no path, no `*`) and restart it. Branch and deploy-preview URLs on Netlify are different origins and will FAIL CORS: test on the production URL only.
-5. The Proof page needs `docs/` and `backend/tests/results/latest-full.md` to be committed, because Netlify builds from the repository. Re-run the evaluation and a full backend `pytest`; partial pytest runs write `latest.md` only and do not overwrite the verified full-suite file. Commit the source and generated evidence, then deploy, so the page shows one clean git hash. If the evaluation and test revisions differ, the Evidence page displays a stale/unverified warning.
+5. The Proof page needs `docs/` and `backend/tests/results/latest-full.md` to be committed, because Netlify builds from the repository. Re-run the evaluation and a full backend `pytest`; partial pytest runs write `latest.md` only and do not overwrite the verified full-suite file. Commit the source and generated evidence, then deploy, so the page shows one clean git hash. If the evaluation and test revisions differ, the Proof page displays a stale/unverified warning.
 6. Verify the live pair (both commands exit non-zero on failure):
    - `python backend/scripts/smoke_test.py https://<service>.onrender.com`
    - `cd frontend && node scripts/live-smoke.mjs https://<site>.netlify.app https://<service>.onrender.com` (waits up to 150 s for a cold start; checks CORS for exactly that origin, the page, the example flow, map tiles, the evidence page and the 404 route).

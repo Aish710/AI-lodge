@@ -1,4 +1,5 @@
 """Writes pytest evidence with enough metadata to distinguish full and partial runs."""
+import json
 import socket
 import subprocess
 from datetime import datetime, timezone
@@ -78,6 +79,9 @@ def pytest_sessionfinish(session, exitstatus):
     RESULTS.write_text(text)
     if full:
         FULL_RESULTS.write_text(text.replace("# Latest test results", "# Latest verified full backend suite", 1))
+        # machine-readable counts for the evidence checks (scripts/check_doc_consistency.py, scripts/evidence_status.py)
+        (FULL_RESULTS.parent / "full-suite.json").write_text(json.dumps({"generated": generated, "git_revision": _git_revision(), "collected": session.testscollected,
+                                                                         "total": len(_rows), "passed": passed, "failed": failed, "skipped": skipped}, indent=1) + "\n")
 
 
 @pytest.fixture(autouse=True)

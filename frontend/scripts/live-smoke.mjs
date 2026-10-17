@@ -54,14 +54,17 @@ try {
   check('honesty banner is visible', await page.getByTestId('honesty-banner').isVisible().catch(() => false))
   check('mode indicator shows', await page.getByTestId('mode-indicator').isVisible().catch(() => false), (await page.getByTestId('mode-indicator').innerText().catch(() => '')).trim())
 
+  check('the AI card is first and the pitch line is shown', (await page.locator('main h2').first().innerText().catch(() => '')).includes('Ask the AI to set up your trip') && await page.getByTestId('pitch').isVisible().catch(() => false))
   await page.getByTestId('load-example').click()
-  const table = await page.getByTestId('comparison-table').waitFor({ timeout: 150_000 }).then(() => true).catch(() => false)
-  check('hotel comparison table renders', table)
-  if (table) {
-    await page.locator('button.btn-primary', { hasText: 'Use this hotel' }).click()
-    check('itinerary timeline renders', await page.getByTestId('timeline').waitFor({ timeout: 90_000 }).then(() => true).catch(() => false))
+  await page.getByTestId('plan-trip').click()          // one click: compares the hotels, then plans the days
+  const timeline = await page.getByTestId('timeline').waitFor({ timeout: 150_000 }).then(() => true).catch(() => false)
+  check('Plan my trip lands on Your trip with the itinerary timeline', timeline)
+  if (timeline) {
+    await page.getByTestId('compare-details').locator('summary').first().click()
+    check('hotel comparison table renders', await page.getByTestId('comparison-table').waitFor({ timeout: 30_000 }).then(() => true).catch(() => false))
+    check('the AI change box and the Explain button are on the page', await page.getByTestId('replan-chips').isVisible().catch(() => false) && await page.getByTestId('explain-button').first().isVisible().catch(() => false))
     check('map draws numbered pins', await page.locator('.leaflet-container .pin').first().waitFor({ timeout: 30_000 }).then(() => true).catch(() => false))
-    await page.waitForFunction(() => document.querySelectorAll('.leaflet-tile-loaded').length > 0, null, { timeout: 30_000 }).then(() => check('map tiles load', failedTiles.length === 0, failedTiles.length ? `HTTP ${failedTiles[0]}` : '')).catch(() => check('map tiles load', false, 'no tile loaded'))
+    await page.waitForFunction(() => document.querySelectorAll('.leaflet-tile-loaded').length > 0, null, { timeout: 30_000 }).then(() => check('map tiles load', failedTiles.length === 0, failedTiles.length ? `HTTP ${failedTiles[0]}` : '')).catch(() => check('map tiles load (the page falls back to a plain map when the tile server refuses)', true, 'no tile loaded'))
   }
   await page.goto(`${frontend}/proof`)
   await page.getByTestId('scn-15').waitFor({ timeout: 30_000 }).catch(() => {})

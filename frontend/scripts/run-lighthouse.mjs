@@ -1,7 +1,7 @@
 // Lighthouse on the BUILT app (production build served by `vite preview` with a real backend in sample mode). Writes
 // docs/lighthouse-summary.json and docs/lighthouse-results.md. Scores are exactly what Lighthouse reports; nothing is adjusted.
 //   * home and proof: full navigation audits (performance, accessibility, best practices), mobile preset, simulated throttling
-//   * itinerary: the plan lives in memory only, so a fresh navigation would show the empty state. It is measured as a SNAPSHOT of the real
+//   * Your trip: the plan lives in memory only, so a fresh navigation would show the empty state. It is measured as a SNAPSHOT of the real
 //     page after the example flow (accessibility and best practices only: Lighthouse cannot measure performance for a snapshot).
 // Usage: node scripts/run-lighthouse.mjs      (starts its own servers on :8011 and :4181)
 import { spawn } from 'node:child_process'
@@ -56,7 +56,7 @@ try {
   const browser = await puppeteer.connect({ browserURL: 'http://localhost:9334', defaultViewport: null })
   const flags = { logLevel: 'error', onlyCategories: ['performance', 'accessibility', 'best-practices'], port: 9334 }
 
-  for (const [name, path] of [['Home (create trip)', '/'], ['Proof', '/proof']]) {
+  for (const [name, path] of [['Plan (home)', '/'], ['Proof', '/proof']]) {
     const page = await browser.newPage()
     const r = await lighthouse(APP + path, flags, undefined, page)
     const lhr = r.lhr
@@ -67,22 +67,20 @@ try {
     await page.close()
   }
 
-  // itinerary: snapshot of the real page after the example flow
+  // Your trip: snapshot of the real page after the example flow
   const pwPage = await chrome.newPage()
   const ppPage = (await browser.pages()).find((p) => p.url() === 'about:blank') ?? (await browser.newPage())
   await ppPage.goto(APP + '/', { waitUntil: 'networkidle0' })
   await ppPage.waitForSelector('[data-testid=load-example]')
   await ppPage.click('[data-testid=load-example]')
-  await ppPage.waitForSelector('[data-testid=comparison-table]', { timeout: 120_000 })
-  await ppPage.waitForSelector('[data-testid=sensitivity]', { timeout: 120_000 }).catch(() => {})
-  await ppPage.evaluate(() => [...document.querySelectorAll('button.btn-primary')].find((b) => b.textContent.includes('Use this hotel')).click())
+  await ppPage.click('[data-testid=plan-trip]')            // one click: compares the hotels, then plans the days, then lands on Your trip
   await ppPage.waitForSelector('[data-testid=timeline]', { timeout: 120_000 })
   await ppPage.waitForSelector('.leaflet-container .pin')
   await new Promise((r) => setTimeout(r, 1500))
   const flow = await startFlow(ppPage, { config: { extends: 'lighthouse:default', settings: { onlyCategories: ['accessibility', 'best-practices'] } } })
-  await flow.snapshot({ name: 'Itinerary' })
+  await flow.snapshot({ name: 'Your trip' })
   const lhr = (await flow.createFlowResult()).steps[0].lhr
-  out.pages.push({ name: 'Itinerary (after the example flow)', url: '/itinerary', mode: 'snapshot', performance: null, accessibility: score(lhr, 'accessibility'), bestPractices: score(lhr, 'best-practices'), metrics: {},
+  out.pages.push({ name: 'Your trip (after the example flow)', url: '/trip', mode: 'snapshot', performance: null, accessibility: score(lhr, 'accessibility'), bestPractices: score(lhr, 'best-practices'), metrics: {},
     failedAudits: describeFailed(lhr) })
   await pwPage.close(); await browser.disconnect(); await chrome.close()
 } finally { stopAll() }
@@ -92,7 +90,7 @@ writeFileSync(resolve(DOCS, 'lighthouse-summary.json'), JSON.stringify(out, null
 const cell = (v) => (v === null ? 'not measured' : v)
 const md = ['# Lighthouse results (measured)', '', `Generated ${out.generated} by \`frontend/scripts/run-lighthouse.mjs\` with ${out.tool}, ${out.preset}. Production build, real backend in sample mode, local machine. Scores vary run to run and with the machine; they are what Lighthouse reported, unadjusted.`, '',
   '| Page | Mode | Performance | Accessibility | Best practices |', '|---|---|---|---|---|', ...out.pages.map((p) => `| ${p.name} | ${p.mode} | ${cell(p.performance)} | ${cell(p.accessibility)} | ${cell(p.bestPractices)} |`), '',
-  'The itinerary page is measured as a snapshot of the real page after the example flow (its data lives in memory only, so a fresh navigation would show the empty state). Lighthouse does not measure performance for a snapshot, so that cell is "not measured".', '']
+  'The Your trip page is measured as a snapshot of the real page after the example flow (its data lives in memory only, so a fresh navigation would show the empty state). Lighthouse does not measure performance for a snapshot, so that cell is "not measured".', '']
 for (const p of out.pages) {
   if (Object.values(p.metrics).some(Boolean)) md.push(`**${p.name} metrics:** ${Object.entries(p.metrics).map(([k, v]) => `${k} ${v}`).join(', ')}`, '')
   md.push(p.failedAudits.length ? `**${p.name}: audits below 100:** ${p.failedAudits.join('; ')}` : `**${p.name}:** no failed accessibility or best-practices audits.`, '')

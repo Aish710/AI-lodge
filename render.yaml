@@ -2,7 +2,7 @@
 # Secrets (sync: false) are entered in the dashboard and are NEVER stored in this file or in git.
 services:
   - type: web
-    name: tokyo-trip-planner-api
+    name: fitinerary-api
     runtime: docker
     plan: free
     region: singapore
@@ -15,8 +15,12 @@ services:
         sync: false
       - key: LLM_API_KEY            # SECRET. Leave unset to run in sample mode.
         sync: false
-      - key: LLM_MODEL
+      - key: LLM_MODEL              # the exact model ID your provider or gateway offers
         sync: false
+      - key: LLM_BASE_URL           # OPTIONAL gateway root, https, no /v1 (e.g. https://api.example.com). Leave unset for the provider's own endpoint.
+        sync: false
+      - key: SOLVER_CONCURRENCY     # active CPU-heavy solves per process; a busy server answers 503 solver_busy
+        value: "1"
       - key: TRUSTED_PROXY_HOPS     # starting value; VERIFY with the procedure in docs/DEPLOY.md
         value: "1"
       - key: LLM_DAILY_CALL_CAP
