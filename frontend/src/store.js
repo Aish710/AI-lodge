@@ -167,7 +167,7 @@ export async function selectCity(cityId) {
   store.city = store.cities.find((c) => c.id === cityId) ?? null
   store.places = null
   store.form = { ...DEFAULT_FORM(), budgetCurrency: store.city?.currency_code ?? 'JPY',
-    valueOfTime: store.city?.id === 'seoul' ? 15000 : store.city?.id === 'singapore' ? 18 : store.city?.id === 'kuala_lumpur' ? 45 : 1000 }
+    valueOfTime: store.city?.default_value_of_time_per_hour ?? (store.city?.id === 'seoul' ? 15000 : store.city?.id === 'singapore' ? 18 : store.city?.id === 'kuala_lumpur' ? 45 : 1000) }
   store.wishlist = {}
   store.theme = 'all'
   store.interestThemes = []

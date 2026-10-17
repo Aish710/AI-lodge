@@ -83,13 +83,17 @@ def _make_ctx(prefs: Preferences, hotel_id: str, ds: Dataset) -> _Ctx:
     c.D = prefs.days
     c.ds_min, c.de_min = to_minutes(prefs.day_start), to_minutes(prefs.day_end)
     c.window = c.de_min - c.ds_min
-    c.cap = config.PACE_MAX_PER_DAY[prefs.pace]
+    c.cap = prefs.max_activities_per_day or config.PACE_MAX_PER_DAY[prefs.pace]   # the user's own limit replaces the pace preset's cap
     c.must = required_ids(prefs)
     c.skip = set(prefs.skip) | {a.id for a in ds.attractions.values() if a.priority == "skip"}
     c.skip -= set(c.must)  # an explicit must-visit overrides a dataset-level "skip"
     c.locked = {l.attraction_id: (l.day - 1, to_minutes(l.start_time)) for l in prefs.locked}
     c.candidates = [a for a in ds.attractions if a not in c.skip or a in c.locked]
     return c
+
+
+def _cap_text(c: _Ctx) -> str:
+    return f"your limit of {c.cap} a day" if c.prefs.max_activities_per_day else f"the '{c.prefs.pace}' pace"
 
 
 def _name(c: _Ctx, aid: str) -> str:
@@ -159,6 +163,9 @@ def _precheck(c: _Ctx) -> list[Conflict]:
         if need > c.window:
             out.append(Conflict(code="does_not_fit_day", message=f"Must-visit {att.name} needs {fmt_duration(need)} ({att.duration_minutes} min visit + {tin + tout} min round trip from the hotel) but a day only has {fmt_duration(c.window)} ({p.day_start}-{p.day_end}).", attraction_ids=[a]))
             continue
+        if p.max_daily_travel_minutes and tin + tout > p.max_daily_travel_minutes:
+            out.append(Conflict(code="daily_travel_limit", message=f"Must-visit {att.name} needs {tin + tout} min of estimated travel for the round trip from the hotel but the daily limit is {p.max_daily_travel_minutes} min.", attraction_ids=[a]))
+            continue
         if not days:
             all_closed = all(att.opening_hours[weekday_of(p, d)] is None for d in range(c.D))
             has_unknown = any(att.opening_hours[weekday_of(p, d)] == "unknown" for d in range(c.D))
@@ -173,7 +180,7 @@ def _precheck(c: _Ctx) -> list[Conflict]:
 
     req = c.required
     if len(req) > c.D * c.cap:
-        out.append(Conflict(code="pace_cap", message=f"{len(req)} required attractions but the '{p.pace}' pace allows {c.cap}/day x {c.D} day(s) = {c.D * c.cap}.", attraction_ids=req))
+        out.append(Conflict(code="pace_cap", message=f"{len(req)} required attractions but {_cap_text(c)} allows {c.cap}/day x {c.D} day(s) = {c.D * c.cap}.", attraction_ids=req))
     # Lower bound on time: visits + the cheapest possible inbound leg for each + one return leg.
     others = c.candidates
 
@@ -201,7 +208,7 @@ def _precheck(c: _Ctx) -> list[Conflict]:
             if need > s2:
                 out.append(Conflict(code="locked_overlap", message=f"Locked {_name(c, a1)} ({fmt(s1)}) and {_name(c, a2)} ({fmt(s2)}) on day {ld + 1} cannot both happen: travel between them ends at {fmt(need)}.", attraction_ids=[a1, a2]))
         if len(items) > c.cap:
-            out.append(Conflict(code="pace_cap", message=f"Day {ld + 1} has {len(items)} locked activities but the pace cap is {c.cap}.", attraction_ids=[a for _, a in items]))
+            out.append(Conflict(code="pace_cap", message=f"Day {ld + 1} has {len(items)} locked activities but {_cap_text(c)} allows {c.cap}.", attraction_ids=[a for _, a in items]))
     return out
 
 
@@ -222,6 +229,7 @@ def _solve_core(c: _Ctx, max_seconds: float, spec: ObjectiveSpec = ObjectiveSpec
     arc_lits: list[list[tuple]] = []  # per day: (i_aid|None, j_aid|None, lit, start_i, start_j)
 
     for d in range(c.D):
+        t_first = len(travel_terms)   # this day's travel terms start here (for the daily travel limit)
         nodes = []  # (aid, lo, hi)
         for a in c.candidates:
             for lo, hi in _ranges(c, a, d):
@@ -286,6 +294,8 @@ def _solve_core(c: _Ctx, max_seconds: float, spec: ObjectiveSpec = ObjectiveSpec
                 travel_terms.append((travel_minutes(ds, a, b), lit3))
                 fare_terms.append((travel_fare(ds, a, b), lit3))
         m.AddCircuit(arcs)
+        if p.max_daily_travel_minutes:      # hard: ESTIMATED minutes of the day, both hotel legs included, from the same table the validator re-reads
+            m.Add(sum(w * l for w, l in travel_terms[t_first:]) <= p.max_daily_travel_minutes)
         cnt = m.NewIntVar(0, c.cap, f"cnt_{d}")
         m.Add(cnt == sum(pres)) if pres else m.Add(cnt == 0)
         day_count.append(cnt)
@@ -376,7 +386,7 @@ def solve(prefs: Preferences, hotel_id: str, ds: Dataset, *, with_alternatives: 
         status_name, plan, objective = _solve_core(c, max_seconds or config.SOLVER_MAX_SECONDS, spec)
         if plan is None:
             if status_name == "INFEASIBLE":
-                conflicts = [Conflict(code="no_feasible_schedule", message="Each requirement is individually possible, but no schedule satisfies all of them together (opening hours, travel time, pace cap, budget and locks).", attraction_ids=c.required)]
+                conflicts = [Conflict(code="no_feasible_schedule", message="Each requirement is individually possible, but no schedule satisfies all of them together (opening hours, travel time, the daily activity and travel limits, budget and locks).", attraction_ids=c.required)]
             else:
                 conflicts = [Conflict(code="solver_timeout", message=f"No schedule found within the time limit (solver status {status_name}); this is not a proof of infeasibility.", attraction_ids=[])]
     meta = SolverMeta(solver=SOLVER_NAME, solver_status=status_name, runtime_seconds=0.0,

@@ -32,6 +32,8 @@ export function tripSummaryParts(store) {
     PACE_LABELS[form.pace] ?? form.pace,
     `${formatLocalMoney(Number(form.valueOfTime), local)}/h`,
     `${nights} ${nights === 1 ? 'night' : 'nights'}${form.nightsOverride ? ' (custom)' : ''}`,
+    ...(form.maxActivities ? [`max ${form.maxActivities} activities/day`] : []),
+    ...(form.maxDailyTravel ? [`max ${form.maxDailyTravel} min estimated travel/day`] : []),
   ]
 }
 

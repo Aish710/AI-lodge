@@ -96,6 +96,7 @@ def _city_payload(ds: Dataset) -> dict:
         "currency_code": ds.city.currency_code,
         "display_currency_code": ds.city.display_currency_code,
         "sample_fx_label": ds.city.sample_fx_label,
+        "default_value_of_time_per_hour": ds.city.default_value_of_time_per_hour,
         "provenance": ds.city.provenance,
         "counts": {"attractions": len(atts), "hotels": len(ds.hotels), "matrix_nodes": len(ds.minutes)},
     }

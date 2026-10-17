@@ -241,6 +241,8 @@ class Preferences(_Strict):
     allow_unknown_hours: bool = False  # may unknown-hours attractions be scheduled (flagged)?
     skip: list[Annotated[str, Field(max_length=64)]] = Field(default=[], max_length=50)  # attraction ids the user is not interested in
     nights: int | None = Field(default=None, ge=0, le=30)  # None = days - 1 (see nights_for)
+    max_activities_per_day: int | None = Field(default=None, ge=1, le=8)    # None = the pace preset's cap; set = the user's own hard limit, instead of the preset's
+    max_daily_travel_minutes: int | None = Field(default=None, ge=20, le=720)  # None = no limit; ESTIMATED minutes per day including both hotel legs (a hard constraint)
     locked: list["LockedActivity"] = Field(default=[], max_length=12)  # fixed activities
 
     @model_validator(mode="after")

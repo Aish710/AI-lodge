@@ -56,7 +56,7 @@ def musts_schedulable(ds: Dataset, prefs: Preferences, hotel: str) -> bool | Non
         return None
     if not musts:
         return True
-    cap, strict = PACE_CAP[prefs.pace], prefs.strict_budget and prefs.budget is not None
+    cap, strict = prefs.max_activities_per_day or PACE_CAP[prefs.pace], prefs.strict_budget and prefs.budget is not None
     for assignment in product(range(prefs.days), repeat=len(musts)):
         groups = [[a for a, d in zip(musts, assignment) if d == day] for day in range(prefs.days)]
         if any(len(g) > cap for g in groups):
@@ -98,7 +98,9 @@ def confirm_conflict(code: str, attraction_ids: list[str], ds: Dataset, prefs: P
             return any(h == "unknown" for h in hours) and not prefs.allow_unknown_hours
         return not all(h is None for h in hours) and not any(h == "unknown" for h in hours)  # no_open_slot
     if code == "pace_cap":
-        return len(musts) > PACE_CAP[prefs.pace] * prefs.days
+        return len(musts) > (prefs.max_activities_per_day or PACE_CAP[prefs.pace]) * prefs.days
+    if code == "daily_travel_limit":
+        return bool(prefs.max_daily_travel_minutes) and bool(attraction_ids) and travel_minutes(ds, hotel, attraction_ids[0]) + travel_minutes(ds, attraction_ids[0], hotel) > prefs.max_daily_travel_minutes
     if code == "not_enough_time":
         need = sum(ds.attractions[a].duration_minutes + _min_in(ds, hotel, a, requested, travel_minutes) for a in musts)
         need += min(travel_minutes(ds, a, hotel) for a in requested)

@@ -39,7 +39,7 @@ def _verdict(cid, name, bad, ok_msg, bad_msg, level="fail") -> Check:
 
 def run_checks(schedule: SolveResult, ds: Dataset, prefs: Preferences, hotel_id: str) -> list[Check]:
     day_start, day_end = _mins(prefs.day_start), _mins(prefs.day_end)
-    cap = PACE_CAPS[prefs.pace]
+    cap = prefs.max_activities_per_day or PACE_CAPS[prefs.pace]   # the user's own limit replaces the preset's cap
     must = set(prefs.must_visit)
     locked = {l.attraction_id: (l.day, _mins(l.start_time)) for l in prefs.locked}
     skip = set(prefs.skip) | {a.id for a in ds.attractions.values() if a.priority == "skip"}
@@ -141,8 +141,23 @@ def run_checks(schedule: SolveResult, ds: Dataset, prefs: Preferences, hotel_id:
                            "Locked activity moved or missing."))
 
     bad = [str(d) for d, lst in by_day.items() if len(lst) > cap]
-    checks.append(_verdict("pace_cap", "Pace cap respected", bad, f"At most {cap} attractions per day ('{prefs.pace}').",
-                           f"A day exceeds the '{prefs.pace}' cap of {cap}."))
+    own = prefs.max_activities_per_day is not None
+    checks.append(_verdict("pace_cap", "Daily activity limit respected" if own else "Pace cap respected", bad,
+                           f"At most {cap} attractions per day ({'your limit' if own else repr(prefs.pace)}).",
+                           f"A day exceeds {'your limit' if own else 'the ' + repr(prefs.pace) + ' cap'} of {cap}."))
+
+    if prefs.max_daily_travel_minutes is not None:   # recomputed from the matrix: first leg from the hotel, legs between stops, the leg back
+        limit, bad = prefs.max_daily_travel_minutes, []
+        for d, lst in by_day.items():
+            prev, total = hotel_id, 0
+            for r in lst:
+                total += ds.minutes[prev][r[2]]
+                prev = r[2]
+            total += ds.minutes[prev][hotel_id]
+            if total > limit:
+                bad.append(str(d))
+        checks.append(_verdict("daily_travel", "Daily estimated travel limit respected", bad, f"Each day needs at most {limit} min of estimated travel (hotel legs included).",
+                               f"A day needs more than {limit} min of estimated travel (hotel legs included)."))
 
     bad = [r[2] for r in rows if r[2] in skip and r[2] not in locked]
     checks.append(_verdict("skip_respected", "Skipped attractions not scheduled", bad,

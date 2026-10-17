@@ -27,6 +27,12 @@ const currencyOptions = computed(() => Array.from(new Set([city.value?.currency_
 const budgetLocal = computed(() => budgetInJpy(store.form, city.value))
 const budgetHint = computed(() => budgetSanityHint(store))
 const vot = computed(() => Number(store.form.valueOfTime))
+const votDefault = computed(() => Number(city.value?.default_value_of_time_per_hour) || 1000)
+const votPresets = computed(() => [
+  { key: 'spend', label: 'Lower spending', value: Math.round(votDefault.value * 0.5) },
+  { key: 'balanced', label: 'Balanced', value: votDefault.value },
+  { key: 'time', label: 'Less travel time', value: votDefault.value * 4 },
+])
 const examplesForCity = computed(() => currentCityExamples.value)
 const exLabel = computed(() => exampleLabel(examplesForCity.value.valid, city.value?.currency_code ?? 'JPY'))
 const exTradeoff = computed(() => examplesForCity.value.valid.expect.rate_winner_differs_from_true_winner
@@ -161,7 +167,22 @@ function example(kind) { loadExample(kind); nudge.value = true }
           <div class="col-6 col-md-3"><label class="form-label" for="f-end">Day ends</label><input id="f-end" class="form-control" type="time" v-model="store.form.dayEnd" /></div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="f-vot">Value of an hour of your time <Hint text="Travel time is priced at this rate when hotels are compared by true cost." /> <strong data-testid="vot-value">{{ money(vot) }} / hour</strong></label>
-            <input id="f-vot" class="form-range" type="range" min="0" :max="city?.currency_code === 'KRW' ? 50000 : city?.currency_code === 'JPY' ? 5000 : 300" :step="city?.currency_code === 'KRW' ? 1000 : 1" v-model.number="store.form.valueOfTime" />
+            <input id="f-vot" class="form-range" type="range" min="0" :max="city?.currency_code === 'KRW' ? 100000 : city?.currency_code === 'JPY' ? 5000 : 300" :step="city?.currency_code === 'KRW' ? 1000 : 1" v-model.number="store.form.valueOfTime" />
+          </div>
+          <div class="col-12 col-md-6" data-testid="vot-presets">
+            <div class="form-label">Cost or convenience</div>
+            <div class="btn-group btn-group-sm" role="group" aria-label="Cost or convenience">
+              <button v-for="p in votPresets" :key="p.key" type="button" class="btn btn-outline-primary" :class="{ active: p.value === vot }" :data-testid="'vot-preset-' + p.key" @click="store.form.valueOfTime = p.value">{{ p.label }}</button>
+            </div>
+            <div class="form-text">These only set the value of an hour above (0.5×, 1× and 4× this city's default). Nothing else changes.</div>
+          </div>
+          <div class="col-6 col-md-3">
+            <label class="form-label" for="f-maxact">Max activities per day <Hint text="Overrides the pace preset's cap. Leave blank to use the pace." /></label>
+            <input id="f-maxact" class="form-control" type="number" min="1" max="8" placeholder="pace default" v-model="store.form.maxActivities" data-testid="max-activities" />
+          </div>
+          <div class="col-6 col-md-3">
+            <label class="form-label" for="f-maxtravel">Max estimated travel per day (min) <Hint text="Estimated from straight-line distances in the sample data, not real routes. Leave blank for no limit." /></label>
+            <input id="f-maxtravel" class="form-control" type="number" min="20" max="720" placeholder="no limit" v-model="store.form.maxDailyTravel" data-testid="max-daily-travel" />
           </div>
           <div class="col-12 col-md-6">
             <div class="form-check">

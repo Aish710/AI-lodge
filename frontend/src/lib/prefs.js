@@ -12,6 +12,8 @@ export const DEFAULT_FORM = () => ({
   nightsOverride: false,
   nights: 2,
   allowUnknownHours: false,
+  maxActivities: '',         // blank = use the pace preset's cap
+  maxDailyTravel: '',        // blank = no limit; minutes of ESTIMATED travel per day
 })
 
 export function budgetInLocal(form, cityOrRate) {
@@ -48,6 +50,10 @@ export function buildPreferences(form, wishlist, cityOrRate) {
   if (budget !== null && !Number.isNaN(budget) && ![local, display].includes(form.budgetCurrency)) errors.push(`Budget currency must be ${local} or ${display}.`)
   if (form.strictBudget && budget === null) errors.push('A strict budget needs an amount.')
   if (form.nightsOverride && !(Number.isInteger(Number(form.nights)) && form.nights >= 0 && form.nights <= 30)) errors.push('Nights must be a whole number from 0 to 30.')
+  const act = form.maxActivities
+  if (act !== '' && act !== null && act !== undefined && !(Number.isInteger(Number(act)) && Number(act) >= 1 && Number(act) <= 8)) errors.push('Maximum activities per day must be a whole number from 1 to 8.')
+  const trv = form.maxDailyTravel
+  if (trv !== '' && trv !== null && trv !== undefined && !(Number.isInteger(Number(trv)) && Number(trv) >= 20 && Number(trv) <= 720)) errors.push('Maximum estimated travel per day must be a whole number of minutes from 20 to 720.')
   const must = Object.keys(wishlist).filter((id) => wishlist[id] === 'must')
   const skip = Object.keys(wishlist).filter((id) => wishlist[id] === 'skip')
   const prefs = {
@@ -56,6 +62,9 @@ export function buildPreferences(form, wishlist, cityOrRate) {
     value_of_time_per_hour: Number(form.valueOfTime), max_walking_minutes_per_day: 90, start_weekday: Number(form.startWeekday),
     allow_unknown_hours: Boolean(form.allowUnknownHours), nights: form.nightsOverride ? Number(form.nights) : null, locked: [],
   }
+  // Optional limits are sent only when set, so an unset form builds exactly the request it always did.
+  if (act !== '' && act !== null && act !== undefined && !errors.length) prefs.max_activities_per_day = Number(act)
+  if (trv !== '' && trv !== null && trv !== undefined && !errors.length) prefs.max_daily_travel_minutes = Number(trv)
   return { prefs, errors }
 }
 

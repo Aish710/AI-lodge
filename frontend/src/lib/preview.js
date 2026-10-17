@@ -15,7 +15,8 @@ export function roughPreview(store) {
   const maybe = places.filter((p) => stateOf(p.id) === 'nice')
   const inRunning = [...must, ...maybe]
   const days = Math.max(1, Number(store.form.days) || 1)
-  const capPerDay = paceCaps[store.form.pace] ?? 3
+  const userCap = Number(store.form.maxActivities)
+  const capPerDay = Number.isInteger(userCap) && userCap >= 1 ? userCap : (paceCaps[store.form.pace] ?? 3)
   const sum = (list) => list.reduce((n, p) => n + (Number.isFinite(p.admission_cost) ? p.admission_cost : 0), 0)
   const unknown = (list) => list.filter((p) => p.admission_cost === null || p.admission_cost === undefined).map((p) => p.name)
   const areas = [...new Set([...must, ...maybe].map((p) => p.area).filter(Boolean))]
