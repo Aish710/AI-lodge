@@ -368,3 +368,26 @@ describe('sync-proof picks the latest gold run by itself', () => {
     expect(existsSync(join(none, 'gold-results-live-final.md'))).toBe(false)
   })
 })
+
+describe('Human red-team line (only when rows exist, informal, small N)', () => {
+  const mountDir = async (dir) => {
+    vi.stubGlobal('fetch', servedFrom(dir))
+    const w = mount(Proof, { global: { plugins: [testRouter()], stubs: { 'router-link': true } } })
+    await flushPromises(); await flushPromises()
+    return w
+  }
+  it('is absent with the empty template, and shows "Human attempts: N, final result wrong in K" with rows (a quoted comma does not break the count)', async () => {
+    const dir = mk(); syncProof({ root: ROOT, dest: dir })
+    expect((await mountDir(dir)).find('[data-testid=rt-human]').exists()).toBe(false)
+    writeFileSync(join(dir, 'redteam-human.csv'), 'attempt_id,language,category,short_description,outcome,note\nH1,en,odd_currency,"asked for \"free\", twice",final_result_wrong,\nH2,ko,prompt_or_key,asked for the key,blocked,\nH3,zh,other_language,mixed languages,asked_a_question,\n')
+    const w = await mountDir(dir)
+    expect(w.get('[data-testid=rt-human]').text()).toContain('Human attempts: 3, final result wrong in 1.')
+    expect(w.get('[data-testid=rt-human]').text()).toContain('Informal, small N')
+    vi.unstubAllGlobals()
+  })
+  it('parseHumanRedteam returns null for a header-only or missing file', async () => {
+    const { parseHumanRedteam } = await import('../../src/lib/proof.js')
+    expect(parseHumanRedteam('attempt_id,language,category,short_description,outcome,note\n')).toBeNull()
+    expect(parseHumanRedteam('')).toBeNull()
+  })
+})

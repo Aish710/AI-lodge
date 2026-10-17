@@ -25,13 +25,13 @@ export async function loadProof(fetchImpl = (...a) => fetch(...a)) {
   const fetchVersion = async () => { try { return JSON.parse(await getText(fetchImpl, 'current-version.json')) } catch { return null } }
   const json = async (n) => { const t = await text(n); return t === null ? null : JSON.parse(t) }
   try {
-    const [results, resultsMd, claimsMd, hardening, safety, backendTests, latestBackendTests, live, selfcheck, selfcheckHistory, goldFirst, goldAfter, goldMock, version, vitest, pw, front, lh, utCsv, utSummary, verification, redteam, redteamLive, redteamFirst] = await Promise.all([
+    const [results, resultsMd, claimsMd, hardening, safety, backendTests, latestBackendTests, live, selfcheck, selfcheckHistory, goldFirst, goldAfter, goldMock, version, vitest, pw, front, lh, utCsv, utSummary, verification, redteam, redteamLive, redteamFirst, humanCsv] = await Promise.all([
       json('eval-results.json'), text('eval-results.md'), text('README-claims.md'), text('hardening-results.md'), text('SAFETY_LOG.md'),
       text('backend-tests-full.md'), text('backend-tests-latest.md'), text('llm-live-eval.md'), text('ai-selfcheck.md'), text('ai-selfcheck-history.md'), text('gold-results-live-first-run.md'), text('gold-results-live-final.md'), text('gold-results-mock.md'), fetchVersion(), json('frontend-vitest.json'), json('frontend-playwright.json'), json('frontend-test-summary.json'), json('lighthouse-summary.json'),
-      text('user-test-results.csv'), text('user-test-summary.md'), json('verification-counts.json'), json('redteam-results.json'), text('redteam-live.md'), text('redteam-live-first-run.md')])
+      text('user-test-results.csv'), text('user-test-summary.md'), json('verification-counts.json'), json('redteam-results.json'), text('redteam-live.md'), text('redteam-live-first-run.md'), text('redteam-human.csv')])
     return { state: 'ready', manifest, missing: manifest.missing ?? [], data: {
       results, claims: claimsMd ? parseClaims(claimsMd) : null, notShown: resultsMd ? sectionBullets(resultsMd, 'WHAT THESE NUMBERS DO NOT SHOW') : null,
-      hardeningMd: hardening, risks: safety ? parseRiskTable(safety) : null, live, selfcheck, selfcheckHistory, goldFirst, goldAfter, goldMock, promptVersion: version?.prompt_version ?? null, verification, redteam, redteamLive, redteamFirst,
+      hardeningMd: hardening, risks: safety ? parseRiskTable(safety) : null, live, selfcheck, selfcheckHistory, goldFirst, goldAfter, goldMock, promptVersion: version?.prompt_version ?? null, verification, redteam, redteamLive, redteamFirst, humanRedteam: humanCsv ? parseHumanRedteam(humanCsv) : null,
       tests: { backend: backendTests ? testSummary(backendTests) : null, backendLatest: latestBackendTests ? testSummary(latestBackendTests) : null,
         vitest: vitestSummary(vitest), playwright: playwrightSummary(pw), frontend: front }, lighthouse: lh,
       // the card is shown with results ONLY when the CSV has participant rows; otherwise it says "not run yet"
@@ -68,4 +68,21 @@ export function liveStatus(text, currentVersion) {
   const v = text.match(/PROMPT_VERSION:\s*`([^`]+)`/)?.[1] ?? null
   if (currentVersion && v && v !== currentVersion) return { state: 'stale', version: v }
   return { state: 'current', version: v }
+}
+
+/** Rows of docs/user-test/redteam-human.csv (a real CSV parse: descriptions may hold commas and quotes). Returns {n, wrong} or null when there are no rows: the card shows a line only then. */
+export function parseHumanRedteam(csv) {
+  const rows = []
+  let row = [], cell = '', q = false
+  for (let i = 0; i < csv.length; i++) {
+    const ch = csv[i]
+    if (q) { if (ch === '"' && csv[i + 1] === '"') { cell += '"'; i++ } else if (ch === '"') q = false; else cell += ch } else if (ch === '"') q = true
+    else if (ch === ',') { row.push(cell); cell = '' } else if (ch === '\n' || ch === '\r') { if (ch === '\r' && csv[i + 1] === '\n') i++; row.push(cell); rows.push(row); row = []; cell = '' } else cell += ch
+  }
+  if (cell || row.length) { row.push(cell); rows.push(row) }
+  const [head, ...data] = rows
+  const outcome = head?.indexOf('outcome')
+  const real = data.filter((r) => r.some((c) => c.trim()))
+  if (!real.length || outcome < 0) return null
+  return { n: real.length, wrong: real.filter((r) => (r[outcome] ?? '').trim() === 'final_result_wrong').length }
 }

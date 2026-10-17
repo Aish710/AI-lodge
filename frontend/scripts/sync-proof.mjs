@@ -26,6 +26,7 @@ export const FILES = [
   { name: 'lighthouse-summary.json', src: 'docs/lighthouse-summary.json', required: false },
   { name: 'redteam-results.json', src: 'docs/redteam-results.json', required: false },
   { name: 'redteam-live.md', src: 'docs/redteam-live.md', required: false },
+  { name: 'redteam-human.csv', src: 'docs/user-test/redteam-human.csv', required: false },
   { name: 'verification-counts.json', src: 'docs/data-verification/counts.json', required: false },
   { name: 'user-test-results.csv', src: 'docs/user-test/results.csv', required: false },
   { name: 'user-test-summary.md', src: 'docs/user-test/summary.md', required: false },

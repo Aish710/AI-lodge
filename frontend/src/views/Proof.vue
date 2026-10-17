@@ -45,6 +45,7 @@ const hardeningResult = computed(() => /\*\*(\d+)\/(\d+) cases passed\*\*/.exec(
 const live = computed(() => (d.value?.live ? parseBlocks(d.value.live) : null))
 const selfcheck = computed(() => (d.value?.selfcheck ? parseBlocks(d.value.selfcheck) : null))
 const redteam = computed(() => d.value?.redteam ?? null)
+const humanRedteam = computed(() => d.value?.humanRedteam ?? null)
 const attackCount = computed(() => redteam.value?.attacks ?? 0)
 const rtLiveBlocks = computed(() => blocksOf(d.value?.redteamLive))
 const rtLiveStatus = computed(() => liveStatus(d.value?.redteamLive, promptVersion.value))
@@ -231,6 +232,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
           <p class="small muted">These counts test the code around the model. They say nothing about a real model; the live result is below only if it was run for this version.</p>
         </template>
         <p v-else class="mb-2" data-testid="rt-none"><strong>Not run on this version.</strong> No red-team results are part of this build.</p>
+        <p v-if="humanRedteam" class="small mb-2" data-testid="rt-human"><strong>Human attempts: {{ humanRedteam.n }}, final result wrong in {{ humanRedteam.wrong }}.</strong> Informal, small N: friends trying to break the AI box by hand (<code>docs/user-test/HUMAN-REDTEAM.md</code>). It finds obvious holes; it is not coverage.</p>
         <h3 class="h6 mt-3">Real model (27 attacks, one city each, one run each)</h3>
         <div class="row g-3" data-testid="rt-live-cols">
           <div class="col-12 col-lg-6" data-testid="rt-live-first">
