@@ -1,6 +1,6 @@
 # Submission facts (generated)
 
-Generated 2026-10-17 19:03 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
+Generated 2026-10-17 19:09 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
 
 ## Tests
 
@@ -49,11 +49,11 @@ Generated 2026-10-17 19:03 UTC by `frontend/scripts/make-submission-facts.mjs`. 
 
 ## Safety
 
-- 151 risks are tracked in the safety log, each with a safeguard, the test names that check it, and a status.  
+- 152 risks are tracked in the safety log, each with a safeguard, the test names that check it, and a status.  
   *Source: docs/SAFETY_LOG.md*
 - API hardening: 33 of 33 in-process abuse cases passed.  
   *Source: docs/hardening-results.md*
-- Red team (SIMULATED models, not a real model): 48 attacks in 4 languages x 4 cities x 2 mock models = 744 runs; final result affected in 0 after 3 fixes found by the red team itself.  
+- Red team (SIMULATED models, not a real model): 60 attacks in 4 languages x 4 cities x 2 mock models = 840 runs; final result affected in 0 after 4 fixes found by the red team itself.  
   *Source: docs/redteam-results.json*
 - A live red-team report exists; read its model, date and N before quoting it.  
   *Source: docs/redteam-live.md*

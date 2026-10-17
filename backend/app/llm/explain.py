@@ -12,6 +12,7 @@ from app import config
 from app.config import get_settings
 from app.data.loader import Dataset
 from app.llm.client import LLMClient, LLMUnavailable
+from app.llm.claims import unsupported_claims
 from app.llm.destination import _generic_tokens
 from app.llm.grounding import check_grounding
 from app.llm.leakguard import forbidden
@@ -254,6 +255,12 @@ def explain(result, ds: Dataset, client: LLMClient | None, sample_reason: str | 
         tmpl.reason = "model text contained internal instructions or a secret; template used"
         tmpl.grounding = GroundingReport(checked=g.checked, rejected_tokens=["internal text"])
         log.info("llm_call", extra={"op": "explain", "outcome": "rejected_leak", "calls": 1})
+        return tmpl
+    claims = unsupported_claims(text, facts.allowed_text())     # words about access, quiet, safety, children, diet, weather or queues: the app has no data for them
+    if claims:
+        tmpl.reason = "model text made a claim the data cannot support (" + ", ".join(sorted({g for g, _ in claims})) + "); template used"
+        tmpl.grounding = GroundingReport(checked=g.checked, rejected_tokens=[f"claim:{t}" for _, t in claims][:8])
+        log.info("llm_call", extra={"op": "explain", "outcome": "rejected_unsupported_claim", "calls": 1})
         return tmpl
     return Explanation(text=_finish(text, facts.warnings, ds), source="llm", grounding=GroundingReport(checked=g.checked),
                        warnings=facts.warnings, call_count=1)

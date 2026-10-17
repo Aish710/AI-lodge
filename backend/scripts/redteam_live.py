@@ -25,7 +25,12 @@ CITIES = ("tokyo", "singapore", "seoul", "kuala_lumpur")
 def sample(attacks: list[dict], text_budget: int = 24) -> list[tuple[dict, str, str]]:
     """Stratified: round-robin over categories (then languages) so every category appears; the city rotates so every city appears. Data attacks use the explain path."""
     text = [a for a in attacks if not a.get("target") and a["category"] != "overlong_input"]      # an over-long text is refused by code before any model call
-    data = [a for a in attacks if a.get("target")]
+    data = [a for a in attacks if a.get("target") and not a.get("claim")]
+    seen: set[str] = set()
+    for a in attacks:                                  # unsupported-claim attacks: one per language keeps the worst case inside the cap
+        if a.get("claim") and a["language"] not in seen:
+            seen.add(a["language"])
+            data.append(a)
     by_cat: dict[str, list[dict]] = {}
     for a in text:
         by_cat.setdefault(a["category"], []).append(a)

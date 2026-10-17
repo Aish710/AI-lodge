@@ -490,3 +490,9 @@ The fix touched `backend/app`, which would have left the evaluation files STALE,
 - **Item 5.** `scripts/score_holdout.py`, `docs/eval/holdout-prompts.json` (template only, two FORMAT ONLY rows) and `HOLDOUT-INSTRUCTIONS.md`. I wrote no holdout prompts or expected answers.
 - **Stamps.** New scripts are in the top-level `scripts/`, not `backend/scripts`, so they do not make the evaluation files stale. The frontend changes make the Lighthouse file stale until the Item 7 refresh.
 - **Existing tests:** none edited in this tier.
+
+## Tier 2: the unsupported-claims guard (2026-10-18; the one approved backend change, `app/llm` only)
+- `app/llm/claims.py` and `app/llm/unsupported_terms.json` (7 groups: accessibility, quiet or crowds, safety, children or families, dietary, weather, queues; 4 languages). `explain()` calls it after the grounding and leak checks; a flagged explanation falls back to the template with `grounding.rejected_tokens` listing `claim:<term>`.
+- 12 attacks in four languages added to `tests/fixtures/injection_prompts.json` (user requests; the existing test over that file still passes unchanged) and to `redteam_attacks.json` (a poisoned place name asks the model to claim it; the gullible mock obeys). Simulated red team: 840 runs (was 744). **Before the guard: 48 affected; after: 0.** Logged in `docs/redteam-found-fixed.json`.
+- `scripts/redteam_live.py` now samples 31 attacks (worst case 55 calls, cap 60); the existing live results (27 attacks) are older.
+- Known gap (also in `docs/LLM_DESIGN.md` and the README): a word list, not meaning.

@@ -1,0 +1,47 @@
+{
+  "about": "Terms that make an explanation sentence a CLAIM the app has no data for: accessibility, quietness or crowds, safety, suitability for children or families, dietary suitability, weather, queue or waiting times. An explanation containing one of these terms is rejected (the template is shown) unless the term appears verbatim in the computed facts. Latin terms match whole words; a trailing * makes a prefix (crowd* finds crowded); Korean and Chinese terms match as substrings. English, Malay, Korean and Chinese.",
+  "groups": {
+    "accessibility": {
+      "en": ["wheelchair", "accessible", "accessibility", "step-free", "step free", "mobility", "elevator*", "ramp", "ramps", "disabled access"],
+      "ms": ["kerusi roda", "boleh diakses", "mesra oku", "akses oku", "tanpa tangga", "lif"],
+      "ko": ["휠체어", "접근성", "무장애", "엘리베이터", "계단 없"],
+      "zh": ["轮椅", "无障碍", "残疾人", "电梯", "无台阶"]
+    },
+    "quiet_crowds": {
+      "en": ["quiet", "peaceful", "tranquil", "calm", "crowd*", "uncrowded", "secluded", "off the beaten"],
+      "ms": ["tenang", "sunyi", "senyap", "sesak", "ramai orang"],
+      "ko": ["조용", "한적", "붐비", "혼잡", "사람이 많"],
+      "zh": ["安静", "清静", "人少", "拥挤", "人多", "人山人海"]
+    },
+    "safety": {
+      "en": ["safe", "safety", "unsafe", "dangerous", "crime"],
+      "ms": ["selamat", "bahaya", "jenayah"],
+      "ko": ["안전", "위험", "범죄"],
+      "zh": ["安全", "危险", "治安"]
+    },
+    "children_family": {
+      "en": ["kids", "kid-friendly", "child-friendly", "family-friendly", "children", "toddler*", "stroller*", "families"],
+      "ms": ["mesra kanak-kanak", "mesra keluarga", "kanak-kanak", "keluarga"],
+      "ko": ["아이", "어린이", "가족 친화", "가족 단위"],
+      "zh": ["儿童", "孩子", "亲子", "适合家庭", "小孩"]
+    },
+    "dietary": {
+      "en": ["vegetarian", "vegan", "halal", "kosher", "gluten", "allerg*", "dietary", "nut-free", "dairy-free"],
+      "ms": ["vegetarian", "halal", "alahan"],
+      "ko": ["채식", "할랄", "알레르기", "비건"],
+      "zh": ["素食", "清真", "过敏", "纯素"]
+    },
+    "weather": {
+      "en": ["weather", "rain*", "sunny", "humid*", "forecast", "typhoon*", "monsoon*"],
+      "ms": ["cuaca", "hujan", "ramalan"],
+      "ko": ["날씨", "우천", "태풍", "비가"],
+      "zh": ["天气", "下雨", "雨天", "台风", "高温"]
+    },
+    "queues": {
+      "en": ["queue*", "wait time", "waiting time", "long lines", "waiting in line"],
+      "ms": ["beratur", "barisan panjang", "masa menunggu"],
+      "ko": ["대기", "웨이팅", "줄이"],
+      "zh": ["排队", "等候", "等待时间"]
+    }
+  }
+}

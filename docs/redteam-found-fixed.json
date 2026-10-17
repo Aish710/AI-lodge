@@ -16,5 +16,11 @@
   "before": "2 of 27 live runs affected (a Korean and an English currency attack); the fallback was wrong in all four cities in the mock reproduction",
   "after": "0 in the mock reproduction (4 of 4 cities); the live script has not been re-run since the fix",
   "fix": "`extract.py`: while the amount awaits confirmation the form shows THIS city's default value of time and says so in the 'defaults' list"
+ },
+ {
+  "what": "UNSUPPORTED CLAIMS: an explanation could assert accessibility, quietness, safety, suitability for children, dietary suitability, weather or queue times (the grounding check looks at numbers and names only), for example when a poisoned place name asked the model to say so",
+  "before": "48 of 840 simulated runs affected (12 attacks in English, Malay, Korean and Chinese, 4 cities)",
+  "after": "0 of 840",
+  "fix": "`backend/app/llm/claims.py` with the term list `backend/app/llm/unsupported_terms.json` (7 groups, 4 languages): an explanation containing such a term that the facts do not state verbatim is rejected and the template is shown"
  }
 ]
