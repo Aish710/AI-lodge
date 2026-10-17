@@ -13,7 +13,7 @@
    "feasible": true,
    "solver_status": "OPTIMAL",
    "proven_optimal": true,
-   "runtime_seconds": 0.0546,
+   "runtime_seconds": 0.054,
    "conflicts": [],
    "itinerary": {
     "status": "feasible",
@@ -129,7 +129,7 @@
     "solver_meta": {
      "solver": "ortools-cp-sat",
      "solver_status": "OPTIMAL",
-     "runtime_seconds": 0.0546,
+     "runtime_seconds": 0.054,
      "seed": 42,
      "objective": 1382400.0
     }
@@ -180,7 +180,7 @@
    "feasible": true,
    "solver_status": "OPTIMAL",
    "proven_optimal": true,
-   "runtime_seconds": 0.1046,
+   "runtime_seconds": 0.1049,
    "conflicts": [],
    "itinerary": {
     "status": "feasible",
@@ -296,7 +296,7 @@
     "solver_meta": {
      "solver": "ortools-cp-sat",
      "solver_status": "OPTIMAL",
-     "runtime_seconds": 0.1046,
+     "runtime_seconds": 0.1049,
      "seed": 42,
      "objective": 1415400.0
     }
@@ -347,7 +347,7 @@
    "feasible": true,
    "solver_status": "OPTIMAL",
    "proven_optimal": true,
-   "runtime_seconds": 0.0685,
+   "runtime_seconds": 0.0672,
    "conflicts": [],
    "itinerary": {
     "status": "feasible",
@@ -469,7 +469,7 @@
     "solver_meta": {
      "solver": "ortools-cp-sat",
      "solver_status": "OPTIMAL",
-     "runtime_seconds": 0.0685,
+     "runtime_seconds": 0.0672,
      "seed": 42,
      "objective": 1524200.0
     }
@@ -547,7 +547,7 @@
  ],
  "approximate": false,
  "partial": false,
- "elapsed_seconds": 0.589,
+ "elapsed_seconds": 0.587,
  "time_limit_seconds": 120.0,
  "sensitivity": {
   "vot_min": 0,
@@ -637,5 +637,111 @@
   "solves": 6,
   "cache_hits": 0,
   "warnings": []
+ },
+ "baselines": {
+  "entries": [
+   {
+    "key": "cheapest_rate",
+    "label": "A. Cheapest hotel first",
+    "rule": "Cheapest first: the hotel with the lowest nightly rate (ties: hotel id), then the existing itinerary optimiser.",
+    "hotel_id": "hotel_harbour_odaiba",
+    "hotel_name": "Odaiba Harbour Stay (fictional)",
+    "area": "Odaiba",
+    "feasible": true,
+    "status": "feasible",
+    "accommodation_jpy": 8500,
+    "admissions_jpy": 2200,
+    "transport_jpy": 2670,
+    "known_spend_jpy": 13370,
+    "travel_minutes": 302,
+    "travel_time_value_jpy": 5033,
+    "omitted_optional": [
+     "Tokyo Skytree",
+     "Tokyo National Museum",
+     "Shinjuku Gyoen",
+     "Tokyo Tower",
+     "Ghibli Museum"
+    ],
+    "omitted_charge_jpy": 15000,
+    "unknown_price_items": [
+     "teamlab_planets"
+    ],
+    "objective_estimate_for_unknown_jpy": 500,
+    "score_jpy": 33403,
+    "same_hotel_as": [
+     "joint"
+    ]
+   },
+   {
+    "key": "convenience_first",
+    "label": "B. Convenience-first hotel",
+    "rule": "Convenience first: the hotel with the smallest total ESTIMATED travel time (straight-line based, from the data's travel-time table) to the trip's target sights, where the target sights are the must-visits if there are any, otherwise every sight not marked 'not interested'. Ties: lower nightly rate, then hotel id. It looks only at hotel-to-sight times, not at the day-by-day route.",
+    "hotel_id": "hotel_lantern_asakusa",
+    "hotel_name": "Asakusa Lantern Inn (fictional)",
+    "area": "Asakusa",
+    "feasible": true,
+    "status": "feasible",
+    "accommodation_jpy": 10500,
+    "admissions_jpy": 2700,
+    "transport_jpy": 2140,
+    "known_spend_jpy": 15340,
+    "travel_minutes": 225,
+    "travel_time_value_jpy": 3750,
+    "omitted_optional": [
+     "Tokyo Skytree",
+     "teamLab Planets",
+     "Tokyo National Museum",
+     "Tokyo Tower",
+     "Ghibli Museum"
+    ],
+    "omitted_charge_jpy": 15000,
+    "unknown_price_items": [],
+    "objective_estimate_for_unknown_jpy": 0,
+    "score_jpy": 34090,
+    "same_hotel_as": []
+   },
+   {
+    "key": "joint",
+    "label": "C. Joint optimisation",
+    "rule": "Joint optimisation: the hotel whose optimised itinerary has the lowest optimisation score (true cost) among the hotels compared.",
+    "hotel_id": "hotel_harbour_odaiba",
+    "hotel_name": "Odaiba Harbour Stay (fictional)",
+    "area": "Odaiba",
+    "feasible": true,
+    "status": "feasible",
+    "accommodation_jpy": 8500,
+    "admissions_jpy": 2200,
+    "transport_jpy": 2670,
+    "known_spend_jpy": 13370,
+    "travel_minutes": 302,
+    "travel_time_value_jpy": 5033,
+    "omitted_optional": [
+     "Tokyo Skytree",
+     "Tokyo National Museum",
+     "Shinjuku Gyoen",
+     "Tokyo Tower",
+     "Ghibli Museum"
+    ],
+    "omitted_charge_jpy": 15000,
+    "unknown_price_items": [
+     "teamlab_planets"
+    ],
+    "objective_estimate_for_unknown_jpy": 500,
+    "score_jpy": 33403,
+    "same_hotel_as": [
+     "cheapest_rate"
+    ]
+   }
+  ],
+  "convenience_minutes": {
+   "hotel_kitsune_shinjuku": 71,
+   "hotel_lantern_asakusa": 63,
+   "hotel_harbour_odaiba": 116
+  },
+  "target_sights": [
+   "senso_ji",
+   "shibuya_sky"
+  ],
+  "note": "All three use the same candidate hotels, constraints, estimated travel times and objective: each is the already-solved itinerary of the hotel its rule picks. The optimisation score is not money spent. Sample data; made-up hotels; estimated travel times."
  }
 }

@@ -1,6 +1,6 @@
 # Replanning evaluation (SAMPLE data)
 
-Generated 2026-10-17 20:01 UTC by `backend/scripts/run_replan_evaluation.py` (seed 20261013). Hotels fictional; attraction data approximate; travel times and fares estimated.
+Generated 2026-10-17 20:40 UTC by `backend/scripts/run_replan_evaluation.py` (seed 20261013). Hotels fictional; attraction data approximate; travel times and fares estimated.
 
 Scenarios: 24 (6 each of remove / lock / move / switch_hotel), 2-4 days, random 5-8 sight subsets with 2 must-visits, true-cost objective (VoT 1,000 JPY/h, missed penalty 3000). Disruption weight 1500 JPY per moved activity; moved = day change or start shift > 30 min; per-replan time limit 5 s.
 
@@ -10,7 +10,7 @@ Scenarios: 24 (6 each of remove / lock / move / switch_hotel), 2-4 days, random 
 |---|---|---|
 | Activities unnecessarily moved (per applied replan) | mean 0.10, min 0, max 1, N=21 | mean 2.48, min 0, max 6, N=21 |
 | True-cost change, JPY (after - before; negative = cheaper) | mean -724.10, min -9424, max 4250, N=21 | mean -942.33, min -9590, max 4250, N=21 |
-| Solve time, s | mean 0.01, min 0.003, max 0.048, N=21 | mean 0.07, min 0.003, max 0.491, N=21 |
+| Solve time, s | mean 0.01, min 0.003, max 0.048, N=21 | mean 0.07, min 0.003, max 0.49, N=21 |
 | Infeasible replans | 0 of 24 | 0 of 24 |
 | Rejected before solving (conflicting operations) | 3 of 24 | 3 of 24 |
 | Solves not proven OPTIMAL | 0 | 0 |
@@ -23,29 +23,29 @@ Over the 21 scenarios where both strategies produced a plan: disruption-aware mo
 
 | # | Edit | Days | Hotel | Stops | Aware: status / moved / cost change / s | Naive: status / moved / cost change / s | Notes |
 |---|---|---|---|---|---|---|---|
-| 1 | remove | 4 | kitsune_shinjuku | 6 | applied / 0 / -2,090 / 0.0175 | applied / 5 / -2,090 / 0.0731 | not like-for-like |
-| 2 | remove | 2 | harbour_odaiba | 4 | applied / 0 / -1,647 / 0.0035 | applied / 0 / -1,647 / 0.0042 | not like-for-like |
-| 3 | remove | 4 | lantern_asakusa | 5 | applied / 0 / -1,930 / 0.0087 | applied / 1 / -2,673 / 0.0231 | not like-for-like; aware costs 743 JPY more than naive |
-| 4 | remove | 4 | kitsune_shinjuku | 8 | applied / 0 / -404 / 0.0148 | applied / 3 / -717 / 0.1866 | not like-for-like; aware costs 313 JPY more than naive |
-| 5 | remove | 2 | kitsune_shinjuku | 6 | applied / 0 / -3,280 / 0.0107 | applied / 1 / -3,280 / 0.0276 | not like-for-like |
-| 6 | remove | 4 | lantern_asakusa | 5 | applied / 0 / -1,217 / 0.0059 | applied / 0 / -1,217 / 0.0095 | not like-for-like |
-| 7 | lock | 4 | harbour_odaiba | 3 | applied / 0 / +0 / 0.0119 | applied / 0 / +0 / 0.0169 |  |
+| 1 | remove | 4 | kitsune_shinjuku | 6 | applied / 0 / -2,090 / 0.0168 | applied / 5 / -2,090 / 0.073 | not like-for-like |
+| 2 | remove | 2 | harbour_odaiba | 4 | applied / 0 / -1,647 / 0.0032 | applied / 0 / -1,647 / 0.0038 | not like-for-like |
+| 3 | remove | 4 | lantern_asakusa | 5 | applied / 0 / -1,930 / 0.0085 | applied / 1 / -2,673 / 0.0229 | not like-for-like; aware costs 743 JPY more than naive |
+| 4 | remove | 4 | kitsune_shinjuku | 8 | applied / 0 / -404 / 0.0143 | applied / 3 / -717 / 0.1842 | not like-for-like; aware costs 313 JPY more than naive |
+| 5 | remove | 2 | kitsune_shinjuku | 6 | applied / 0 / -3,280 / 0.0106 | applied / 1 / -3,280 / 0.0265 | not like-for-like |
+| 6 | remove | 4 | lantern_asakusa | 5 | applied / 0 / -1,217 / 0.0059 | applied / 0 / -1,217 / 0.0096 | not like-for-like |
+| 7 | lock | 4 | harbour_odaiba | 3 | applied / 0 / +0 / 0.0119 | applied / 0 / +0 / 0.017 |  |
 | 8 | lock | 2 | harbour_odaiba | 4 | applied / 0 / +0 / 0.0033 | applied / 0 / +0 / 0.0027 |  |
-| 9 | lock | 3 | harbour_odaiba | 6 | applied / 0 / +0 / 0.0082 | applied / 0 / +0 / 0.0078 |  |
-| 10 | lock | 4 | harbour_odaiba | 5 | applied / 0 / +0 / 0.0089 | applied / 2 / +0 / 0.0181 |  |
-| 11 | lock | 2 | harbour_odaiba | 3 | applied / 0 / +0 / 0.006 | applied / 0 / +0 / 0.0062 |  |
-| 12 | lock | 2 | lantern_asakusa | 6 | applied / 0 / +0 / 0.0064 | applied / 2 / +0 / 0.0077 |  |
-| 13 | move | 3 | harbour_odaiba | 6 | applied / 0 / +487 / 0.0181 | applied / 4 / +154 / 0.032 | not like-for-like; aware costs 333 JPY more than naive |
+| 9 | lock | 3 | harbour_odaiba | 6 | applied / 0 / +0 / 0.0079 | applied / 0 / +0 / 0.0078 |  |
+| 10 | lock | 4 | harbour_odaiba | 5 | applied / 0 / +0 / 0.0088 | applied / 2 / +0 / 0.018 |  |
+| 11 | lock | 2 | harbour_odaiba | 3 | applied / 0 / +0 / 0.0059 | applied / 0 / +0 / 0.0063 |  |
+| 12 | lock | 2 | lantern_asakusa | 6 | applied / 0 / +0 / 0.0062 | applied / 2 / +0 / 0.0075 |  |
+| 13 | move | 3 | harbour_odaiba | 6 | applied / 0 / +487 / 0.0179 | applied / 4 / +154 / 0.0318 | not like-for-like; aware costs 333 JPY more than naive |
 | 14 | move | 4 | lantern_asakusa | 5 | rejected (conflicting_operations) | rejected (conflicting_operations) |  |
-| 15 | move | 3 | lantern_asakusa | 6 | applied / 1 / +86 / 0.007 | applied / 2 / +0 / 0.007 | aware costs 86 JPY more than naive |
+| 15 | move | 3 | lantern_asakusa | 6 | applied / 1 / +86 / 0.0068 | applied / 2 / +0 / 0.0068 | aware costs 86 JPY more than naive |
 | 16 | move | 3 | kitsune_shinjuku | 6 | rejected (conflicting_operations) | rejected (conflicting_operations) |  |
 | 17 | move | 2 | harbour_odaiba | 6 | rejected (conflicting_operations) | rejected (conflicting_operations) |  |
-| 18 | move | 3 | harbour_odaiba | 3 | applied / 0 / +1,570 / 0.0051 | applied / 2 / +0 / 0.0037 | not like-for-like; aware costs 1,570 JPY more than naive |
-| 19 | switch_hotel | 4 | harbour_odaiba | 6 | applied / 0 / +4,250 / 0.0148 | applied / 3 / +4,250 / 0.1584 |  |
-| 20 | switch_hotel | 3 | kitsune_shinjuku | 5 | applied / 0 / -6,327 / 0.0094 | applied / 4 / -7,123 / 0.0175 | aware costs 796 JPY more than naive |
-| 21 | switch_hotel | 2 | lantern_asakusa | 6 | applied / 0 / +3,440 / 0.014 | applied / 5 / +3,247 / 0.063 | aware costs 193 JPY more than naive |
-| 22 | switch_hotel | 4 | kitsune_shinjuku | 6 | applied / 0 / -9,424 / 0.0482 | applied / 6 / -9,590 / 0.4906 | aware costs 166 JPY more than naive |
-| 23 | switch_hotel | 2 | kitsune_shinjuku | 6 | applied / 1 / -2,350 / 0.0132 | applied / 6 / -2,646 / 0.0173 | aware costs 296 JPY more than naive |
-| 24 | switch_hotel | 4 | harbour_odaiba | 6 | applied / 0 / +3,630 / 0.0217 | applied / 6 / +3,543 / 0.2268 | aware costs 87 JPY more than naive |
+| 18 | move | 3 | harbour_odaiba | 3 | applied / 0 / +1,570 / 0.005 | applied / 2 / +0 / 0.0039 | not like-for-like; aware costs 1,570 JPY more than naive |
+| 19 | switch_hotel | 4 | harbour_odaiba | 6 | applied / 0 / +4,250 / 0.0147 | applied / 3 / +4,250 / 0.1571 |  |
+| 20 | switch_hotel | 3 | kitsune_shinjuku | 5 | applied / 0 / -6,327 / 0.0091 | applied / 4 / -7,123 / 0.0171 | aware costs 796 JPY more than naive |
+| 21 | switch_hotel | 2 | lantern_asakusa | 6 | applied / 0 / +3,440 / 0.0137 | applied / 5 / +3,247 / 0.0618 | aware costs 193 JPY more than naive |
+| 22 | switch_hotel | 4 | kitsune_shinjuku | 6 | applied / 0 / -9,424 / 0.0484 | applied / 6 / -9,590 / 0.4905 | aware costs 166 JPY more than naive |
+| 23 | switch_hotel | 2 | kitsune_shinjuku | 6 | applied / 1 / -2,350 / 0.0133 | applied / 6 / -2,646 / 0.0168 | aware costs 296 JPY more than naive |
+| 24 | switch_hotel | 4 | harbour_odaiba | 6 | applied / 0 / +3,630 / 0.0217 | applied / 6 / +3,543 / 0.225 | aware costs 87 JPY more than naive |
 
 Notes: a `lock` edit here locks an activity at its CURRENT slot, so it changes nothing by itself (cost change 0) and mainly tests that other activities stay put; `move` edits that conflict with opening hours, travel time or other constraints are rejected before solving (counted separately, not as infeasible). Cost changes are not like-for-like when optional sights change (flagged per scenario). A shift of 30 minutes or less does not count as moved.
