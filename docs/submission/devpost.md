@@ -31,7 +31,7 @@ The planning is not done by the language model. An OR-Tools CP-SAT optimiser (fi
 
 **Human red team (informal, small N):** Not run yet.
 
-- Tests: 642 backend, 261 Vitest and 55 Playwright tests pass. Lighthouse (mobile, local): performance 93, accessibility 100, best practices 100 on the Plan and Proof pages.
+- Tests: 859 backend, 295 Vitest and 55 Playwright tests pass. Lighthouse (mobile, local): performance 93 on the Plan page and 86 on the Proof page, accessibility 100 and best practices 100 on both.
 - Not run: a user test (the kit is in the repository, with no results), a second model, and any unseen-request test. [PLACEHOLDER: replace the user-test line if you run the user test]
 
 ## Challenges
