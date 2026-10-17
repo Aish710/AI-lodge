@@ -13,6 +13,7 @@ const view = computed(() => {
   return { glyph: 'i', cls: 'notice-info', text: 'Sample mode (AI unavailable)', on: false }
 })
 const host = computed(() => store.health?.llm_endpoint ?? null)
+const model = computed(() => store.health?.llm_model ?? null)
 function onKey(e) { if (e.key === 'Escape') open.value = false }
 </script>
 <template>
@@ -29,7 +30,7 @@ function onKey(e) { if (e.key === 'Escape') open.value = false }
           <ul class="small mb-0 ps-3"><li>Pick your schedule (the optimiser does)</li><li>Invent prices, hours or times</li><li>Change your plan without your click</li></ul></div>
       </div>
       <p class="small fw-semibold mt-2 mb-1">Every AI answer is checked by code before you see it.</p>
-      <p class="small muted mb-2" data-testid="ai-popover-where">Runs only when you click. <template v-if="host">Requests go through the gateway <strong>{{ host }}</strong> (a third party).</template></p>
+      <p class="small muted mb-2" data-testid="ai-popover-where">Runs only when you click. <template v-if="host">Requests go through the gateway <strong>{{ host }}</strong> (a third party).</template> <template v-if="model">Model: <strong>{{ model }}</strong>.</template></p>
       <button type="button" class="btn btn-outline-secondary btn-sm" @click="open = false">Close</button>
     </div>
     <div v-else-if="open" :id="popId" class="mode-pop" role="region" aria-label="AI is off" data-testid="ai-popover"><p class="small mb-2"><strong>AI off:</strong> the form works the same.</p><button type="button" class="btn btn-outline-secondary btn-sm" @click="open = false">Close</button></div>

@@ -97,7 +97,7 @@ const unresolved = computed(() => (r.value?.unresolved_names ?? []).filter((u) =
       <details class="small" data-testid="nl-raw-json"><summary>What the assistant extracted (before checking)</summary><pre class="json-box mb-0 mt-1" data-testid="nl-json">{{ json ?? 'nothing extracted' }}</pre></details>
       <div v-if="r.draft" class="d-flex flex-wrap align-items-center gap-2">
         <button type="button" class="btn btn-outline-primary" @click="apply" data-testid="nl-apply">Apply to my trip</button>
-        <span class="small" role="status" data-testid="nl-applied">{{ applied ? 'Form filled in below. Nothing has been planned yet.' : 'Fills the form below with this reading. It never plans anything.' }}</span>
+        <span class="small" role="status" data-testid="nl-applied">{{ applied ? 'Form filled in below. Nothing has been planned yet.' : 'The form below is already filled in from this reading. Nothing is planned until you click "Plan my trip". Apply again after editing to restore it.' }}</span>
       </div>
     </div>
   </section>

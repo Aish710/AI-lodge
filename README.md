@@ -1,5 +1,7 @@
 # Fitinerary
 
+**Choose a hotel based on the trip it makes possible, then build a feasible itinerary around it.**
+
 ## Problem Statement
 
 Planning a city trip is not just picking attractions. The hotel changes travel time, transport cost, and what can realistically fit into each day. Fitinerary helps a traveller compare those trade-offs instead of treating hotel choice and itinerary planning as separate decisions.

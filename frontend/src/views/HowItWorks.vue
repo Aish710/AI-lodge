@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { PROJECT_NAME, REPO_URL } from '../brand.js'
+import { PITCH, PROJECT_NAME, REPO_URL } from '../brand.js'
 import { store } from '../store.js'
 const relay = computed(() => (store.health?.llm_relay ? store.health.llm_endpoint : null))
 const cityNames = computed(() => (store.cities.length ? store.cities.map((c) => c.display_name).join(', ') : 'several sample cities'))
@@ -8,6 +8,7 @@ const cityNames = computed(() => (store.cities.length ? store.cities.map((c) => 
 <template>
   <div class="stack">
     <div><h1>How {{ PROJECT_NAME }} works</h1>
+      <p class="lead fw-semibold mb-1" data-testid="pitch">{{ PITCH }}</p>
       <p class="muted mb-0">{{ PROJECT_NAME }} plans a trip to one city at a time ({{ cityNames }}) by choosing the hotel and the itinerary together, then showing its working.</p></div>
 
     <section class="card-soft" aria-labelledby="what-h">

@@ -211,3 +211,15 @@ def test_haiku_ignores_an_explicit_llm_effort_with_a_warning_because_it_always_r
     assert c.complete("s", [{"role": "user", "content": "x"}], 50).text == "{}"
     assert "output_config" not in seen
     assert "llm_effort_ignored" in caplog.text and SECRET not in caplog.text
+
+
+def test_health_shows_the_model_name_only_when_the_ai_is_on(monkeypatch):
+    _env(monkeypatch, "https://relay.example.com")
+    with TestClient(app) as c:
+        h = c.get("/health").json()
+        text = c.get("/health").text
+    assert h["llm_model"] == "claude-haiku-4-5-20251001"
+    assert SECRET not in text and "https://" not in text
+    monkeypatch.setenv("LLM_API_KEY", "")
+    with TestClient(app) as c:
+        assert "llm_model" not in c.get("/health").json()

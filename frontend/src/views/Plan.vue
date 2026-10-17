@@ -12,6 +12,7 @@ import ErrorPanel from '../components/ErrorPanel.vue'
 import Hint from '../components/Hint.vue'
 import Skeleton from '../components/Skeleton.vue'
 import { exampleLabel } from '../lib/rules.js'
+import { PITCH } from '../brand.js'
 import { store, highlightThemes, toggleInterestTheme, currentPrefs, currentCityExamples, loadExample, requestCitySwitch, resetAll, planMyTrip, rateLimited, rateLimitSeconds, solverBusy, stateOf, setWish, loadPlaces } from '../store.js'
 import { nightsUsed, budgetInJpy } from '../lib/prefs.js'
 import { formatLocalMoney, WEEKDAY_NAMES, WEEKDAYS } from '../lib/format.js'
@@ -88,6 +89,7 @@ function example(kind) { loadExample(kind); nudge.value = true }
   <div class="stack">
     <div>
       <h1>Plan your trip</h1>
+      <p class="fw-semibold mb-1" data-testid="pitch">{{ PITCH }}</p>
       <p class="muted mb-0">Choose the essentials and the sights you care about. One button then compares the hotels and plans your days. <Hint text="A hotel that looks cheap can cost more once travel time and fares are counted." /></p>
     </div>
 

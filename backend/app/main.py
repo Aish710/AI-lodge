@@ -55,6 +55,7 @@ def health(request: Request):
     if st.llm_enabled:  # the host only: never the key, never the full URL
         out["llm_endpoint"] = ep.host
         out["llm_relay"] = ep.relay
+        out["llm_model"] = st.llm_model  # the model name only: never the key, never the URL
     return out
 
 

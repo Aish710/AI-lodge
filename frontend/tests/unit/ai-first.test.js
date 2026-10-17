@@ -76,6 +76,8 @@ describe('What the AI understood', () => {
     expect(w.findAll('[data-testid=nl-defaults] button').length).toBe(2)
     expect(w.get('[data-testid=unresolved]').text()).toContain("not in this city's data")
     expect(w.findAll('[data-testid=candidate-chip]')).toHaveLength(2)         // the ambiguity is a choose-one, not a gate
+    expect(w.get('[data-testid=nl-applied]').text()).toContain('already filled in')
+    expect(w.get('[data-testid=nl-applied]').text()).toContain('Nothing is planned until you click "Plan my trip"')
     const apply = w.get('[data-testid=nl-apply]')
     expect(apply.attributes('disabled')).toBeUndefined()
     await apply.trigger('click')
@@ -119,13 +121,13 @@ describe('markers and the header popover', () => {
     expect(mount(AiMark, { props: { kind: 'calc' } }).text()).toContain('Calculated')
   })
   it('opens a two-column popover with the model-free facts, the gateway host from /health, and closes on Escape', async () => {
-    store.health = { mode: 'llm', llm_limit_reached: false, llm_endpoint: 'api.example-gateway.test', llm_relay: true }
+    store.health = { mode: 'llm', llm_limit_reached: false, llm_endpoint: 'api.example-gateway.test', llm_relay: true, llm_model: 'model-x' }
     const w = mount(ModeIndicator, { attachTo: document.body })
     expect(w.get('[data-testid=mode-indicator]').text()).toContain('AI assistant on')
     expect(w.find('[data-testid=ai-popover]').exists()).toBe(false)
     await w.get('[data-testid=ai-popover-button]').trigger('click')
     const pop = w.get('[data-testid=ai-popover]').text()
-    for (const t of ['What the AI does here', 'What it never does', 'Reads your words', 'Pick your schedule', 'Invent prices, hours or times', 'Change your plan without your click', 'Every AI answer is checked by code before you see it.', 'api.example-gateway.test']) expect(pop).toContain(t)
+    for (const t of ['What the AI does here', 'What it never does', 'Reads your words', 'Pick your schedule', 'Invent prices, hours or times', 'Change your plan without your click', 'Every AI answer is checked by code before you see it.', 'api.example-gateway.test', 'model-x']) expect(pop).toContain(t)
     expect(w.get('[data-testid=ai-popover-button]').attributes('aria-expanded')).toBe('true')
     await w.get('[data-testid=ai-popover-button]').trigger('keydown', { key: 'Escape' })
     expect(w.find('[data-testid=ai-popover]').exists()).toBe(false)
@@ -174,5 +176,12 @@ describe('Explain this plan', () => {
     expect(w.get('[data-testid=explain-warnings]').text()).toContain('Unknown price: X')
     expect(w.text()).toContain('How was this checked?')
     expect(mount(ExplainBlock, { props: { explanation: { source: 'template', text: 't', warnings: [] } } }).get('[data-testid=explain-badge]').text()).toBe('Template summary')
+  })
+})
+
+describe('the pitch line', () => {
+  it('is the exact agreed sentence', async () => {
+    const { PITCH } = await import('../../src/brand.js')
+    expect(PITCH).toBe('Choose a hotel based on the trip it makes possible, then build a feasible itinerary around it.')
   })
 })
