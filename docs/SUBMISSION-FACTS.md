@@ -1,19 +1,19 @@
 # Submission facts (generated)
 
-Generated 2026-10-17 15:04 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
+Generated 2026-10-17 15:30 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
 
 ## Tests
 
-- Backend full suite: 568 passed, 0 failed, 0 skipped, 568 total (pytest), revision 3873fb5baa3d45bbd3541a73afe1b33b26268ba2 + uncommitted changes.  
+- Backend full suite: 638 passed, 0 failed, 0 skipped, 638 total (pytest), revision e9b90d8c86fc9e2bd6090b251ed1a5808e98d337 + uncommitted changes.  
   *Source: backend/tests/results/latest-full.md*
-- Frontend unit and component tests: 171 passed, 0 failed, 171 total (Vitest).  
+- Frontend unit and component tests: 260 passed, 0 failed, 260 total (Vitest).  
   *Source: frontend/test-results/vitest.json (npm run test:report)*
-- End-to-end tests against the real backend in sample mode: 31 passed, 0 failed (Playwright).  
+- End-to-end tests against the real backend in sample mode: 55 passed, 0 failed (Playwright).  
   *Source: frontend/test-results/playwright.json (npm run test:report)*
 
 ## Evaluation
 
-- Evaluation run 2026-10-14 06:57 UTC, code version 859c357 + uncommitted changes (this hash does not identify the exact code), mode full, 60 seeded synthetic trips on sample data (12 attractions, 3 fictional hotels).  
+- Evaluation run 2026-10-17 15:18 UTC, code version e9b90d8, mode full, 60 seeded synthetic trips on sample data (12 attractions, 3 fictional hotels).  
   *Source: docs/eval-results.json (docs/eval-results.md, docs/README-claims.md)*
 - 15 of 15 named scenarios pass (3 of them use a scripted stand-in for the AI: they verify the pipeline, not the model).  
   *Source: docs/eval-results.json (docs/eval-results.md, docs/README-claims.md)*
@@ -40,11 +40,11 @@ Generated 2026-10-17 15:04 UTC by `frontend/scripts/make-submission-facts.mjs`. 
 
 ## Lighthouse
 
-- Home (create trip) (navigation): performance 97, accessibility 100, best practices 100. Measured with lighthouse 13.5.0, mobile (default), simulated throttling, on a local machine.  
+- Plan (home) (navigation): performance 94, accessibility 100, best practices 100. Measured with lighthouse 13.5.0, mobile (default), simulated throttling, on a local machine.  
   *Source: docs/lighthouse-summary.json (docs/lighthouse-results.md)*
-- Proof (navigation): performance 93, accessibility 100, best practices 100. Measured with lighthouse 13.5.0, mobile (default), simulated throttling, on a local machine.  
+- Proof (navigation): performance 92, accessibility 100, best practices 100. Measured with lighthouse 13.5.0, mobile (default), simulated throttling, on a local machine.  
   *Source: docs/lighthouse-summary.json (docs/lighthouse-results.md)*
-- Itinerary (after the example flow) (snapshot): performance not measured, accessibility 100, best practices 100. Measured with lighthouse 13.5.0, mobile (default), simulated throttling, on a local machine.  
+- Your trip (after the example flow) (snapshot): performance not measured, accessibility 100, best practices 100. Measured with lighthouse 13.5.0, mobile (default), simulated throttling, on a local machine.  
   *Source: docs/lighthouse-summary.json (docs/lighthouse-results.md)*
 
 ## Safety
@@ -53,6 +53,8 @@ Generated 2026-10-17 15:04 UTC by `frontend/scripts/make-submission-facts.mjs`. 
   *Source: docs/SAFETY_LOG.md*
 - API hardening: 33 of 33 in-process abuse cases passed.  
   *Source: docs/hardening-results.md*
+- Red team (SIMULATED models, not a real model): 48 attacks in 4 languages x 4 cities x 2 mock models = 744 runs; final result affected in 0 after 2 fixes found by the red team itself.  
+  *Source: docs/redteam-results.json*
 
 ## Product
 
@@ -67,6 +69,8 @@ Generated 2026-10-17 15:04 UTC by `frontend/scripts/make-submission-facts.mjs`. 
 
 - Any user study or real-user outcome: the user-test kit exists but no result has been collected (the Proof page says "Not run yet").  
   *Source: docs/user-test/ (results.csv has no rows)*
+- Red team against a real model: docs/redteam-live.md does not exist (the opt-in script has not been run).  
+  *Source: docs/redteam-live.md (absent)*
 - Real hotel markets; live prices or opening hours.
 - Backend cold-start time on the free host and the Docker image build (neither has been run).  
   *Source: docs/DEPLOY.md*
@@ -75,3 +79,10 @@ Generated 2026-10-17 15:04 UTC by `frontend/scripts/make-submission-facts.mjs`. 
 
 - A live smoke test is recorded in docs/ai-selfcheck.md: 20 of 20 checks passed in the latest run, model claude-haiku-4-5-20251001, via api.apiyi.com. It is a small check on one model, tuned on those checks, not a benchmark. The larger evaluation file docs/llm-live-eval.md does not exist.  
   *Source: docs/ai-selfcheck.md*
+- Gold-set live run (first run, hand-written prompts, one model claude-haiku-4-5-20251001 via api.apiyi.com, 44 model calls): Tokyo 12 of 12 exact; Singapore 12 of 12 exact; Seoul 12 of 12 exact; Kuala Lumpur 12 of 12 exact. Small sample per city; the pipeline had been tuned on similar checks, so treat it as optimistic.  
+  *Source: docs/eval/gold-results-live-first-run.md*
+
+## Data
+
+- Singapore: 7 fields source-checked, 0 rows human-verified, 75 unchecked; other cities unchecked; all data is still sample data.  
+  *Source: docs/data-verification/counts.json*

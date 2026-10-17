@@ -1,20 +1,20 @@
 {
-  "generated": "2026-10-15T10:01:21.205Z",
+  "generated": "2026-10-17T15:19:16.075Z",
   "tool": "lighthouse 13.5.0",
   "preset": "mobile (default), simulated throttling",
   "pages": [
     {
-      "name": "Home (create trip)",
+      "name": "Plan (home)",
       "url": "/",
       "mode": "navigation",
-      "performance": 97,
+      "performance": 94,
       "accessibility": 100,
       "bestPractices": 100,
       "metrics": {
-        "First Contentful Paint": "2.0 s",
-        "Largest Contentful Paint": "2.2 s",
-        "Total Blocking Time": "0 ms",
-        "Cumulative Layout Shift": "0.03"
+        "First Contentful Paint": "2.2 s",
+        "Largest Contentful Paint": "2.6 s",
+        "Total Blocking Time": "30 ms",
+        "Cumulative Layout Shift": "0.068"
       },
       "failedAudits": []
     },
@@ -22,20 +22,20 @@
       "name": "Proof",
       "url": "/proof",
       "mode": "navigation",
-      "performance": 93,
+      "performance": 92,
       "accessibility": 100,
       "bestPractices": 100,
       "metrics": {
-        "First Contentful Paint": "2.0 s",
+        "First Contentful Paint": "2.4 s",
         "Largest Contentful Paint": "2.9 s",
         "Total Blocking Time": "0 ms",
-        "Cumulative Layout Shift": "0"
+        "Cumulative Layout Shift": "0.053"
       },
       "failedAudits": []
     },
     {
-      "name": "Itinerary (after the example flow)",
-      "url": "/itinerary",
+      "name": "Your trip (after the example flow)",
+      "url": "/trip",
       "mode": "snapshot",
       "performance": null,
       "accessibility": 100,

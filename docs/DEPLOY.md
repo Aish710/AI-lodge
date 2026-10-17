@@ -2,6 +2,26 @@
 
 I could not deploy for you or build the Docker image locally (Docker is not installed on this machine). Everything below is prepared; the steps are for you.
 
+## Ordered checklist (current as of the evidence refresh)
+1. **Backend on Render** (Blueprint from `render.yaml`): service `fitinerary-api`, runtime Docker, plan Free, region Singapore, health check `/health`. Build uses `backend/Dockerfile` with context `./backend`.
+2. **Backend environment variables** (enter the `sync: false` ones in the dashboard; nothing secret is in git):
+   - `LLM_API_KEY` (**secret**): leave EMPTY for the first deploy (sample mode). Set it later only after setting a spending cap at the provider.
+   - `LLM_MODEL`: the exact model ID your provider or gateway offers (only needed with a key).
+   - `LLM_BASE_URL` (optional): the gateway's root, `https`, no `/v1`. Only if the key is for a third-party gateway.
+   - `LLM_EFFORT`: **do not set it** (`.env.example` has it commented out; Haiku models reject it).
+   - `ALLOWED_ORIGINS`: placeholder `https://<your-site>.netlify.app` (exact origin, no path, no `*`). Set it after step 5 and restart.
+   - `TRUSTED_PROXY_HOPS=1` to start, then verify with the procedure below.
+   - `SOLVER_CONCURRENCY=1` (free tier: 0.1 CPU; a busy server answers 503 `solver_busy` and the app shows a countdown with a manual Retry).
+   - Solver time limits, keep the defaults: `OPTIMISE_TIME_LIMIT_SECONDS=10`, `HOTEL_COMPARE_TIME_LIMIT_SECONDS=10`, `REPLAN_TIME_LIMIT_SECONDS=5`, `ALTERNATIVES_BUDGET_SECONDS=8`. If solves feel slow on the free host, lower the first two to 6 before upgrading the plan; approximate results are labelled.
+   - Rate limits as in `render.yaml`: `RATE_LIMIT_EXPENSIVE_PER_MIN=6`, `RATE_LIMIT_PER_MIN=30`, `RATE_LIMIT_CHEAP_PER_MIN=120`; `LLM_DAILY_CALL_CAP=300`; `REQUEST_DEADLINE_SECONDS=25`; `MAX_INPUT_CHARS=2000`; `ENABLE_DOCS=0`.
+3. **Smoke the backend** (exits non-zero on failure, waits up to 150 s for a cold start): `python backend/scripts/smoke_test.py https://<service>.onrender.com`
+4. **Frontend on Netlify**: import the repo; `netlify.toml` sets base `frontend`, command `npm ci && npm run build`, publish `dist`, Node 22. Environment variable `VITE_API_BASE_URL` = the backend URL (public, no trailing slash). `_headers` (CSP and others) and `_redirects` (SPA fallback) are written into `dist` by `npm run build`.
+5. **Set `ALLOWED_ORIGINS`** on the backend to the exact production origin and restart. Test on the production URL only (deploy-preview URLs are other origins and fail CORS).
+6. **Smoke the pair**: `cd frontend && node scripts/live-smoke.mjs https://<site>.netlify.app https://<service>.onrender.com` (18 checks locally: CORS, the AI card first, one-click plan, comparison table, the change box and Explain button, map, Proof page, 404 route, no storage, no console errors).
+7. **Verify `TRUSTED_PROXY_HOPS`** (procedure below), then add the LLM key if you want the AI on, and re-run both smoke commands.
+
+**Cold start:** the free Render service sleeps after 15 idle minutes and takes about a minute to wake (Render's documented figure; not measured here). While it wakes, the app shows "Waking the server, this can take about a minute. The free host sleeps when idle." and retries by itself; if it does not wake in time it shows "The server did not wake up in time" with a "Try again" button.
+
 ## Why Render (one option only)
 Checked against Render's current docs on 2026-10-13:
 - Free web services support Docker (Blueprint `runtime: docker`, `plan: free`), so OR-Tools installs from the pinned wheels. Sources: [Render free tier](https://render.com/docs/free), [Blueprint spec](https://render.com/docs/blueprint-spec).

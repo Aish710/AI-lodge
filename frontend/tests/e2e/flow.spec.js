@@ -184,7 +184,7 @@ for (const city of CITIES) {
 
 test('keyboard only on the Plan screen: reach the city chips, a sight choice and the Plan button; the disabled reason is announced', async ({ page }) => {
   await page.goto('/')
-  const tabTo = async (predicate, max = 150) => {
+  const tabTo = async (predicate, max = 400) => {   // the Plan screen has more tab stops now (the AI card, theme tabs, interest chips)
     for (let i = 0; i < max; i++) { await page.keyboard.press('Tab'); if (await page.evaluate(predicate)) return }
     throw new Error('never reached the target with the keyboard')
   }

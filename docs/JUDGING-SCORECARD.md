@@ -14,32 +14,36 @@ Where to look in the app: **Proof** (`/proof`) shows the measured results, harde
 | **Grounding checker:** an explanation's numbers, times and names are compared with the computed facts (names of all cities); any mismatch replaces the text with a template. | `backend/app/llm/grounding.py`; `test_an_explanation_that_names_another_citys_place_is_rejected_for_every_city_pair` |
 | **No-LLM fallback:** with no key, an outage or the daily cap, the form, comparison, itinerary, replanning and template explanations all work (the mode badge says so). | `backend/tests/test_hardening.py`; Proof page; screenshot `docs/screenshots/10-nl-parse-sample-mode.png` |
 | **Live LLM evaluation:** A live smoke test was run and is recorded in `docs/ai-selfcheck.md` (20 of 20 checks passed in the latest run, model claude-haiku-4-5-20251001, via api.apiyi.com). It is a small check on one model, tuned on those checks, not a benchmark. The larger evaluation file `docs/llm-live-eval.md` does not exist. | `backend/scripts/run_llm_live_eval.py`, `backend/tests/test_live_eval_script.py` (mock client only) |
+| **Gold set, live, first run (48 hand-written prompts, 12 per city, reported per city):** Tokyo 12 of 12 exact; Singapore 12 of 12 exact; Seoul 12 of 12 exact; Kuala Lumpur 12 of 12 exact (model claude-haiku-4-5-20251001). Small sample, one model; the prompts were written by the person who built the pipeline, which had been tuned on similar checks, so this is optimistic. | `docs/eval/gold-results-live-first-run.md`, `backend/scripts/score_gold.py` |
 
-**Remaining gaps:** no live measurement of the AI exists. There is no gold-set parsing-accuracy score yet, no "AI transparency" drawer, and no AI on/off comparison view (all planned, not built).
+**Where to see the AI in the app:** the first card on Plan ("Ask the AI to set up your trip"), "Ask the AI to change your plan" and "Explain this plan" on Your trip, the "What the AI did" drawer under each AI result, and the Proof page's "Live AI evidence" card.
+
+**Remaining gaps:** the live evidence is a 20-check smoke test (tuned on those checks) and one first run of the gold set on one model, with hand-written prompts; no live red-team result exists; there is no AI on/off comparison view and no per-sentence citation of explanation facts (not built); the live AI results come from one model through a third-party gateway
 
 ## 2. LLM Safety & Responsible AI
 
 | What a judge can open | Backing |
 |---|---|
 | **Risk table:** 145 rows, each with its safeguard and the test that covers it. | `docs/SAFETY_LOG.md`; Proof page "risk table" |
-| **Hardening results:** 33 of 33 cases passed (generated 2026-10-14 01:52 UTC). | `docs/hardening-results.md` (from `backend/scripts/run_hardening_checks.py`) |
-| **Red-team fixtures:** 8 injection prompts in `backend/tests/fixtures/injection_prompts.json`, plus one injection per language (English, Korean, Chinese, Malay) run against every city. | `backend/tests/test_llm_input.py`, `backend/tests/test_llm_per_city.py` |
+| **Hardening results:** 33 of 33 cases passed (generated 2026-10-17 15:18 UTC). | `docs/hardening-results.md` (from `backend/scripts/run_hardening_checks.py`) |
+| **Red-team fixtures:** 8 injection prompts in `backend/tests/fixtures/injection_prompts.json` (the original set), plus one injection per language (English, Korean, Chinese, Malay) run against every city. | `backend/tests/test_llm_input.py`, `backend/tests/test_llm_per_city.py` |
+| **Red team (simulated models):** 48 attacks (English, Korean, Chinese, Malay) x 4 cities x 2 simulated models = 744 runs; final result affected in 0; 2 problem(s) found and fixed by the red team itself. These counts come from simulated models and say nothing about a real model; the live red-team script exists but has not been run. | `docs/redteam-results.md`, `docs/redteam-results.json`, `backend/tests/fixtures/redteam_attacks.json`, `backend/tests/test_redteam.py` |
 | **Per-city checks:** every id in a request must belong to the request's city (all routes, all city pairs); stale answers after a city switch are discarded; amounts use the selected city's currency. | `backend/tests/test_city_isolation.py`, `test_currency_labels.py`; `frontend/tests/unit/city-isolation.test.js`, `currency.test.js` |
-| **Data verification status:** sheets exist: singapore.csv. | `backend/tests/test_data.py::test_no_record_is_verified`; `docs/CITIES.md` |
+| **Data verification status:** Singapore: 7 fields source-checked, 0 rows human-verified, 75 unchecked; other cities unchecked; all data is still sample data; sheets: singapore.csv. |  `backend/tests/test_data.py::test_no_record_is_verified`; `docs/CITIES.md` |
 | **Privacy:** nothing is stored (no database, cookies or analytics); server logs are metadata only; place descriptions are never sent to the AI. | `docs/PRIVACY.md`; "How it works" page, Privacy section; `frontend/tests/e2e/replan.spec.js` (no storage, no third-party requests except map tiles) |
 
-**Remaining gaps:** the hardening battery was generated before later backend changes and should be re-run; the injection fixture set is small (to be expanded); all city data is sample data and unverified; rate limits and the circuit breaker are per process; no external security review.
+**Remaining gaps:** the red-team counts are from simulated models (no live red-team run); all city data is sample data (only Singapore has any source-checked fields, and none is human-verified); rate limits and the circuit breaker are per process; the relay (a third party) sees the cleaned request text; no external security review
 
 ## 3. Usefulness & Business Value
 
 | What a judge can open | Backing |
 |---|---|
-| **The problem:** a hotel that looks cheap can cost more once travel time and fares are counted, so the hotel and the itinerary should be chosen together. | "How it works" page; Hotels step verdict |
+| **The problem:** a hotel that looks cheap can cost more once travel time and fares are counted, so the hotel and the itinerary should be chosen together. | "How it works" page; the verdict on Your trip |
 | **Target user:** travellers who plan a short city trip themselves. This is an assumption: no user research has been done. | (see user test below) |
-| **Measured results (generated, with N and caveats):** the sentences below are copied by the script from the claims file (Generated 2026-10-14 06:57 UTC by `backend/scripts/run_evaluation.py` (full mode, seed 20261013, 60 trips). Code version: 859c357 + uncommitted changes (this hash does not identify the exact code). Each sentence is produced from the measured numbers in `docs/eval-results.json`; paste whole sentences, keeping the N and the caveat. If you re-run the evaluation, regenerate this file and re-paste: do not edit numbers by hand. No sentence claims statistical significance.). They come from seeded synthetic trips on the Tokyo sample pack, not from users. | `docs/README-claims.md`, `docs/eval-results.md`; `backend/scripts/run_evaluation.py` |
+| **Measured results (generated, with N and caveats):** the sentences below are copied by the script from the claims file (Generated 2026-10-17 15:18 UTC by `backend/scripts/run_evaluation.py` (full mode, seed 20261013, 60 trips). Code version: e9b90d8. Each sentence is produced from the measured numbers in `docs/eval-results.json`; paste whole sentences, keeping the N and the caveat. If you re-run the evaluation, regenerate this file and re-paste: do not edit numbers by hand. No sentence claims statistical significance.). They come from seeded synthetic trips on the Tokyo sample pack, not from users. | `docs/README-claims.md`, `docs/eval-results.md`; `backend/scripts/run_evaluation.py` |
 | **City packs and scale-out:** 4 packs (kuala_lumpur, seoul, singapore, tokyo); adding a city is documented step by step. | `docs/CITIES.md`; `backend/tests/test_city_packs.py`; `docs/city-eval-results.md` (Singapore and Seoul, smaller samples, reported separately) |
 | **User test:** **Not run.** The kit exists (`docs/user-test/PROTOCOL.md`, an empty `results.csv`, `scripts/summarise_user_test.py`); the Proof page says "Not run yet". | `docs/user-test/` |
-| **Tests behind all of it:** backend suite 568 passed, 0 failed of 568 (revision 3873fb5baa3d45bbd3541a73afe1b33b26268ba2 + uncommitted changes.). | `backend/tests/results/latest-full.md` |
+| **Tests behind all of it:** backend suite 638 passed, 0 failed of 638 (revision e9b90d8c86fc9e2bd6090b251ed1a5808e98d337 + uncommitted changes.). | `backend/tests/results/latest-full.md` |
 
 Generated claim sentences:
 

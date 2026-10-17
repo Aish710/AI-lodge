@@ -84,6 +84,20 @@ else {
   if (sc) add('AI evaluation', `A live smoke test is recorded in docs/ai-selfcheck.md${passed ? `: ${passed} checks passed in the latest run` : ''}${model ? `, model ${model}` : ''}${host ? `, via ${host}` : ''}. It is a small check on one model, tuned on those checks, not a benchmark. The larger evaluation file docs/llm-live-eval.md does not exist.`, 'docs/ai-selfcheck.md')
   else add('Not measured', 'AI parsing and explanation quality with a live model: no live result file exists.', 'docs/ai-selfcheck.md (absent)')
 }
+const gold = readText('docs/eval/gold-results-live-first-run.md')
+if (gold) {
+  const model = gold.match(/Model: `([^`]+)`/)?.[1]
+  const host = gold.match(/Endpoint host: `([^`]+)`/)?.[1]
+  const calls = gold.match(/Calls used: (\d+) of a hard cap of (\d+)/)
+  const rows = [...gold.matchAll(/^\| ([A-Za-z ]+) \| (\d+) \| [^|]+ \| (\d+)\/(\d+) \(/gm)].map((m) => `${m[1].trim()} ${m[3]} of ${m[4]} exact`)
+  add('AI evaluation', `Gold-set live run (first run, hand-written prompts, one model${model ? ` ${model}` : ''}${host ? ` via ${host}` : ''}${calls ? `, ${calls[1]} model calls` : ''}): ${rows.join('; ')}. Small sample per city; the pipeline had been tuned on similar checks, so treat it as optimistic.`, 'docs/eval/gold-results-live-first-run.md')
+} else add('Not measured', 'Gold-set live accuracy: the first-run file docs/eval/gold-results-live-first-run.md does not exist.', 'docs/eval/')
+const rt = readJson('docs/redteam-results.json')
+if (rt) add('Safety', `Red team (SIMULATED models, not a real model): ${rt.attacks} attacks in 4 languages x 4 cities x 2 mock models = ${rt.runs} runs; final result affected in ${rt.affected.length} after ${rt.found_and_fixed?.length ?? 0} fixes found by the red team itself.`, 'docs/redteam-results.json')
+if (existsSync(join(ROOT, 'docs/redteam-live.md'))) add('Safety', 'A live red-team report exists; read its model, date and N before quoting it.', 'docs/redteam-live.md')
+else add('Not measured', 'Red team against a real model: docs/redteam-live.md does not exist (the opt-in script has not been run).', 'docs/redteam-live.md (absent)')
+const vc = readJson('docs/data-verification/counts.json')
+if (vc) add('Data', `${vc.readme_sentence}.`, 'docs/data-verification/counts.json')
 add('Not measured', 'Real hotel markets; live prices or opening hours.', '')
 add('Not measured', 'Backend cold-start time on the free host and the Docker image build (neither has been run).', 'docs/DEPLOY.md')
 

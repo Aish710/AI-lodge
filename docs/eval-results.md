@@ -1,6 +1,6 @@
 # Evaluation results (SAMPLE data)
 
-Generated 2026-10-14 06:57 UTC by `backend/scripts/run_evaluation.py` (full mode). Code version: 859c357 + uncommitted changes (this hash does not identify the exact code). Every number below was produced by that run; raw per-trip results are in `docs/eval-results.json`, the trips in `docs/eval-scenarios.json`. Claim-safe sentences generated from these numbers: `docs/README-claims.md`. Method: `docs/EVALUATION.md`.
+Generated 2026-10-17 15:18 UTC by `backend/scripts/run_evaluation.py` (full mode). Code version: e9b90d8. Every number below was produced by that run; raw per-trip results are in `docs/eval-results.json`, the trips in `docs/eval-scenarios.json`. Claim-safe sentences generated from these numbers: `docs/README-claims.md`. Method: `docs/EVALUATION.md`.
 
 ## The 15 scenarios
 
@@ -15,7 +15,7 @@ Generated 2026-10-14 06:57 UTC by `backend/scripts/run_evaluation.py` (full mode
 | 5 | Optimisation | User locks an activity at 2 PM | Stays fixed | PASS | Skytree start 14:00; must-visit Senso-ji scheduled=True; validator locked check pass |
 | 6 | Optimisation | User changes hotel | Itinerary recalculated | PASS | travel 126 min from hotel_lantern_asakusa vs 179 min from hotel_harbour_odaiba |
 | 7 | Constraints | Attraction closed on the chosen day | Not scheduled that day | PASS | Monday stops ['senso_ji', 'tsukiji_outer_market', 'teamlab_planets', 'tokyo_skytree']; closed on Monday and absent: ['imperial_palace_east_gardens', 'shinjuku_gyoen', 'tokyo_national_museum']; validator opening_hours pass |
-| 8 | Constraints | Budget too low for all must-visits | Infeasibility reported | PASS | infeasible; conflict: Cost of must-visits exceeds the strict budget by at least 3850 JPY (admissions 4300 + minimum estimated transport 550 vs budget 1000).; computed alternatives ['relax_budget'] |
+| 8 | Constraints | Budget too low for all must-visits | Infeasibility reported | PASS | infeasible; conflict: Cost of must-visits exceeds the strict budget by at least 3,850 JPY (admissions 4,300 + minimum estimated transport 550 vs budget 1,000).; computed alternatives ['relax_budget'] |
 | 9 | Constraints | Not enough time for must-visits | Conflict explained | PASS | infeasible; conflict: Must-visits need at least 6h28 including travel but only 4h are available (1 day(s) x 4h).; computed alternatives ['add_day', 'demote_must_visit'] |
 | 10 | Constraints | Travel time exceeds available time | Schedule rejected | PASS | infeasible; conflict: Must-visit Ghibli Museum needs 5h38 (120 min visit + 218 min round trip from the hotel) but a day only has 3h (09:00-12:00). |
 | 11 | Data quality | Missing admission price | Cost labelled unknown | PASS | cost_status=unknown, listed as unknown in totals=True; validator unknown_prices=warning |
@@ -180,7 +180,7 @@ Paired over 21 scenarios where both produced a plan: disruption-aware moved fewe
 
 ## G. Explanation and parsing
 
-Not measured here: they need a live model. They are covered by the opt-in script `backend/scripts/run_llm_live_eval.py`, which writes `docs/llm-live-eval.md` (that file does not exist: the live evaluation has NOT been run, so this report makes no claim about the model).
+This report makes no claim about the model: it needs a live model, so it is measured by separate opt-in scripts. A 20-check live smoke test is recorded in `docs/ai-selfcheck.md` (read its model, host, date and run history before quoting it). The larger evaluation file `docs/llm-live-eval.md` (script `backend/scripts/run_llm_live_eval.py`) does not exist, so it adds no figures here.
 
 ## H. Solver status and runtime
 
@@ -194,7 +194,7 @@ Solver status is deterministic (fixed seed, one worker, deterministic-time limit
 
 **Wall-clock runtime (machine-dependent: depends on this computer and its load, not a property of the method).**
 
-Solver time per generated trip: mean 0.067 s, max 0.813 s (N=60). Whole evaluation run (full mode): 157.4 s. The free hosting tier is slower (see docs/DEPLOY.md).
+Solver time per generated trip: mean 0.069 s, max 0.823 s (N=60). Whole evaluation run (full mode): 156.2 s. The free hosting tier is slower (see docs/DEPLOY.md).
 
 ## Every generated trip
 
@@ -291,6 +291,6 @@ Travel = total minutes incl. hotel legs. 'placed' = attractions scheduled. Verdi
 - **Synthetic trips, not users.** No person used the planner; nothing here measures whether travellers find the plans good or how they trade off time and money.
 - **Not live prices.** Admission prices, opening hours and room rates are not current and not checked against any source.
 - **No significance testing.** There are no confidence intervals or tests; N is small and the trips are drawn from one seeded generator. Differences should not be extrapolated beyond this sample.
-- **The language model is not measured here.** Explanation quality and natural-language parsing need a live model; see the opt-in `docs/llm-live-eval.md` (section G).
+- **The evaluation does not use a language model.** It runs the solver and validator only. The AI's live checks are reported separately: a small smoke test in `docs/ai-selfcheck.md` (one model, tuned on those checks) and, if present, the gold-set files in `docs/eval/` (section G).
 - **One machine.** Solver statuses depend on the OR-Tools version and platform; runtimes depend on the computer.
 
