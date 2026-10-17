@@ -31,6 +31,10 @@ Two baselines, always reported separately and never merged:
 
 A trip contributes to a travel-time comparison only if the solver and that baseline scheduled exactly the same set of attractions. Every exclusion is counted with its reason (baseline dropped sights, solver dropped sights, different sets, solver infeasible, zero baseline travel). Placement rates (what fraction of requested attractions each method scheduled) are reported alongside, because a baseline that drops sights is not comparable.
 
+## Fair hotel baselines (Phase 1 of the improvement pass)
+
+`backend/scripts/run_baseline_evaluation.py` writes `docs/baseline-results.md/.json`: **A** cheapest hotel first, **B** convenience first (smallest total estimated travel time to the target sights; a documented rule that ignores the day-by-day route), **C** joint optimisation. All three are read off one `/compare-hotels` call, so they share candidate hotels, constraints, estimated travel times, itinerary optimiser and objective. Each city is reported separately, at 0.5, 1, 2 and 4 times that city's OWN default value of time (the earlier city evaluation used one number in every currency, which is not like-for-like). Components are kept separate: rooms, admissions, estimated transport (their sum is the known spend), estimated travel minutes and their monetised value, optional sights left out and their charge, and the optimisation score, which is not spending. The run reproduces the historical Tokyo result (4 of 52 at the default value of time). Cities where the joint choice never differs from the cheapest are reported as such.
+
 ## Checks that do not rely on the solver's own logic
 
 - The **independent validator** runs on every itinerary from the solver and from both baselines.

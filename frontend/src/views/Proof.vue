@@ -57,6 +57,12 @@ const rtFirstBlocks = computed(() => blocksOf(rtFirstText.value))
 const rtFirstStatus = computed(() => liveStatus(rtFirstText.value, promptVersion.value))
 const rtSame = computed(() => !!d.value?.redteamLive && (!d.value?.redteamFirst || d.value.redteamFirst === d.value.redteamLive))
 const verification = computed(() => d.value?.verification ?? null)
+const baseline = computed(() => d.value?.baseline ?? null)
+const baselineCities = computed(() => Object.entries(baseline.value?.cities ?? {}).map(([id, c]) => {
+  const r = c.by_multiple?.['1'] ?? {}
+  return { id, n: r.n_eligible, differs: r.joint_differs_from_cheapest, noGain: r.no_gain_vs_cheapest, meanPct: r.percent_gain_vs_cheapest?.mean, vot: c.default_value_of_time,
+    penaltyChanged: c.penalty?.changes_when_charge_removed, minutes: c.decomposition_summary?.minutes_saved?.median }
+}))
 const cityLabel = (c) => c.split('_').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ')
 const promptVersion = computed(() => d.value?.promptVersion ?? null)
 const blocksOf = (t) => (t ? parseBlocks(t) : null)
@@ -257,6 +263,24 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
             <div v-else data-testid="rt-live"><MdBlocks :blocks="rtLiveBlocks" /></div>
           </div>
         </div>
+      </section>
+
+      <section v-if="baselineCities.length" id="baselines" class="card-soft" aria-labelledby="bl-h" data-testid="baselines">
+        <h2 id="bl-h" class="h5">Fair baselines: cheapest first, convenience first, joint</h2>
+        <p class="small muted">Same sights, rules, estimated travel times and objective for all three; only the way the hotel is chosen differs. Seeded synthetic trips on sample data with made-up hotels, at each city's own default value of time. Not user-tested. Each city is reported on its own.</p>
+        <div class="table-responsive"><table class="table table-honest align-middle" data-testid="baseline-table">
+          <thead><tr><th scope="col">City</th><th scope="col" class="num">Eligible trips</th><th scope="col" class="num">Joint pick differs from cheapest</th><th scope="col" class="num">No gain over cheapest</th><th scope="col" class="num">Mean score gain over cheapest</th><th scope="col" class="num">Pick changes if the missed-sight charge is removed</th></tr></thead>
+          <tbody><tr v-for="c in baselineCities" :key="c.id" :data-testid="`baseline-${c.id}`"><th scope="row">{{ cityLabel(c.id) }}</th><td class="num">{{ c.n }}</td><td class="num">{{ c.differs }}</td><td class="num">{{ c.noGain }}</td><td class="num">{{ c.meanPct }}%</td><td class="num">{{ c.penaltyChanged }}</td></tr></tbody></table></div>
+        <p class="small mb-2" data-testid="baseline-honest">In most sample trips the cheapest hotel is also the best overall choice. Joint optimisation helps only when a pricier hotel saves enough travel time at the chosen value of time; the rows above include the cities where it made little or no difference.</p>
+        <details class="small" data-testid="cost-terms"><summary class="fw-semibold">What each number means</summary>
+          <ul class="mb-0 mt-2">
+            <li><strong>Monetary spending</strong>: rooms + admissions + estimated transport. Rooms use made-up sample rates; no hotel price is verified.</li>
+            <li><strong>Estimated transport</strong>: fares estimated from the sample data, not quotes.</li>
+            <li><strong>Travel time as money</strong>: estimated minutes (from straight-line distances) × the value of an hour you chose. A weighting, not a charge.</li>
+            <li><strong>Unknown admission</strong>: left out of every money figure. Inside the optimiser's score only, it is valued at a placeholder.</li>
+            <li><strong>Missed-sight charge</strong>: a fixed amount per optional sight left out, used only to weigh the plan.</li>
+            <li><strong>Optimisation score</strong>: spending + travel time as money + missed-sight charges. Lower is better. It is never what you pay.</li>
+          </ul></details>
       </section>
 
       <section v-if="verification" id="data-verification" class="card-soft" aria-labelledby="dv-h" data-testid="data-verification">
