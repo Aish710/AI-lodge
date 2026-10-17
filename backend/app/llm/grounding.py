@@ -12,6 +12,9 @@ from decimal import Decimal
 from app.llm.names import normalise
 
 _TIME = re.compile(r"(?<![\d:])([01]?\d|2[0-3]):([0-5]\d)(?![\d:])")
+# A duration the facts print as "158 min (2:38)": its parts may be written as "2 hours 38 minutes". Only this parenthesised form is split, so a clock time
+# such as 09:30 does not make a bare 30 acceptable.
+_DURATION = re.compile(r"\bmin\s*\((\d{1,3}):([0-5]\d)\)")
 _NUM = re.compile(r"(?<![\w.])(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(\s?[kK]\b)?(\s?%)?")
 
 _ONES = {w: i for i, w in enumerate(
@@ -93,6 +96,9 @@ def check_grounding(text: str, allowed_text: str, allowed_values: list, allowed_
     for v in allowed_values:
         d = _dec(str(abs(v)))
         nums.add(d)
+    for m in _DURATION.finditer(allowed_text):
+        nums.add(_dec(str(int(m.group(1)))))
+        nums.add(_dec(str(int(m.group(2)))))
     got = extract_tokens(text)
     rejected: list[str] = []
     checked = 0

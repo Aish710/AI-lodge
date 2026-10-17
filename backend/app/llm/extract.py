@@ -5,6 +5,8 @@ in code -> disclosed defaults for low-stakes fields -> Preferences draft. The mo
 `days` is never defaulted. The model's output schema has no field for allow_unknown_hours, confirm flags, ids,
 hotel prices or nights.
 """
+import re
+
 from pydantic import ValidationError
 
 from app import config
@@ -60,6 +62,30 @@ def _other_city_message(raw: str, ds: Dataset, all_datasets: dict[str, Dataset] 
         return None
     hint = cross_city_hint(raw, ds, all_datasets)
     return hint["message"] if hint else None
+
+
+def _singular(word: str) -> str:
+    w = word.strip().lower()
+    return w[:-1] if len(w) > 3 and w.endswith("s") and not w.endswith("ss") else w
+
+
+def ambiguous_interests(interests: list[str], ds: Dataset, existing: list[Ambiguity]) -> list[Ambiguity]:
+    """A real model often files "I want to see the museum" under `interests` (["museums"]) instead of `must_visit_names`, so no name reaches the
+    resolver and the wish is silently lost. Any interest that IS an ambiguous place word (as written or singularised) is reported as an ambiguity
+    with choose-one candidates. Nothing is guessed or added to the plan; a unique match or a general interest ("food") is left alone."""
+    out: list[Ambiguity] = []
+    asked = {frozenset(c.id for c in a.candidates) for a in existing}   # the same question is never asked twice ("the museum" and "museum")
+    for raw in interests:
+        words = [w for w in re.split(r"[^\w]+", raw.lower()) if len(w) >= 3]     # "bay views" -> "bay"; "history museums" -> "museum"
+        for form in dict.fromkeys([raw, _singular(raw), *words, *(_singular(w) for w in words)]):
+            m = resolve_attraction(form, ds)
+            if m.status == "ambiguous":
+                key = frozenset(c["id"] for c in m.candidates)
+                if key not in asked:
+                    asked.add(key)
+                    out.append(Ambiguity(input=raw, candidates=[Candidate(**c) for c in m.candidates]))
+                break
+    return out
 
 
 def resolve_list(names: list[str], ds: Dataset, scope_ids: list[str] | None = None, all_datasets: dict[str, Dataset] | None = None):
@@ -123,15 +149,16 @@ def extract_preferences(text: str, ds: Dataset, client: LLMClient | None, *, sta
 
     must, must_unres, must_amb = resolve_list(ex.must_visit_names[:config.LLM_MAX_NAMES], ds, all_datasets=all_datasets)
     skip, skip_unres, skip_amb = resolve_list(ex.skip_names[:config.LLM_MAX_NAMES], ds, all_datasets=all_datasets)
+    interest_amb = ambiguous_interests(ex.interests[:config.LLM_MAX_NAMES], ds, must_amb + skip_amb)
     both = {r.id for r in must} & {r.id for r in skip}
     for aid in sorted(both):
         clar.append(f"{ds.attractions[aid].name} is listed as both must-visit and skip. Which do you want?")
     if must_unres or skip_unres:
         clar.append("Some places are not in this dataset and cannot be scheduled: "
                     + ", ".join(f"'{u.input}'" for u in must_unres + skip_unres) + ".")
-    if must_amb or skip_amb:
+    if must_amb or skip_amb or interest_amb:
         clar.append("Some names match more than one place; please pick one: "
-                    + "; ".join(f"'{a.input}' could be " + " or ".join(c.name for c in a.candidates) for a in must_amb + skip_amb) + ".")
+                    + "; ".join(f"'{a.input}' could be " + " or ".join(c.name for c in a.candidates) for a in must_amb + skip_amb + interest_amb) + ".")
 
     budget_jpy = None
     strict = False
@@ -188,7 +215,7 @@ def extract_preferences(text: str, ds: Dataset, client: LLMClient | None, *, sta
     hints = [h for h in (cross_city_hint(u.input, ds, all_datasets) for u in must_unres + skip_unres) if h]
     offers = [h["offer"] for h in hints if h.get("offer")]
     return ParseResult(status=status, draft=draft, extracted_json=ex.model_dump(), resolved_names=must + skip,
-                       unresolved_names=must_unres + skip_unres, ambiguities=must_amb + skip_amb,
+                       unresolved_names=must_unres + skip_unres, ambiguities=must_amb + skip_amb + interest_amb,
                        defaults_applied=defaults, clarifications=clar, unclear=ex.unclear, assumptions=assumptions,
                        destination=post, switch_offer=offers[0] if offers and len(offers) == len(hints) and len({o["city_id"] for o in offers}) == 1 else None, currency_confirmations=confirmations,
                        cross_city_hints=hints, **base)

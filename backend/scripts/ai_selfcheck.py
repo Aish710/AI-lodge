@@ -46,6 +46,13 @@ class Check:
     calls: int
 
 
+def _norm(text: str) -> str:
+    """'the museum', 'Museums' and 'museum' are the same word for this check (a real model rewords the user's phrase)."""
+    w = text.strip().lower()
+    w = w[4:] if w.startswith("the ") else w
+    return w[:-1] if len(w) > 3 and w.endswith("s") and not w.endswith("ss") else w
+
+
 def _prompts() -> dict:
     out: dict = {}
     for p in json.loads((FIXTURES / "live_eval_prompts_by_city.json").read_text()):
@@ -79,8 +86,8 @@ def run_city(city: str, ds, all_ds, client, prompts: dict) -> list[Check]:
 
     p = prompts[city]["ambiguous"]
     r, n = parse(p["text"])
-    want = p["expect_ambiguous"][0].lower()
-    ok = any(want in a.input.lower() for a in r.ambiguities) and not any(want in x.input.lower() for x in r.resolved_names)
+    want = _norm(p["expect_ambiguous"][0])
+    ok = any(want in _norm(a.input) or _norm(a.input) in want for a in r.ambiguities) and not any(want in _norm(x.input) for x in r.resolved_names)
     out.append(Check(city, CHECKS[2], ok, "flagged as ambiguous, not guessed" if ok else "ambiguity not reported (a place may have been guessed)", n))
 
     text, expect = CURRENCY_CASES[city]
@@ -99,7 +106,8 @@ def run_city(city: str, ds, all_ds, client, prompts: dict) -> list[Check]:
     n = client.total_calls - before
     ok = e.source == "llm"
     out.append(Check(city, CHECKS[4], ok, f"model wording passed the grounding check ({e.grounding.checked} figures/names checked)" if ok else
-                     f"template used (safe fallback): {e.reason}; {len(e.grounding.rejected_tokens)} item(s) rejected", n))
+                     f"template used (safe fallback): {e.reason}; {len(e.grounding.rejected_tokens)} item(s) rejected"
+                     + (f": {', '.join(str(t)[:40] for t in e.grounding.rejected_tokens[:5])}" if e.grounding.rejected_tokens else ""), n))
     return out
 
 

@@ -129,3 +129,85 @@ def test_the_live_gate_refuses_an_unsafe_base_url_before_anything_runs(monkeypat
     _env(monkeypatch, "http://relay.example.com")
     msg = lc.gate("scripts/x.py", 10)
     assert "https://" in msg and "Nothing was called" in msg and SECRET not in msg
+
+
+def test_a_provider_error_keeps_status_type_and_a_short_message_for_the_live_scripts_only(sdk, monkeypatch, caplog):
+    """Reproduces the first real failure: the gateway answered an error and the app only said 'api_error'."""
+    _env(monkeypatch, "https://relay.example.com")
+    anthropic = sys.modules["anthropic"]
+
+    class Boom(anthropic.APIStatusError):
+        def __init__(self):
+            self.status_code = 400
+            self.body = {"type": "error", "error": {"type": "invalid_request_error", "message": "output_config: Extra inputs are not permitted"}}
+            self.message = "bad request"
+
+    def create(**kw):
+        raise Boom()
+    sdk_client = AnthropicLLMClient.from_env()
+    sdk_client._client = types.SimpleNamespace(messages=types.SimpleNamespace(create=create))
+    from app.llm.client import LLMUnavailable
+    with caplog.at_level(logging.DEBUG), pytest.raises(LLMUnavailable) as e:
+        sdk_client.complete("sys", [{"role": "user", "content": "hi"}], 50)
+    assert e.value.category == "api_error" and e.value.status == 400 and e.value.error_type == "invalid_request_error"
+    assert "output_config" in e.value.detail
+    assert SECRET not in str(e.value) and SECRET not in (e.value.detail or "")
+    msg = str(lc.RunAborted("api_error", "m", "relay.example.com", e.value.status, e.value.error_type, e.value.detail))
+    assert "HTTP 400 invalid_request_error" in msg and "output_config" in msg and SECRET not in msg
+    assert "output_config" not in str(e.value) and "output_config" not in caplog.text      # the app's own message and logs carry the category only
+
+
+# ---- the real failure from the first live run: HTTP 400 "This model does not support the effort parameter" (Haiku 4.5 via the gateway) ----
+def _recording_client(sdk, monkeypatch, model, effort_env=None):
+    """A client whose SDK call records its kwargs and behaves like the gateway: it rejects `output_config` for Haiku models."""
+    monkeypatch.setenv("LLM_API_KEY", SECRET)
+    monkeypatch.setenv("LLM_MODEL", model)
+    monkeypatch.setenv("LLM_BASE_URL", "https://relay.example.com")
+    if effort_env is None:
+        monkeypatch.delenv("LLM_EFFORT", raising=False)
+    else:
+        monkeypatch.setenv("LLM_EFFORT", effort_env)
+    seen = {}
+    anthropic = sys.modules["anthropic"]
+
+    def create(**kw):
+        seen.update(kw)
+        if "output_config" in kw and "haiku" in kw["model"]:
+            e = anthropic.APIStatusError()
+            e.status_code, e.message = 400, "This model does not support the effort parameter."
+            e.body = {"error": {"type": None, "message": "This model does not support the effort parameter."}}
+            raise e
+        return types.SimpleNamespace(content=[types.SimpleNamespace(type="text", text="{}")], usage=types.SimpleNamespace(input_tokens=1, output_tokens=1), stop_reason="end_turn")
+    c = AnthropicLLMClient.from_env()
+    c._client = types.SimpleNamespace(messages=types.SimpleNamespace(create=create))
+    return c, seen
+
+
+def test_haiku_gets_no_effort_parameter_by_default_so_the_gateway_call_succeeds(sdk, monkeypatch):
+    c, seen = _recording_client(sdk, monkeypatch, "claude-haiku-4-5-20251001")
+    assert c.complete("s", [{"role": "user", "content": "x"}], 50).text == "{}"
+    assert "output_config" not in seen
+
+
+def test_other_models_keep_the_default_low_effort_exactly_as_before(sdk, monkeypatch):
+    c, seen = _recording_client(sdk, monkeypatch, "claude-opus-5-5")
+    c.complete("s", [{"role": "user", "content": "x"}], 50)
+    assert seen["output_config"] == {"effort": "low"}
+
+
+def test_an_explicit_llm_effort_is_respected_for_models_that_accept_it_and_empty_means_none(sdk, monkeypatch):
+    c, seen = _recording_client(sdk, monkeypatch, "claude-opus-5-5", effort_env="")
+    c.complete("s", [{"role": "user", "content": "x"}], 50)
+    assert "output_config" not in seen
+    c, seen = _recording_client(sdk, monkeypatch, "claude-opus-5-5", effort_env="high")
+    c.complete("s", [{"role": "user", "content": "x"}], 50)
+    assert seen["output_config"] == {"effort": "high"}
+
+
+def test_haiku_ignores_an_explicit_llm_effort_with_a_warning_because_it_always_rejects_it(sdk, monkeypatch, caplog):
+    """The user's own .env had LLM_EFFORT=low copied from .env.example: that must not break a Haiku model."""
+    with caplog.at_level(logging.WARNING):
+        c, seen = _recording_client(sdk, monkeypatch, "claude-haiku-4-5-20251001", effort_env="low")
+    assert c.complete("s", [{"role": "user", "content": "x"}], 50).text == "{}"
+    assert "output_config" not in seen
+    assert "llm_effort_ignored" in caplog.text and SECRET not in caplog.text

@@ -19,9 +19,11 @@ log = logging.getLogger("app.llm")  # metadata only: never prompts, user text or
 class LLMUnavailable(Exception):
     """The model could not be used. `category` is a safe, fixed label."""
 
-    def __init__(self, category: str = "unavailable"):
+    def __init__(self, category: str = "unavailable", *, status: int | None = None, error_type: str | None = None, detail: str | None = None):
         super().__init__(f"The language model is unavailable ({category}). Sample mode is used instead.")
         self.category = category
+        # Diagnostics for the opt-in live scripts ONLY. They are never put in an API response or a log line (callers use `category`).
+        self.status, self.error_type, self.detail = status, error_type, detail
 
 
 @dataclass(frozen=True)
@@ -37,6 +39,30 @@ class LLMClient(Protocol):
     model: str
 
     def complete(self, system: str, messages: list[dict], max_tokens: int) -> LLMResponse: ...
+
+
+def default_effort(model: str) -> str:
+    """The effort default: "low" where the model accepts the parameter. Haiku models reject it (HTTP 400 "does not support the effort
+    parameter", seen through a gateway), so none is sent for them."""
+    return "" if "haiku" in model.lower() else config.LLM_EFFORT_DEFAULT
+
+
+def effective_effort(model: str, configured: str | None) -> tuple[str, str | None]:
+    """(effort to send, a warning or None). An explicit LLM_EFFORT (even empty) wins, except for Haiku models, which always reject it."""
+    if configured is None:
+        return default_effort(model), None
+    if configured and "haiku" in model.lower():
+        return "", "LLM_EFFORT is set but Haiku models reject the effort parameter, so it is not sent."
+    return configured, None
+
+
+def _provider_error(e) -> dict:
+    """The provider's error type and a short message, for the live scripts. Truncated; the request (prompt, key) is never part of it."""
+    body = getattr(e, "body", None)
+    err = body.get("error", body) if isinstance(body, dict) else {}
+    etype = err.get("type") if isinstance(err, dict) else None
+    msg = err.get("message") if isinstance(err, dict) else None
+    return {"error_type": str(etype)[:60] if etype else None, "detail": str(msg or getattr(e, "message", "") or "")[:240] or None}
 
 
 class AnthropicLLMClient:
@@ -61,7 +87,9 @@ class AnthropicLLMClient:
         key, model = os.environ.get("LLM_API_KEY", ""), os.environ.get("LLM_MODEL", "")
         if not (key and model):
             return None
-        effort = os.environ.get("LLM_EFFORT", config.LLM_EFFORT_DEFAULT)
+        effort, effort_warning = effective_effort(model, os.environ.get("LLM_EFFORT"))
+        if effort_warning:
+            log.warning("llm_effort_ignored", extra={"model": model, "note": effort_warning})
         endpoint = resolve_endpoint(os.environ.get("LLM_BASE_URL"))
         if endpoint.error:  # refused: stay in sample mode rather than send a key or text to an unsafe address
             log.error("llm_endpoint_refused", extra={"reason": endpoint.error})
@@ -87,8 +115,8 @@ class AnthropicLLMClient:
             raise LLMUnavailable("authentication") from None
         except anthropic.APIConnectionError:
             raise LLMUnavailable("network") from None
-        except anthropic.APIStatusError:
-            raise LLMUnavailable("api_error") from None
+        except anthropic.APIStatusError as e:
+            raise LLMUnavailable("api_error", status=getattr(e, "status_code", None), **_provider_error(e)) from None
         except Exception:  # never let an SDK detail (which could echo request data) escape
             raise LLMUnavailable("error") from None
         text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text")

@@ -172,3 +172,20 @@ def test_explain_prompts_never_contain_attraction_descriptions():
     explain(r, DS, mock)
     for a in DS.attractions.values():
         assert a.description not in mock.all_prompt_text
+
+
+# ---- real-model wording found by the live self-check (Seoul): "158 min (2:38)" in the facts, "2 hours 38 minutes" in the model's sentence ----
+def test_a_duration_in_facts_as_h_mm_may_be_written_as_hours_and_minutes():
+    from app.llm.grounding import check_grounding
+    facts = "Totals: travel 158 min (2:38), total 316,444 KRW"
+    ok = check_grounding("It costs 316,444 KRW and saves 2 hours 38 minutes of travel.", facts, [158, 316444], set(), {})
+    assert ok.ok, ok.rejected_tokens
+    assert check_grounding("Travel is 2h 38min.", facts, [158], set(), {}).ok
+
+
+def test_the_split_of_a_duration_does_not_loosen_anything_else():
+    from app.llm.grounding import check_grounding
+    facts = "Totals: travel 158 min (2:38), day starts 09:30"
+    assert check_grounding("It saves 2 hours 40 minutes.", facts, [158], set(), {}).rejected_tokens == ["40"]          # a wrong minute part is still rejected
+    assert check_grounding("It saves 3 hours 38 minutes.", facts, [158], set(), {}).rejected_tokens == ["3"]             # a wrong hour part too
+    assert check_grounding("Starting at 30 minutes past nine.", facts, [158], set(), {}).rejected_tokens                 # a clock time is not a duration: bare 30 is not allowed

@@ -28,9 +28,13 @@ ADVICE = {
 class RunAborted(Exception):
     """Raised by Capped when further calls would be wasted. Not a subclass of LLMUnavailable, so the pipeline cannot swallow it."""
 
-    def __init__(self, category: str, model: str, host: str = "the API"):
+    def __init__(self, category: str, model: str, host: str = "the API", status: int | None = None, error_type: str | None = None, detail: str | None = None):
         self.category, self.model, self.host = category, model, host
-        super().__init__(ADVICE.get(category, ADVICE["error"]).format(model=model, host=host))
+        self.status, self.error_type, self.detail = status, error_type, detail
+        msg = ADVICE.get(category, ADVICE["error"]).format(model=model, host=host)
+        if status or error_type or detail:  # what the service itself said (status, type, a short message); never the key or the prompt
+            msg += f" The service answered: HTTP {status or '?'}{' ' + error_type if error_type else ''}{': ' + detail if detail else ''}"
+        super().__init__(msg)
 
 
 class Capped:
@@ -53,7 +57,7 @@ class Capped:
         except LLMUnavailable as e:
             self.failures.append(e.category)
             if e.category in FATAL or len(self.failures) >= 3:
-                raise RunAborted(e.category, self.model, self.host) from None
+                raise RunAborted(e.category, self.model, self.host, e.status, e.error_type, e.detail) from None
             raise
         self.log.append(r)
         return r

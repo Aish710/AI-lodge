@@ -1,3 +1,4 @@
+import pytest
 import json
 import sys
 from pathlib import Path
@@ -149,3 +150,34 @@ def test_city_descriptions_never_reach_extraction_prompt():
         extract_preferences("2 days", ds, mock)
         for a in ds.attractions.values():
             assert a.description not in mock.all_prompt_text
+
+
+# ---- real-model pattern found by the live self-check: the model files "the museum" under `interests`, not `must_visit_names` ----
+LIVE_PATTERN = {  # (city, text, what the real model returned for it)
+    "tokyo": ("2 days in Tokyo, I want to see the museum.", dict(days=2, interests=["museums"], unclear=["which museum - Tokyo National Museum, Ghibli Museum, or another"]), {"Tokyo National Museum", "Ghibli Museum"}),
+    "singapore": ("2 days in Singapore, I want to see the bay.", dict(days=2, interests=["bay"]), {"Gardens by the Bay", "Marina Bay Sands SkyPark observation deck"}),
+    "kuala_lumpur": ("2 days in KL, I want to see the temple.", dict(days=2, interests=["temples"], unclear=["which temple the user wants to see"]), {"Batu Caves", "Thean Hou Temple"}),
+}
+
+
+@pytest.mark.parametrize("city", list(LIVE_PATTERN))
+def test_an_ambiguous_place_filed_under_interests_is_reported_not_silently_dropped(city):
+    text, reply, names = LIVE_PATTERN[city]
+    ALL = load_all_city_datasets()
+    r = extract_preferences(text, ALL[city], MockLLM([extraction(**reply)]), all_datasets=ALL)
+    assert len(r.ambiguities) == 1 and {c.name for c in r.ambiguities[0].candidates} == names
+    assert r.status == "needs_clarification" and any("could be" in c for c in r.clarifications)
+    assert r.draft is not None and r.draft.must_visit == [] and r.draft.interests == reply["interests"]   # nothing guessed, interests kept
+
+
+def test_general_interests_and_unique_matches_do_not_trigger_a_question():
+    ALL = load_all_city_datasets()
+    for city, interests in (("tokyo", ["food", "nightlife", "anime"]), ("singapore", ["gardens"]), ("seoul", ["history"])):
+        r = extract_preferences("3 days", ALL[city], MockLLM([extraction(days=3, interests=interests)]), all_datasets=ALL)
+        assert r.ambiguities == [] and r.status == "ok", (city, interests)
+
+
+def test_a_name_already_reported_from_must_visit_is_not_asked_twice():
+    ALL = load_all_city_datasets()
+    r = extract_preferences("2 days, the museum", ALL["tokyo"], MockLLM([extraction(days=2, must_visit_names=["the museum"], interests=["museum"])]), all_datasets=ALL)
+    assert len(r.ambiguities) == 1

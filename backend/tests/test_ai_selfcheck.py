@@ -37,7 +37,10 @@ class RoutedMock:
                 names = [ds.attractions[i].name for i in t["typical"]["expect_resolved"]]
                 return extraction(days=3, must_visit_names=[] if self.mode == "typical_empty" else names)
             if t["ambiguous"]["text"] in text:
-                return extraction(days=2, must_visit_names=[t["ambiguous"]["expect_ambiguous"][0]])
+                word = t["ambiguous"]["expect_ambiguous"][0]
+                if self.mode == "ambiguous_as_interest":   # what the real model did: "the bay" came back as interests ["bay"], "the temple" as must "temple"
+                    return extraction(days=2, interests=[word.replace("the ", "")])
+                return extraction(days=2, must_visit_names=[word])
             if t["wrong_city"]["text"] in text:
                 return extraction(days=3, destination_mentioned="Bangkok")
         sym = {"tokyo": ("¥", 25000), "seoul": ("₩", 250000), "singapore": ("$", 200), "kuala_lumpur": ("RM", 300)}
@@ -65,6 +68,14 @@ def test_a_good_model_passes_every_check_within_the_cap():
     client, res = _run()
     assert len(res) == 20 and all(c.passed for c in res), [(c.city, c.name, c.reason) for c in res if not c.passed]
     assert client.total_calls <= config.SELFCHECK_MAX_CALLS
+
+
+def test_a_real_models_rewording_of_the_ambiguous_phrase_still_passes_when_the_code_flags_it():
+    """Observed live: the model returned interests ["bay"] / ["temples"] instead of must_visit_names ["the bay"]; the pipeline asks the user, so the check passes."""
+    _, res = _run("ambiguous_as_interest")
+    amb = [c for c in res if c.name == "ambiguous_name"]
+    # cities whose phrase is an ambiguous place word as a plain word (Tokyo "museum", Singapore "bay", Seoul "palace", KL "temple")
+    assert len(amb) == 4 and all(c.passed for c in amb), [(c.city, c.reason) for c in amb if not c.passed]
 
 
 def test_a_model_that_resolves_nothing_fails_the_typical_check_with_a_reason():
