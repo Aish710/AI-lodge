@@ -48,6 +48,10 @@ const redteam = computed(() => d.value?.redteam ?? null)
 const attackCount = computed(() => redteam.value?.attacks ?? 0)
 const rtLiveBlocks = computed(() => blocksOf(d.value?.redteamLive))
 const rtLiveStatus = computed(() => liveStatus(d.value?.redteamLive, promptVersion.value))
+const rtFirstText = computed(() => d.value?.redteamFirst ?? d.value?.redteamLive ?? null)
+const rtFirstBlocks = computed(() => blocksOf(rtFirstText.value))
+const rtFirstStatus = computed(() => liveStatus(rtFirstText.value, promptVersion.value))
+const rtSame = computed(() => !!d.value?.redteamLive && (!d.value?.redteamFirst || d.value.redteamFirst === d.value.redteamLive))
 const verification = computed(() => d.value?.verification ?? null)
 const cityLabel = (c) => c.split('_').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ')
 const promptVersion = computed(() => d.value?.promptVersion ?? null)
@@ -227,10 +231,22 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
           <p class="small muted">These counts test the code around the model. They say nothing about a real model; the live result is below only if it was run for this version.</p>
         </template>
         <p v-else class="mb-2" data-testid="rt-none"><strong>Not run on this version.</strong> No red-team results are part of this build.</p>
-        <h3 class="h6 mt-3">Real model</h3>
-        <p v-if="rtLiveStatus.state === 'missing'" class="small mb-0" data-testid="rt-live-none"><strong>Not run on this version.</strong> The opt-in script <code>backend/scripts/redteam_live.py</code> sends a sample of the same attacks to a real model; no live red-team result exists yet.</p>
-        <p v-else-if="rtLiveStatus.state === 'stale'" class="small mb-0" data-testid="rt-live-stale"><strong>Not run on this version.</strong> The live report was made with prompt version {{ rtLiveStatus.version }}; the current version is {{ promptVersion }}.</p>
-        <div v-else data-testid="rt-live"><MdBlocks :blocks="rtLiveBlocks" /></div>
+        <h3 class="h6 mt-3">Real model (27 attacks, one city each, one run each)</h3>
+        <div class="row g-3" data-testid="rt-live-cols">
+          <div class="col-12 col-lg-6" data-testid="rt-live-first">
+            <h4 class="h6">First live run</h4>
+            <p v-if="rtFirstStatus.state === 'missing'" class="small mb-0" data-testid="rt-live-none"><strong>Not run on this version.</strong> The opt-in script <code>backend/scripts/redteam_live.py</code> sends a sample of the same attacks to a real model; no live red-team result exists yet.</p>
+            <p v-else-if="rtFirstStatus.state === 'stale'" class="small mb-0" data-testid="rt-live-stale"><strong>Not run on this version.</strong> Made with prompt version {{ rtFirstStatus.version }}; the current version is {{ promptVersion }}.</p>
+            <MdBlocks v-else :blocks="rtFirstBlocks" />
+          </div>
+          <div class="col-12 col-lg-6" data-testid="rt-live-latest">
+            <h4 class="h6">Latest live run</h4>
+            <p v-if="rtLiveStatus.state === 'missing'" class="small mb-0"><strong>Not run yet.</strong></p>
+            <p v-else-if="rtSame" class="small mb-0" data-testid="rt-live-same"><strong>Not re-run since the first run.</strong> Code changes made after the first run (see "Found and fixed") are tested with mocks only.</p>
+            <p v-else-if="rtLiveStatus.state === 'stale'" class="small mb-0" data-testid="rt-latest-stale"><strong>Not run on this version.</strong> Made with prompt version {{ rtLiveStatus.version }}; the current version is {{ promptVersion }}.</p>
+            <div v-else data-testid="rt-live"><MdBlocks :blocks="rtLiveBlocks" /></div>
+          </div>
+        </div>
       </section>
 
       <section v-if="verification" id="data-verification" class="card-soft" aria-labelledby="dv-h" data-testid="data-verification">

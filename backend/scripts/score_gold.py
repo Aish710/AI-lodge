@@ -6,7 +6,7 @@
   Live (opt-in):  RUN_LIVE_LLM_EVAL=1 python scripts/score_gold.py --live --label first-run     (needs LLM_API_KEY and LLM_MODEL; hard cap config.GOLD_MAX_CALLS)
       scores the real model on ALL gold prompts through the same pipeline. Every run writes a NEW file docs/eval/gold-results-live-<UTC timestamp>-<label>.md and never
       overwrites an earlier one (so the first run's numbers survive later fixes). Nothing is written if the run is aborted. Copy the files you want shown on the Proof page to
-      docs/eval/gold-results-live-first-run.md and docs/eval/gold-results-live-final.md (the Proof page's "First run" and "Latest run (final)").
+      docs/eval/gold-results-live-first-run.md. The Proof page picks the NEWEST timestamped file that is not the first run as "Latest run (final)" by itself.
 Output folder override (tests): GOLD_OUT_DIR. The key and the prompts' replies are never printed or stored.
 """
 import json

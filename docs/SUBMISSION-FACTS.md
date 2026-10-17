@@ -1,6 +1,6 @@
 # Submission facts (generated)
 
-Generated 2026-10-17 17:28 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
+Generated 2026-10-17 18:03 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
 
 ## Tests
 
@@ -81,6 +81,8 @@ Generated 2026-10-17 17:28 UTC by `frontend/scripts/make-submission-facts.mjs`. 
   *Source: docs/ai-selfcheck.md*
 - Gold-set live run (first run, hand-written prompts, one model claude-haiku-4-5-20251001 via api.apiyi.com, 44 model calls): Tokyo 12 of 12 exact; Singapore 12 of 12 exact; Seoul 12 of 12 exact; Kuala Lumpur 12 of 12 exact. Small sample per city; the pipeline had been tuned on similar checks, so treat it as optimistic.  
   *Source: docs/eval/gold-results-live-first-run.md*
+- Gold-set live run (latest run, same model and prompts, a later code version): Tokyo 12 of 12 exact; Singapore 12 of 12 exact; Seoul 12 of 12 exact; Kuala Lumpur 12 of 12 exact.  
+  *Source: docs/eval/gold-results-live-20261017T170803Z-final.md*
 
 ## Data
 

@@ -2,7 +2,7 @@
 // Usage: node scripts/sync-proof.mjs [--strict]
 //   default: copies what exists, writes manifest.json listing what is missing (the Proof page then says so instead of showing placeholders)
 //   --strict: exits 1 with a clear message if any REQUIRED file is missing (use before a submission build)
-import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
@@ -18,7 +18,7 @@ export const FILES = [
   { name: 'ai-selfcheck.md', src: 'docs/ai-selfcheck.md', required: false },
   { name: 'ai-selfcheck-history.md', src: 'docs/ai-selfcheck-history.md', required: false },
   { name: 'gold-results-live-first-run.md', src: 'docs/eval/gold-results-live-first-run.md', required: false },
-  { name: 'gold-results-live-final.md', src: 'docs/eval/gold-results-live-final.md', required: false },
+  { name: 'redteam-live-first-run.md', src: 'docs/redteam-live-first-run.md', required: false },
   { name: 'gold-results-mock.md', src: 'docs/eval/gold-results-mock.md', required: false },
   { name: 'frontend-vitest.json', src: 'frontend/test-results/vitest.json', required: false },
   { name: 'frontend-playwright.json', src: 'frontend/test-results/playwright.json', required: false },
@@ -43,6 +43,11 @@ export function syncProof({ root, dest, strict = false, files = FILES } = {}) {
     const from = join(root, f.src)
     if (existsSync(from)) { copyFileSync(from, join(dest, f.name)); copied.push(f.name) } else missing.push({ name: f.name, src: f.src, required: f.required })
   }
+  // The LATEST gold run: the newest timestamped `gold-results-live-<UTC>-<label>.md` that is not the first run (score_gold.py writes a new file every run, so no copying by hand).
+  const evalDir = join(root, 'docs', 'eval')
+  const latest = existsSync(evalDir) ? readdirSync(evalDir).filter((n) => /^gold-results-live-\d{8}T\d{6}Z-.+\.md$/.test(n) && !/-first-run\.md$/.test(n)).sort().at(-1) : null
+  if (latest) { copyFileSync(join(evalDir, latest), join(dest, 'gold-results-live-final.md')); copied.push('gold-results-live-final.md') }
+  else missing.push({ name: 'gold-results-live-final.md', src: 'docs/eval/gold-results-live-<time>-<label>.md', required: false })
   const requiredMissing = missing.filter((m) => m.required)
   if (strict && requiredMissing.length) {
     throw new MissingProofError(`Proof is missing: ${requiredMissing.map((m) => m.src).join(', ')}. Generate it first (backend: python scripts/run_evaluation.py --full; pytest) and run this again.`)

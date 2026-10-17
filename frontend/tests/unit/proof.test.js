@@ -302,6 +302,8 @@ describe('Live AI card (run history, first run vs after fix, stale and missing)'
     const w = await mountDir(dir)
     expect(w.get('[data-testid=gold-first]').text()).toContain('Not run on this version')
     expect(w.get('[data-testid=selfcheck-stale]').text()).toContain('Not run on this version')
+    drop(dir, 'gold-results-live-final.md')
+    expect((await mountDir(dir)).get('[data-testid=gold-after]').text()).toContain('Not run yet')          // the "not run" state exists for the latest gold run
     drop(dir, 'ai-selfcheck.md')
     const w2 = await mountDir(dir)
     expect(w2.get('[data-testid=selfcheck-none]').text()).toContain('Not run on this version')
@@ -318,8 +320,8 @@ describe('Red team card (simulated counts and the live result, never mixed)', ()
   }
   it('shows the simulated counts labelled as simulated, per category, with the found-and-fixed list, and says the live run is not run on this version', async () => {
     const dir = mk(); syncProof({ root: ROOT, dest: dir })
-    rmSync(join(dir, 'redteam-live.md'), { force: true })      // the repository now has a live report; this test is about the case where it does not
-    const m0 = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8')); m0.copied = m0.copied.filter((n) => n !== 'redteam-live.md'); writeFileSync(join(dir, 'manifest.json'), JSON.stringify(m0))
+    for (const n of ['redteam-live.md', 'redteam-live-first-run.md']) rmSync(join(dir, n), { force: true })      // the repository now has live reports; this test is about the case where there are none
+    const m0 = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8')); m0.copied = m0.copied.filter((n) => !n.startsWith('redteam-live')); writeFileSync(join(dir, 'manifest.json'), JSON.stringify(m0))
     const rt = JSON.parse(readFileSync(join(ROOT, 'docs/redteam-results.json'), 'utf8'))
     const w = await mountDir(dir)
     const card = w.get('[data-testid=red-team]')
@@ -331,14 +333,38 @@ describe('Red team card (simulated counts and the live result, never mixed)', ()
     expect(card.text()).not.toMatch(/real model (resisted|passed|was safe)/i)
     vi.unstubAllGlobals()
   })
-  it('shows a live report only when it exists for the current prompt version', async () => {
+  it('shows the first live run beside the latest one, says "not re-run" when they are the same file, and "not run on this version" for a stale or missing one', async () => {
     const dir = mk(); syncProof({ root: ROOT, dest: dir })
     const pv = JSON.parse(readFileSync(join(dir, 'current-version.json'), 'utf8')).prompt_version
-    const put = (v) => { writeFileSync(join(dir, 'redteam-live.md'), `# Red team against a real model (LIVE)\n\nModel: \`m\`. PROMPT_VERSION: \`${v}\`.\n`); const m = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8')); if (!m.copied.includes('redteam-live.md')) m.copied.push('redteam-live.md'); writeFileSync(join(dir, 'manifest.json'), JSON.stringify(m)) }
-    put(pv)
-    expect((await mountDir(dir)).find('[data-testid=rt-live]').exists()).toBe(true)
-    put('0')
-    expect((await mountDir(dir)).get('[data-testid=rt-live-stale]').text()).toContain('Not run on this version')
+    const addToManifest = (n) => { const m = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8')); if (!m.copied.includes(n)) m.copied.push(n); writeFileSync(join(dir, 'manifest.json'), JSON.stringify(m)) }
+    const put = (name, v, extra = '') => { writeFileSync(join(dir, name), `# Red team against a real model (LIVE)\n\nModel: \`m\`. PROMPT_VERSION: \`${v}\`.${extra}\n`); addToManifest(name) }
+    put('redteam-live-first-run.md', pv); put('redteam-live.md', pv)
+    let w = await mountDir(dir)
+    expect(w.get('[data-testid=rt-live-first]').text()).toContain('LIVE')
+    expect(w.get('[data-testid=rt-live-same]').text()).toContain('Not re-run since the first run')
+    put('redteam-live.md', pv, ' A later run.')
+    w = await mountDir(dir)
+    expect(w.get('[data-testid=rt-live]').text()).toContain('A later run.')
+    expect(w.find('[data-testid=rt-live-same]').exists()).toBe(false)
+    put('redteam-live.md', '0', ' A stale run.')
+    w = await mountDir(dir)
+    expect(w.get('[data-testid=rt-latest-stale]').text()).toContain('Not run on this version')
+    put('redteam-live-first-run.md', '0')
+    w = await mountDir(dir)
+    expect(w.get('[data-testid=rt-live-stale]').text()).toContain('Not run on this version')
     vi.unstubAllGlobals()
+  })
+})
+
+describe('sync-proof picks the latest gold run by itself', () => {
+  it('copies the newest timestamped non-first-run file as the latest run and never the first run', () => {
+    const root = mk(); const dest = mk()
+    mkdirSync(join(root, 'docs', 'eval'), { recursive: true })
+    for (const n of ['gold-results-live-20261017T145245Z-first-run.md', 'gold-results-live-20261017T170803Z-final.md', 'gold-results-live-20261018T090000Z-final2.md', 'gold-results-live-first-run.md']) writeFileSync(join(root, 'docs', 'eval', n), `file ${n}`)
+    syncProof({ root, dest })
+    expect(readFileSync(join(dest, 'gold-results-live-final.md'), 'utf8')).toBe('file gold-results-live-20261018T090000Z-final2.md')
+    expect(readFileSync(join(dest, 'gold-results-live-first-run.md'), 'utf8')).toBe('file gold-results-live-first-run.md')
+    const none = mk(); syncProof({ root: mk(), dest: none })
+    expect(existsSync(join(none, 'gold-results-live-final.md'))).toBe(false)
   })
 })

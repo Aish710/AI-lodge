@@ -51,6 +51,13 @@ def facts() -> dict:
         rows = re.findall(r"^\| ([A-Za-z ]+) \| \d+ \| [^|]+ \| (\d+)/(\d+) \(", g, re.M)
         mdl = re.search(r"Model: `([^`]+)`", g)
         f["gold"] = "; ".join(f"{c.strip()} {a} of {b} exact" for c, a, b in rows) + (f" (model {mdl.group(1)})" if mdl else "")
+    f["gold_latest"] = None
+    ev = D / "eval"
+    newest = sorted(n.name for n in ev.glob("gold-results-live-*.md") if re.match(r"gold-results-live-\d{8}T\d{6}Z-.+\.md$", n.name) and not n.name.endswith("-first-run.md")) if ev.exists() else []
+    if newest:
+        g = (ev / newest[-1]).read_text(encoding="utf-8")
+        rows = re.findall(r"^\| ([A-Za-z ]+) \| \d+ \| [^|]+ \| (\d+)/(\d+) \(", g, re.M)
+        f["gold_latest"] = "; ".join(f"{c.strip()} {a} of {b} exact" for c, a, b in rows) + f" ({newest[-1]})"
     f["verification_sentence"] = None
     vc = D / "data-verification" / "counts.json"
     if vc.exists():
@@ -90,7 +97,8 @@ def build(f: dict) -> str:
     ai_gap = ("the live evidence is a 20-check smoke test (tuned on those checks) and one first run of the gold set on one model, with hand-written prompts" if f.get("gold") else
               "the live evidence is a 20-check smoke test (tuned on those checks); the gold-set live score has not been run")
     ai_gap += ("; no live red-team result exists" if not f.get("redteam_live") else "") + "; there is no AI on/off comparison view and no per-sentence citation of explanation facts (not built); the live AI results come from one model through a third-party gateway"
-    gold_row = (f"| **Gold set, live, first run (48 hand-written prompts, 12 per city, reported per city):** {f['gold']}. Small sample, one model; the prompts were written by the person who built the pipeline, which had been tuned on similar checks, so this is optimistic. | `docs/eval/gold-results-live-first-run.md`, `backend/scripts/score_gold.py` |" if f.get("gold") else "")
+    gold_latest_text = (f"Latest run: {f['gold_latest']}. " if f.get("gold_latest") else "")
+    gold_row = (f"| **Gold set, live, first run (48 hand-written prompts, 12 per city, reported per city):** {f['gold']}. {gold_latest_text}Small sample, one model; the prompts were written by the person who built the pipeline, which had been tuned on similar checks, so this is optimistic. | `docs/eval/gold-results-live-first-run.md`, `backend/scripts/score_gold.py` |" if f.get("gold") else "")
     redteam_text = (f["redteam"] + ". These counts come from simulated models and say nothing about a real model" + ("; a live red-team report also exists" if f.get("redteam_live") else "; the live red-team script exists but has not been run")) if f.get("redteam") else "not generated"
     safety_gap = ("the red-team counts are from simulated models" + ("" if f.get("redteam_live") else " (no live red-team run)") + "; all city data is sample data (only Singapore has any source-checked fields, and none is human-verified); rate limits and the circuit breaker are per process; the relay (a third party) sees the cleaned request text; no external security review")
     claims = "\n".join(f"- `{k}`: {v}" for k, v in f["claims"]) or "- (claims file not found)"

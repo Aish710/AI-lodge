@@ -91,6 +91,13 @@ if (gold) {
   const calls = gold.match(/Calls used: (\d+) of a hard cap of (\d+)/)
   const rows = [...gold.matchAll(/^\| ([A-Za-z ]+) \| (\d+) \| [^|]+ \| (\d+)\/(\d+) \(/gm)].map((m) => `${m[1].trim()} ${m[3]} of ${m[4]} exact`)
   add('AI evaluation', `Gold-set live run (first run, hand-written prompts, one model${model ? ` ${model}` : ''}${host ? ` via ${host}` : ''}${calls ? `, ${calls[1]} model calls` : ''}): ${rows.join('; ')}. Small sample per city; the pipeline had been tuned on similar checks, so treat it as optimistic.`, 'docs/eval/gold-results-live-first-run.md')
+  const evDir = join(ROOT, 'docs/eval')
+  const newest = existsSync(evDir) ? readdirSync(evDir).filter((n) => /^gold-results-live-\d{8}T\d{6}Z-.+\.md$/.test(n) && !n.endsWith('-first-run.md')).sort().at(-1) : null
+  if (newest) {
+    const g2 = readText(`docs/eval/${newest}`)
+    const rows2 = [...g2.matchAll(/^\| ([A-Za-z ]+) \| (\d+) \| [^|]+ \| (\d+)\/(\d+) \(/gm)].map((m) => `${m[1].trim()} ${m[3]} of ${m[4]} exact`)
+    add('AI evaluation', `Gold-set live run (latest run, same model and prompts, a later code version): ${rows2.join('; ')}.`, `docs/eval/${newest}`)
+  }
 } else add('Not measured', 'Gold-set live accuracy: the first-run file docs/eval/gold-results-live-first-run.md does not exist.', 'docs/eval/')
 const rt = readJson('docs/redteam-results.json')
 if (rt) add('Safety', `Red team (SIMULATED models, not a real model): ${rt.attacks} attacks in 4 languages x 4 cities x 2 mock models = ${rt.runs} runs; final result affected in ${rt.affected.length} after ${rt.found_and_fixed?.length ?? 0} fixes found by the red team itself.`, 'docs/redteam-results.json')
