@@ -27,7 +27,7 @@ export async function loadProof(fetchImpl = (...a) => fetch(...a)) {
   try {
     const [results, resultsMd, claimsMd, hardening, safety, backendTests, latestBackendTests, live, selfcheck, selfcheckHistory, goldFirst, goldAfter, goldMock, version, vitest, pw, front, lh, utCsv, utSummary, verification, redteam, redteamLive] = await Promise.all([
       json('eval-results.json'), text('eval-results.md'), text('README-claims.md'), text('hardening-results.md'), text('SAFETY_LOG.md'),
-      text('backend-tests-full.md'), text('backend-tests-latest.md'), text('llm-live-eval.md'), text('ai-selfcheck.md'), text('ai-selfcheck-history.md'), text('gold-results-live-first-run.md'), text('gold-results-live-after-fix.md'), text('gold-results-mock.md'), fetchVersion(), json('frontend-vitest.json'), json('frontend-playwright.json'), json('frontend-test-summary.json'), json('lighthouse-summary.json'),
+      text('backend-tests-full.md'), text('backend-tests-latest.md'), text('llm-live-eval.md'), text('ai-selfcheck.md'), text('ai-selfcheck-history.md'), text('gold-results-live-first-run.md'), text('gold-results-live-final.md'), text('gold-results-mock.md'), fetchVersion(), json('frontend-vitest.json'), json('frontend-playwright.json'), json('frontend-test-summary.json'), json('lighthouse-summary.json'),
       text('user-test-results.csv'), text('user-test-summary.md'), json('verification-counts.json'), json('redteam-results.json'), text('redteam-live.md')])
     return { state: 'ready', manifest, missing: manifest.missing ?? [], data: {
       results, claims: claimsMd ? parseClaims(claimsMd) : null, notShown: resultsMd ? sectionBullets(resultsMd, 'WHAT THESE NUMBERS DO NOT SHOW') : null,

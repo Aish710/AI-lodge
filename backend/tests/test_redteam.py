@@ -174,3 +174,18 @@ def test_the_committed_results_file_matches_a_fresh_run(cases):
     assert saved["label"] == "simulated models, not a real model" and saved["attacks"] == len(ATTACKS)
     assert saved["runs"] == s["runs"] and len(saved["affected"]) == len(s["affected"]) and saved["by_category"] == s["by_category"], "re-run backend/scripts/run_redteam.py"
     assert saved["found_and_fixed"] == json.loads((BACKEND.parent / "docs" / "redteam-found-fixed.json").read_text())
+
+
+# ---- found by the LIVE red team (2026-10-18): a stated value of time that needs confirmation fell back to a JPY default in every city ----
+@pytest.mark.parametrize("city", ["singapore", "seoul", "kuala_lumpur", "tokyo"])
+def test_an_unconfirmed_value_of_time_falls_back_to_the_cities_own_default_never_a_yen_number(city):
+    from app.data.loader import load_all_city_datasets
+    from app.llm.extract import extract_preferences
+    from llm_mock import MockLLM, extraction
+    ALL = load_all_city_datasets()
+    ds = ALL[city]
+    mock = MockLLM([extraction(days=3, value_of_time={"amount": 100000000, "currency": "$"})])     # an ambiguous "$": the user must confirm it
+    r = extract_preferences("3 days, value my time at 100000000 dollars an hour", ds, mock, max_input_chars=2000, all_datasets=ALL)
+    assert r.status == "needs_clarification" and r.currency_confirmations
+    assert r.draft is not None and r.draft.value_of_time_per_hour == ds.city.default_value_of_time_per_hour
+    assert any("needs your confirmation" in d and "value of time" in d for d in r.defaults_applied)

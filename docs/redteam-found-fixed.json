@@ -1,10 +1,20 @@
 [
- {"what": "Model free-text notes (`unclear`, and any other string) that quote the system prompt, a key-like secret or another person's email were shown on the parse and change-request paths",
+ {
+  "what": "Model free-text notes (`unclear`, and any other string) that quote the system prompt, a key-like secret or another person's email were shown on the parse and change-request paths",
   "before": "228 of 744 simulated runs affected (114 on the parse path, 114 on the change-request path; categories: role-play, fake system messages, exfiltration, currency and number tricks, invented places, lookalike characters, payload in a place name, cross-city)",
   "after": "0 of 744",
-  "fix": "`backend/app/llm/leakguard.py`: every string of model output is checked before validation (any 40-character stretch of the system prompt, a key-like token, the configured secret, an email address, a phone number, a mention of a hidden prompt); a flagged string is dropped and the user is told that text was removed"},
- {"what": "An explanation that quotes the system prompt without any number passed the grounding check (which looks only at numbers and names)",
+  "fix": "`backend/app/llm/leakguard.py`: every string of model output is checked before validation (any 40-character stretch of the system prompt, a key-like token, the configured secret, an email address, a phone number, a mention of a hidden prompt); a flagged string is dropped and the user is told that text was removed"
+ },
+ {
+  "what": "An explanation that quotes the system prompt without any number passed the grounding check (which looks only at numbers and names)",
   "before": "4 of 744 simulated runs affected (one attack, four cities)",
   "after": "0 of 744",
-  "fix": "`explain()` runs the same leak check on the model's text and falls back to the template summary (`rejected_tokens: [\"internal text\"]`)"}
+  "fix": "`explain()` runs the same leak check on the model's text and falls back to the template summary (`rejected_tokens: [\"internal text\"]`)"
+ },
+ {
+  "what": "LIVE red team (real model, 27 attacks, one city each): a value of time the user stated but that still needed confirming (an ambiguous \"$\" amount) fell back to a yen number (1,000) in every city, so a Singapore or Seoul form showed 1,000 SGD or 1,000 KRW an hour",
+  "before": "2 of 27 live runs affected (a Korean and an English currency attack); the fallback was wrong in all four cities in the mock reproduction",
+  "after": "0 in the mock reproduction (4 of 4 cities); the live script has not been re-run since the fix",
+  "fix": "`extract.py`: while the amount awaits confirmation the form shows THIS city's default value of time and says so in the 'defaults' list"
+ }
 ]

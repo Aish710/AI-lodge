@@ -162,7 +162,7 @@ describe('Proof page', () => {
     await w.get('[data-testid=toggle-risks]').trigger('click')
     expect(w.findAll('[data-testid=risk-table] tbody tr').length).toBeGreaterThanOrEqual(74)
     expect(w.get('[data-testid=live-framing]').text()).toContain('Tuned on these checks; small sample; one model')      // the old "live-not-run" card said nothing was measured, which was no longer true
-    expect(w.get('[data-testid=gold-after]').text()).toContain('Not run yet')
+    expect(w.get('[data-testid=gold-after]').text()).toContain('Latest run (final)')
     expect(w.get('[data-testid=hardening]').text()).toContain('abuse cases passed')
     expect(w.html()).not.toMatch(/<script/i)
     vi.unstubAllGlobals()
@@ -278,7 +278,7 @@ describe('Live AI card (run history, first run vs after fix, stale and missing)'
     const m = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8')); m.copied = m.copied.filter((n) => n !== name)
     writeFileSync(join(dir, 'manifest.json'), JSON.stringify(m))
   }
-  it('shows the framing, the full run history, the first run, and "not run yet" for the after-fix run; the baseline is labelled as not a model', async () => {
+  it('shows the framing, the full run history, the first run and the latest (final) run; the baseline is labelled as not a model', async () => {
     const dir = mk(); syncProof({ root: ROOT, dest: dir })
     const w = await mountDir(dir)
     const card = w.get('[data-testid=live-eval]')
@@ -287,7 +287,8 @@ describe('Live AI card (run history, first run vs after fix, stale and missing)'
     expect(card.get('[data-testid=selfcheck-history]').text()).toContain('19 of 20')
     expect(card.get('[data-testid=gold-first]').text()).toContain('LIVE model')
     expect(card.get('[data-testid=gold-first]').text()).not.toContain('Not run')
-    expect(card.get('[data-testid=gold-after]').text()).toContain('Not run yet')
+    expect(card.get('[data-testid=gold-after]').text()).toContain('Latest run (final)')
+    expect(card.get('[data-testid=gold-after]').text()).toContain('LIVE model')
     expect(card.get('[data-testid=gold-mock]').text()).toContain('Rule-based baseline, not a model')
     expect(card.get('[data-testid=gold-mock]').text()).toContain('This is not AI accuracy')
     vi.unstubAllGlobals()
@@ -317,6 +318,8 @@ describe('Red team card (simulated counts and the live result, never mixed)', ()
   }
   it('shows the simulated counts labelled as simulated, per category, with the found-and-fixed list, and says the live run is not run on this version', async () => {
     const dir = mk(); syncProof({ root: ROOT, dest: dir })
+    rmSync(join(dir, 'redteam-live.md'), { force: true })      // the repository now has a live report; this test is about the case where it does not
+    const m0 = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8')); m0.copied = m0.copied.filter((n) => n !== 'redteam-live.md'); writeFileSync(join(dir, 'manifest.json'), JSON.stringify(m0))
     const rt = JSON.parse(readFileSync(join(ROOT, 'docs/redteam-results.json'), 'utf8'))
     const w = await mountDir(dir)
     const card = w.get('[data-testid=red-team]')

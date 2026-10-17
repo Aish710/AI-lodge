@@ -18,7 +18,7 @@ export const FILES = [
   { name: 'ai-selfcheck.md', src: 'docs/ai-selfcheck.md', required: false },
   { name: 'ai-selfcheck-history.md', src: 'docs/ai-selfcheck-history.md', required: false },
   { name: 'gold-results-live-first-run.md', src: 'docs/eval/gold-results-live-first-run.md', required: false },
-  { name: 'gold-results-live-after-fix.md', src: 'docs/eval/gold-results-live-after-fix.md', required: false },
+  { name: 'gold-results-live-final.md', src: 'docs/eval/gold-results-live-final.md', required: false },
   { name: 'gold-results-mock.md', src: 'docs/eval/gold-results-mock.md', required: false },
   { name: 'frontend-vitest.json', src: 'frontend/test-results/vitest.json', required: false },
   { name: 'frontend-playwright.json', src: 'frontend/test-results/playwright.json', required: false },

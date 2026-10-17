@@ -275,8 +275,8 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
             <MdBlocks v-else :blocks="goldFirst" />
           </div>
           <div class="col-12 col-lg-6" data-testid="gold-after">
-            <h4 class="h6">After fixes</h4>
-            <p v-if="afterStatus.state === 'missing'" class="small mb-0"><strong>Not run yet.</strong> If a later fix is made, re-run with <code>--label after-fix</code>; the first run is never overwritten.</p>
+            <h4 class="h6">Latest run (final)</h4>
+            <p v-if="afterStatus.state === 'missing'" class="small mb-0"><strong>Not run yet.</strong> Run <code>score_gold.py --live --label final</code> after the last code change and copy the file to <code>docs/eval/gold-results-live-final.md</code>; the first run is never overwritten.</p>
             <p v-else-if="afterStatus.state === 'stale'" class="small mb-0"><strong>Not run on this version.</strong> Made with prompt version {{ afterStatus.version }}; the current version is {{ promptVersion }}.</p>
             <MdBlocks v-else :blocks="goldAfter" />
           </div>

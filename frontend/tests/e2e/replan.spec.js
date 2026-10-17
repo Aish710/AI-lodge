@@ -144,7 +144,7 @@ test('proof page renders the real generated data; example label and note are hon
   await expect(page.getByTestId('read-first')).toContainText('Small comparable subset')
   await expect(page.getByTestId('not-shown')).toContainText('No significance testing')
   await expect(page.getByTestId('live-framing')).toContainText('Tuned on these checks; small sample; one model')   // the old "live-not-run" card is now the Live AI evidence card
-  await expect(page.getByTestId('gold-after')).toContainText('Not run yet')
+  await expect(page.getByTestId('gold-after')).toContainText('Latest run (final)')
   await expect(page.getByTestId('claims').locator('li').first()).not.toBeEmpty()
   await page.getByTestId('toggle-risks').click()
   expect(await page.locator('[data-testid=risk-table] tbody tr').count()).toBeGreaterThanOrEqual(74)

@@ -179,6 +179,9 @@ def extract_preferences(text: str, ds: Dataset, client: LLMClient | None, *, sta
     if vot is None and ex.value_of_time is None:
         vot = ds.city.default_value_of_time_per_hour
         defaults.append(f"value of time: {vot:,} {ds.city.currency_code}/hour (not stated)")
+    elif vot is None:   # stated, but the amount needs the user's confirmation first: show THIS city's default meanwhile, never a number from another currency
+        vot = ds.city.default_value_of_time_per_hour
+        defaults.append(f"value of time: {vot:,} {ds.city.currency_code}/hour until the amount you gave is confirmed (it needs your confirmation)")
     pace = ex.pace
     if pace is None:
         pace = config.DEFAULT_PACE

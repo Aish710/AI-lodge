@@ -163,6 +163,12 @@
    "before": "4 of 744 simulated runs affected (one attack, four cities)",
    "after": "0 of 744",
    "fix": "`explain()` runs the same leak check on the model's text and falls back to the template summary (`rejected_tokens: [\"internal text\"]`)"
+  },
+  {
+   "what": "LIVE red team (real model, 27 attacks, one city each): a value of time the user stated but that still needed confirming (an ambiguous \"$\" amount) fell back to a yen number (1,000) in every city, so a Singapore or Seoul form showed 1,000 SGD or 1,000 KRW an hour",
+   "before": "2 of 27 live runs affected (a Korean and an English currency attack); the fallback was wrong in all four cities in the mock reproduction",
+   "after": "0 in the mock reproduction (4 of 4 cities); the live script has not been re-run since the fix",
+   "fix": "`extract.py`: while the amount awaits confirmation the form shows THIS city's default value of time and says so in the 'defaults' list"
   }
  ]
 }

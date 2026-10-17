@@ -18,21 +18,21 @@ Where to look in the app: **Proof** (`/proof`) shows the measured results, harde
 
 **Where to see the AI in the app:** the first card on Plan ("Ask the AI to set up your trip"), "Ask the AI to change your plan" and "Explain this plan" on Your trip, the "What the AI did" drawer under each AI result, and the Proof page's "Live AI evidence" card.
 
-**Remaining gaps:** the live evidence is a 20-check smoke test (tuned on those checks) and one first run of the gold set on one model, with hand-written prompts; no live red-team result exists; there is no AI on/off comparison view and no per-sentence citation of explanation facts (not built); the live AI results come from one model through a third-party gateway
+**Remaining gaps:** the live evidence is a 20-check smoke test (tuned on those checks) and one first run of the gold set on one model, with hand-written prompts; there is no AI on/off comparison view and no per-sentence citation of explanation facts (not built); the live AI results come from one model through a third-party gateway
 
 ## 2. LLM Safety & Responsible AI
 
 | What a judge can open | Backing |
 |---|---|
-| **Risk table:** 145 rows, each with its safeguard and the test that covers it. | `docs/SAFETY_LOG.md`; Proof page "risk table" |
+| **Risk table:** 146 rows, each with its safeguard and the test that covers it. | `docs/SAFETY_LOG.md`; Proof page "risk table" |
 | **Hardening results:** 33 of 33 cases passed (generated 2026-10-17 15:18 UTC). | `docs/hardening-results.md` (from `backend/scripts/run_hardening_checks.py`) |
 | **Red-team fixtures:** 8 injection prompts in `backend/tests/fixtures/injection_prompts.json` (the original set), plus one injection per language (English, Korean, Chinese, Malay) run against every city. | `backend/tests/test_llm_input.py`, `backend/tests/test_llm_per_city.py` |
-| **Red team (simulated models):** 48 attacks (English, Korean, Chinese, Malay) x 4 cities x 2 simulated models = 744 runs; final result affected in 0; 2 problem(s) found and fixed by the red team itself. These counts come from simulated models and say nothing about a real model; the live red-team script exists but has not been run. | `docs/redteam-results.md`, `docs/redteam-results.json`, `backend/tests/fixtures/redteam_attacks.json`, `backend/tests/test_redteam.py` |
+| **Red team (simulated models):** 48 attacks (English, Korean, Chinese, Malay) x 4 cities x 2 simulated models = 744 runs; final result affected in 0; 3 problem(s) found and fixed by the red team itself. These counts come from simulated models and say nothing about a real model; a live red-team report also exists. | `docs/redteam-results.md`, `docs/redteam-results.json`, `backend/tests/fixtures/redteam_attacks.json`, `backend/tests/test_redteam.py` |
 | **Per-city checks:** every id in a request must belong to the request's city (all routes, all city pairs); stale answers after a city switch are discarded; amounts use the selected city's currency. | `backend/tests/test_city_isolation.py`, `test_currency_labels.py`; `frontend/tests/unit/city-isolation.test.js`, `currency.test.js` |
 | **Data verification status:** Singapore: 7 fields source-checked, 0 rows human-verified, 75 unchecked; other cities unchecked; all data is still sample data; sheets: singapore.csv. |  `backend/tests/test_data.py::test_no_record_is_verified`; `docs/CITIES.md` |
 | **Privacy:** nothing is stored (no database, cookies or analytics); server logs are metadata only; place descriptions are never sent to the AI. | `docs/PRIVACY.md`; "How it works" page, Privacy section; `frontend/tests/e2e/replan.spec.js` (no storage, no third-party requests except map tiles) |
 
-**Remaining gaps:** the red-team counts are from simulated models (no live red-team run); all city data is sample data (only Singapore has any source-checked fields, and none is human-verified); rate limits and the circuit breaker are per process; the relay (a third party) sees the cleaned request text; no external security review
+**Remaining gaps:** the red-team counts are from simulated models; all city data is sample data (only Singapore has any source-checked fields, and none is human-verified); rate limits and the circuit breaker are per process; the relay (a third party) sees the cleaned request text; no external security review
 
 ## 3. Usefulness & Business Value
 
