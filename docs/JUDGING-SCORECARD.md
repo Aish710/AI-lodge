@@ -21,7 +21,7 @@ Where to look in the app: **Proof** (`/proof`) shows the measured results, harde
 
 | What a judge can open | Backing |
 |---|---|
-| **Risk table:** 132 rows, each with its safeguard and the test that covers it. | `docs/SAFETY_LOG.md`; Proof page "risk table" |
+| **Risk table:** 135 rows, each with its safeguard and the test that covers it. | `docs/SAFETY_LOG.md`; Proof page "risk table" |
 | **Hardening results:** 33 of 33 cases passed (generated 2026-10-14 01:52 UTC). | `docs/hardening-results.md` (from `backend/scripts/run_hardening_checks.py`) |
 | **Red-team fixtures:** 8 injection prompts in `backend/tests/fixtures/injection_prompts.json`, plus one injection per language (English, Korean, Chinese, Malay) run against every city. | `backend/tests/test_llm_input.py`, `backend/tests/test_llm_per_city.py` |
 | **Per-city checks:** every id in a request must belong to the request's city (all routes, all city pairs); stale answers after a city switch are discarded; amounts use the selected city's currency. | `backend/tests/test_city_isolation.py`, `test_currency_labels.py`; `frontend/tests/unit/city-isolation.test.js`, `currency.test.js` |

@@ -1,6 +1,6 @@
 <script setup>
 // Screen 1 of 2: choose everything, see it form (map + rough preview), then ONE action. Nothing here calls the solver or the AI except
-// "Plan my trip" (an explicit click) and "Extract" in the Describe box (an explicit click).
+// "Plan my trip" (an explicit click) and "Ask the AI" in the Describe box (an explicit click).
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import NlParsePanel from '../components/NlParsePanel.vue'
@@ -91,6 +91,8 @@ function example(kind) { loadExample(kind); nudge.value = true }
       <p class="muted mb-0">Choose the essentials and the sights you care about. One button then compares the hotels and plans your days. <Hint text="A hotel that looks cheap can cost more once travel time and fares are counted." /></p>
     </div>
 
+    <NlParsePanel />
+
     <section class="card-soft" aria-labelledby="city-h">
       <h2 id="city-h" class="h6">City <span class="muted fw-normal small">(sample data: verify before real travel)</span></h2>
       <div class="city-chip-row" role="group" aria-label="Choose a city">
@@ -110,7 +112,6 @@ function example(kind) { loadExample(kind); nudge.value = true }
         <span v-if="nudge" role="status" data-testid="example-loaded"> The example is loaded below: check it, then press <strong>Plan my trip</strong>.</span></p>
     </div>
 
-    <NlParsePanel />
 
     <form class="card-soft" @submit.prevent="plan" novalidate aria-label="Trip essentials">
       <h2 class="h5">Essentials</h2>

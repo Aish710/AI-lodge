@@ -2,17 +2,18 @@
 // Opt-in explanation (each click spends AI budget). SUPPORTING text only: numbers in the tables are the source of truth.
 import { computed } from 'vue'
 import { explanationBadge } from '../lib/rules.js'
-const props = defineProps({ explanation: { type: Object, default: null }, busy: Boolean, disabled: Boolean, error: { type: Object, default: null } })
+import AiMark from './AiMark.vue'
+const props = defineProps({ explanation: { type: Object, default: null }, busy: Boolean, disabled: Boolean, error: { type: Object, default: null }, title: { type: String, default: 'Explain this plan' } })
 const emit = defineEmits(['explain'])
 const badge = computed(() => explanationBadge(props.explanation))
 </script>
 <template>
   <section class="card-soft" aria-labelledby="exp-h" data-testid="explain-block">
-    <h2 id="exp-h" class="h6 d-flex flex-wrap align-items-center gap-2">Explain this result
+    <h2 id="exp-h" class="h6 d-flex flex-wrap align-items-center gap-2">{{ title }} <AiMark v-if="explanation?.source === 'llm'" kind="ai" label="AI-written" /><AiMark v-else-if="explanation" kind="calc" label="Template" />
       <span v-if="explanation" class="badge-src" :class="badge.kind === 'llm' ? 'badge-verified' : 'badge-sample'" data-testid="explain-badge">{{ badge.label }}</span></h2>
-    <button v-if="!explanation" type="button" class="btn btn-sm btn-outline-primary" :disabled="busy || disabled" @click="emit('explain')" data-testid="explain-button">
-      {{ busy ? 'Writing the explanation…' : 'Explain this result' }}</button>
-    <p v-if="!explanation" class="small muted mt-2 mb-0">Optional. Uses the AI if available; otherwise a template summary.</p>
+    <button v-if="!explanation" type="button" class="btn btn-primary" :disabled="busy || disabled" @click="emit('explain')" data-testid="explain-button">
+      {{ busy ? 'Writing the explanation…' : title }}</button>
+    <p v-if="!explanation" class="small muted mt-2 mb-0">One click, one AI call. If the AI is off, you get a template summary. Warnings from the planner are always added by code.</p>
     <div v-if="error && !explanation" class="notice notice-warn mt-2" role="status"><span class="glyph" aria-hidden="true">!</span><span>{{ error.display }}</span></div>
     <template v-if="explanation">
       <p class="mt-2 mb-2" style="white-space: pre-line" data-testid="explain-text">{{ explanation.text }}</p>

@@ -78,7 +78,7 @@ const displayCost = (id) => comp.value?.display_values?.[id]?.true_cost
           <template v-if="r.conflicts?.length"><span v-for="(c, i) in r.conflicts" :key="i"> {{ pretty(c.message) }}</span></template>
           <template v-else-if="r.note"> {{ pretty(r.note) }}</template></span>
       </div>
-      <ExplainBlock :explanation="store.explanations.compare" :busy="store.explaining === 'compare'" :disabled="rateLimited || !!store.explaining" :error="store.explainError" @explain="explain('compare')" />
+      <ExplainBlock title="Explain the hotel comparison" :explanation="store.explanations.compare" :busy="store.explaining === 'compare'" :disabled="rateLimited || !!store.explaining" :error="store.explainError" @explain="explain('compare')" />
       <section v-if="comp.warnings?.length" aria-labelledby="warn-h" data-testid="warnings">
         <h2 id="warn-h" class="h6">Warnings from the planner</h2>
         <ul class="mb-0"><li v-for="w in warnings.shown" :key="w">{{ w }}</li></ul>

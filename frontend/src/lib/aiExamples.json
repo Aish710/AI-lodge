@@ -1,0 +1,23 @@
+{
+  "note": "Fill-only example prompts for the Describe box. Same texts as backend/tests/fixtures/live_eval_prompts_by_city.json (pinned by tests/unit/ai-first.test.js).",
+  "tokyo": {
+    "typical": "3 days in Tokyo, relaxed pace, I must see Senso-ji and Tokyo Skytree. Budget ¥40,000 for attractions and transport, soft target.",
+    "wrong_city": "4 days in Seoul, I want to see Gyeongbokgung and Bukchon Hanok Village.",
+    "vague_place": "2 days in Tokyo, I want to see the museum."
+  },
+  "seoul": {
+    "typical": "3 days in Seoul, balanced pace, must see Gyeongbokgung and N Seoul Tower, budget ₩300,000 strict.",
+    "wrong_city": "Two days in Tokyo please, Senso-ji and Skytree.",
+    "vague_place": "2 days in Seoul, the tower please."
+  },
+  "singapore": {
+    "typical": "3 days in Singapore, must see Gardens by the Bay and Jewel Changi, budget S$150 soft.",
+    "wrong_city": "3 days in Bangkok, temples and markets.",
+    "vague_place": "2 days in Singapore, I want to see the bay."
+  },
+  "kuala_lumpur": {
+    "typical": "3 days in Kuala Lumpur, must see Petronas Twin Towers and Batu Caves. Budget RM 400, soft.",
+    "wrong_city": "2 days in Singapore, Gardens by the Bay and Sentosa.",
+    "vague_place": "2 days in KL, I want to see the temple."
+  }
+}

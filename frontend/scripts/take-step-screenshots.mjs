@@ -6,6 +6,7 @@ import { mkdirSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium } from '@playwright/test'
+import { readFileSync } from 'node:fs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const FRONT = resolve(here, '..')
@@ -73,6 +74,42 @@ async function flow(browser, city, device) {
   await ctx.close()
 }
 
+// AI-first screens. The backend runs in sample mode (no key), so /health and /parse are answered with CANNED responses built from the city's
+// example (clearly named "ai-canned-*"): they show the interface, not a real model's answer. Everything else is the real backend.
+const examples = JSON.parse(readFileSync(join(FRONT, 'src/lib/examples.json'), 'utf8'))
+const aiTexts = JSON.parse(readFileSync(join(FRONT, 'src/lib/aiExamples.json'), 'utf8'))
+const CORS = { 'access-control-allow-origin': '*', 'access-control-allow-headers': '*', 'access-control-allow-methods': 'GET,POST,OPTIONS' }
+const canned = (json) => (r) => (r.request().method() === 'OPTIONS' ? r.fulfill({ status: 204, headers: CORS }) : r.fulfill({ json, headers: CORS }))
+async function aiFlow(browser, city, device) {
+  const ctx = await browser.newContext({ viewport: VIEWPORTS[device], deviceScaleFactor: 1, reducedMotion: 'reduce' })
+  const page = await ctx.newPage()
+  const ex = examples[city].valid
+  const must = Object.entries(ex.wishlist).filter(([, v]) => v === 'must').map(([k]) => k)
+  const skip = Object.entries(ex.wishlist).filter(([, v]) => v === 'skip').map(([k]) => k)
+  await page.route('**/health', canned({ status: 'ok', mode: 'llm', llm_configured: true, llm_mode: 'llm', llm_limit_reached: false, llm_endpoint: 'gateway.example.test', llm_relay: true }))
+  await page.route('**/parse', canned({ status: 'ok', draft: { days: 3, budget: null, strict_budget: false, pace: 'balanced', interests: [], must_visit: must, skip, day_start: '09:00', day_end: '19:00',
+    value_of_time_per_hour: ex.form.valueOfTime, max_walking_minutes_per_day: 90, start_weekday: 2, allow_unknown_hours: false, nights: null, locked: [] },
+    raw_input_echo: aiTexts[city].typical, extracted_json: { days: 3, must_visit_names: must }, resolved_names: [], unresolved_names: [{ input: 'Moon Base', message: 'Not a place in this dataset, so it cannot be scheduled.', suggestions: [] }],
+    ambiguities: [], defaults_applied: ['pace: balanced (not stated)', 'day start: 09:00 (not stated)'], clarifications: [], unclear: [], assumptions: {}, call_count: 1, mode: 'llm', prompt_version: 'canned', city_id: city, city_name: CITY_NAME[city] }))
+  await page.goto(APP)
+  await wait(page.getByTestId('city-chip'))
+  if (city !== 'tokyo') { await page.getByTestId(`city-${city}`).click(); await page.getByTestId('city-chip').filter({ hasText: CITY_NAME[city] }).first().waitFor() }
+  await wait(page.getByTestId('ex-typical'))
+  await page.getByTestId('ex-typical').click()
+  await page.getByTestId('nl-extract').click()
+  await wait(page.getByTestId('nl-rows'))
+  await shot(page, `${city}-ai-canned-1-understood-${device}.png`)
+  await page.getByTestId('ai-popover-button').first().click()
+  await wait(page.getByTestId('ai-popover'))
+  await shot(page, `${city}-ai-canned-2-popover-${device}.png`)
+  await page.keyboard.press('Escape')
+  await page.getByTestId('plan-trip').click()
+  await wait(page.getByTestId('timeline'))
+  await wait(page.getByTestId('replan-chips'))
+  await shot(page, `${city}-ai-canned-3-trip-${device}.png`)
+  await ctx.close()
+}
+
 try {
   run('.venv/bin/uvicorn app.main:app --port 8010 --log-level warning', BACK, { RATE_LIMIT_EXPENSIVE_PER_MIN: '500', RATE_LIMIT_PER_MIN: '1000', RATE_LIMIT_CHEAP_PER_MIN: '5000', LLM_API_KEY: '', LLM_MODEL: '', ALLOWED_ORIGINS: APP, SOLVER_CONCURRENCY: '1' })
   run(`node scripts/sync-proof.mjs && VITE_API_BASE_URL=${API} npx vite build --outDir dist-steps && npx vite preview --outDir dist-steps --port 4181 --strictPort`, FRONT)
@@ -80,6 +117,7 @@ try {
   await waitFor(APP)
   const browser = await chromium.launch()
   for (const city of CITIES) for (const device of Object.keys(VIEWPORTS)) await flow(browser, city, device)
+  for (const city of CITIES) for (const device of Object.keys(VIEWPORTS)) await aiFlow(browser, city, device)
   await browser.close()
   console.log(`${written.length} screenshots written to docs/screenshots/steps/`)
 } finally {

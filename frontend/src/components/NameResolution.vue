@@ -11,7 +11,7 @@ const emit = defineEmits(['pick'])
         <div v-if="u.suggestions?.length" class="mt-1">Did you mean:
           <button v-for="s in u.suggestions" :key="s.id" type="button" class="chip ms-1" @click="emit('pick', { input: u.input, id: s.id, name: s.name })" data-testid="suggestion-chip">{{ s.name }}</button>
         </div>
-        <div v-else class="small mt-1">No close match. It cannot be added.</div></div>
+        <div v-else class="small mt-1">No close match: not in this city's data, so it cannot be added.</div></div>
     </div>
     <div v-for="a in ambiguities" :key="a.input" class="notice notice-info" data-testid="ambiguity">
       <span class="glyph" aria-hidden="true">?</span>

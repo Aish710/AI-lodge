@@ -26,6 +26,8 @@ import SensitivityPanel from '../components/SensitivityPanel.vue'
 import GettingAround from '../components/GettingAround.vue'
 import CostPanel from '../components/CostPanel.vue'
 import DaySelector from '../components/DaySelector.vue'
+import AiMark from '../components/AiMark.vue'
+import AiLegend from '../components/AiLegend.vue'
 import { checksTally, hotelVerdict, planStatus, sightsCovered } from '../lib/band.js'
 import { store, runOptimise, switchHotel, applyAlternative, rateLimited, solverBusy, queueOp, unqueue, clearQueue, applyQueue, restorePrevious, explain, resetAll } from '../store.js'
 import { mustVisitRemovals } from '../lib/replan.js'
@@ -88,6 +90,7 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
       </div>
     </div>
     <SettingsSummaryStrip />
+    <AiLegend v-if="resp" />
 
     <div v-if="!resp && !planning" class="card-soft" data-testid="itinerary-empty">
       <p class="mb-2">No plan yet. Choose your sights on the Plan screen and press "Plan my trip".</p>
@@ -110,19 +113,21 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
 
           <template v-else>
             <section v-if="verdict" class="card-soft" :class="`verdict-${verdict.kind}`" data-testid="verdict" aria-live="polite">
-              <div class="verdict">{{ verdict.headline }}</div>
+              <div class="verdict">{{ verdict.headline }} <AiMark kind="calc" /></div>
               <div class="verdict-detail">{{ verdict.detail }}</div>
               <HowMade class="mt-2" :explained="store.explanations.compare?.source ?? null" />
             </section>
             <div v-if="callout.kind === 'differs'" class="notice notice-good" role="status" data-testid="callout-differs"><span class="glyph" aria-hidden="true">✓</span><span><strong>{{ callout.text }}</strong></span></div>
             <details v-if="comp?.insight" class="small" data-testid="insight-details"><summary>Why?</summary><p class="mb-0 mt-1" data-testid="insight">{{ pretty(comp.insight) }}</p></details>
+            <ExplainBlock :explanation="store.explanations.optimise" :busy="store.explaining === 'optimise'" :disabled="rateLimited || !!store.explaining" :error="store.explainError" @explain="explain('optimise')" />
+            <ProposedOperations />
             <div class="notice notice-warn" v-if="resp.approximate || comp?.approximate || comp?.partial" role="status" data-testid="approximate">
               <span class="glyph" aria-hidden="true">!</span><span><strong>Approximate.</strong> {{ resp.approximate ? resp.approximate_note : 'The comparison was not fully proven optimal, so a true cost may be higher than the best possible plan.' }}</span>
             </div>
 
             <section class="band" aria-label="Plan summary" data-testid="totals">
               <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
-                <StatusChip v-bind="status" />
+                <StatusChip v-bind="status" /><AiMark kind="calc" />
                 <HowMade :explained="store.explanations.optimise?.source ?? null" />
               </div>
               <div class="row g-3">
@@ -165,7 +170,6 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
             </div>
 
             <FeasibilityReport :report="resp.feasibility_report" />
-            <ExplainBlock :explanation="store.explanations.optimise" :busy="store.explaining === 'optimise'" :disabled="rateLimited || !!store.explaining" :error="store.explainError" @explain="explain('optimise')" />
             <NotScheduledPanel :missed-ids="result.missed_preferences" :places-by-id="store.placesById" :penalty-jpy="penalty" />
             <CompareDetails />
             <SensitivityPanel />
@@ -185,9 +189,8 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
             </div>
             <PendingChanges :queue="store.queue" :places-by-id="store.placesById" :hotels-by-id="store.hotelsById" :hotel-choices="store.hotelIds" :current-hotel="store.chosenHotel"
               :busy="store.busy.replan" :disabled="rateLimited || solverBusy" :error="store.queueError" :budget-now="store.planPrefs?.budget ?? null" @op="queueOp" @remove="unqueue" @clear="clearQueue" @apply="applyClicked" />
-            <ProposedOperations />
             <DiffView v-if="replan && replan.status === 'applied'" :result="replan" :places-by-id="store.placesById" />
-            <ExplainBlock v-if="replan && replan.status === 'applied'" :explanation="store.explanations.replan" :busy="store.explaining === 'replan'" :disabled="rateLimited || !!store.explaining" :error="store.explainError" @explain="explain('replan')" />
+            <ExplainBlock v-if="replan && replan.status === 'applied'" title="Explain this change" :explanation="store.explanations.replan" :busy="store.explaining === 'replan'" :disabled="rateLimited || !!store.explaining" :error="store.explainError" @explain="explain('replan')" />
             <ConfirmDialog :open="confirmOpen" title="Remove a must-visit?" confirm-label="Yes, remove it" cancel-label="Keep it in my plan" @cancel="confirmOpen = false" @confirm="confirmed">
               <p class="mb-2">You marked <strong>{{ names(mustRemovals) }}</strong> as a must-visit. Removing it means the new plan will no longer include something you said you required.</p>
               <p class="mb-0 small muted">Nothing is sent unless you confirm. The result will be labelled "Must-visit removed by user".</p>

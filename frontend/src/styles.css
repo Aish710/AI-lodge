@@ -283,3 +283,20 @@ a { text-underline-offset: 2px; }
 .more-menu > summary { list-style: none; cursor: pointer; display: inline-block; }
 .more-menu > summary::-webkit-details-marker { display: none; }
 .more-items { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+
+/* ---- AI-first (Stage 1): provenance markers, header popover, describe card ---- */
+.ai-mark { display: inline-block; font-size: .68rem; font-weight: 700; letter-spacing: .03em; padding: 1px 7px; border-radius: 999px; border: 1px solid; vertical-align: middle; cursor: help; white-space: nowrap; }
+.ai-mark-ai { background: var(--info-bg); border-color: #9fb4cf; color: var(--info); }
+.ai-mark-ai::before { content: '✦ '; }
+.ai-mark-calc { background: #fff; border-color: var(--line); color: var(--muted); }
+.ai-mark-calc::before { content: '= '; }
+.mode-wrap { position: relative; display: inline-block; }
+.mode-btn { all: unset; cursor: pointer; font: inherit; text-decoration: underline dotted; }
+.mode-btn:focus-visible { outline: 3px solid var(--accent-dark); outline-offset: 2px; border-radius: 4px; }
+.mode-pop { position: absolute; z-index: 30; top: calc(100% + 6px); left: 0; width: min(34rem, 92vw); background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px; box-shadow: 0 8px 28px rgba(27, 39, 51, .18); }
+.ai-card { border: 2px solid var(--info); background: linear-gradient(180deg, #f4f8fd, #fff); }
+.example-prompt { text-align: left; }
+.understood-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 768px) { .understood-grid { grid-template-columns: 5fr 7fr; } }
+.understood-rows { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.understood-rows li { display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }

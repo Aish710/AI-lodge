@@ -488,14 +488,23 @@ export async function runParse(text) {
   try {
     const r = await api.parseText(text, Number(store.form.startWeekday), store.cityId)
     store.parseResult = r
-    store.parsedInterests = r.draft?.interests ?? []
-    if (r.draft) {
-      const next = formFromDraft(r.draft, store.form, store.city?.currency_code)
-      store.form = next.form
-      store.wishlist = next.wishlist
-    }
+    applyParseToForm()
   } catch (e) { fail('parseError', e) } finally { store.busy.parse = false; await refreshHealth() }
 }
+
+/** Put the AI's validated draft into the EDITABLE form. It never plans and never advances; "Apply to my trip" calls it again after edits. */
+export function applyParseToForm() {
+  const r = store.parseResult
+  store.parsedInterests = r?.draft?.interests ?? []
+  if (!r?.draft) return false
+  const next = formFromDraft(r.draft, store.form, store.city?.currency_code)
+  store.form = next.form
+  store.wishlist = next.wishlist
+  return true
+}
+
+/** Cancel an AI read in flight (the request is abandoned; the form is untouched). */
+export function cancelParse() { abortKey('parse'); store.busy.parse = false }
 
 /** The user picked a suggestion / candidate: put that sight on the wishlist in the state it was asked for. */
 export function chooseName(id, state) { store.wishlist[id] = state }
