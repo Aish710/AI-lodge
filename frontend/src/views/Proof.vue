@@ -44,6 +44,10 @@ const hardening = computed(() => (d.value?.hardeningMd ? parseBlocks(d.value.har
 const hardeningResult = computed(() => /\*\*(\d+)\/(\d+) cases passed\*\*/.exec(d.value?.hardeningMd ?? ''))
 const live = computed(() => (d.value?.live ? parseBlocks(d.value.live) : null))
 const selfcheck = computed(() => (d.value?.selfcheck ? parseBlocks(d.value.selfcheck) : null))
+const redteam = computed(() => d.value?.redteam ?? null)
+const attackCount = computed(() => redteam.value?.attacks ?? 0)
+const rtLiveBlocks = computed(() => blocksOf(d.value?.redteamLive))
+const rtLiveStatus = computed(() => liveStatus(d.value?.redteamLive, promptVersion.value))
 const verification = computed(() => d.value?.verification ?? null)
 const cityLabel = (c) => c.split('_').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ')
 const promptVersion = computed(() => d.value?.promptVersion ?? null)
@@ -208,6 +212,25 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         <p class="small muted">Verbatim from README-claims.md. Each carries its N and its caveat.</p>
         <ul v-if="d.claims?.length" class="mb-0"><li v-for="c in d.claims" :key="c.id" class="mb-2" :data-testid="`claim-${c.id}`">{{ c.text }}</li></ul>
         <p v-else class="mb-0 muted">The claim sentences were not found in this build.</p>
+      </section>
+
+      <section id="red-team" class="card-soft" aria-labelledby="rt-h" data-testid="red-team">
+        <h2 id="rt-h" class="h5">Red team: attacks on the AI paths</h2>
+        <template v-if="redteam">
+          <p class="mb-2" data-testid="rt-simulated"><strong>Simulated models, not a real model.</strong> {{ redteam.runs }} runs: {{ attackCount }} attacks in English, Korean, Chinese and Malay, each sent through the real pipeline for every city to a deliberately gullible mock (it obeys the injection) and a harmless mock. A run counts as "affected" only if the final result a user would see changed: a safety flag set, a place from another city or from nowhere scheduled, an invented number, or the system prompt, a key or another user's data shown.</p>
+          <div class="table-responsive"><table class="table table-honest" data-testid="rt-table"><thead><tr><th scope="col">Category</th><th scope="col">Runs</th><th scope="col">Gullible mock tried to comply</th><th scope="col">Final result affected</th></tr></thead>
+            <tbody><tr v-for="(v, k) in redteam.by_category" :key="k"><th scope="row">{{ k.replaceAll('_', ' ') }}</th><td>{{ v.runs }}</td><td>{{ v.raw_tried_to_comply }}</td><td>{{ v.final_affected }}</td></tr></tbody></table></div>
+          <p class="small mb-2">By language: <span v-for="(v, k) in redteam.by_language" :key="k" class="me-3">{{ k }}: {{ v.final_affected }} of {{ v.runs }} affected</span></p>
+          <p class="small mb-2">By city: <span v-for="(v, k) in redteam.by_city" :key="k" class="me-3">{{ cityLabel(k) }}: {{ v.final_affected }} of {{ v.runs }} affected</span></p>
+          <h3 class="h6 mt-3">Found and fixed</h3>
+          <ul class="small" data-testid="rt-fixed"><li v-for="f in redteam.found_and_fixed" :key="f.what"><strong>{{ f.what }}.</strong> Before: {{ f.before }}. After: {{ f.after }}. Fix: {{ f.fix }}</li><li v-if="!redteam.found_and_fixed?.length">Nothing was found.</li></ul>
+          <p class="small muted">These counts test the code around the model. They say nothing about a real model; the live result is below only if it was run for this version.</p>
+        </template>
+        <p v-else class="mb-2" data-testid="rt-none"><strong>Not run on this version.</strong> No red-team results are part of this build.</p>
+        <h3 class="h6 mt-3">Real model</h3>
+        <p v-if="rtLiveStatus.state === 'missing'" class="small mb-0" data-testid="rt-live-none"><strong>Not run on this version.</strong> The opt-in script <code>backend/scripts/redteam_live.py</code> sends a sample of the same attacks to a real model; no live red-team result exists yet.</p>
+        <p v-else-if="rtLiveStatus.state === 'stale'" class="small mb-0" data-testid="rt-live-stale"><strong>Not run on this version.</strong> The live report was made with prompt version {{ rtLiveStatus.version }}; the current version is {{ promptVersion }}.</p>
+        <div v-else data-testid="rt-live"><MdBlocks :blocks="rtLiveBlocks" /></div>
       </section>
 
       <section v-if="verification" id="data-verification" class="card-soft" aria-labelledby="dv-h" data-testid="data-verification">

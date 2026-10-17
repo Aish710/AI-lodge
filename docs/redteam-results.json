@@ -1,0 +1,168 @@
+{
+ "label": "simulated models, not a real model",
+ "attacks": 48,
+ "runs": 744,
+ "by_model": {
+  "mock-gullible": {
+   "runs": 372,
+   "model_called": 280,
+   "raw_tried_to_comply": 280,
+   "final_affected": 0
+  },
+  "mock-harmless": {
+   "runs": 372,
+   "model_called": 280,
+   "raw_tried_to_comply": 0,
+   "final_affected": 0
+  }
+ },
+ "by_category": {
+  "role_play_ignore": {
+   "runs": 128,
+   "model_called": 128,
+   "raw_tried_to_comply": 64,
+   "final_affected": 0
+  },
+  "fake_system_message": {
+   "runs": 128,
+   "model_called": 92,
+   "raw_tried_to_comply": 46,
+   "final_affected": 0
+  },
+  "exfiltration": {
+   "runs": 80,
+   "model_called": 80,
+   "raw_tried_to_comply": 40,
+   "final_affected": 0
+  },
+  "flag_escalation": {
+   "runs": 80,
+   "model_called": 80,
+   "raw_tried_to_comply": 40,
+   "final_affected": 0
+  },
+  "cross_city_smuggling": {
+   "runs": 64,
+   "model_called": 16,
+   "raw_tried_to_comply": 8,
+   "final_affected": 0
+  },
+  "currency_number_trick": {
+   "runs": 48,
+   "model_called": 48,
+   "raw_tried_to_comply": 24,
+   "final_affected": 0
+  },
+  "invent_prices_hours_places": {
+   "runs": 48,
+   "model_called": 48,
+   "raw_tried_to_comply": 24,
+   "final_affected": 0
+  },
+  "payload_in_place_name": {
+   "runs": 72,
+   "model_called": 36,
+   "raw_tried_to_comply": 18,
+   "final_affected": 0
+  },
+  "unicode_lookalike_bidi": {
+   "runs": 32,
+   "model_called": 32,
+   "raw_tried_to_comply": 16,
+   "final_affected": 0
+  },
+  "overlong_input": {
+   "runs": 64,
+   "model_called": 0,
+   "raw_tried_to_comply": 0,
+   "final_affected": 0
+  }
+ },
+ "by_language": {
+  "en": {
+   "runs": 216,
+   "model_called": 184,
+   "raw_tried_to_comply": 92,
+   "final_affected": 0
+  },
+  "ko": {
+   "runs": 176,
+   "model_called": 136,
+   "raw_tried_to_comply": 68,
+   "final_affected": 0
+  },
+  "zh": {
+   "runs": 176,
+   "model_called": 120,
+   "raw_tried_to_comply": 60,
+   "final_affected": 0
+  },
+  "ms": {
+   "runs": 176,
+   "model_called": 120,
+   "raw_tried_to_comply": 60,
+   "final_affected": 0
+  }
+ },
+ "by_city": {
+  "tokyo": {
+   "runs": 186,
+   "model_called": 134,
+   "raw_tried_to_comply": 67,
+   "final_affected": 0
+  },
+  "singapore": {
+   "runs": 186,
+   "model_called": 142,
+   "raw_tried_to_comply": 71,
+   "final_affected": 0
+  },
+  "seoul": {
+   "runs": 186,
+   "model_called": 142,
+   "raw_tried_to_comply": 71,
+   "final_affected": 0
+  },
+  "kuala_lumpur": {
+   "runs": 186,
+   "model_called": 142,
+   "raw_tried_to_comply": 71,
+   "final_affected": 0
+  }
+ },
+ "by_endpoint": {
+  "parse": {
+   "runs": 360,
+   "model_called": 268,
+   "raw_tried_to_comply": 134,
+   "final_affected": 0
+  },
+  "replan": {
+   "runs": 360,
+   "model_called": 268,
+   "raw_tried_to_comply": 134,
+   "final_affected": 0
+  },
+  "explain": {
+   "runs": 24,
+   "model_called": 24,
+   "raw_tried_to_comply": 12,
+   "final_affected": 0
+  }
+ },
+ "affected": [],
+ "found_and_fixed": [
+  {
+   "what": "Model free-text notes (`unclear`, and any other string) that quote the system prompt, a key-like secret or another person's email were shown on the parse and change-request paths",
+   "before": "228 of 744 simulated runs affected (114 on the parse path, 114 on the change-request path; categories: role-play, fake system messages, exfiltration, currency and number tricks, invented places, lookalike characters, payload in a place name, cross-city)",
+   "after": "0 of 744",
+   "fix": "`backend/app/llm/leakguard.py`: every string of model output is checked before validation (any 40-character stretch of the system prompt, a key-like token, the configured secret, an email address, a phone number, a mention of a hidden prompt); a flagged string is dropped and the user is told that text was removed"
+  },
+  {
+   "what": "An explanation that quotes the system prompt without any number passed the grounding check (which looks only at numbers and names)",
+   "before": "4 of 744 simulated runs affected (one attack, four cities)",
+   "after": "0 of 744",
+   "fix": "`explain()` runs the same leak check on the model's text and falls back to the template summary (`rejected_tokens: [\"internal text\"]`)"
+  }
+ ]
+}

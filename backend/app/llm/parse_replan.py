@@ -58,7 +58,8 @@ def parse_replan(text: str, current: SolveResult, prefs: Preferences, ds: Datase
     parsed: ReplanOut = out.parsed
     pos = _positions(current)
     scope = list(pos)
-    ops, desc, clar, defaults = [], [], [], []
+    ops, desc, defaults = [], [], []
+    clar = ["Some text written by the AI was removed because it looked like internal instructions or a secret. It was not shown."] if out.removed else []
     resolved: list[ResolvedName] = []
     unresolved: list[UnresolvedName] = []
     ambiguities: list[Ambiguity] = []

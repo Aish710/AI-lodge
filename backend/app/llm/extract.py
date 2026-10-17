@@ -139,8 +139,8 @@ def extract_preferences(text: str, ds: Dataset, client: LLMClient | None, *, sta
     post = analyse(san.text, ex.destination_mentioned, ds, all_datasets, index)
     if post and post["status"] != "ok":
         return ParseResult(status="needs_clarification", extracted_json=ex.model_dump(), destination=post, switch_offer=post["offer"],
-                           clarifications=[post["message"]], unclear=ex.unclear, **base)
-    clar: list[str] = []
+                           clarifications=[post["message"], *(["Some text written by the AI was removed because it looked like internal instructions or a secret. It was not shown."] if out.removed else [])], unclear=ex.unclear, **base)
+    clar: list[str] = ["Some text written by the AI was removed because it looked like internal instructions or a secret. It was not shown."] if out.removed else []
     confirmations: list[dict] = []
     defaults: list[str] = []
     assumptions: dict = {"fx": ds.city.sample_fx_label, "currency": ds.city.currency_code,

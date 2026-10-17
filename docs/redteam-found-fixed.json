@@ -1,0 +1,10 @@
+[
+ {"what": "Model free-text notes (`unclear`, and any other string) that quote the system prompt, a key-like secret or another person's email were shown on the parse and change-request paths",
+  "before": "228 of 744 simulated runs affected (114 on the parse path, 114 on the change-request path; categories: role-play, fake system messages, exfiltration, currency and number tricks, invented places, lookalike characters, payload in a place name, cross-city)",
+  "after": "0 of 744",
+  "fix": "`backend/app/llm/leakguard.py`: every string of model output is checked before validation (any 40-character stretch of the system prompt, a key-like token, the configured secret, an email address, a phone number, a mention of a hidden prompt); a flagged string is dropped and the user is told that text was removed"},
+ {"what": "An explanation that quotes the system prompt without any number passed the grounding check (which looks only at numbers and names)",
+  "before": "4 of 744 simulated runs affected (one attack, four cities)",
+  "after": "0 of 744",
+  "fix": "`explain()` runs the same leak check on the model's text and falls back to the template summary (`rejected_tokens: [\"internal text\"]`)"}
+]

@@ -307,3 +307,35 @@ describe('Live AI card (run history, first run vs after fix, stale and missing)'
     vi.unstubAllGlobals()
   })
 })
+
+describe('Red team card (simulated counts and the live result, never mixed)', () => {
+  const mountDir = async (dir) => {
+    vi.stubGlobal('fetch', servedFrom(dir))
+    const w = mount(Proof, { global: { plugins: [testRouter()], stubs: { 'router-link': true } } })
+    await flushPromises(); await flushPromises()
+    return w
+  }
+  it('shows the simulated counts labelled as simulated, per category, with the found-and-fixed list, and says the live run is not run on this version', async () => {
+    const dir = mk(); syncProof({ root: ROOT, dest: dir })
+    const rt = JSON.parse(readFileSync(join(ROOT, 'docs/redteam-results.json'), 'utf8'))
+    const w = await mountDir(dir)
+    const card = w.get('[data-testid=red-team]')
+    expect(card.get('[data-testid=rt-simulated]').text()).toContain('Simulated models, not a real model')
+    expect(card.get('[data-testid=rt-simulated]').text()).toContain(`${rt.runs} runs`)
+    expect(card.findAll('[data-testid=rt-table] tbody tr')).toHaveLength(Object.keys(rt.by_category).length)
+    expect(card.get('[data-testid=rt-fixed]').text()).toContain('system prompt')
+    expect(card.get('[data-testid=rt-live-none]').text()).toContain('Not run on this version')
+    expect(card.text()).not.toMatch(/real model (resisted|passed|was safe)/i)
+    vi.unstubAllGlobals()
+  })
+  it('shows a live report only when it exists for the current prompt version', async () => {
+    const dir = mk(); syncProof({ root: ROOT, dest: dir })
+    const pv = JSON.parse(readFileSync(join(dir, 'current-version.json'), 'utf8')).prompt_version
+    const put = (v) => { writeFileSync(join(dir, 'redteam-live.md'), `# Red team against a real model (LIVE)\n\nModel: \`m\`. PROMPT_VERSION: \`${v}\`.\n`); const m = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8')); if (!m.copied.includes('redteam-live.md')) m.copied.push('redteam-live.md'); writeFileSync(join(dir, 'manifest.json'), JSON.stringify(m)) }
+    put(pv)
+    expect((await mountDir(dir)).find('[data-testid=rt-live]').exists()).toBe(true)
+    put('0')
+    expect((await mountDir(dir)).get('[data-testid=rt-live-stale]').text()).toContain('Not run on this version')
+    vi.unstubAllGlobals()
+  })
+})

@@ -6,7 +6,10 @@ from dataclasses import dataclass
 
 from pydantic import BaseModel, ValidationError
 
+from app.config import get_settings
+
 from app.llm.client import LLMClient, LLMUnavailable
+from app.llm.leakguard import scrub
 from app.llm.prompts import RETRY_PREFIX
 
 log = logging.getLogger("app.llm")
@@ -22,6 +25,7 @@ class Outcome:
     input_tokens: int = 0
     output_tokens: int = 0
     latency: float = 0.0
+    removed: int = 0   # strings of model text dropped by the leak guard (prompt text, a key, an email address...)
 
 
 def _json_object(text: str) -> dict:
@@ -59,7 +63,9 @@ def call_json(client: LLMClient, system: str, user_content: str, model_cls: type
         out.latency += resp.latency_seconds
         try:
             raw = _json_object(resp.text)
+            raw, removed = scrub(raw, system, get_settings().llm_api_key)   # model free text that quotes the prompt or a secret never reaches a screen
             parsed = model_cls.model_validate(raw)
+            out.removed = removed
         except (ValueError, ValidationError) as e:
             out.error = _problems(e)
             messages = messages + [{"role": "assistant", "content": resp.text[:2000] or "(empty)"},

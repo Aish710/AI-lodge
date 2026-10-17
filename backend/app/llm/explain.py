@@ -9,10 +9,12 @@ import re
 from dataclasses import dataclass, field
 
 from app import config
+from app.config import get_settings
 from app.data.loader import Dataset
 from app.llm.client import LLMClient, LLMUnavailable
 from app.llm.destination import _generic_tokens
 from app.llm.grounding import check_grounding
+from app.llm.leakguard import forbidden
 from app.llm.names import normalise
 from app.llm.prompts import explain_system
 from app.llm.schemas import Explanation, GroundingReport
@@ -247,6 +249,11 @@ def explain(result, ds: Dataset, client: LLMClient | None, sample_reason: str | 
     if not g.ok:
         tmpl.grounding = GroundingReport(checked=g.checked, rejected_tokens=g.rejected_tokens)
         tmpl.reason = "grounding check failed; template used"
+        return tmpl
+    if forbidden(text, explain_system(ds), get_settings().llm_api_key, phones=False):   # grounding checks numbers and names only; this stops a quoted prompt or a secret
+        tmpl.reason = "model text contained internal instructions or a secret; template used"
+        tmpl.grounding = GroundingReport(checked=g.checked, rejected_tokens=["internal text"])
+        log.info("llm_call", extra={"op": "explain", "outcome": "rejected_leak", "calls": 1})
         return tmpl
     return Explanation(text=_finish(text, facts.warnings, ds), source="llm", grounding=GroundingReport(checked=g.checked),
                        warnings=facts.warnings, call_count=1)

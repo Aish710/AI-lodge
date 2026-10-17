@@ -117,6 +117,7 @@ EXPLAIN_MAX_WORDS = 200               # prompt asks for ~120; longer output is r
 NAME_SUGGESTION_RATIO = 0.92          # difflib ratio for "did you mean" (never auto-accepted)
 LIVE_EVAL_MAX_CALLS = 150
 SELFCHECK_MAX_CALLS = 40              # scripts/ai_selfcheck.py: 4 cities x 5 checks, worst case 9 calls per city (parse retries)
+REDTEAM_LIVE_MAX_CALLS = 60           # scripts/redteam_live.py: a stratified sample, at most 2 calls per parse attack and 1 per explanation attack
 GOLD_MAX_CALLS = 100                  # scripts/score_gold.py live part: 48 prompts, at most 2 calls each
 
 # Defaults for low-stakes fields (always disclosed in `defaults_applied`). `days` is NEVER defaulted.
