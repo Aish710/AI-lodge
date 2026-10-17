@@ -65,3 +65,24 @@ def test_the_real_drafts_have_no_unmatched_numbers_and_the_required_headings():
         return
     r = cc.check(ROOT, ROOT)
     assert r["heading_ok"] and r["unmatched"] == [], r["unmatched"][:5]
+
+
+# ---- result slots: user-test and human red-team numbers only from their own summary files ----
+def test_a_result_slot_accepts_numbers_only_from_its_own_summary(tmp_path):
+    t = tree(tmp_path, "**User test (informal, small N):** 5 of 8 people changed their choice.\n\n**Human red team (informal, small N):** Not run yet.")
+    (t / "docs/user-test").mkdir(parents=True)
+    (t / "docs/user-test/summary.md").write_text("No results yet (N = 0).")
+    (t / "docs/SUBMISSION-FACTS.md").write_text("5 of 8 people. 642 tests.")        # the numbers exist elsewhere, but a slot may not use them
+    r = cc.check(t, t)
+    assert sorted(u[2] for u in r["unmatched"]) == ["5", "8"] and all("slot number not in docs/user-test/summary.md" in u[3] for u in r["unmatched"])
+    (t / "docs/user-test/summary.md").write_text("N = 8 participants. 5 of 8 changed their choice.")
+    assert cc.check(t, t)["unmatched"] == []
+
+
+def test_a_slot_that_says_not_run_yet_needs_no_numbers_and_the_human_slot_reads_its_own_file(tmp_path):
+    t = tree(tmp_path, "**User test (informal, small N):** Not run yet.\n\n**Human red team (informal, small N):** Human attempts: 4, final result wrong in 1.")
+    (t / "docs/user-test").mkdir(parents=True)
+    (t / "docs/user-test/redteam-human-summary.md").write_text("Human attempts: 4, final result wrong in 1.")
+    assert cc.check(t, t)["unmatched"] == []
+    (t / "docs/user-test/redteam-human-summary.md").write_text("Human attempts: 4, final result wrong in 0.")
+    assert [u[2] for u in cc.check(t, t)["unmatched"]] == ["1"]

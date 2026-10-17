@@ -10,7 +10,20 @@
 
 Planning a city trip is not just picking attractions. The hotel changes the travel time, the transport cost and what can realistically fit into each day, and a hotel that looks cheap per night can cost more once travel time and fares are counted. Most planners treat the hotel and the itinerary as two separate decisions. Fitinerary chooses them together and shows its working.
 
-**Who it is for and why it matters.** The target user is a traveller, often budget-conscious or a student, who plans a short city trip on their own and has to choose a hotel before knowing how the days will go. What they get: a hotel comparison by *true cost* (room, admissions, estimated transport, and the value of their travel time), a day-by-day itinerary that an independent validator has checked, and a plain statement of what could not fit and why. The honest limits: the data is sample data, the hotels are made up, no user study has been run, and on random trips the cheapest hotel is usually also the best one (see the evaluation below), so the value is in the trips where it is not. No statistics about real travellers are claimed.
+**Who it is for and why it matters.** The target user is a traveller, often budget-conscious or a student, who plans a short city trip on their own and has to choose a hotel before knowing how the days will go. **The app tells you whether your hotel choice makes the trip workable and shows the arithmetic** (room, admissions, estimated transport, the value of your travel time, and a charge for sights that did not fit); it does not claim that cheap hotels are usually traps. How often the cheapest-rate hotel is not the best varies by city, measured on seeded synthetic trips with made-up hotels (per city, never pooled; `docs/README-claims.md`, `docs/worked-example.md`):
+
+| City | Best-value hotel differed from the cheapest-rate hotel | Mean extra true cost of choosing by rate | Travel time vs an input-order baseline (N comparable) | Plans the validator passed |
+|---|---|---|---|---|
+| Tokyo | 4 of 52 trips | 39.5 JPY | 14.1% less (N = 15 comparable, 60 generated) | 53 of 53 |
+| Singapore | 7 of 18 trips | 166.3 SGD | 7.6% less (N = 15 comparable, 20 generated) | 18 of 18 |
+| Seoul | 0 of 15 trips | 0.0 KRW | 0.0% less (N = 1 comparable, 20 generated) | 15 of 15 |
+| Kuala Lumpur | 8 of 15 trips | 116.9 MYR | 5.7% less (N = 14 comparable, 20 generated) | 15 of 15 |
+
+For Tokyo the figures are at the default value of time (1,000 JPY an hour); for the other cities at the evaluation's middle tested value of time (1000 local units an hour, the same number in every currency, so Seoul's 1000 KRW is far below its own default and says little there). Samples are 20 to 60 seeded trips: indicative, not a claim about real trips or real hotel markets. What a traveller gets: a hotel comparison by true cost, a day-by-day itinerary that an independent validator has checked, and a plain statement of what could not fit and why. The honest limits: the data is sample data, the hotels are made up, and no user study has been run.
+
+**User test (informal, small N):** Not run yet.
+
+**Human red team (informal, small N):** Not run yet.
 
 ## 2. Solution Overview
 
@@ -117,6 +130,14 @@ Opt-in live checks (each needs a key and spends model calls, capped): `RUN_LIVE_
 
 **Results (all with the caveats above).** Simulated red team (`docs/redteam-results.md`, simulated models, not a real model): 48 attacks in English, Korean, Chinese and Malay, 744 runs, final result affected in 0 after 3 fixes found by the red team itself. Live red team: 2 of 27 affected before the last fix, 0 of 27 after it (section 4). Hardening: 33 of 33 in-process abuse cases pass. Tests: 642 backend, 261 Vitest, 55 Playwright (Chromium), all passing at the commit named in `docs/EVIDENCE-STATUS.md`.
 
+**Tests that pin the four rules judges ask about** (`backend/tests/`):
+- *Place descriptions are never sent to the model:* `test_extraction_prompt_never_contains_dataset_descriptions` (`test_llm_input.py`), `test_explain_prompts_never_contain_attraction_descriptions` (`test_llm_explain.py`), `test_description_text_never_reaches_any_prompt_even_if_poisoned` (`test_llm_api_safety.py`), `test_city_descriptions_never_reach_extraction_prompt` (`test_city_packs.py`).
+- *Hotels are not representable in the model's output (the trip request):* the extraction schema has no hotel field and rejects extra keys: `test_fields_the_model_may_not_set_are_rejected_by_the_schema` (a hotel price, ids, nights and both safety flags), `test_a_fully_compliant_malicious_model_cannot_change_flags_ids_or_state`. When a change request names a hotel, code resolves the name against the city's data (`test_hotel_resolution`) and an unknown hotel is only asked about.
+- *Prices come only from the data:* the model has no price field to fill, and any number in an explanation must be in the computed facts: `test_numbers_not_in_the_facts_are_rejected_including_derived_ones`, `test_explanation_with_a_fabricated_number_is_rejected_and_replaced_by_the_template`, `test_invented_percentage_is_rejected` (`test_llm_explain.py`).
+- *Grounding on numbers and names:* `test_name_not_in_facts_is_rejected_and_alias_of_a_fact_name_is_accepted`, `test_attraction_not_in_the_facts_is_rejected` (`test_llm_explain.py`), `test_an_explanation_that_names_another_citys_place_is_rejected_for_every_city_pair`.
+
+**Known gaps, stated plainly.** (1) The grounding check looks at numbers and names only: an explanation could still assert something qualitative about a place that is not in the facts (that it is quiet, step-free or good for children), because words are not checked. (2) Preferences about walking, quiet, accessibility, children or diet cannot be acted on: the sample data has no such information, so the app lists them as "heard, not applied" and never turns them into constraints. (3) A suggestion such as a relaxed pace is a stand-in the user must accept, not a walking limit.
+
 **Evaluation (no language model involved, seeded synthetic trips on sample data).** Across 15 comparable trips of 60, optimised routes used a mean of 14.1% less travel time than an input-order baseline (8.4% less than nearest-neighbour on 18 trips). The independent validator passed 53 of 53 plans. The lowest-rate hotel was not the best by true cost in 4 of 52 trips at the default value of time, and in 10 of 52 when an hour of time is valued at 2,000 yen. The hotels and rates are fictional and were tuned for the demo; this measures the model's behaviour on sample data, not hotel markets (`docs/eval-results.md`).
 
 **Limitations.** Sample data only; hotels are made up; no live prices, holidays or transit; travel times are estimates (one transport mode is never named because the data has none). Two Singapore closing days (the Buddha Tooth Relic Temple on Mondays, the ArtScience Museum on Wednesdays) are unverified and probably wrong. No user study has been run. All live AI evidence is one model through a third-party gateway and is optimistic. Interests only highlight sights; the planner uses your Must / Include / Skip choices. Rate limits and the circuit breaker are per process.
@@ -134,3 +155,16 @@ Cited explanations (each sentence tied to the facts that support it), an AI on/o
 ## Licence
 
 [PLACEHOLDER: licence]
+
+## Next: from words to constraints
+
+Today the AI turns your words into the fields the planner uses and lists, without acting on them, what it cannot use ("Heard, but the planner can't act on this yet"). The next step would be to turn some of those words into planning constraints. This is how I would do it, and why it is not built.
+
+- **Walking tolerance** ("not much walking"): map it to a limit on walking minutes per leg and per day, and make the optimiser respect it. This needs walking distances per leg, which the sample data does not have (its travel times are estimated from straight-line distance, with no mode and no walking share).
+- **Quiet places** ("somewhere calm"): rank or avoid sights by expected crowding at the planned hour. This needs crowd levels by hour or day, which no dataset here has.
+- **Hotel convenience** ("close to a station", "easy to get back to late"): add a hotel-to-station distance and last-train time to the comparison. This needs station exits and timetables.
+- **Accessibility, children, diet:** each needs facts about step-free access, facilities or menus that must come from a source, never from a model.
+
+**Why it is not built.** The data to act on these preferences does not exist in the sample data, a model must not invent it, and turning a subjective preference into a hard constraint without data would make the plan look more considered than it is.
+
+**How assumptions would be confirmed.** Each inferred constraint would be shown as a suggestion in plain words ("I assumed at most N minutes of walking a day because you wrote 'not much walking'"), with the plan that results shown beside the plan without it, an Accept button, and nothing applied unless it is clicked. It would be held in memory only, like everything else. The first step of this is already in the app: a relaxed pace offered as an explicit, labelled stand-in.

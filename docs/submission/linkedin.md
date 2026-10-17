@@ -10,6 +10,8 @@ I built Fitinerary for a hackathon: a multi-city trip planner (Tokyo, Singapore,
 
 **4. What I measured and what I did not.** Tests: 642 backend, 261 unit, 55 end-to-end. A simulated red team (48 attacks in English, Korean, Chinese and Malay, 744 runs, simulated models only) found and fixed two leaks. A gold set of 48 hand-written prompts scored 48 of 48 on one model through a third-party gateway, which I call optimistic because I wrote the prompts and tuned the pipeline on similar checks. I have not run a user study, a second model or any unseen-request test.
 
+**User test (informal, small N):** Not run yet. **Human red team (informal, small N):** Not run yet.
+
 **5. What I would do next.** Cited explanations, an AI on/off comparison, and a real user test with the kit already in the repo.
 
 [PLACEHOLDER: proudest moment]

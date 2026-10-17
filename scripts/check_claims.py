@@ -10,10 +10,11 @@ import re
 import sys
 from pathlib import Path
 
+SLOTS = {"**User test (informal, small N):**": "docs/user-test/summary.md", "**Human red team (informal, small N):**": "docs/user-test/redteam-human-summary.md"}
 DRAFTS = ["README.md", "docs/submission/devpost.md", "docs/submission/linkedin.md"]
 CORPUS = ["docs/SUBMISSION-FACTS.md", "docs/eval-results.md", "docs/eval-results.json", "docs/README-claims.md", "docs/city-eval-results.md", "docs/hotel-comparison-results.md",
           "docs/hardening-results.md", "docs/worked-example.md", "docs/lighthouse-results.md", "docs/lighthouse-summary.json", "docs/ai-selfcheck.md", "docs/ai-selfcheck-history.md",
-          "docs/redteam-results.md", "docs/redteam-results.json", "docs/redteam-live.md", "docs/redteam-live-first-run.md", "docs/user-test/summary.md",
+          "docs/redteam-results.md", "docs/redteam-results.json", "docs/redteam-live.md", "docs/redteam-live-first-run.md",
           "docs/SAFETY_LOG.md", "docs/JUDGING-SCORECARD.md", "docs/BUILD_NOTES.md", "docs/ux-metrics.md", "docs/EVIDENCE-STATUS.md", "docs/test-summary-frontend.json",
           "docs/data-verification/counts.md", "docs/data-verification/counts.json", "docs/data-verification/CHANGELOG.md", "backend/tests/results/full-suite.json", "backend/tests/results/latest-full.md"]
 CORPUS_GLOBS = ["docs/eval/gold-results-live-*.md"]
@@ -102,6 +103,14 @@ def check(root: Path, drafts_root: Path) -> dict:
         text = p.read_text(encoding="utf-8")
         placeholders += [(rel, i + 1, m) for i, l in enumerate(text.splitlines()) for m in re.findall(r"\[PLACEHOLDER:[^\]]*\]", l)]
         for i, s in strip_markup(text):
+            slot = next((f for k, f in SLOTS.items() if k in text.splitlines()[i - 1]), None)
+            if slot:       # a result slot: its numbers must come from ITS summary file, nowhere else
+                sp = root / slot
+                snums = set(numbers(re.sub(r"(?<=\d),(?=\d{3})", "", sp.read_text(encoding="utf-8")))) if sp.exists() else set()
+                for n in numbers(re.sub(r"\*\*[^*]*\*\*", " ", s)):
+                    if n not in snums:
+                        unmatched.append((rel, i, n, f"slot number not in {slot}: " + text.splitlines()[i - 1].strip()[:120]))
+                continue
             for n in numbers(s):
                 if n not in have:
                     unmatched.append((rel, i, n, text.splitlines()[i - 1].strip()[:160]))
