@@ -38,19 +38,38 @@ def facts() -> dict:
         with open(csv_path, newline="", encoding="utf-8") as fh:
             f["user_rows"] = sum(1 for r in csv.DictReader(fh) if any((v or "").strip() for v in r.values()))
     f["live_eval"] = (D / "llm-live-eval.md").exists()
+    sc = D / "ai-selfcheck.md"
+    f["selfcheck"] = None
+    if sc.exists():
+        t = sc.read_text(encoding="utf-8")
+        m = re.search(r"\*\*(\d+ of \d+) checks passed", t)
+        mod = re.search(r"Model: `([^`]+)`", t)
+        host = re.search(r"Endpoint host: `([^`]+)`", t)
+        f["selfcheck"] = ", ".join(x for x in [(m.group(1) + " checks passed in the latest run") if m else "", f"model {mod.group(1)}" if mod else "", f"via {host.group(1)}" if host else ""] if x) or "see the file"
     f["cities"] = sorted(p.name for p in (ROOT / "backend/app/data/cities").iterdir() if (p / "city.json").exists())
     f["city_eval"] = (D / "city-eval-results.md").exists()
+    ce = D / "city-eval-results.json"
+    f["city_eval_cities"], f["city_eval_n"] = [], None
+    if ce.exists():
+        j = json.loads(ce.read_text(encoding="utf-8"))
+        f["city_eval_cities"], f["city_eval_n"] = sorted(j.get("cities", {})), j.get("meta", {}).get("trips_per_added_city")
     f["verification_sheets"] = sorted(p.name for p in (D / "data-verification").glob("*.csv")) if (D / "data-verification").exists() else []
     return f
 
 
 def build(f: dict) -> str:
+    selfcheck = f.get("selfcheck")
     live = ("Run: see `docs/llm-live-eval.md`." if f["live_eval"] else
-            "**Not run.** `backend/scripts/run_llm_live_eval.py` exists (opt-in, hard cap 150 calls, `--plan` makes none), but no live result exists, so no live figure is claimed.")
+            (f"A live smoke test was run and is recorded in `docs/ai-selfcheck.md` ({selfcheck}). It is a small check on one model, tuned on those checks, not a benchmark. "
+             "The larger evaluation file `docs/llm-live-eval.md` does not exist." if selfcheck else
+             "No live result file exists (`backend/scripts/run_llm_live_eval.py` is opt-in, hard cap 150 calls, `--plan` makes none), so no live figure is claimed."))
     user = (f"{f['user_rows']} participant(s): see the Proof page card and `docs/user-test/summary.md`." if f["user_rows"] else
             "**Not run.** The kit exists (`docs/user-test/PROTOCOL.md`, an empty `results.csv`, `scripts/summarise_user_test.py`); the Proof page says \"Not run yet\".")
     ver = ("sheets exist: " + ", ".join(f["verification_sheets"]) if f["verification_sheets"] else
            "no verification sheets exist yet; every record is labelled `sample`, none is labelled verified")
+    others = ", ".join(c.replace("_", " ").title() for c in f["city_eval_cities"])
+    city_eval_gap = (f"the headline evaluation is on Tokyo; {others} each have a smaller separate sample" + (f" ({f['city_eval_n']} trips each)" if f["city_eval_n"] else "") + ", reported separately and never pooled"
+                     if f["city_eval_cities"] else "only the Tokyo evaluation exists; the other cities have no evaluation file")
     claims = "\n".join(f"- `{k}`: {v}" for k, v in f["claims"]) or "- (claims file not found)"
     return f"""# Judging scorecard
 
@@ -99,7 +118,7 @@ Generated claim sentences:
 
 {claims}
 
-**Remaining gaps:** no real-user evidence yet; results are on synthetic trips and sample data, with weak or tied results reported on the Proof page; the measured evaluation covers Tokyo only (other cities have smaller separate samples, and Kuala Lumpur is not in the city evaluation); the hotels are made-up; there are no bookings or live prices; one city per trip.
+**Remaining gaps:** no real-user evidence yet; results are on synthetic trips and sample data, with weak or tied results reported on the Proof page; {city_eval_gap}; the hotels are made-up; there are no bookings or live prices; one city per trip.
 """
 
 

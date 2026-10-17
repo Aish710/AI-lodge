@@ -16,7 +16,7 @@ Outputs (in `docs/`): `eval-results.md` (report), `eval-results.json` (raw per-t
 - **The solver under test** is the objective `POST /optimise` runs (true cost at the trip's value of time, default 1,000 JPY/h). A test compares the evaluation's plans with what the real route returns. The older Phase 2 weighted objective (still the default of `solve()` when called directly, used by no API route) appears only in a labelled secondary analysis (A2).
 - **Generated trips** (`app/eval/generator.py`, seeded): 2-4 days, 3-9 of the 12 sample attractions in random input order, 0-3 must-visits, random start weekday, a mix of no, soft and strict budgets (some deliberately tight), each of the 3 fictional hotels as the base in turn, balanced pace. The generator's constants are judgement calls and are written into the scenario file.
 - **Replanning**: the existing `scripts/run_replan_evaluation.py` is imported (`collect`, `summarise`), not re-implemented.
-- **Not measured**: explanations and natural-language parsing. They need a live model and are covered by the opt-in `scripts/run_llm_live_eval.py` (`docs/llm-live-eval.md`), which has not been run. The evaluation never imports the real client or reads an API key (enforced by tests).
+- **No language model is used**: explanations and natural-language parsing need a live model, so they are checked by separate opt-in scripts (`docs/ai-selfcheck.md` is a small live smoke test; `docs/llm-live-eval.md` does not exist). The evaluation never imports the real client or reads an API key (enforced by tests).
 
 ## Determinism
 

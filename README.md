@@ -6,7 +6,7 @@
 
 Planning a city trip is not just picking attractions. The hotel changes travel time, transport cost, and what can realistically fit into each day. Fitinerary helps a traveller compare those trade-offs instead of treating hotel choice and itinerary planning as separate decisions.
 
-Current coverage is Tokyo sample data: 12 attractions, estimated travel times/fares, and 3 fictional hotels used for demonstration. It is not live travel, price, or opening-hours data.
+Coverage is four cities of sample data (Tokyo, Singapore, Seoul, Kuala Lumpur), each with estimated travel times and fares and fictional hotels used for demonstration. It is not live travel, price, or opening-hours data.
 
 ## Solution Overview
 
@@ -93,4 +93,4 @@ Fitinerary is designed to avoid overclaiming:
 - The safety log maps risks to safeguards and tests in `docs/SAFETY_LOG.md`.
 - Evidence is generated from files; full backend-suite results are separated from partial runs.
 
-Known limitations: no public holidays, no live transit, no real hotel inventory, no user study, walking-limit preference is documented as unmodelled, and live LLM quality has not been measured unless `docs/llm-live-eval.md` is generated.
+Known limitations: no public holidays, no live transit, no real hotel inventory, no user study, walking-limit preference is documented as unmodelled, and the live AI evidence is a small smoke test on one model (`docs/ai-selfcheck.md`), tuned on those checks, not a benchmark.

@@ -1,10 +1,10 @@
 # Submission facts (generated)
 
-Generated 2026-10-15 23:12 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
+Generated 2026-10-17 14:03 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
 
 ## Tests
 
-- Backend full suite: 524 passed, 1 failed, 0 skipped, 525 total (pytest), revision 0fdfefd2bb5c47e271e83bbd782edec0c123b481 + uncommitted changes.  
+- Backend full suite: 568 passed, 0 failed, 0 skipped, 568 total (pytest), revision 3873fb5baa3d45bbd3541a73afe1b33b26268ba2 + uncommitted changes.  
   *Source: backend/tests/results/latest-full.md*
 - Frontend unit and component tests: 171 passed, 0 failed, 171 total (Vitest).  
   *Source: frontend/test-results/vitest.json (npm run test:report)*
@@ -49,7 +49,7 @@ Generated 2026-10-15 23:12 UTC by `frontend/scripts/make-submission-facts.mjs`. 
 
 ## Safety
 
-- 120 risks are tracked in the safety log, each with a safeguard, the test names that check it, and a status.  
+- 135 risks are tracked in the safety log, each with a safeguard, the test names that check it, and a status.  
   *Source: docs/SAFETY_LOG.md*
 - API hardening: 33 of 33 in-process abuse cases passed.  
   *Source: docs/hardening-results.md*
@@ -58,17 +58,20 @@ Generated 2026-10-15 23:12 UTC by `frontend/scripts/make-submission-facts.mjs`. 
 
 - 4 sample city packs: kuala_lumpur, seoul, singapore, tokyo. One city per trip; all records are labelled sample data and none is labelled verified.  
   *Source: backend/app/data/cities/*
-- In-app pages: Trip, Sights, Hotels, Itinerary, Proof (measured results, hardening, risk table, user-test card) and How it works (architecture, how the AI is used, limitations, privacy).  
+- In-app pages: Plan, Your trip, Proof (measured results, hardening, risk table, live AI checks, user-test card) and How it works (architecture, how the AI is used, limitations, privacy).  
   *Source: frontend/src/router.js*
-- 20 step screenshots (two cities, desktop and mobile, plus the Proof and How it works pages) in docs/screenshots/steps/.  
+- 36 step screenshots (two cities, desktop and mobile, plus the Proof and How it works pages) in docs/screenshots/steps/.  
   *Source: docs/screenshots/steps/*
 
 ## Not measured
 
 - Any user study or real-user outcome: the user-test kit exists but no result has been collected (the Proof page says "Not run yet").  
   *Source: docs/user-test/ (results.csv has no rows)*
-- AI parsing and explanation quality with a live model (the opt-in live evaluation has not been run).  
-  *Source: docs/llm-live-eval.md (absent)*
 - Real hotel markets; live prices or opening hours.
 - Backend cold-start time on the free host and the Docker image build (neither has been run).  
   *Source: docs/DEPLOY.md*
+
+## AI evaluation
+
+- A live smoke test is recorded in docs/ai-selfcheck.md: 20 of 20 checks passed in the latest run, model claude-haiku-4-5-20251001, via api.apiyi.com. It is a small check on one model, tuned on those checks, not a benchmark. The larger evaluation file docs/llm-live-eval.md does not exist.  
+  *Source: docs/ai-selfcheck.md*

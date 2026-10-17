@@ -68,7 +68,7 @@ add('Safety', hm ? `API hardening: ${hm[1]} of ${hm[2]} in-process abuse cases p
 import { readdirSync } from 'node:fs'
 const cities = existsSync(join(ROOT, 'backend/app/data/cities')) ? readdirSync(join(ROOT, 'backend/app/data/cities')).filter((n) => existsSync(join(ROOT, 'backend/app/data/cities', n, 'city.json'))) : []
 add('Product', cities.length ? `${cities.length} sample city packs: ${cities.join(', ')}. One city per trip; all records are labelled sample data and none is labelled verified.` : `City packs: ${NM}.`, 'backend/app/data/cities/')
-add('Product', 'In-app pages: Trip, Sights, Hotels, Itinerary, Proof (measured results, hardening, risk table, user-test card) and How it works (architecture, how the AI is used, limitations, privacy).', 'frontend/src/router.js')
+add('Product', 'In-app pages: Plan, Your trip, Proof (measured results, hardening, risk table, live AI checks, user-test card) and How it works (architecture, how the AI is used, limitations, privacy).', 'frontend/src/router.js')
 const shots = existsSync(join(ROOT, 'docs/screenshots/steps')) ? readdirSync(join(ROOT, 'docs/screenshots/steps')).filter((n) => n.endsWith('.png')).length : 0
 add('Product', shots ? `${shots} step screenshots (two cities, desktop and mobile, plus the Proof and How it works pages) in docs/screenshots/steps/.` : `Step screenshots: ${NM}.`, 'docs/screenshots/steps/')
 
@@ -76,7 +76,14 @@ const csvText = readText('docs/user-test/results.csv')
 const utRows = csvText ? csvText.split(/\r?\n/).filter((l) => l.trim()).slice(1).filter((l) => l.split(',').some((c) => c.trim())).length : 0
 add(utRows ? 'User test' : 'Not measured', utRows ? `${utRows} user-test participant(s); see docs/user-test/summary.md for the generated medians and verbatim quotes. Small sample.` : 'Any user study or real-user outcome: the user-test kit exists but no result has been collected (the Proof page says "Not run yet").', utRows ? 'docs/user-test/results.csv' : 'docs/user-test/ (results.csv has no rows)')
 if (existsSync(join(ROOT, 'docs/llm-live-eval.md'))) add('AI evaluation', 'A live AI evaluation result file exists; read its date, model and per-city N before quoting any figure.', 'docs/llm-live-eval.md')
-else add('Not measured', 'AI parsing and explanation quality with a live model (the opt-in live evaluation has not been run).', 'docs/llm-live-eval.md (absent)')
+else {
+  const sc = readText('docs/ai-selfcheck.md')
+  const passed = sc?.match(/\*\*(\d+ of \d+) checks passed/)?.[1]
+  const model = sc?.match(/Model: `([^`]+)`/)?.[1]
+  const host = sc?.match(/Endpoint host: `([^`]+)`/)?.[1]
+  if (sc) add('AI evaluation', `A live smoke test is recorded in docs/ai-selfcheck.md${passed ? `: ${passed} checks passed in the latest run` : ''}${model ? `, model ${model}` : ''}${host ? `, via ${host}` : ''}. It is a small check on one model, tuned on those checks, not a benchmark. The larger evaluation file docs/llm-live-eval.md does not exist.`, 'docs/ai-selfcheck.md')
+  else add('Not measured', 'AI parsing and explanation quality with a live model: no live result file exists.', 'docs/ai-selfcheck.md (absent)')
+}
 add('Not measured', 'Real hotel markets; live prices or opening hours.', '')
 add('Not measured', 'Backend cold-start time on the free host and the Docker image build (neither has been run).', 'docs/DEPLOY.md')
 

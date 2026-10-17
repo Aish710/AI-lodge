@@ -211,7 +211,7 @@ NOT_SHOWN = [
     "**Synthetic trips, not users.** No person used the planner; nothing here measures whether travellers find the plans good or how they trade off time and money.",
     "**Not live prices.** Admission prices, opening hours and room rates are not current and not checked against any source.",
     "**No significance testing.** There are no confidence intervals or tests; N is small and the trips are drawn from one seeded generator. Differences should not be extrapolated beyond this sample.",
-    "**The language model is not measured here.** Explanation quality and natural-language parsing need a live model; see the opt-in `docs/llm-live-eval.md` (section G).",
+    "**The evaluation does not use a language model.** It runs the solver and validator only. The AI's live checks are reported separately: a small smoke test in `docs/ai-selfcheck.md` (one model, tuned on those checks) and, if present, the gold-set files in `docs/eval/` (section G).",
     "**One machine.** Solver statuses depend on the OR-Tools version and platform; runtimes depend on the computer.",
 ]
 
@@ -225,8 +225,9 @@ def render_results(*, metrics: dict, scenarios, trips: list[dict], meta: dict, p
     out += _scenario_section(scenarios) + _generated_section(metrics, params["seed"], n) + _travel_section(metrics) + _secondary_section(metrics) + _validation_section(metrics) + _budget_section(metrics)
     out += _must_section(metrics) + _hotel_section(metrics) + _replan_section(metrics)
     out += ["## G. Explanation and parsing", "",
-            "Not measured here: they need a live model. They are covered by the opt-in script `backend/scripts/run_llm_live_eval.py`, which writes `docs/llm-live-eval.md` "
-            + ("(that file exists in this repository)." if meta["live_eval_exists"] else "(that file does not exist: the live evaluation has NOT been run, so this report makes no claim about the model)."), ""]
+            "This report makes no claim about the model: it needs a live model, so it is measured by separate opt-in scripts. "
+            + ("A 20-check live smoke test is recorded in `docs/ai-selfcheck.md` (read its model, host, date and run history before quoting it). " if meta.get("selfcheck_exists") else "")
+            + ("The larger evaluation `docs/llm-live-eval.md` is present in this repository." if meta["live_eval_exists"] else "The larger evaluation file `docs/llm-live-eval.md` (script `backend/scripts/run_llm_live_eval.py`) does not exist, so it adds no figures here."), ""]
     out += _runtime_section(metrics, meta)
     out += ["## Every generated trip", "", "Travel = total minutes incl. hotel legs. 'placed' = attractions scheduled. Verdicts: P = pass, W = pass with warnings, F = fail, - = no plan.", ""]
     short = {"pass": "P", "pass_with_warnings": "W", "fail": "F", "no_plan": "-"}

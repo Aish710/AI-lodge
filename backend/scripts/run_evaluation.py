@@ -91,7 +91,7 @@ def main(argv: list[str] | None = None) -> int:
     elapsed = round(time.perf_counter() - t0, 1)
 
     meta = {"date": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "mode": "quick" if quick else "full", "commit": code_version(),
-            "live_eval_exists": (DOCS / "llm-live-eval.md").exists(), "elapsed_seconds": elapsed}
+            "live_eval_exists": (DOCS / "llm-live-eval.md").exists(), "selfcheck_exists": (DOCS / "ai-selfcheck.md").exists(), "elapsed_seconds": elapsed}
     import ortools
     params = {"seed": args.seed, "n_trips": n, "rows": [
         ["Seed (generator and replanning scenarios)", args.seed], ["Generated trips", f"{n} ({'quick' if quick else 'full'} mode)"],

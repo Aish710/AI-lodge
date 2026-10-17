@@ -3,8 +3,10 @@
   Default (no key, zero model calls):   python scripts/score_gold.py
       scores a deterministic RULE-BASED STAND-IN for the model (regexes and alias scanning). It is a floor/reference that exercises the same
       validation pipeline; it says NOTHING about any language model. Writes docs/eval/gold-results-mock.md.
-  Live (opt-in):  RUN_LIVE_LLM_EVAL=1 python scripts/score_gold.py --live       (needs LLM_API_KEY and LLM_MODEL; hard cap config.GOLD_MAX_CALLS)
-      scores the real model through the same pipeline. Writes docs/eval/gold-results-live.md. Nothing is written if the run is aborted.
+  Live (opt-in):  RUN_LIVE_LLM_EVAL=1 python scripts/score_gold.py --live --label first-run     (needs LLM_API_KEY and LLM_MODEL; hard cap config.GOLD_MAX_CALLS)
+      scores the real model on ALL gold prompts through the same pipeline. Every run writes a NEW file docs/eval/gold-results-live-<UTC timestamp>-<label>.md and never
+      overwrites an earlier one (so the first run's numbers survive later fixes). Nothing is written if the run is aborted. Copy the files you want shown on the Proof page to
+      docs/eval/gold-results-live-first-run.md and docs/eval/gold-results-live-after-fix.md.
 Output folder override (tests): GOLD_OUT_DIR. The key and the prompts' replies are never printed or stored.
 """
 import json
@@ -100,11 +102,21 @@ def pct(a, b):
     return f"{a}/{b} ({100 * a / b:.0f}%)" if b else "n/a"
 
 
+def failure_categories(res: dict) -> dict[str, int]:
+    """How many prompts missed on each field, over all cities (counts only; the per-city table above is never pooled)."""
+    out: dict[str, int] = defaultdict(int)
+    for c in CITIES:
+        for _, fields in res[c]["failed"]:
+            for f in fields:
+                out[f] += 1
+    return dict(sorted(out.items(), key=lambda kv: (-kv[1], kv[0])))
+
+
 def render(res: dict, all_ds, *, label: str, model: str, calls: int | None, endpoint_note: str = "") -> str:
     live = calls is not None
     head = ["# Gold-set field accuracy, per city " + ("(LIVE model)" if live else "(MOCK rule-based baseline: not a model)"), ""]
     if live:
-        head.append(f"Model: `{model}`. {endpoint_note} PROMPT_VERSION: `{PROMPT_VERSION}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. Git: `{lc.git_hash()}`. "
+        head.append(f"Run label: `{label}`. Model: `{model}`. {endpoint_note} PROMPT_VERSION: `{PROMPT_VERSION}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. Git: `{lc.git_hash()}`. "
                     f"Calls used: {calls} of a hard cap of {config.GOLD_MAX_CALLS}. Produced by `backend/scripts/score_gold.py --live`.")
     else:
         head.append(f"Scorer: `{model}`. PROMPT_VERSION: `{PROMPT_VERSION}`. Date: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}. Git: `{lc.git_hash()}`. Zero model calls. "
@@ -120,7 +132,26 @@ def render(res: dict, all_ds, *, label: str, model: str, calls: int | None, endp
                     + " | ".join(pct(*t["kinds"][k]) for k in KINDS) + " |")
     miss = ["", "## Prompts with at least one wrong field", "", "| Prompt | Wrong fields |", "|---|---|"]
     miss += [f"| {i} | {', '.join(f)} |" for c in CITIES for i, f in res[c]["failed"]] or ["| none | |"]
-    return "\n".join(head + rows + miss) + "\n"
+    cats = failure_categories(res)
+    cat = ["", "## Failure categories (counts of missed fields, all cities together; small sample, one model)", "", "| Wrong field | Prompts |", "|---|---|"]
+    cat += [f"| {f} | {n} |" for f, n in cats.items()] or ["| none | 0 |"]
+    return "\n".join(head + rows + miss + cat) + "\n"
+
+
+def label_arg(argv: list[str]) -> str:
+    raw = argv[argv.index("--label") + 1] if "--label" in argv and argv.index("--label") + 1 < len(argv) else "run"
+    safe = re.sub(r"[^a-z0-9-]+", "-", raw.lower()).strip("-")[:40]
+    return safe or "run"
+
+
+def live_path(out_dir: Path, label: str, now: datetime | None = None) -> Path:
+    """A NEW timestamped file for every live run. It never reuses a name, so an earlier run can not be overwritten."""
+    stamp = (now or datetime.now(timezone.utc)).strftime("%Y%m%dT%H%M%SZ")
+    return out_dir / f"gold-results-live-{stamp}-{label}.md"
+
+
+def worst_case_calls(prompts: list[dict]) -> int:
+    return len(prompts) * config.LLM_MAX_CALLS_PARSE      # one parse each: first attempt plus one retry
 
 
 def main() -> int:
@@ -135,6 +166,9 @@ def main() -> int:
         print(f"\nWrote {path}. Live scoring was not run (use --live with RUN_LIVE_LLM_EVAL=1).")
         return 0
     lc.load_env_file()
+    if worst_case_calls(load_gold()) > config.GOLD_MAX_CALLS:
+        print(f"Refusing to run: the worst case ({worst_case_calls(load_gold())} calls) is above the cap {config.GOLD_MAX_CALLS}. Raise config.GOLD_MAX_CALLS deliberately first.")
+        return 0
     msg = lc.gate("scripts/score_gold.py --live", config.GOLD_MAX_CALLS)
     if msg:
         print(msg)
@@ -147,9 +181,11 @@ def main() -> int:
     except lc.RunAborted as e:
         print(f"\nStopped after {client.total_calls} call(s): {e}\nNo results were written.")
         return 2
-    path = out_dir / "gold-results-live.md"
-    path.write_text(render(res, all_ds, label="live", model=client.model, calls=client.total_calls, endpoint_note=lc.endpoint_stamp(client)))
-    print(f"\nWrote {path} ({client.total_calls} model call(s) used).")
+    label = label_arg(sys.argv)
+    path = live_path(out_dir, label)
+    with open(path, "x", encoding="utf-8") as f:       # "x": fails rather than overwrite
+        f.write(render(res, all_ds, label=label, model=client.model, calls=client.total_calls, endpoint_note=lc.endpoint_stamp(client)))
+    print(f"\nWrote {path} ({client.total_calls} model call(s) used). Earlier live result files are untouched.")
     return 0
 
 

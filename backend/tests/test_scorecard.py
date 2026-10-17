@@ -28,8 +28,10 @@ def test_facts_in_the_scorecard_match_the_files_they_come_from():
 
 def test_unrun_things_are_stated_as_not_run_and_nothing_is_pre_filled():
     f = mod.facts()
-    if not f["live_eval"]:
-        assert "**Not run.** `backend/scripts/run_llm_live_eval.py`" in DOC
+    if not f["live_eval"] and f.get("selfcheck"):
+        assert "recorded in `docs/ai-selfcheck.md`" in DOC and "tuned on those checks, not a benchmark" in DOC and "`docs/llm-live-eval.md` does not exist" in DOC
+    elif not f["live_eval"]:
+        assert "No live result file exists" in DOC
     if not f["user_rows"]:
         assert "**Not run.** The kit exists" in DOC
     if not f["verification_sheets"]:
