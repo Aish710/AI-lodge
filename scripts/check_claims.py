@@ -12,7 +12,7 @@ from pathlib import Path
 
 DRAFTS = ["README.md", "docs/submission/devpost.md", "docs/submission/linkedin.md"]
 CORPUS = ["docs/SUBMISSION-FACTS.md", "docs/eval-results.md", "docs/eval-results.json", "docs/README-claims.md", "docs/city-eval-results.md", "docs/hotel-comparison-results.md",
-          "docs/hardening-results.md", "docs/lighthouse-results.md", "docs/lighthouse-summary.json", "docs/ai-selfcheck.md", "docs/ai-selfcheck-history.md",
+          "docs/hardening-results.md", "docs/worked-example.md", "docs/lighthouse-results.md", "docs/lighthouse-summary.json", "docs/ai-selfcheck.md", "docs/ai-selfcheck-history.md",
           "docs/redteam-results.md", "docs/redteam-results.json", "docs/redteam-live.md", "docs/redteam-live-first-run.md", "docs/user-test/summary.md",
           "docs/SAFETY_LOG.md", "docs/JUDGING-SCORECARD.md", "docs/BUILD_NOTES.md", "docs/ux-metrics.md", "docs/EVIDENCE-STATUS.md", "docs/test-summary-frontend.json",
           "docs/data-verification/counts.md", "docs/data-verification/counts.json", "docs/data-verification/CHANGELOG.md", "backend/tests/results/full-suite.json", "backend/tests/results/latest-full.md"]
@@ -73,11 +73,27 @@ def corpus_numbers(root: Path) -> set[str]:
     return nums
 
 
+def worked_example_pairs(root: Path, drafts_root: Path) -> list[tuple[str, int, str, str]]:
+    """The measured-frequency sentences of docs/worked-example.md ("k of N") must exist in the evaluation files they cite (the money amounts in its tables come straight
+    from the API response, so only the evaluation figures are checked against evidence)."""
+    p = drafts_root / "docs" / "worked-example.md"
+    if not p.exists():
+        return []
+    ctext = "\n".join((root / c).read_text(encoding="utf-8") for c in ("docs/eval-results.md", "docs/city-eval-results.md", "docs/README-claims.md") if (root / c).exists())
+    bad = []
+    for i, line in enumerate(p.read_text(encoding="utf-8").splitlines(), start=1):
+        if "evaluation" in line and " of " in line:
+            for a, b in PAIR.findall(line):
+                if not re.search(rf"(?<![\w.]){a} of {b}(?![\w])", ctext):
+                    bad.append(("docs/worked-example.md", i, f"{a} of {b}", line.strip()[:160]))
+    return bad
+
+
 def check(root: Path, drafts_root: Path) -> dict:
     have = corpus_numbers(root)
     ctext = corpus_text(root)
     pair_ok = lambda a, b: bool(re.search(rf"(?<![\w.]){a}(?: of |/){b}(?![\w])", ctext))   # "20 of 20" or "20/20": the pair itself must be in the evidence, not just the digits
-    unmatched, placeholders, missing_files = [], [], []
+    unmatched, placeholders, missing_files = worked_example_pairs(root, drafts_root), [], []
     for rel in DRAFTS:
         p = drafts_root / rel
         if not p.exists():
