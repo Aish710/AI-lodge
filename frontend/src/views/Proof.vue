@@ -5,7 +5,7 @@ import { computed, nextTick, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import BarRow from '../components/BarRow.vue'
 import Skeleton from '../components/Skeleton.vue'
-import { liveStatus, loadProof, readThisFirst } from '../lib/proof.js'
+import { liveStatus, loadProof, parseHoldout, readThisFirst } from '../lib/proof.js'
 import { parseBlocks } from '../lib/mdparse.js'
 import { formatLocalMoney } from '../lib/format.js'
 const formatJpy = (n) => formatLocalMoney(n, 'JPY')  // the evaluation is the Tokyo (JPY) pack
@@ -44,6 +44,9 @@ const hardening = computed(() => (d.value?.hardeningMd ? parseBlocks(d.value.har
 const hardeningResult = computed(() => /\*\*(\d+)\/(\d+) cases passed\*\*/.exec(d.value?.hardeningMd ?? ''))
 const live = computed(() => (d.value?.live ? parseBlocks(d.value.live) : null))
 const selfcheck = computed(() => (d.value?.selfcheck ? parseBlocks(d.value.selfcheck) : null))
+const holdoutStatus = computed(() => liveStatus(d.value?.holdout, promptVersion.value))
+const holdoutInfo = computed(() => parseHoldout(d.value?.holdout))
+const holdoutBlocks = computed(() => blocksOf(d.value?.holdout))
 const redteam = computed(() => d.value?.redteam ?? null)
 const humanRedteam = computed(() => d.value?.humanRedteam ?? null)
 const attackCount = computed(() => redteam.value?.attacks ?? 0)
@@ -301,6 +304,12 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         </div>
         <p class="small muted mt-2 mb-0">The hand-written prompts and their expected answers were written by the same person who built the pipeline, and the pipeline was tuned on similar checks, so a high score here is optimistic. Many fields (the wrong-city stop, place-name matching) are decided by code, not the model.</p>
 
+        <template v-if="holdoutStatus.state === 'current' && holdoutInfo">
+          <p class="small mt-3 mb-1" data-testid="holdout"><strong>Independent holdout: {{ holdoutInfo.n }} prompts written by {{ holdoutInfo.role }}, small sample.</strong> Written before any run, by someone other than the builder; one model.</p>
+          <details class="small mb-2"><summary>Independent holdout results</summary><div class="mt-2"><MdBlocks :blocks="holdoutBlocks" /></div></details>
+        </template>
+        <p v-else-if="holdoutStatus.state === 'stale'" class="small mt-3 mb-1" data-testid="holdout-stale"><strong>Independent holdout: not run on this version.</strong></p>
+        <p v-else class="small mt-3 mb-1" data-testid="holdout-none"><strong>Independent holdout: not run.</strong> It needs prompts written by someone other than the builder (<code>docs/eval/HOLDOUT-INSTRUCTIONS.md</code>).</p>
         <details v-if="goldMock" class="small mt-3" data-testid="gold-mock"><summary class="fw-semibold">Rule-based baseline, not a model</summary>
           <p class="mb-1 mt-2"><strong>This is not AI accuracy.</strong> It is a deterministic stand-in (regexes and alias scanning) that shows the scoring works and gives a floor to compare a model against.</p><MdBlocks :blocks="goldMock" /></details>
 

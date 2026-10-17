@@ -481,3 +481,12 @@ Run by the user's command (`RUN_LIVE_LLM_EVAL=1 scripts/ai_selfcheck.py`), resul
 
 ## Evidence re-run after the live red-team fix (2026-10-18)
 The fix touched `backend/app`, which would have left the evaluation files STALE, so the same clean-tree sequence was repeated: city evaluation, Tokyo evaluation, hardening, hotel comparison, replanning, Lighthouse, Vitest, Playwright, the full backend suite. Backend 642 passed (4 new tests), Vitest 260 passed, Playwright 55 passed. Tokyo headline numbers are unchanged. `npm run build:release` passes at this commit (placeholder HTTPS URL). Lighthouse (mobile, local): Plan 92 / 100 / 100, Proof 91 / 100 / 100, Your trip snapshot 100 / 100.
+
+## Mega improvement pass, Tier 1 (2026-10-18): docs, scripts and interface only
+- **Item 1.** `scripts/make_worked_example.py` writes `docs/worked-example.md` from the real `/compare-hotels` answer for each city's pinned example: Tokyo and Seoul show a winner change, Singapore and Kuala Lumpur do not, each with the measured frequency from the evaluation files. In Seoul part of the saving is the missed-sights charge (two fewer optional sights left out), and the text says so. `check_claims.py` verifies its "k of N" sentences.
+- **Item 2.** Frontend only (`lib/heard.js`, `NlParsePanel.vue`). No change to the AI pipeline or backend.
+- **Item 3.** Human red-team kit (`docs/user-test/HUMAN-REDTEAM.md`, `redteam-human.csv`, `scripts/add_human_attack.py`, `scripts/summarise_human_redteam.py`).
+- **Item 4.** `scripts/make_value_claims.py` appends 16 per-city statements to `docs/README-claims.md`. `README-claims.md` is rewritten by `run_evaluation.py`, which drops the block, so the script must be run after every evaluation. Tokyo comes from `eval-results.json`; the other cities from `city-eval-results.json`. **A caveat found while writing them:** the city evaluation's value-of-time grid is the same number (500, 1000, 2000) in every currency, so Seoul's 1000 KRW an hour is far below its own default (15,000) and Singapore's 1000 SGD far above its (18); the statements say so. The evaluation numbers were not changed.
+- **Item 5.** `scripts/score_holdout.py`, `docs/eval/holdout-prompts.json` (template only, two FORMAT ONLY rows) and `HOLDOUT-INSTRUCTIONS.md`. I wrote no holdout prompts or expected answers.
+- **Stamps.** New scripts are in the top-level `scripts/`, not `backend/scripts`, so they do not make the evaluation files stale. The frontend changes make the Lighthouse file stale until the Item 7 refresh.
+- **Existing tests:** none edited in this tier.

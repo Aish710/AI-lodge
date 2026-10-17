@@ -1,0 +1,11 @@
+{
+  "about": "TEMPLATE ONLY. This file is the schema for an INDEPENDENT holdout set: requests written by someone other than the builder, in their own words, with simple expected answers written BEFORE any run. The two rows below are marked FORMAT ONLY: they show the shape and must be deleted and replaced by the author's own rows (see docs/eval/HOLDOUT-INSTRUCTIONS.md). scripts/score_holdout.py refuses to run while any FORMAT ONLY row remains. expected.budget is an amount and a currency code (the city's own currency or its display currency); must_visit_names and skip_names are place names exactly as the app shows them; ambiguous lists fragments that should be reported as unclear, not guessed; wrong_city is the id of the city the request is really about (or the word unsupported for a city the app does not have). author_role says who wrote the row; written_on is the date (YYYY-MM-DD).",
+  "prompts": [
+    {"id": "FORMAT-ONLY-1", "city": "tokyo", "text": "FORMAT ONLY: replace this row with a real request in your own words",
+     "expected": {"days": 0, "pace": "relaxed", "budget": {"amount": 0, "currency": "JPY"}, "must_visit_names": [], "skip_names": [], "ambiguous": [], "wrong_city": null},
+     "author_role": "FORMAT ONLY", "written_on": "0000-00-00"},
+    {"id": "FORMAT-ONLY-2", "city": "seoul", "text": "FORMAT ONLY: replace this row with a real request in your own words",
+     "expected": {"days": 0, "pace": null, "budget": null, "must_visit_names": [], "skip_names": [], "ambiguous": [], "wrong_city": "tokyo"},
+     "author_role": "FORMAT ONLY", "written_on": "0000-00-00"}
+  ]
+}

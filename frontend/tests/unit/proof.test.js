@@ -391,3 +391,37 @@ describe('Human red-team line (only when rows exist, informal, small N)', () => 
     expect(parseHumanRedteam('')).toBeNull()
   })
 })
+
+describe('Independent holdout line (only for a live results file made with the current prompt version)', () => {
+  const mountDir = async (dir) => {
+    vi.stubGlobal('fetch', servedFrom(dir))
+    const w = mount(Proof, { global: { plugins: [testRouter()], stubs: { 'router-link': true } } })
+    await flushPromises(); await flushPromises()
+    return w
+  }
+  const put = (dir, v) => {
+    writeFileSync(join(dir, 'holdout-results-latest.md'), `# Independent holdout, per city (LIVE model)\n\nRun label: \`h1\`. PROMPT_VERSION: \`${v}\`.\n\n**N = 15 prompts, written by: a friend, not the builder** (on 2026-10-18), before any run.\n`)
+    const m = JSON.parse(readFileSync(join(dir, 'manifest.json'), 'utf8')); if (!m.copied.includes('holdout-results-latest.md')) m.copied.push('holdout-results-latest.md'); writeFileSync(join(dir, 'manifest.json'), JSON.stringify(m))
+  }
+  it('says "not run" with no file, shows N and author_role when current, and "not run on this version" when stale', async () => {
+    const dir = mk(); syncProof({ root: ROOT, dest: dir })
+    expect((await mountDir(dir)).get('[data-testid=holdout-none]').text()).toContain('Independent holdout: not run')
+    const pv = JSON.parse(readFileSync(join(dir, 'current-version.json'), 'utf8')).prompt_version
+    put(dir, pv)
+    const w = await mountDir(dir)
+    expect(w.get('[data-testid=holdout]').text()).toContain('Independent holdout: 15 prompts written by a friend, not the builder, small sample.')
+    put(dir, '0')
+    expect((await mountDir(dir)).get('[data-testid=holdout-stale]').text()).toContain('not run on this version')
+    vi.unstubAllGlobals()
+  })
+  it('sync-proof copies the newest live holdout file and never a mock file', () => {
+    const root = mk(); const dest = mk()
+    mkdirSync(join(root, 'docs', 'eval'), { recursive: true })
+    for (const n of ['holdout-results-20261018T090000Z-holdout1.md', 'holdout-results-20261019T090000Z-mock.md', 'holdout-results-20261018T100000Z-holdout2.md']) writeFileSync(join(root, 'docs', 'eval', n), `file ${n}`)
+    syncProof({ root, dest })
+    expect(readFileSync(join(dest, 'holdout-results-latest.md'), 'utf8')).toBe('file holdout-results-20261018T100000Z-holdout2.md')
+    const only = mk(); const d2 = mk(); mkdirSync(join(only, 'docs', 'eval'), { recursive: true }); writeFileSync(join(only, 'docs', 'eval', 'holdout-results-20261018T090000Z-mock.md'), 'x')
+    syncProof({ root: only, dest: d2 })
+    expect(existsSync(join(d2, 'holdout-results-latest.md'))).toBe(false)
+  })
+})

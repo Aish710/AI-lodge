@@ -49,6 +49,9 @@ export function syncProof({ root, dest, strict = false, files = FILES } = {}) {
   const latest = existsSync(evalDir) ? readdirSync(evalDir).filter((n) => /^gold-results-live-\d{8}T\d{6}Z-.+\.md$/.test(n) && !/-first-run\.md$/.test(n)).sort().at(-1) : null
   if (latest) { copyFileSync(join(evalDir, latest), join(dest, 'gold-results-live-final.md')); copied.push('gold-results-live-final.md') }
   else missing.push({ name: 'gold-results-live-final.md', src: 'docs/eval/gold-results-live-<time>-<label>.md', required: false })
+  // The independent holdout: the newest LIVE results file (the rule-based "-mock" files are never shown as AI results).
+  const hold = existsSync(evalDir) ? readdirSync(evalDir).filter((n) => /^holdout-results-\d{8}T\d{6}Z-.+\.md$/.test(n) && !n.endsWith('-mock.md')).sort().at(-1) : null
+  if (hold) { copyFileSync(join(evalDir, hold), join(dest, 'holdout-results-latest.md')); copied.push('holdout-results-latest.md') }
   const requiredMissing = missing.filter((m) => m.required)
   if (strict && requiredMissing.length) {
     throw new MissingProofError(`Proof is missing: ${requiredMissing.map((m) => m.src).join(', ')}. Generate it first (backend: python scripts/run_evaluation.py --full; pytest) and run this again.`)
