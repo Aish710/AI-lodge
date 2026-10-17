@@ -300,3 +300,8 @@ a { text-underline-offset: 2px; }
 @media (min-width: 768px) { .understood-grid { grid-template-columns: 5fr 7fr; } }
 .understood-rows { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
 .understood-rows li { display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }
+
+/* citation chips and the outlined source number */
+.cite-chip { border: 1px solid var(--accent-dark); color: var(--accent-dark); background: #fff; border-radius: 6px; font-size: .72rem; font-weight: 700; padding: 0 6px; margin: 0 2px; vertical-align: baseline; }
+.cite-chip:hover, .cite-chip:focus-visible { background: var(--accent-dark); color: #fff; outline: 3px solid var(--accent-dark); outline-offset: 2px; }
+.fact-hl { outline: 3px dashed var(--accent-dark); outline-offset: 2px; background: #fff3d6; }

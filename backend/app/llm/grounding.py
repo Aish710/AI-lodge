@@ -120,10 +120,15 @@ def check_grounding(text: str, allowed_text: str, allowed_values: list, allowed_
         if val is None or is_pct or _dec(str(val)) not in nums:
             rejected.append(f"{m.group(1).strip()} {m.group(2)}")
     ntext = normalise(text)
+    # Where an ALLOWED name occurs, a shorter form of ANOTHER place inside it is not a second mention ("Tokyo National Museum" contains "national museum", a short alias of a Seoul museum).
+    covered: list[tuple[int, int]] = []
+    for form in allowed_ids_forms:
+        covered += [m.span() for m in re.finditer(r"(?<![0-9a-z])" + re.escape(form) + r"(?![0-9a-z])", ntext)]
     for form, display in all_forms.items():
         if form in allowed_ids_forms:
             continue
-        if re.search(r"(?<![0-9a-z])" + re.escape(form) + r"(?![0-9a-z])", ntext):
+        hits = [m.span() for m in re.finditer(r"(?<![0-9a-z])" + re.escape(form) + r"(?![0-9a-z])", ntext)]
+        if any(not any(a <= s and e <= b for a, b in covered) for s, e in hits):
             checked += 1
             rejected.append(f"name:{display}")
     return GroundingResult(ok=not rejected, checked=checked, rejected_tokens=rejected)

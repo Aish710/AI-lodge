@@ -146,6 +146,16 @@ class GroundingReport(_R):
     rejected_tokens: list[str] = []
 
 
+class CitedSentence(_R):
+    text: str
+    fact_ids: list[str]
+
+
+class FactRef(_R):
+    id: str
+    text: str
+
+
 class Explanation(_R):
     text: str
     source: Literal["llm", "template"]
@@ -153,3 +163,7 @@ class Explanation(_R):
     warnings: list[str] = []
     call_count: int = 0
     reason: str | None = None  # why the template was used, if it was
+    cited: bool = False        # True only when the text is made of validated sentences, each citing the facts (by id) that support it
+    sentences: list[CitedSentence] = []   # the validated sentences (cited explanations only)
+    facts: list[FactRef] = []             # the cited facts, by id, so the interface can show the source of each claim
+    dropped: int = 0                      # sentences code dropped (cited explanations only)

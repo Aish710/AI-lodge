@@ -44,7 +44,7 @@ Running the AI for real found problems no mock had: the model rejected a paramet
 
 ## What's next
 
-Cited explanations (each sentence tied to its supporting facts), an AI on/off comparison view, a user test with the kit already in the repository, human verification of the data sheets, and a second model for the live checks.
+A live measurement of the cited-explanation format (each sentence names the facts it rests on; built and mock-tested), an AI on/off side-by-side view, a user test with the kit already in the repository, human verification of the data sheets, and a second model for the live checks.
 
 ## Built with
 

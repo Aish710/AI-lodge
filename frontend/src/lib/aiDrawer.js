@@ -12,6 +12,7 @@ export function drawerModel(kind, r, { health = null } = {}) {
   const llm = kind === 'explain' ? r.source === 'llm' : r.mode === 'llm'
   const changes = []
   if (kind === 'explain') {
+    if (r.cited) changes.push({ what: `${r.sentences?.length ?? 0} sentence(s) kept, each citing the facts it rests on${r.dropped ? `; ${r.dropped} dropped` : ''}`, why: 'Code checked each sentence on its own: the fact ids exist, every number is in the cited facts, every name is in the facts, no uncited sentence is shown.' })
     if (r.reason) changes.push({ what: 'The AI text was not used', why: r.reason })
     const rej = r.grounding?.rejected_tokens ?? []
     if (rej.length) changes.push({ what: `Code rejected ${rej.length} item(s) in the AI text: ${rej.join(', ')}`, why: 'They did not match the computed facts, so a template summary was shown instead.' })

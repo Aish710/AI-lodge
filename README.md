@@ -49,6 +49,7 @@ Fitinerary is a Vue frontend plus a FastAPI backend. The pipeline is:
 - **Itinerary with a feasibility report** and a cost panel (admissions, estimated transport, rooms, unknown prices listed, never counted as zero), day cards, travel connectors labelled "estimated", and a filterable map.
 - **Replanning** that queues edits, asks before removing a must-visit, and shows an explicit before/after diff.
 - **Four cities**, one city per trip; switching asks first and clears everything.
+- **An AI switch:** the header chip can switch the AI off for the session (nothing is then sent to a model, the form works the same, and a note says what the AI would have added).
 - **AI that shows its working:** AI and "Calculated" markers, "What the AI understood", a "What the AI did" drawer, a header popover saying what the AI does and never does.
 - **A Proof page** generated from repository files: evaluation, hardening, test results, the safety risk table, live AI evidence with its run history, a simulated red-team table, data-verification counts.
 - Keyboard-accessible controls (Lighthouse accessibility 100 on all three audited pages).
@@ -59,7 +60,7 @@ The AI is used in three places, all optional, all on an explicit click (`docs/LL
 
 1. **Ask the AI to set up your trip** (`/parse`): your words become a draft of the form. The model returns strict JSON; code then resolves place names, decides whether the request is about the selected city (another city only produces a "Switch to…" offer; nothing is planned), converts currencies (an ambiguous `$` is always confirmed with you) and fills defaults, listing every assumption.
 2. **Ask the AI to change your plan** (`/parse-replan`): words become *proposed* operations that only join a pending list. Removing a must-visit needs your explicit confirmation, which the model can never set.
-3. **Explain this plan** (`explain`): the model gets only computed facts (never place descriptions). A grounding checker compares every number, time and name in its text with the facts; a mismatch replaces the text with a template. Planner warnings are added by code, verbatim.
+3. **Explain this plan** (`explain`): the model gets only computed facts (never place descriptions), each with an id (F1, F2, ...), and returns sentences that each name the facts they rest on. Code checks each sentence on its own: the ids exist, every number is in the cited facts, every name is in the facts, no claim about access, quiet, safety, children, diet, weather or queues that the facts do not state, nothing uncited is shown; failing sentences are dropped and with fewer than two left a template is shown. The sentences appear with citation chips (F5) that outline the cited number in the tables. Planner warnings are added by code, verbatim. A plain-text reply from the model still goes through the older number and name check and is labelled "numbers checked", not "every claim cited".
 
 Around it: input sanitising, user text treated as data inside one delimited block, a leak guard on everything the model writes, per-call caps, a daily circuit breaker, rate limits. The key stays on the server.
 
@@ -73,7 +74,7 @@ Around it: input sanitising, user text treated as data inside one delimited bloc
 
 **Version note.** The live results above were produced before the last change to the AI code (the unsupported-claims guard). The Proof page therefore shows the latest runs as "not run on this version" until the live scripts are re-run; the first runs stay shown as historical records. [PLACEHOLDER: delete this note after you re-run the live scripts on the final code]
 
-**Only tested with a mocked model:** the cited-explanation idea (not built), the 840-run red team (`docs/redteam-results.md`, simulated models, not a real model), every pipeline test in `backend/tests`. Not measured at all: any second model, any user study, how the AI performs on requests it was not tuned on.
+**Only tested with a mocked model:** the cited explanations (each sentence must name the facts it rests on; no live result exists yet for the new format), the AI on/off switch, the 840-run red team (`docs/redteam-results.md`, simulated models, not a real model), every pipeline test in `backend/tests`. Not measured at all: any second model, any user study, how the AI performs on requests it was not tuned on.
 
 ## 5. External Tools & Datasets
 
@@ -152,7 +153,7 @@ Opt-in live checks (each needs a key and spends model calls, capped): `RUN_LIVE_
 
 ## Future improvements
 
-Cited explanations (each sentence tied to the facts that support it), an AI on/off comparison view, click counts for all four cities, a user test with the kit in `docs/user-test/`, human verification of the data sheets in `docs/data-verification/`, a second model for the live checks.
+A live measurement of the cited-explanation format with a real model, an AI on/off side-by-side view, click counts for all four cities, a user test with the kit in `docs/user-test/`, human verification of the data sheets in `docs/data-verification/`, a second model for the live checks.
 
 ## Licence
 

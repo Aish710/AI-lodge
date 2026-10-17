@@ -23,7 +23,7 @@ No grades here: each line names the exact artifact a judge opens. `[ ]` means it
 - The pipeline around it (optimiser, validator, grounding, leak guard, template fallback): `backend/app/llm/`, `backend/app/optimiser/`, `backend/app/validator/`
 - Live behaviour with a real model, with its history of failures and fixes: `docs/ai-selfcheck.md`, `docs/ai-selfcheck-history.md`, `docs/eval/gold-results-live-first-run.md` beside the latest gold file, the Proof page "Live AI evidence"
 - The AI is visible in the product: the first card on Plan, the change box and Explain button on Your trip, the "What the AI did" drawer (`docs/screenshots/steps/*-ai-canned-*` are interface pictures with canned responses, not evidence of model behaviour)
-- Gaps stated: one model through a third-party gateway; tuned checks; the gold set was written by the builder; cited explanations and an AI on/off view are not built
+- Gaps stated: one model through a third-party gateway; tuned checks; the gold set was written by the builder; cited explanations and the AI on/off switch are built but only mock-tested; there is no live result yet for the cited format
 
 ## Judging criterion: LLM Safety & Responsible AI
 - Risk, safeguard, test table: `docs/SAFETY_LOG.md`, `README.md` section 7, the Proof page risk table

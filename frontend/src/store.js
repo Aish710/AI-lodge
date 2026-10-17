@@ -35,6 +35,7 @@ export const store = reactive({
   selectedDay: 'all',            // the day chip on Your trip: 'all' or a day number (UI only)
   stage: null,                   // 'comparing' | 'planning' while the Plan-my-trip chain or a hotel switch runs
   comparisonPrefs: null, pendingHotel: null, solverBusyUntil: 0,
+  aiOff: false,                  // the USER switched the AI off for this session (memory only): nothing is sent to a model; the form works the same
   pendingCity: null,             // a city the user asked to switch to; the confirmation dialog (App.vue) lists what will be cleared
 })
 
@@ -481,7 +482,12 @@ export function restorePrevious() {
 // ---- natural language: both paths produce PROPOSALS ----
 export const maxInputChars = limits.max_input_chars
 
+/** The user's own switch. Only meaningful when the server has the AI on; every AI call below refuses to fire while it is off. */
+export function setAiOff(off) { store.aiOff = !!off }
+export const aiUserOff = () => store.aiOff === true
+
 export async function runParse(text) {
+  if (aiUserOff()) return
   if (text.length > maxInputChars) { store.parseError = new ApiError({ code: 'input_too_long', message: `That is ${text.length} characters; the limit is ${maxInputChars}. Please shorten it (nothing was sent).` }); return }
   store.busy.parse = true
   store.parseError = null
@@ -510,7 +516,7 @@ export function cancelParse() { abortKey('parse'); store.busy.parse = false }
 export function chooseName(id, state) { store.wishlist[id] = state }
 
 export async function runProposal(text) {
-  if (!store.plan) return
+  if (!store.plan || aiUserOff()) return
   if (text.length > maxInputChars) { store.proposalError = new ApiError({ code: 'input_too_long', message: `That is ${text.length} characters; the limit is ${maxInputChars}. Please shorten it (nothing was sent).` }); return }
   store.busy.proposal = true
   store.proposalError = null
@@ -525,6 +531,7 @@ export function queueProposal(includeIdx) {
 
 // ---- explanations: opt-in per click (each uses AI budget), supporting text only ----
 export async function explain(kind) {
+  if (aiUserOff()) return
   store.explainError = null
   store.explaining = kind
   try {

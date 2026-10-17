@@ -12,7 +12,7 @@ I built Fitinerary for a hackathon: a multi-city trip planner (Tokyo, Singapore,
 
 **User test (informal, small N):** Not run yet. **Human red team (informal, small N):** Not run yet.
 
-**5. What I would do next.** Cited explanations, an AI on/off comparison, and a real user test with the kit already in the repo.
+**5. What I would do next.** Measure the cited-explanation format with a real model, an AI on/off side-by-side view, and a real user test with the kit already in the repo.
 
 [PLACEHOLDER: proudest moment]
 Candidates: (a) the day the live runs found three bugs the mocks never would; (b) deleting my own stale "not run" claims with a script instead of by hand; (c) the red team finding a bug in my own code.

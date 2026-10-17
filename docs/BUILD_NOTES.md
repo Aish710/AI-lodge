@@ -496,3 +496,9 @@ The fix touched `backend/app`, which would have left the evaluation files STALE,
 - 12 attacks in four languages added to `tests/fixtures/injection_prompts.json` (user requests; the existing test over that file still passes unchanged) and to `redteam_attacks.json` (a poisoned place name asks the model to claim it; the gullible mock obeys). Simulated red team: 840 runs (was 744). **Before the guard: 48 affected; after: 0.** Logged in `docs/redteam-found-fixed.json`.
 - `scripts/redteam_live.py` now samples 31 attacks (worst case 55 calls, cap 60); the existing live results (27 attacks) are older.
 - Known gap (also in `docs/LLM_DESIGN.md` and the README): a word list, not meaning.
+
+## Tier 3 (2026-10-18): the AI on/off switch and cited explanations
+- **Item 9, AI on/off (frontend only).** `store.aiOff` (memory only), the header popover, `lib/aiOff.js`, guards in `runParse`, `runProposal` and `explain`. Existing tests unchanged.
+- **Item 8, cited explanations (backend `app/llm` only).** Prompt version 3. See `docs/LLM_DESIGN.md`. A plain-text reply still works through the older path (so the existing tests pass unchanged) and is labelled "numbers checked", not "every claim cited". **No live result with a real model yet.**
+- **Bug found:** a short alias of another city's place inside an allowed name made faithful explanations fail (row 155). Fixed in `grounding.py`; the Tokyo evaluation does not use the language model, so its numbers are unaffected.
+- **Because the prompt changed (PROMPT_VERSION 3) every live file made with version 2 is now "not run on this version"**, including the first runs, which the Proof page now shows as "Historical record, kept as it was". The latest live runs must be repeated (commands in the final report).

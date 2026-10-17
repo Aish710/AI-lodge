@@ -1,7 +1,7 @@
 <script setup>
 // The header chip. When the AI is on it is a BUTTON that opens what the AI does and never does, and where it runs.
 import { computed, ref, useId } from 'vue'
-import { store } from '../store.js'
+import { setAiOff, store } from '../store.js'
 const props = defineProps({ testid: { type: String, default: 'mode-indicator' } })
 const open = ref(false)
 const popId = `mode-pop-${useId()}`
@@ -9,6 +9,7 @@ const view = computed(() => {
   const h = store.health
   if (!h) return null
   if (h.llm_limit_reached) return { glyph: '!', cls: 'notice-warn', text: 'Sample mode (AI unavailable): the daily AI limit has been reached and resets later. Everything else works.', on: false }
+  if (h.mode === 'llm' && store.aiOff) return { glyph: 'i', cls: 'notice-info', text: 'AI off (you switched it off)', on: false, user: true }
   if (h.mode === 'llm') return { glyph: '✓', cls: 'notice-good', text: 'AI assistant on', on: true }
   return { glyph: 'i', cls: 'notice-info', text: 'Sample mode (AI unavailable)', on: false }
 })
@@ -31,8 +32,11 @@ function onKey(e) { if (e.key === 'Escape') open.value = false }
       </div>
       <p class="small fw-semibold mt-2 mb-1">Every AI answer is checked by code before you see it.</p>
       <p class="small muted mb-2" data-testid="ai-popover-where">Runs only when you click. <template v-if="host">Requests go through the gateway <strong>{{ host }}</strong> (a third party).</template> <template v-if="model">Model: <strong>{{ model }}</strong>.</template></p>
-      <button type="button" class="btn btn-outline-secondary btn-sm" @click="open = false">Close</button>
+      <div class="d-flex flex-wrap gap-2"><button type="button" class="btn btn-outline-secondary btn-sm" @click="open = false">Close</button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" @click="setAiOff(true); open = false" data-testid="ai-switch-off">Switch the AI off for this session</button></div>
     </div>
-    <div v-else-if="open" :id="popId" class="mode-pop" role="region" aria-label="AI is off" data-testid="ai-popover"><p class="small mb-2"><strong>AI off:</strong> the form works the same.</p><button type="button" class="btn btn-outline-secondary btn-sm" @click="open = false">Close</button></div>
+    <div v-else-if="open" :id="popId" class="mode-pop" role="region" aria-label="AI is off" data-testid="ai-popover"><p class="small mb-2"><strong>AI off:</strong> the form works the same.<template v-if="view.user"> Nothing is sent to a model while it is off.</template></p>
+      <div class="d-flex flex-wrap gap-2"><button type="button" class="btn btn-outline-secondary btn-sm" @click="open = false">Close</button>
+        <button v-if="view.user" type="button" class="btn btn-primary btn-sm" @click="setAiOff(false); open = false" data-testid="ai-switch-on">Turn the AI back on</button></div></div>
   </div>
 </template>

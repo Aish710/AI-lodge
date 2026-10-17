@@ -8,6 +8,7 @@ import SwitchOffer from './SwitchOffer.vue'
 import CurrencyConfirm from './CurrencyConfirm.vue'
 import AiMark from './AiMark.vue'
 import AiDrawer from './AiDrawer.vue'
+import { WOULD_ADD } from '../lib/aiOff.js'
 import { store, runProposal, discardProposal, queueProposal, rateLimited, maxInputChars } from '../store.js'
 import { parseState } from '../lib/rules.js'
 
@@ -34,6 +35,7 @@ const chips = computed(() => {
   <section class="card-soft" aria-labelledby="pr-h" data-testid="proposal-panel">
     <h2 id="pr-h" class="h5 d-flex flex-wrap align-items-center gap-2">Ask the AI to change your plan <AiMark kind="ai" /></h2>
     <p class="small muted">The AI turns your words into a <strong>proposal</strong>. You tick what you want and add it to your changes; nothing runs until you press Apply.</p>
+    <div v-if="store.aiOff" class="notice notice-info mb-2" role="status" data-testid="proposal-ai-off"><span class="glyph" aria-hidden="true">i</span><span>AI off: you can still use the buttons on each stop. {{ WOULD_ADD.proposal }}</span></div>
     <div v-if="chips.length" class="d-flex flex-wrap gap-2 align-items-center mb-2" role="group" aria-label="Example changes (they fill the box and send nothing)" data-testid="replan-chips">
       <span class="small fw-semibold">Try:</span>
       <button v-for="(c, i) in chips" :key="c" type="button" class="chip" :data-testid="`replan-chip-${i}`" @click="text = c">{{ c }}</button>
@@ -42,7 +44,7 @@ const chips = computed(() => {
     <textarea id="pr-text" class="form-control" rows="2" v-model="text" :aria-invalid="over" aria-describedby="pr-count"></textarea>
     <div class="d-flex flex-wrap justify-content-between align-items-center mt-2 gap-2">
       <div id="pr-count" class="small" :class="over ? 'text-danger fw-bold' : 'muted'" aria-live="polite">{{ text.length }} / {{ maxInputChars }} characters<span v-if="over"> — too long: shorten it</span></div>
-      <button type="button" class="btn btn-outline-primary" :disabled="!text.trim() || over || store.busy.proposal || rateLimited" @click="runProposal(text)" data-testid="proposal-button">{{ store.busy.proposal ? 'Reading…' : 'Ask the AI' }}</button>
+      <button type="button" class="btn btn-outline-primary" :disabled="!text.trim() || over || store.busy.proposal || rateLimited || store.aiOff" @click="runProposal(text)" data-testid="proposal-button">{{ store.busy.proposal ? 'Reading…' : 'Ask the AI' }}</button>
     </div>
     <div v-if="added && !p" class="notice notice-good mt-3" role="status" data-testid="proposal-added"><span class="glyph" aria-hidden="true">✓</span><span>Added {{ added }} change(s) to your pending changes. Nothing has been applied yet. <button type="button" class="btn btn-link btn-sm p-0 align-baseline" @click="toTray">Review and apply</button></span></div>
     <p v-else-if="store.queue.length && !p" class="small mt-2 mb-0" data-testid="proposal-pending-pointer">{{ store.queue.length }} pending change(s). <button type="button" class="btn btn-link btn-sm p-0 align-baseline" @click="toTray">Review and apply</button></p>

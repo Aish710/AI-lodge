@@ -13,6 +13,7 @@ import AiDrawer from './AiDrawer.vue'
 import aiExamples from '../lib/aiExamples.json'
 import { appliedRows, assumedList, FIELD_CONTROL } from '../lib/understood.js'
 import { detectHeard, HEARD_FOOTER, suggestionFor } from '../lib/heard.js'
+import { WOULD_ADD } from '../lib/aiOff.js'
 import { store, runParse, chooseName, rateLimited, maxInputChars, applyParseToForm, cancelParse } from '../store.js'
 import { originOf, parseState } from '../lib/rules.js'
 import { titleCase } from '../lib/format.js'
@@ -24,6 +25,7 @@ const r = computed(() => store.parseResult)
 // Shown before any click, so a visitor knows the AI box is switched off rather than broken.
 const aiOffNote = computed(() => {
   const h = store.health
+  if (store.aiOff && h?.mode === 'llm') return 'The AI is switched off for this session; the form works the same. Nothing is sent to a model.'
   if (!h || h.mode === 'llm' && !h.llm_limit_reached) return null
   return h.llm_limit_reached ? 'The daily AI limit has been reached; the form works the same.' : 'AI is off in this deployment; the form works the same.'
 })
@@ -62,6 +64,7 @@ const unresolved = computed(() => (r.value?.unresolved_names ?? []).filter((u) =
     <div v-if="aiOffNote" class="d-flex flex-wrap gap-2 align-items-center mb-2" data-testid="ai-off-note">
       <ModeIndicator testid="ai-box-mode" />
       <span class="small">{{ aiOffNote }}</span>
+      <span v-if="store.aiOff" class="small w-100" data-testid="ai-would-add">{{ WOULD_ADD.parse }}</span>
     </div>
     <div v-if="cityExamples" class="d-flex flex-wrap gap-2 align-items-center mb-2" role="group" aria-label="Example requests (they fill the box and send nothing)" data-testid="ai-examples">
       <span class="small fw-semibold">Try:</span>
@@ -73,7 +76,7 @@ const unresolved = computed(() => (r.value?.unresolved_names ?? []).filter((u) =
       <div id="nl-count" class="small" :class="over ? 'text-danger fw-bold' : 'muted'" aria-live="polite" data-testid="nl-count">{{ text.length }} / {{ maxInputChars }} characters<span v-if="over"> — too long: shorten it (nothing is cut off for you)</span></div>
       <div class="d-flex gap-2">
         <button v-if="store.busy.parse" type="button" class="btn btn-outline-secondary" @click="cancelParse" data-testid="nl-cancel">Cancel</button>
-        <button type="button" class="btn btn-primary" :disabled="!text.trim() || over || store.busy.parse || rateLimited" @click="runParse(text); applied = false" data-testid="nl-extract">{{ store.busy.parse ? 'Reading…' : 'Ask the AI' }}</button>
+        <button type="button" class="btn btn-primary" :disabled="!text.trim() || over || store.busy.parse || rateLimited || store.aiOff" @click="runParse(text); applied = false" data-testid="nl-extract">{{ store.busy.parse ? 'Reading…' : 'Ask the AI' }}</button>
       </div>
     </div>
 

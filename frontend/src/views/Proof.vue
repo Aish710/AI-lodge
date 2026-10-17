@@ -244,8 +244,10 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
           <div class="col-12 col-lg-6" data-testid="rt-live-first">
             <h4 class="h6">First live run</h4>
             <p v-if="rtFirstStatus.state === 'missing'" class="small mb-0" data-testid="rt-live-none"><strong>Not run on this version.</strong> The opt-in script <code>backend/scripts/redteam_live.py</code> sends a sample of the same attacks to a real model; no live red-team result exists yet.</p>
-            <p v-else-if="rtFirstStatus.state === 'stale'" class="small mb-0" data-testid="rt-live-stale"><strong>Not run on this version.</strong> {{ staleWhy(rtFirstStatus) }}</p>
-            <MdBlocks v-else :blocks="rtFirstBlocks" />
+            <template v-else>
+              <p v-if="rtFirstStatus.state === 'stale'" class="small muted" data-testid="rt-live-historical"><strong>Historical record, kept as it was.</strong> {{ staleWhy(rtFirstStatus) }}</p>
+              <MdBlocks :blocks="rtFirstBlocks" />
+            </template>
           </div>
           <div class="col-12 col-lg-6" data-testid="rt-live-latest">
             <h4 class="h6">Latest live run</h4>
@@ -295,8 +297,10 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
           <div class="col-12 col-lg-6" data-testid="gold-first">
             <h4 class="h6">First run</h4>
             <p v-if="firstStatus.state === 'missing'" class="small mb-0"><strong>Not run yet.</strong> Run <code>score_gold.py --live --label first-run</code> and copy the file to <code>docs/eval/gold-results-live-first-run.md</code>.</p>
-            <p v-else-if="firstStatus.state === 'stale'" class="small mb-0"><strong>Not run on this version.</strong> {{ staleWhy(firstStatus) }}</p>
-            <MdBlocks v-else :blocks="goldFirst" />
+            <template v-else>
+              <p v-if="firstStatus.state === 'stale'" class="small muted" data-testid="gold-first-historical"><strong>Historical record, kept as it was.</strong> {{ staleWhy(firstStatus) }}</p>
+              <MdBlocks :blocks="goldFirst" />
+            </template>
           </div>
           <div class="col-12 col-lg-6" data-testid="gold-after">
             <h4 class="h6">Latest run (final)</h4>

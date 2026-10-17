@@ -61,8 +61,12 @@ Any rejection, empty or overlong output, or outage discards the model text and u
 - Names are matched as whole words against dataset names and aliases; a description of a place without naming it is not detected.
 - Reordered facts (attributing a real number to the wrong hotel) pass.
 
+### Cited explanations (PROMPT_VERSION 3)
+The facts carry stable ids (F1, F2, ...). The model is asked for `{"sentences": [{"text", "fact_ids"}]}`. `explain()` validates each sentence on its own: every `fact_id` exists; every number and time in the sentence is in the CITED facts (the grounding checker, city-aware currency); every place and hotel name is in the facts; no leak; no claim the data cannot support; a sentence without ids is never shown. Failing sentences are dropped; with fewer than two left the template is used; warnings are appended by code, verbatim. `Explanation` gains `cited`, `sentences`, `facts` and `dropped`. A reply that is plain text (not the cited format) still goes through the older whole-text checks and is labelled "numbers checked"; a reply that is JSON but not in the cited format falls back to the template. The format is tested with mock models only (`tests/test_cited_explanations.py`); there is no live result yet for how a real model follows it (the next self-check and gold runs will show a template fallback if it does not).
+A bug found while writing these tests: with all cities loaded, "Tokyo National Museum" was rejected because it contains "national museum", a short alias of a Seoul museum; a short form of another place inside an ALLOWED name is no longer a second mention (a real mention of the other city's museum is still rejected).
+
 ## Prompt versioning
-Instructions are fixed constants in `llm/prompts.py`, `PROMPT_VERSION = "1"`. Bump it on any text change; `ParseResult` and the live evaluation report it.
+Instructions are fixed constants in `llm/prompts.py`, `PROMPT_VERSION = "3"` (explanations in the cited format since version 3). Bump it on any text change; `ParseResult` and the live evaluation report it.
 
 ## Model parameters (judgement calls)
 No temperature or top_p is sent: current Claude models reject sampling parameters. Determinism and safety come from low effort (`LLM_EFFORT`, default `low`), strict schemas and validation. Thinking tokens count toward `max_tokens`, so the caps (2000 extraction, 1200 explanation) leave headroom.

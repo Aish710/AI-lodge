@@ -18,7 +18,8 @@ from app.llm.grounding import check_grounding
 from app.llm.leakguard import forbidden
 from app.llm.names import normalise
 from app.llm.prompts import explain_system
-from app.llm.schemas import Explanation, GroundingReport
+from app.llm.runner import _json_object
+from app.llm.schemas import CitedSentence, Explanation, FactRef, GroundingReport
 from app.money import display_amount, money, signed
 from app.optimiser.hotel_compare import HotelComparison
 from app.optimiser.replan import ReplanResult
@@ -46,8 +47,12 @@ class ExplainFacts:
     template: str
     values: list = field(default_factory=list)
 
+    def numbered(self) -> list[tuple[str, str]]:
+        """Stable ids F1, F2, ... in the order of the facts."""
+        return [(f"F{i}", line) for i, line in enumerate(self.lines, start=1)]
+
     def prompt_block(self) -> str:
-        return "<facts>\n" + "\n".join(self.lines) + "\n</facts>"
+        return "<facts>\n" + "\n".join(f"{fid}: {line}" for fid, line in self.numbered()) + "\n</facts>"
 
     def allowed_text(self) -> str:
         return "\n".join(self.lines + [self.template] + self.warnings)
@@ -222,6 +227,64 @@ def _finish(body: str, warnings: list[str], ds: Dataset | None = None) -> str:
     return body + city + ("\n\nWarnings:\n" + "\n".join(f"- {w}" for w in warnings) if warnings else "")
 
 
+def _cited_json(text: str):
+    """The model's sentences as a list of dicts, or None if the reply is not the cited format ({"sentences": [{"text", "fact_ids"}]})."""
+    try:
+        obj = _json_object(text)
+    except (ValueError, TypeError):
+        return None
+    s = obj.get("sentences") if isinstance(obj, dict) else None
+    if not isinstance(s, list) or not s or not all(isinstance(x, dict) for x in s):
+        return None
+    return s
+
+
+def _cited_explanation(raw: list, facts: ExplainFacts, ds: Dataset, all_datasets, tmpl: Explanation) -> Explanation:
+    """Validate each sentence on its own. A sentence is dropped unless: it cites at least one fact id, every id exists, every number and time in it is in the CITED facts,
+    every place and hotel name in it is in the facts, it holds no leak and no claim the data cannot support. Fewer than 2 surviving sentences -> the template.
+    Warnings are appended by code, verbatim, as for every explanation."""
+    ids = dict(facts.numbered())
+    allowed_forms, every = _forms(ds, facts.allowed_text(), all_datasets)
+    secret = get_settings().llm_api_key
+    system = explain_system(ds)
+    kept: list[CitedSentence] = []
+    rejected: list[str] = []
+    checked = 0
+    for n, s in enumerate(raw[:10], start=1):
+        text = str(s.get("text", "")).strip()
+        fids = s.get("fact_ids")
+        why = None
+        if not text:
+            why = "empty"
+        elif not isinstance(fids, list) or not fids:
+            why = "uncited"
+        elif any(not isinstance(f, str) or f not in ids for f in fids):
+            why = "unknown fact id"
+        else:
+            g = check_grounding(text, "\n".join(ids[f] for f in dict.fromkeys(fids)), facts.values, allowed_forms, every)
+            checked += g.checked
+            if not g.ok:
+                why = "not supported by the cited facts (" + ", ".join(g.rejected_tokens[:3]) + ")"
+            elif forbidden(text, system, secret, phones=False):
+                why = "internal text"
+            elif unsupported_claims(text, facts.allowed_text()):
+                why = "claim the data cannot support"
+        if why:
+            rejected.append(f"S{n}: {why}")
+        else:
+            kept.append(CitedSentence(text=text, fact_ids=list(dict.fromkeys(fids))))
+    dropped = len(raw[:10]) - len(kept)
+    body = " ".join(k.text for k in kept)
+    if len(kept) < 2 or len(body.split()) > config.EXPLAIN_MAX_WORDS:
+        tmpl.reason = f"fewer than 2 cited sentences passed the checks ({dropped} dropped); template used" if len(kept) < 2 else "model output too long; template used"
+        tmpl.grounding = GroundingReport(checked=checked, rejected_tokens=rejected[:8])
+        tmpl.dropped = dropped
+        return tmpl
+    used = list(dict.fromkeys(f for k in kept for f in k.fact_ids))
+    return Explanation(text=_finish(body, facts.warnings, ds), source="llm", cited=True, sentences=kept, facts=[FactRef(id=f, text=ids[f]) for f in used],
+                       dropped=dropped, grounding=GroundingReport(checked=checked, rejected_tokens=rejected[:8]), warnings=facts.warnings, call_count=1)
+
+
 def explain(result, ds: Dataset, client: LLMClient | None, sample_reason: str | None = None,
             all_datasets: dict[str, Dataset] | None = None) -> Explanation:
     facts = build_facts(result, ds)
@@ -238,6 +301,15 @@ def explain(result, ds: Dataset, client: LLMClient | None, sample_reason: str | 
         return tmpl
     tmpl.call_count = 1
     text = resp.text.strip()
+    parsed = _cited_json(text)
+    if parsed is not None:        # the model followed the cited format: every sentence is validated on its own
+        log.info("llm_call", extra={"op": "explain", "outcome": "cited", "calls": 1, "in_tokens": resp.input_tokens, "out_tokens": resp.output_tokens, "latency": resp.latency_seconds})
+        return _cited_explanation(parsed, facts, ds, all_datasets, tmpl)
+    if text.lstrip().startswith(("{", "```")):
+        tmpl.reason = "model reply was JSON but not in the cited format; template used"
+        tmpl.grounding = GroundingReport(checked=0, rejected_tokens=["format"])
+        log.info("llm_call", extra={"op": "explain", "outcome": "rejected_format", "calls": 1})
+        return tmpl
     if not text or len(text.split()) > config.EXPLAIN_MAX_WORDS:
         tmpl.reason = "model output empty or too long"
         tmpl.grounding = GroundingReport(checked=0, rejected_tokens=["length"])

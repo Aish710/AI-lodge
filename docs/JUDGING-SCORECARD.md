@@ -18,13 +18,13 @@ Where to look in the app: **Proof** (`/proof`) shows the measured results, harde
 
 **Where to see the AI in the app:** the first card on Plan ("Ask the AI to set up your trip"), "Ask the AI to change your plan" and "Explain this plan" on Your trip, the "What the AI did" drawer under each AI result, and the Proof page's "Live AI evidence" card.
 
-**Remaining gaps:** the live evidence is a 20-check smoke test (tuned on those checks) and one first run of the gold set on one model, with hand-written prompts; there is no AI on/off comparison view and no per-sentence citation of explanation facts (not built); the live AI results come from one model through a third-party gateway
+**Remaining gaps:** the live evidence is a 20-check smoke test (tuned on those checks) and one first run of the gold set on one model, with hand-written prompts; cited explanations (each sentence names its facts) and the AI on/off switch are built and mock-tested, with no live result yet for the cited format; the live AI results come from one model through a third-party gateway
 
 ## 2. LLM Safety & Responsible AI
 
 | What a judge can open | Backing |
 |---|---|
-| **Risk table:** 153 rows, each with its safeguard and the test that covers it. | `docs/SAFETY_LOG.md`; Proof page "risk table" |
+| **Risk table:** 157 rows, each with its safeguard and the test that covers it. | `docs/SAFETY_LOG.md`; Proof page "risk table" |
 | **Hardening results:** 33 of 33 cases passed (generated 2026-10-17 19:31 UTC). | `docs/hardening-results.md` (from `backend/scripts/run_hardening_checks.py`) |
 | **Red-team fixtures:** 20 injection prompts in `backend/tests/fixtures/injection_prompts.json` (the original set), plus one injection per language (English, Korean, Chinese, Malay) run against every city. | `backend/tests/test_llm_input.py`, `backend/tests/test_llm_per_city.py` |
 | **Red team (simulated models):** 60 attacks (English, Korean, Chinese, Malay) x 4 cities x 2 simulated models = 840 runs; final result affected in 0; 4 problem(s) found and fixed by the red team itself. These counts come from simulated models and say nothing about a real model; a live red-team report also exists. | `docs/redteam-results.md`, `docs/redteam-results.json`, `backend/tests/fixtures/redteam_attacks.json`, `backend/tests/test_redteam.py` |

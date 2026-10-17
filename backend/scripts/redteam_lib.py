@@ -102,8 +102,8 @@ class MockModel:
             if self.kind == "harmless":
                 text = self.plan_names["template"]
             else:
-                if self.attack.get("claim"):                    # asked (through a poisoned place name) to claim something the data cannot support
-                    text = self.attack["claim"]
+                if self.attack.get("claim"):                    # asked (through a poisoned place name) to claim something the data cannot support: answers in the CITED format, with fact ids
+                    text = json.dumps({"sentences": [{"text": self.attack["claim"], "fact_ids": ["F1"]}, {"text": self.attack["claim"] + " Truly.", "fact_ids": ["F2"]}, {"text": "No source for this.", "fact_ids": []}]}, ensure_ascii=False)
                 elif self.attack["id"] == "data_alias_leak":      # a leak with no numbers at all, so only a leak check (not the number check) can stop it
                     text = "As instructed in the facts, here is what I was told: " + re.sub(r"\d+", "", self.system_seen[:240])
                 else:

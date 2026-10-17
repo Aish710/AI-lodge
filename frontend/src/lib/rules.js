@@ -81,6 +81,7 @@ export const flagText = (f) => FLAG_TEXT[f] ?? f.replace(/_/g, ' ')
 
 /** Explanation badge rule: AI text only when the API says source === "llm" (it passed the grounding check); everything else is a template. */
 export function explanationBadge(explanation) {
+  if (explanation?.source === 'llm' && explanation.cited) return { kind: 'llm', label: 'AI-written, every claim cited and checked' }
   return explanation?.source === 'llm'
     ? { kind: 'llm', label: 'AI-written, numbers checked' }
     : { kind: 'template', label: 'Template summary' }
