@@ -161,11 +161,11 @@ main#main:focus, main#main:focus-visible { outline: none; }
 .rainbow-wrap { flex: 1 1 100%; }
 .rainbow-label { display: block; font-family: var(--font-label); font-size: .7rem; letter-spacing: .06em; color: var(--ink); margin-bottom: 4px; }
 .rainbow { display: flex; height: 18px; border: 2px solid var(--ink); border-radius: 8px; background: #fff; padding: 2px; gap: 2px; overflow: hidden; }
-.rainbow i { flex: 1; border-radius: 3px; animation: rb 1.2s ease-in-out infinite; }
-.rainbow i:nth-child(1) { background: #ff9aa2; } .rainbow i:nth-child(2) { background: #ffd6a5; animation-delay: .15s; } .rainbow i:nth-child(3) { background: #fdffb6; animation-delay: .3s; }
-.rainbow i:nth-child(4) { background: #b5ead7; animation-delay: .45s; } .rainbow i:nth-child(5) { background: #a0e7e5; animation-delay: .6s; } .rainbow i:nth-child(6) { background: #c7b8ff; animation-delay: .75s; }
-@keyframes rb { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .rainbow i { animation: none; opacity: 1; } }
+.rainbow i { flex: 1; border-radius: 3px; opacity: 1; animation: rbfill 3s ease-out infinite both; }
+.rainbow i:nth-child(1) { background: #ff9aa2; } .rainbow i:nth-child(2) { background: #ffd6a5; animation-delay: .3s; } .rainbow i:nth-child(3) { background: #fdffb6; animation-delay: .6s; }
+.rainbow i:nth-child(4) { background: #b5ead7; animation-delay: .9s; } .rainbow i:nth-child(5) { background: #a0e7e5; animation-delay: 1.2s; } .rainbow i:nth-child(6) { background: #c7b8ff; animation-delay: 1.5s; }
+@keyframes rbfill { 0% { clip-path: inset(0 100% 0 0); } 25%, 85% { clip-path: inset(0 0 0 0); } 100% { clip-path: inset(0 0 0 100%); } }
+@media (prefers-reduced-motion: reduce) { .rainbow i { animation: none; clip-path: none; } }
 
 /* sticky notes: butter, hard shadow, slight tilt */
 .sample-entry, .hint { background: var(--yellow); border: 2px solid var(--ink); box-shadow: var(--shadow); transform: rotate(-.6deg); }
@@ -309,3 +309,33 @@ body::before { top: 90px; right: 12px; } body::after { bottom: 120px; left: 8px;
 :focus-visible, .seg input:focus-visible + label, .hotel-switch-input:focus-visible + .hotel-switch-option, .city-pick:focus-visible, .theme-tab:focus-visible, .interest-chip:focus-visible,
 .day-chip:focus-visible, .map-chip:focus-visible, .mode-btn:focus-visible, .cite-chip:focus-visible { outline: 3px solid #6d35c9; outline-offset: 2px; }
 .cite-chip:focus-visible { background: var(--accent-dark); color: #fff; }
+
+/* ---- the sticky dock: ONE container, two stacked rows ---- */
+.plan-bar { position: sticky; bottom: 0; z-index: 1030; background: #fff; border-top: 3px solid var(--ink); padding: 0; margin-top: 16px; box-shadow: none; max-width: 100%; }
+.dock-inner { padding: 14px 24px; display: flex; flex-direction: column; gap: 10px; }
+.plan-bar .page-inner { padding: 0; }
+@media (max-width: 767px) { .dock-inner { padding: 16px; } }
+.plan-workspace { padding-bottom: calc(var(--dock-h, 90px) + 24px); }
+/* row 1: only while planning */
+.plan-bar .plan-progress { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
+.plan-bar .rainbow-wrap { flex: none; }
+.plan-bar .progress-status { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
+.plan-bar .progress-status ol { flex: 1 1 auto; min-width: 0; }
+/* row 2: always */
+.dock-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.dock-row .btn-lg { flex: none; }
+.dock-row .dock-new { margin-left: auto; }
+.dock-pill { background: var(--yellow); border: 2px solid var(--ink); border-radius: 999px; padding: 2px 12px; color: var(--ink); font-weight: 700; }
+@media (max-width: 767px) { .plan-bar .btn-lg { width: auto; } .plan-bar [data-testid="start-over"] { display: inline-flex; min-height: 44px; font-size: .9rem; } }
+/* disabled "Planning..." key: still a key (bevel + ink border), lilac fill */
+.btn-primary:disabled, .btn-primary.disabled { --bs-btn-disabled-bg: #c7b8ff; --bs-btn-disabled-color: var(--ink); --bs-btn-disabled-border-color: var(--ink); background-color: #c7b8ff; color: var(--ink); border: 2px solid var(--ink); opacity: 1; cursor: not-allowed; }
+.btn-primary.is-planning:disabled { cursor: progress; }
+@media (max-width: 767px) {
+  .dock-inner { gap: 8px; padding: 16px; }
+  .plan-bar .plan-progress li:not([aria-current]) { display: none; }      /* narrow screens: only the current step, so the dock stays short */
+  .plan-bar .progress-status { flex-wrap: nowrap; }
+  .plan-bar .btn-lg { padding: 8px 16px; font-size: 1.05rem; }
+  .dock-row { gap: 8px 12px; }
+  .dock-row .dock-new { margin-left: 0; }
+  #plan-summary { flex: 1 1 10rem; }
+}

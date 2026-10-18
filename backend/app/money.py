@@ -36,3 +36,15 @@ def missed_preference_penalty(ds: Dataset) -> int:
     For Tokyo (1,000 JPY/h) this is exactly the old constant 3,000 JPY; for Seoul it is 45,000 KRW. A fixed 3,000 in every city's own currency
     was about 20 US dollars in Tokyo but about 2 in Seoul, which made the Seoul planner skip almost every sight."""
     return 3 * ds.city.default_value_of_time_per_hour
+
+
+def spread_penalty(ds: Dataset) -> int:
+    """Per stop of difference between the busiest and the quietest day: 0.5 hour of the city's default value of time (Tokyo: 500 JPY). Optimiser tie-breaker only, like empty_day_penalty."""
+    return round(0.5 * ds.city.default_value_of_time_per_hour)
+
+
+def empty_day_penalty(ds: Dataset) -> int:
+    """A gentle nudge towards balanced days: leaving a whole trip day empty is charged 2.5 hours of the city's default value of time (Tokyo: 2,500 JPY).
+    It is only a tie-breaker inside the optimiser's objective: it is never added to a displayed cost, a true-cost figure or the budget, and it never overrides
+    a hard rule (an empty day is still allowed when nothing fits it or when the day is already forced empty by opening hours, limits or the budget)."""
+    return round(2.5 * ds.city.default_value_of_time_per_hour)

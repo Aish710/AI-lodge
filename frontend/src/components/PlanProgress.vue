@@ -12,11 +12,13 @@ const index = computed(() => steps.value.findIndex((x) => x.id === store.stage))
 <template>
   <div v-if="store.stage" class="plan-progress" role="status" aria-live="polite" data-testid="plan-progress">
     <div class="rainbow-wrap"><span class="rainbow-label">PACKING YOUR SUITCASE...</span><div class="rainbow" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="progress-status">
     <ol class="list-unstyled mb-0 d-flex flex-wrap gap-3">
       <li v-for="(st, i) in steps" :key="st.id" :class="{ 'fw-bold': i === index, muted: i > index }" :aria-current="i === index ? 'step' : undefined">
         <span aria-hidden="true">{{ i < index ? '✓' : i === index ? '…' : '·' }}</span> {{ st.label }}
       </li>
     </ol>
     <button type="button" class="btn btn-sm btn-outline-secondary" @click="cancelPlanning" data-testid="cancel-plan">Cancel</button>
+    </div>
   </div>
 </template>

@@ -19,7 +19,8 @@ from app.llm.schemas import (
     Ambiguity, Candidate, ProposedOperations, ReplanOut, ResolvedName, SuggestionOut, UnresolvedName,
 )
 from app.optimiser.replan import ChangeBudgetOp, LockOp, MoveOp, RemoveOp, SwitchHotelOp, UnlockOp
-from app.schemas import Preferences, SolveResult
+from app.optimiser.schedule import weekday_of
+from app.schemas import Preferences, SolveResult, to_minutes
 
 
 def _positions(res: SolveResult) -> dict[str, tuple[int, str]]:
@@ -31,6 +32,23 @@ def _itinerary_block(res: SolveResult, ds: Dataset) -> str:
     lines = [f"Day {d.day}: " + ", ".join(ds.attractions[s.attraction_id].name for s in d.stops) for d in res.days if d.stops]
     return "<current_itinerary>\n" + "\n".join(lines) + "\n</current_itinerary>"
 
+
+
+def _fit_start(start: str, att, prefs: Preferences, day: int) -> str:
+    """A day part ("morning") is only a rough time. If the sight opens later than that on this weekday, start when it opens, so the proposal can be applied;
+    anything that still cannot fit (closed, unknown hours, too short a window) is left as it was and the replan check explains why."""
+    hours = att.opening_hours[weekday_of(prefs, day - 1)]
+    if not isinstance(hours, list):
+        return start
+    want, lo_day, hi_day = to_minutes(start), to_minutes(prefs.day_start), to_minutes(prefs.day_end)
+    for opens, closes in sorted(hours):
+        lo, hi = max(to_minutes(opens), lo_day), min(to_minutes(closes), hi_day)
+        if hi - lo < att.duration_minutes:
+            continue
+        s = max(want, lo)
+        if s + att.duration_minutes <= hi:
+            return f"{s // 60:02d}:{s % 60:02d}"
+    return start
 
 def parse_replan(text: str, current: SolveResult, prefs: Preferences, ds: Dataset, client: LLMClient | None,
                  *, max_input_chars: int | None = None, unavailable_note: str | None = None,
@@ -132,7 +150,12 @@ def parse_replan(text: str, current: SolveResult, prefs: Preferences, ds: Datase
                 continue
             if o.day_part != "none":
                 start = config.DAY_PART_START_TIMES[o.day_part]
-                defaults.append(f"{name}: '{o.day_part}' interpreted as {start}")
+                fitted = _fit_start(start, ds.attractions[aid], prefs, day)
+                if fitted != start:
+                    defaults.append(f"{name}: '{o.day_part}' interpreted as {start}, moved to {fitted} because that is when it opens that day")
+                    start = fitted
+                else:
+                    defaults.append(f"{name}: '{o.day_part}' interpreted as {start}")
             elif o.op == "lock" and cur and day == cur[0]:
                 start = cur[1]
                 defaults.append(f"{name}: no time stated, locked at its current time {start}")

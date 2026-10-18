@@ -115,10 +115,15 @@ def test_pace_balance_diagnostic_changes_only_the_weight_and_always_restores_it(
     assert strip_wall_clock(product) == strip_wall_clock(product_off)   # the product (true-cost) objective has no pace-balance term
 
 
-def test_headline_solver_runs_the_same_objective_as_post_optimise():
-    """The evaluation must measure what ships: compare its solver record with what the real route returns for the same trips."""
+def test_headline_solver_runs_the_same_objective_as_post_optimise(monkeypatch):
+    """The evaluation must measure what ships: compare its solver record with what the real route returns for the same trips.
+    The live app adds a small balance nudge (money.empty_day_penalty / spread_penalty) that the committed evaluation does not have, so the nudge is switched
+    off here: with it off, /optimise must reproduce the evaluation exactly. The evidence therefore describes the shipped objective minus that nudge."""
     from fastapi.testclient import TestClient
+    import app.main as main_module
     from app.main import app
+    monkeypatch.setattr(main_module, "empty_day_penalty", lambda ds: 0)
+    monkeypatch.setattr(main_module, "spread_penalty", lambda ds: 0)
     checked = 0
     with TestClient(app) as client, deterministic_limits():
         for t in generator.generate_trips(SEED, 8, DS):

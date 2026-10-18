@@ -339,3 +339,20 @@ def test_every_replanned_schedule_passes_the_independent_validator():
     for prefs, hotel, res in SEEN:
         assert build_report(res, DS, prefs, hotel).overall != "fail"
         assert set(prefs.must_visit) <= set(stops(res))  # a must-visit is only ever dropped by explicit confirmation
+
+
+def test_day_part_is_moved_to_the_opening_time_so_the_proposal_can_be_applied():
+    """Found in the production audit: "move Shibuya Sky to the morning of day 1" became 09:30, before it opens, and /replan then refused it."""
+    from app.data.loader import load_dataset
+    from app.llm.parse_replan import _fit_start
+    from app.schemas import Preferences
+    ds = load_dataset()
+    prefs = Preferences(days=3, start_weekday=2)
+    sky = ds.attractions["shibuya_sky"]
+    opens = sky.opening_hours["wed"][0][0]
+    fitted = _fit_start("09:30", sky, prefs, 1)
+    assert fitted == opens and fitted > "09:30"
+    # a time the sight is already open at is left alone, and a closed day is left for the replan check to explain
+    assert _fit_start("14:00", sky, prefs, 1) == "14:00"
+    closed = ds.attractions["ghibli_museum"]            # closed on Tuesdays
+    assert _fit_start("09:30", closed, Preferences(days=3, start_weekday=1), 1) == "09:30"

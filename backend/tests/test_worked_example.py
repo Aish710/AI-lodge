@@ -30,7 +30,7 @@ def test_the_tables_are_the_real_api_numbers_and_the_frequencies_are_the_evaluat
     for city, name in (("singapore", "Singapore"), ("seoul", "Seoul"), ("kuala_lumpur", "Kuala Lumpur")):
         h = cev[city]["metrics"]["hotel_value"]["vots"]["1000"]
         assert f"in {h['cheapest_by_rate_not_best']} of {h['n_eligible']} eligible trips" in TEXT
-    assert "57,100 JPY" in TEXT and "49,640 JPY" in TEXT          # Tokyo's pinned example, as the app returns it (also visible in test_frontend_examples)
+    assert "56,760 JPY" in TEXT and "50,310 JPY" in TEXT          # Tokyo's pinned example, as the live app returns it (with the balance nudge; the committed evaluation files are without it)
     assert "-33 KRW" not in TEXT and " -" not in " ".join(l for l in TEXT.splitlines() if l.startswith("**The winner changes"))     # no negative amounts in the prose
 
 

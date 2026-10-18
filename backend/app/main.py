@@ -13,7 +13,7 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app import config
 from app.city_guard import reject_foreign_ids
-from app.money import missed_preference_penalty
+from app.money import missed_preference_penalty, empty_day_penalty, spread_penalty
 from app.config import FX_LABEL, SAMPLE_FX_JPY_PER_SGD, get_settings
 from app.data.loader import DEFAULT_CITY_ID, Dataset, load_all_city_datasets, load_dataset
 from app.hardening.config import HConfig
@@ -200,7 +200,7 @@ def _compare_work(req: CompareRequest, request: Request, client, ds, cfg):
         vot_range = (req.vot_min if req.vot_min is not None else config.VOT_RANGE_DEFAULT[0],
                      req.vot_max if req.vot_max is not None else 3 * ds.city.default_value_of_time_per_hour)
         comp = compare_hotels(req.preferences, req.hotel_ids, ds, include_sensitivity=req.include_sensitivity,
-                              vot_range=vot_range, time_limit=cfg.hotel_compare_time_limit_seconds)
+                              vot_range=vot_range, time_limit=cfg.hotel_compare_time_limit_seconds, balanced=True)
     out = comp.model_dump()
     # Presentation layer only: SGD display values from the labelled SAMPLE FX rate.
     out["fx_label"] = FX_LABEL
@@ -247,7 +247,7 @@ def _replan_work(req: ReplanRequest, request: Request, client, ds, cfg):
                                           after_structure=lambda: _check_city_ids(request, ds, prefs=req.preferences, part="late"))
         result = replan(req.preferences, current, req.operations, ds,
                         confirm_remove_must_visit=req.confirm_remove_must_visit,
-                        max_seconds=cfg.replan_time_limit_seconds)
+                        max_seconds=cfg.replan_time_limit_seconds, balanced=True)
     out = result.model_dump()
     out["city_id"] = ds.city.id
     out["cost_summary"] = summarise_costs(result.schedule, ds, result.hotel_id, result.nights_used)
@@ -276,7 +276,7 @@ def _optimise_core(p: Preferences, hotel_id: str, ds, cfg):
     """The ONE place a request becomes a plan response: /optimise and an applied repair both come through here (caller holds the solver slot)."""
     if hotel_id not in ds.hotels:
         raise ApiError(422, "unknown_hotel", f"Unknown hotel id '{hotel_id[:64]}'.")
-    spec = ObjectiveSpec("true_cost", p.value_of_time_per_hour, missed_preference_penalty(ds))
+    spec = ObjectiveSpec("true_cost", p.value_of_time_per_hour, missed_preference_penalty(ds), empty_day_penalty_jpy=empty_day_penalty(ds), spread_penalty_jpy=spread_penalty(ds))
     res = solve(p, hotel_id, ds, objective=spec, max_seconds=cfg.optimise_time_limit_seconds, alternatives_budget=cfg.alternatives_budget_seconds)
     rep = build_report(res, ds, p, hotel_id)  # a failing report is returned as-is, never hidden
     nights, src = nights_for(p)

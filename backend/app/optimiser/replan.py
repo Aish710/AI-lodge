@@ -13,7 +13,7 @@ from typing import Annotated, Literal, Union
 from pydantic import BaseModel, ConfigDict, Field
 
 from app import config
-from app.money import missed_preference_penalty, money
+from app.money import missed_preference_penalty, money, empty_day_penalty, spread_penalty
 from app.data.loader import Dataset, unknown_price_placeholder
 from app.optimiser.hotel_compare import CostBreakdown, _breakdown
 from app.optimiser.schedule import fmt
@@ -348,7 +348,7 @@ def _summary(status, desc, diff, new_res, old_hotel, new_hotel, conflicts, ds) -
 # Public API
 # ---------------------------------------------------------------------------
 def replan(prefs: Preferences, current: SolveResult, ops: list, ds: Dataset, *, confirm_remove_must_visit: bool = False,
-           strategy: str = "disruption_aware", max_seconds: float | None = None) -> ReplanResult:
+           strategy: str = "disruption_aware", max_seconds: float | None = None, balanced: bool = False) -> ReplanResult:
     """strategy: "disruption_aware" (default) or "naive" (full re-solve, no disruption term; for evaluation only)."""
     if current.status != "feasible" or current.hotel_id not in ds.hotels:
         raise ReplanError("invalid_current_schedule", "The current schedule must be a feasible plan for a known hotel.")
@@ -357,10 +357,11 @@ def replan(prefs: Preferences, current: SolveResult, ops: list, ds: Dataset, *, 
     nights, nights_src = nights_for(new_prefs)
 
     reference = ()
-    spec = ObjectiveSpec("true_cost", new_prefs.value_of_time_per_hour, missed_preference_penalty(ds))
+    nudge = {"empty_day_penalty_jpy": empty_day_penalty(ds), "spread_penalty_jpy": spread_penalty(ds)} if balanced else {}
+    spec = ObjectiveSpec("true_cost", new_prefs.value_of_time_per_hour, missed_preference_penalty(ds), **nudge)
     if strategy == "disruption_aware":
         reference = tuple((aid, d - 1, s) for aid, (d, s, _) in _positions(current).items() if aid not in removed_by_user)
-        spec = ObjectiveSpec("true_cost", new_prefs.value_of_time_per_hour, missed_preference_penalty(ds),
+        spec = ObjectiveSpec("true_cost", new_prefs.value_of_time_per_hour, missed_preference_penalty(ds), **nudge,
                              disruption_jpy=config.W_DISRUPTION, move_threshold_min=config.MOVE_THRESHOLD_MINUTES, reference=reference)
     res = solve(new_prefs, new_hotel, ds, with_alternatives=False,
                 max_seconds=max_seconds or config.REPLAN_TIME_LIMIT_SECONDS, objective=spec)

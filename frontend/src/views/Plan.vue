@@ -1,7 +1,7 @@
 <script setup>
 // Screen 1 of 2: choose everything, see it form (map + rough preview), then ONE action. Nothing here calls the solver or the AI except
 // "Make it happen!" (an explicit click) and "Ask the AI" in the Describe box (an explicit click).
-import { computed, ref, watch, provide, nextTick } from 'vue'
+import { computed, ref, watch, provide, nextTick, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import NlParsePanel from '../components/NlParsePanel.vue'
 import AttractionCard from '../components/AttractionCard.vue'
@@ -109,6 +109,15 @@ function onTabKey(e, i) {
   store.theme = tabs.value[to].id
   document.getElementById(`tab-${tabs.value[to].id}`)?.focus()
 }
+// The dock is sticky: keep the page's bottom padding equal to its height so the last window can always scroll fully into view.
+const dock = ref(null)
+let dockWatch = null
+onMounted(() => {
+  if (typeof ResizeObserver === 'undefined' || !dock.value) return
+  dockWatch = new ResizeObserver(() => document.documentElement.style.setProperty('--dock-h', `${dock.value?.offsetHeight ?? 0}px`))
+  dockWatch.observe(dock.value)
+})
+onBeforeUnmount(() => { dockWatch?.disconnect(); document.documentElement.style.removeProperty('--dock-h') })
 function example(kind) { loadExample(kind); nudge.value = true }
 // One click: load the city's tested example sights with a balanced value of time, then plan. Same code path as pressing "Make it happen!".
 const sampling = ref(false)
@@ -337,19 +346,19 @@ async function sampleTrip() {
     </div>
     </details>
 
-    <div class="plan-bar" data-testid="plan-bar">
-      <div class="page-inner stack">
+    <div class="plan-bar" data-testid="plan-bar" ref="dock">
+      <div class="dock-inner">
         <BusyNotice :error="busyError" @retry="plan" />
         <ErrorPanel v-if="realError" :error="realError" />
         <PlanProgress />
-        <div class="d-flex flex-wrap align-items-center gap-3">
-          <button type="button" class="btn btn-primary btn-lg" :disabled="!!reason" :aria-describedby="reason ? 'plan-reason' : 'plan-summary'" @click="plan" data-testid="plan-trip">
+        <div class="dock-row">
+          <button type="button" class="btn btn-primary btn-lg" :class="{ 'is-planning': store.stage }" :disabled="!!reason" :aria-describedby="reason ? 'plan-reason' : 'plan-summary'" @click="plan" data-testid="plan-trip">
             {{ store.stage ? 'Planning…' : 'Make it happen!' }}
           </button>
           <span id="plan-summary" class="small" aria-live="polite" data-testid="plan-summary">{{ city?.display_name }} · {{ store.form.days }} days · {{ preview.mustCount }} must visit · {{ preview.total }} sights in the running</span>
-          <span v-if="reason" id="plan-reason" class="small" data-testid="plan-reason"><span aria-hidden="true">!</span> {{ reason }}</span>
+          <span v-if="reason" id="plan-reason" class="small dock-pill" data-testid="plan-reason"><span aria-hidden="true">!</span> {{ reason }}</span>
           <router-link v-if="hasPlan" to="/trip" class="small" data-testid="back-to-trip">Back to my trip</router-link>
-          <button type="button" class="btn btn-link btn-sm ms-auto" @click="startOver" data-testid="start-over">New adventure</button>
+          <button type="button" class="btn btn-link btn-sm dock-new" @click="startOver" data-testid="start-over">New adventure</button>
         </div>
       </div>
     </div>

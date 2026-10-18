@@ -21,7 +21,7 @@ from dataclasses import dataclass
 from pydantic import BaseModel
 
 from app import config
-from app.money import code, missed_preference_penalty, money, per_hour
+from app.money import code, missed_preference_penalty, money, per_hour, empty_day_penalty, spread_penalty
 from app.data.loader import Dataset, unknown_price_placeholder
 from app.optimiser.solver import ObjectiveSpec, solve
 from app.schemas import Conflict, Preferences, SolveResult, nights_for
@@ -135,6 +135,11 @@ class HotelComparison(BaseModel):
 # ---------------------------------------------------------------------------
 # Solve cache
 # ---------------------------------------------------------------------------
+def _balance(ds: Dataset) -> dict:
+    """The balance nudge (see money.empty_day_penalty): on for the live app, off for the committed evaluations, which describe the unnudged objective."""
+    return {"empty_day_penalty_jpy": empty_day_penalty(ds), "spread_penalty_jpy": spread_penalty(ds)}
+
+
 def _prefs_key(prefs: Preferences) -> str:
     """Hash of everything that can change an itinerary except value-of-time and nights."""
     d = prefs.model_dump(exclude={"nights", "value_of_time_per_hour"})
@@ -251,7 +256,7 @@ def _line(ds, prefs, hotel_id, res: SolveResult, nights: int) -> _Line:
 
 
 def sensitivity(prefs: Preferences, hotel_ids: list[str], ds: Dataset, vot_range: tuple[int, int] | None = None,
-                *, cache: SolveCache | None = None, deadline: float | None = None) -> Sensitivity:
+                *, cache: SolveCache | None = None, deadline: float | None = None, balanced: bool = False) -> Sensitivity:
     _validate_input(hotel_ids, ds)
     vmin, vmax = vot_range or config.VOT_RANGE_DEFAULT
     if not 0 <= vmin < vmax:
@@ -273,7 +278,7 @@ def sensitivity(prefs: Preferences, hotel_ids: list[str], ds: Dataset, vot_range
             if left < config.MIN_SOLVE_SECONDS or cache.solves - s0 >= config.SENS_MAX_SOLVES:
                 state["timed_out" if left < config.MIN_SOLVE_SECONDS else "cap_hit"] = True
                 return False
-            spec = ObjectiveSpec("true_cost", v, missed_preference_penalty(ds))
+            spec = ObjectiveSpec("true_cost", v, missed_preference_penalty(ds), **(_balance(ds) if balanced else {}))
             res = cache.solve(prefs, h, ds, spec, min(config.SOLVER_MAX_SECONDS, left / (len(hotel_ids) - i)))
             if res.status == "feasible":
                 lines[h] = _line(ds, prefs, h, res, nights)
@@ -374,7 +379,7 @@ def sensitivity(prefs: Preferences, hotel_ids: list[str], ds: Dataset, vot_range
 # ---------------------------------------------------------------------------
 def compare_hotels(prefs: Preferences, hotel_ids: list[str], ds: Dataset, *, include_sensitivity: bool = False,
                    vot_range: tuple[int, int] | None = None, time_limit: float | None = None,
-                   cache: SolveCache | None = None) -> HotelComparison:
+                   cache: SolveCache | None = None, balanced: bool = False) -> HotelComparison:
     _validate_input(hotel_ids, ds)
     t0 = time.monotonic()
     limit = time_limit if time_limit is not None else config.HOTEL_COMPARE_TIME_LIMIT_SECONDS
@@ -382,7 +387,7 @@ def compare_hotels(prefs: Preferences, hotel_ids: list[str], ds: Dataset, *, inc
     cache = cache or SolveCache()
     nights, nights_src = nights_for(prefs)
     vot = prefs.value_of_time_per_hour
-    spec = ObjectiveSpec("true_cost", vot, missed_preference_penalty(ds))
+    spec = ObjectiveSpec("true_cost", vot, missed_preference_penalty(ds), **(_balance(ds) if balanced else {}))
     results: list[HotelResult] = []
     warnings: list[str] = []
     partial = False
@@ -451,7 +456,7 @@ def compare_hotels(prefs: Preferences, hotel_ids: list[str], ds: Dataset, *, inc
         elapsed_seconds=0.0, time_limit_seconds=limit,
         baselines=build_baselines(results, cheapest, best, prefs, hotel_ids, ds))
     if include_sensitivity:
-        comp.sensitivity = sensitivity(prefs, hotel_ids, ds, vot_range, cache=cache, deadline=deadline)
+        comp.sensitivity = sensitivity(prefs, hotel_ids, ds, vot_range, cache=cache, deadline=deadline, balanced=balanced)
         if comp.sensitivity.approximate:
             comp.approximate = True
             comp.warnings.append("Sensitivity analysis is approximate: " + (" ".join(comp.sensitivity.warnings) or "see flip method."))

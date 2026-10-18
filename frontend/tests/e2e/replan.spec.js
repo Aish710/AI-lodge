@@ -24,8 +24,9 @@ test('queue lock + remove, apply once, see the diff with warnings; then restore 
   await timelineView(page)
   const timelineBefore = await page.getByTestId('timeline').innerText()
   await page.locator('[data-testid^=stop-]').first().getByTestId('act-lock').click()
-  await optionalStop(page).locator('summary').click()                  // Remove now lives in the "…" menu
-  await optionalStop(page).getByTestId('act-remove').click()
+  const optional = page.locator('[data-testid^=stop-]').filter({ hasNot: page.locator('.pill-must') }).last()   // a different stop from the locked one, whatever the plan's shape
+  await optional.locator('summary').click()                  // Remove now lives in the "…" menu
+  await optional.getByTestId('act-remove').click()
   await timelineView(page)
   await expect(page.getByTestId('pending-count')).toHaveText('2 of 20')
   await timelineView(page)
@@ -146,7 +147,7 @@ test('sample mode: both natural-language boxes show the calm message and the man
   await toItinerary(page)
   await tripSection(page, 'ai')
   await page.getByTestId('more-ai-edit').locator('summary').click()
-  await page.getByLabel(/For example: "move Senso-ji/).fill('drop the market')
+  await page.locator('#pr-text').fill('drop the market')
   await page.getByTestId('proposal-button').click()
   await expect(page.getByTestId('proposal-unavailable')).toContainText('The AI assistant is unavailable right now.')
   await timelineView(page)

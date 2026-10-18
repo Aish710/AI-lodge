@@ -600,7 +600,7 @@ def test_optimise_infeasible_returns_conflicts_and_computed_alternatives_and_a_f
 
 
 def test_optimise_labels_time_limited_plans_as_approximate(clients, monkeypatch):
-    monkeypatch.setattr(config, "SOLVER_MAX_DETERMINISTIC_TIME", 0.05)
+    monkeypatch.setattr(config, "SOLVER_MAX_DETERMINISTIC_TIME", 0.2)   # tight enough to stop before proving optimality, loose enough to find a first plan with the balance nudge on
     _, c = clients(optimise_time_limit_seconds=20.0)
     p = Preferences(days=4, pace="packed", start_weekday=2)
     j = c.post("/optimise", json={"preferences": p.model_dump(), "hotel_id": ASA}).json()

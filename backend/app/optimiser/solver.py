@@ -54,6 +54,10 @@ class ObjectiveSpec:
     disruption_jpy: int = 0
     move_threshold_min: int = 30
     reference: tuple = ()
+    # Balance nudge (true_cost mode only): objective charge, in the same currency units as the other terms, per trip day with no stop. 0 = off.
+    empty_day_penalty_jpy: int = 0
+    # ... and per stop of difference between the busiest and the quietest day, so the stops are spread rather than piled onto a few days.
+    spread_penalty_jpy: int = 0
 
 
 @dataclass
@@ -330,6 +334,13 @@ def _solve_core(c: _Ctx, max_seconds: float, spec: ObjectiveSpec = ObjectiveSpec
             obj += [60 * spec.disruption_jpy * sum(moved_terms), sum(drift_terms)]
         const = pen * len(elig)
         obj += [-pen * sum(presence[a]) for a in elig]
+        if spec.empty_day_penalty_jpy and c.D > 1:
+            obj.append(60 * spec.empty_day_penalty_jpy * sum(empties))
+        if spec.spread_penalty_jpy and c.D > 1:
+            hi_c, lo_c = m.NewIntVar(0, c.cap, "tc_maxc"), m.NewIntVar(0, c.cap, "tc_minc")
+            m.AddMaxEquality(hi_c, day_count)
+            m.AddMinEquality(lo_c, day_count)
+            obj.append(60 * spec.spread_penalty_jpy * (hi_c - lo_c))
     else:
         obj = [round(config.W_TRAVEL * S / (c.D * c.window)) * travel_expr,
                round(config.W_COST * S / ref_cost) * cost_obj_expr]

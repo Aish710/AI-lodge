@@ -93,3 +93,13 @@ This was tuned after seeing multi-city results, so it is a modelling choice, not
 **Failure behaviour.** Infeasible replans return the specific pre-check or solver conflicts and the ORIGINAL plan unchanged. A new plan that the independent validator rejects is not applied (`rejected_by_validator`).
 
 **Not modelled.** Public holidays, `max_walking_minutes_per_day` and `interests` remain unmodelled.
+
+
+## Balance nudge (added for the live app, 2026-10-18)
+
+The live routes (`/optimise`, `/compare-hotels` and its sensitivity runs, `/replan`) add two small terms to the true-cost objective so that a trip does not leave whole days empty while sights remain and the stops are spread rather than piled onto a few days:
+
+- an empty trip day is charged 2.5 hours of the city's default value of time (Tokyo: 2,500 JPY), `money.empty_day_penalty`;
+- each stop of difference between the busiest and the quietest day is charged 0.5 hour (Tokyo: 500 JPY), `money.spread_penalty`.
+
+They are tie-breakers inside the optimiser only. They are never added to a displayed cost, a true-cost figure, the budget or the validator; every hard rule (opening hours, pace cap, daily limits, strict budget, locks, must-visits) is unchanged, and an empty day is still produced when nothing can fill it. The committed evaluation, baseline and hotel-comparison files were produced WITHOUT the nudge and are unchanged: they describe the same objective minus these two terms (`tests/test_evaluation.py::test_headline_solver_runs_the_same_objective_as_post_optimise` runs the route with the nudge off and requires an exact match). `docs/worked-example.md` is regenerated from the live app and therefore includes the nudge.
