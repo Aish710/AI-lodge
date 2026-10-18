@@ -1,6 +1,6 @@
 # Safety mutation testing
 
-Generated 2026-10-18 07:42 UTC by `backend/scripts/run_safety_mutations.py`. Baseline (no mutation): 538 passed, 1 warning in 75.35s (0:01:15).
+Generated 2026-10-18 08:56 UTC by `backend/scripts/run_safety_mutations.py`. Baseline (no mutation): 564 passed, 1 warning in 82.43s (0:01:22).
 
 Each row disables ONE safeguard in a throw-away test process and runs the relevant boundary tests (listed per row in the JSON); the separate full suite checks the application. Nothing in the repository or any configuration is changed, and no weakened safeguard is committed.
 
@@ -32,6 +32,8 @@ Each row disables ONE safeguard in a throw-away test process and runs the releva
 | `unstated_place_accepted`: a place the model names but the user never wrote is accepted as a must-visit or skip | YES | 1: test_a_guessed_place_is_not_added_and_the_ambiguity_is_reported |
 | `min_active_days_validator_blind`: the independent validator no longer checks the minimum-active-days requirement | YES | 1: test_the_validator_rejects_a_schedule_that_breaks_the_requirement |
 | `min_active_days_not_modelled`: the solver ignores the minimum-active-days requirement (only the validator would notice) | YES | 1: test_an_impossible_requirement_is_a_named_conflict_not_a_silent_relaxation |
+| `explain_role_check_off`: a correct number may be used for the wrong item in an explanation (room cost vs modelled total) | YES | 6: test_correct_numbers_used_for_the_wrong_thing_are_rejected[Rooms; test_correct_numbers_used_for_the_wrong_thing_are_rejected[Sights; test_correct_numbers_used_for_the_wrong_thing_are_rejected[The; test_correct_numbers_used_for_the_wrong_thing_are_rejected[Total |
+| `grounding_skips_currency_glued_numbers`: an amount glued to a currency code (RM999, SGD999) is not extracted, so it is never checked against the facts | YES | 14: test_a_fabricated_amount_glued_to_a_currency_code_is_now_checked_not_skipped[JPY999]; test_a_fabricated_amount_glued_to_a_currency_code_is_now_checked_not_skipped[KRW999]; test_a_fabricated_amount_glued_to_a_currency_code_is_now_checked_not_skipped[MYR999]; test_a_fabricated_amount_glued_to_a_currency_code_is_now_checked_not_skipped[RM999.50] |
 
 ## Limits
 

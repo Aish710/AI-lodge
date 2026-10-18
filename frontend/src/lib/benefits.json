@@ -1,7 +1,7 @@
 {
  "source": "docs/itinerary-study.json",
- "generated": "2026-10-18 07:20 UTC",
- "commit": "ac31425 + uncommitted changes",
+ "generated": "2026-10-18 08:32 UTC",
+ "commit": "e1c1826 + uncommitted changes",
  "cities": {
   "tokyo": {
    "trips": 60,

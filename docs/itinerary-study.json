@@ -1,14 +1,14 @@
 {
  "meta": {
-  "date": "2026-10-18 07:20 UTC",
-  "commit": "ac31425 + uncommitted changes",
+  "date": "2026-10-18 08:32 UTC",
+  "commit": "e1c1826 + uncommitted changes",
   "seeds": {
    "tokyo": 20261013,
    "others": 20261014
   },
   "quick": false,
   "label": "seeded synthetic trips on SAMPLE data; estimated travel times; trip's own fictional hotel fixed",
-  "elapsed_seconds": 24.5
+  "elapsed_seconds": 25.0
  },
  "cities": {
   "tokyo": {
@@ -19,7 +19,7 @@
      "id": "T001",
      "must": 0,
      "requested": 6,
-     "optimiser_runtime_s": 0.043,
+     "optimiser_runtime_s": 0.047,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -129,7 +129,7 @@
      "id": "T003",
      "must": 3,
      "requested": 8,
-     "optimiser_runtime_s": 0.13,
+     "optimiser_runtime_s": 0.132,
      "arms": {
       "input_order": {
        "feasible": false,
@@ -159,7 +159,7 @@
      "id": "T004",
      "must": 2,
      "requested": 7,
-     "optimiser_runtime_s": 0.125,
+     "optimiser_runtime_s": 0.126,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -214,7 +214,7 @@
      "id": "T005",
      "must": 0,
      "requested": 8,
-     "optimiser_runtime_s": 0.082,
+     "optimiser_runtime_s": 0.084,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -323,7 +323,7 @@
      "id": "T008",
      "must": 3,
      "requested": 6,
-     "optimiser_runtime_s": 0.06,
+     "optimiser_runtime_s": 0.061,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -421,7 +421,7 @@
      "id": "T010",
      "must": 0,
      "requested": 8,
-     "optimiser_runtime_s": 0.061,
+     "optimiser_runtime_s": 0.062,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -476,7 +476,7 @@
      "id": "T011",
      "must": 2,
      "requested": 6,
-     "optimiser_runtime_s": 0.049,
+     "optimiser_runtime_s": 0.05,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -531,7 +531,7 @@
      "id": "T012",
      "must": 0,
      "requested": 5,
-     "optimiser_runtime_s": 0.013,
+     "optimiser_runtime_s": 0.014,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -586,7 +586,7 @@
      "id": "T013",
      "must": 0,
      "requested": 6,
-     "optimiser_runtime_s": 0.062,
+     "optimiser_runtime_s": 0.111,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -641,7 +641,7 @@
      "id": "T014",
      "must": 1,
      "requested": 3,
-     "optimiser_runtime_s": 0.009,
+     "optimiser_runtime_s": 0.017,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -696,7 +696,7 @@
      "id": "T015",
      "must": 1,
      "requested": 7,
-     "optimiser_runtime_s": 0.111,
+     "optimiser_runtime_s": 0.124,
      "arms": {
       "input_order": {
        "feasible": false,
@@ -794,7 +794,7 @@
      "id": "T017",
      "must": 0,
      "requested": 8,
-     "optimiser_runtime_s": 0.016,
+     "optimiser_runtime_s": 0.017,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -903,7 +903,7 @@
      "id": "T020",
      "must": 2,
      "requested": 7,
-     "optimiser_runtime_s": 0.112,
+     "optimiser_runtime_s": 0.113,
      "arms": {
       "input_order": {
        "feasible": false,
@@ -1198,7 +1198,7 @@
      "id": "T027",
      "must": 0,
      "requested": 6,
-     "optimiser_runtime_s": 0.008,
+     "optimiser_runtime_s": 0.009,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -1253,7 +1253,7 @@
      "id": "T028",
      "must": 3,
      "requested": 7,
-     "optimiser_runtime_s": 0.054,
+     "optimiser_runtime_s": 0.057,
      "arms": {
       "input_order": {
        "feasible": false,
@@ -1283,7 +1283,7 @@
      "id": "T029",
      "must": 2,
      "requested": 6,
-     "optimiser_runtime_s": 0.049,
+     "optimiser_runtime_s": 0.051,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -1338,7 +1338,7 @@
      "id": "T030",
      "must": 1,
      "requested": 7,
-     "optimiser_runtime_s": 0.109,
+     "optimiser_runtime_s": 0.11,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -1448,7 +1448,7 @@
      "id": "T032",
      "must": 0,
      "requested": 8,
-     "optimiser_runtime_s": 0.15,
+     "optimiser_runtime_s": 0.152,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -1503,7 +1503,7 @@
      "id": "T033",
      "must": 0,
      "requested": 9,
-     "optimiser_runtime_s": 0.188,
+     "optimiser_runtime_s": 0.191,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -1613,7 +1613,7 @@
      "id": "T035",
      "must": 1,
      "requested": 8,
-     "optimiser_runtime_s": 0.324,
+     "optimiser_runtime_s": 0.327,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -1668,7 +1668,7 @@
      "id": "T036",
      "must": 2,
      "requested": 5,
-     "optimiser_runtime_s": 0.007,
+     "optimiser_runtime_s": 0.008,
      "arms": {
       "input_order": {
        "feasible": false,
@@ -1809,7 +1809,7 @@
      "id": "T039",
      "must": 0,
      "requested": 7,
-     "optimiser_runtime_s": 0.151,
+     "optimiser_runtime_s": 0.153,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -1962,7 +1962,7 @@
      "id": "T042",
      "must": 0,
      "requested": 9,
-     "optimiser_runtime_s": 0.441,
+     "optimiser_runtime_s": 0.444,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -2017,7 +2017,7 @@
      "id": "T043",
      "must": 1,
      "requested": 8,
-     "optimiser_runtime_s": 0.277,
+     "optimiser_runtime_s": 0.278,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -2072,7 +2072,7 @@
      "id": "T044",
      "must": 3,
      "requested": 9,
-     "optimiser_runtime_s": 0.322,
+     "optimiser_runtime_s": 0.313,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -2157,7 +2157,7 @@
      "id": "T046",
      "must": 1,
      "requested": 9,
-     "optimiser_runtime_s": 1.583,
+     "optimiser_runtime_s": 1.6,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -2212,7 +2212,7 @@
      "id": "T047",
      "must": 3,
      "requested": 5,
-     "optimiser_runtime_s": 0.025,
+     "optimiser_runtime_s": 0.026,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -2377,7 +2377,7 @@
      "id": "T050",
      "must": 0,
      "requested": 6,
-     "optimiser_runtime_s": 0.096,
+     "optimiser_runtime_s": 0.097,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -2514,7 +2514,7 @@
      "id": "T053",
      "must": 3,
      "requested": 4,
-     "optimiser_runtime_s": 0.015,
+     "optimiser_runtime_s": 0.014,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -2569,7 +2569,7 @@
      "id": "T054",
      "must": 2,
      "requested": 9,
-     "optimiser_runtime_s": 1.472,
+     "optimiser_runtime_s": 1.493,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -2667,7 +2667,7 @@
      "id": "T056",
      "must": 0,
      "requested": 9,
-     "optimiser_runtime_s": 0.241,
+     "optimiser_runtime_s": 0.244,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -2792,7 +2792,7 @@
      "id": "T059",
      "must": 0,
      "requested": 7,
-     "optimiser_runtime_s": 0.043,
+     "optimiser_runtime_s": 0.044,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -2847,7 +2847,7 @@
      "id": "T060",
      "must": 3,
      "requested": 6,
-     "optimiser_runtime_s": 0.077,
+     "optimiser_runtime_s": 0.078,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -3061,9 +3061,9 @@
     "optimiser_runtime_s": {
      "n": 60,
      "mean": 0.1,
-     "median": 0.043,
+     "median": 0.0455,
      "min": 0.0,
-     "max": 1.583
+     "max": 1.6
     },
     "all_three_feasible": 40,
     "score_gain_vs": {
@@ -3125,7 +3125,7 @@
      "id": "T002",
      "must": 3,
      "requested": 6,
-     "optimiser_runtime_s": 0.116,
+     "optimiser_runtime_s": 0.118,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -3180,7 +3180,7 @@
      "id": "T003",
      "must": 3,
      "requested": 4,
-     "optimiser_runtime_s": 0.016,
+     "optimiser_runtime_s": 0.017,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -3400,7 +3400,7 @@
      "id": "T007",
      "must": 1,
      "requested": 6,
-     "optimiser_runtime_s": 0.073,
+     "optimiser_runtime_s": 0.074,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -3455,7 +3455,7 @@
      "id": "T008",
      "must": 1,
      "requested": 5,
-     "optimiser_runtime_s": 0.047,
+     "optimiser_runtime_s": 0.048,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -3592,7 +3592,7 @@
      "id": "T011",
      "must": 3,
      "requested": 6,
-     "optimiser_runtime_s": 0.081,
+     "optimiser_runtime_s": 0.082,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -3812,7 +3812,7 @@
      "id": "T015",
      "must": 0,
      "requested": 5,
-     "optimiser_runtime_s": 0.049,
+     "optimiser_runtime_s": 0.05,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -3867,7 +3867,7 @@
      "id": "T016",
      "must": 1,
      "requested": 7,
-     "optimiser_runtime_s": 0.026,
+     "optimiser_runtime_s": 0.027,
      "arms": {
       "input_order": {
        "feasible": false,
@@ -3952,7 +3952,7 @@
      "id": "T018",
      "must": 2,
      "requested": 6,
-     "optimiser_runtime_s": 0.09,
+     "optimiser_runtime_s": 0.092,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -4264,7 +4264,7 @@
     "optimiser_runtime_s": {
      "n": 20,
      "mean": 0.0,
-     "median": 0.0165,
+     "median": 0.017,
      "min": 0.0,
      "max": 0.118
     },
@@ -4358,7 +4358,7 @@
      "id": "T003",
      "must": 3,
      "requested": 4,
-     "optimiser_runtime_s": 0.028,
+     "optimiser_runtime_s": 0.029,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -4550,7 +4550,7 @@
      "id": "T007",
      "must": 1,
      "requested": 6,
-     "optimiser_runtime_s": 0.053,
+     "optimiser_runtime_s": 0.056,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -4659,7 +4659,7 @@
      "id": "T010",
      "must": 3,
      "requested": 6,
-     "optimiser_runtime_s": 0.015,
+     "optimiser_runtime_s": 0.016,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -4714,7 +4714,7 @@
      "id": "T011",
      "must": 3,
      "requested": 6,
-     "optimiser_runtime_s": 0.041,
+     "optimiser_runtime_s": 0.042,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -4757,7 +4757,7 @@
      "id": "T012",
      "must": 2,
      "requested": 7,
-     "optimiser_runtime_s": 0.099,
+     "optimiser_runtime_s": 0.1,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -4867,7 +4867,7 @@
      "id": "T014",
      "must": 0,
      "requested": 5,
-     "optimiser_runtime_s": 0.017,
+     "optimiser_runtime_s": 0.018,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -4922,7 +4922,7 @@
      "id": "T015",
      "must": 0,
      "requested": 5,
-     "optimiser_runtime_s": 0.037,
+     "optimiser_runtime_s": 0.038,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -4977,7 +4977,7 @@
      "id": "T016",
      "must": 1,
      "requested": 7,
-     "optimiser_runtime_s": 0.041,
+     "optimiser_runtime_s": 0.044,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -5059,7 +5059,7 @@
      "id": "T018",
      "must": 2,
      "requested": 6,
-     "optimiser_runtime_s": 0.014,
+     "optimiser_runtime_s": 0.015,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -5114,7 +5114,7 @@
      "id": "T019",
      "must": 1,
      "requested": 3,
-     "optimiser_runtime_s": 0.003,
+     "optimiser_runtime_s": 0.004,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -5383,9 +5383,9 @@
     "optimiser_runtime_s": {
      "n": 20,
      "mean": 0.0,
-     "median": 0.014499999999999999,
+     "median": 0.015,
      "min": 0.0,
-     "max": 0.099
+     "max": 0.1
     },
     "all_three_feasible": 13,
     "score_gain_vs": {
@@ -5474,7 +5474,7 @@
      "id": "T003",
      "must": 3,
      "requested": 4,
-     "optimiser_runtime_s": 0.013,
+     "optimiser_runtime_s": 0.014,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -5611,7 +5611,7 @@
      "id": "T006",
      "must": 0,
      "requested": 5,
-     "optimiser_runtime_s": 0.014,
+     "optimiser_runtime_s": 0.015,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -5666,7 +5666,7 @@
      "id": "T007",
      "must": 1,
      "requested": 6,
-     "optimiser_runtime_s": 0.063,
+     "optimiser_runtime_s": 0.064,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -6011,7 +6011,7 @@
      "id": "T014",
      "must": 0,
      "requested": 5,
-     "optimiser_runtime_s": 0.033,
+     "optimiser_runtime_s": 0.034,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -6066,7 +6066,7 @@
      "id": "T015",
      "must": 0,
      "requested": 5,
-     "optimiser_runtime_s": 0.026,
+     "optimiser_runtime_s": 0.027,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -6203,7 +6203,7 @@
      "id": "T018",
      "must": 2,
      "requested": 6,
-     "optimiser_runtime_s": 0.061,
+     "optimiser_runtime_s": 0.063,
      "arms": {
       "input_order": {
        "feasible": true,
@@ -6515,9 +6515,9 @@
     "optimiser_runtime_s": {
      "n": 20,
      "mean": 0.0,
-     "median": 0.016,
+     "median": 0.0165,
      "min": 0.0,
-     "max": 0.063
+     "max": 0.064
     },
     "all_three_feasible": 13,
     "score_gain_vs": {

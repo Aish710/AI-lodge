@@ -13,7 +13,7 @@
    "feasible": true,
    "solver_status": "OPTIMAL",
    "proven_optimal": true,
-   "runtime_seconds": 0.1043,
+   "runtime_seconds": 0.1045,
    "conflicts": [],
    "itinerary": {
     "status": "feasible",
@@ -129,7 +129,7 @@
     "solver_meta": {
      "solver": "ortools-cp-sat",
      "solver_status": "OPTIMAL",
-     "runtime_seconds": 0.1043,
+     "runtime_seconds": 0.1045,
      "seed": 42,
      "objective": 1382400.0
     }
@@ -180,7 +180,7 @@
    "feasible": true,
    "solver_status": "OPTIMAL",
    "proven_optimal": true,
-   "runtime_seconds": 0.201,
+   "runtime_seconds": 0.2027,
    "conflicts": [],
    "itinerary": {
     "status": "feasible",
@@ -296,7 +296,7 @@
     "solver_meta": {
      "solver": "ortools-cp-sat",
      "solver_status": "OPTIMAL",
-     "runtime_seconds": 0.201,
+     "runtime_seconds": 0.2027,
      "seed": 42,
      "objective": 1415400.0
     }
@@ -347,7 +347,7 @@
    "feasible": true,
    "solver_status": "OPTIMAL",
    "proven_optimal": true,
-   "runtime_seconds": 0.1297,
+   "runtime_seconds": 0.1316,
    "conflicts": [],
    "itinerary": {
     "status": "feasible",
@@ -469,7 +469,7 @@
     "solver_meta": {
      "solver": "ortools-cp-sat",
      "solver_status": "OPTIMAL",
-     "runtime_seconds": 0.1297,
+     "runtime_seconds": 0.1316,
      "seed": 42,
      "objective": 1524200.0
     }
@@ -547,7 +547,7 @@
  ],
  "approximate": false,
  "partial": false,
- "elapsed_seconds": 1.125,
+ "elapsed_seconds": 1.136,
  "time_limit_seconds": 120.0,
  "sensitivity": {
   "vot_min": 0,

@@ -1,6 +1,6 @@
 # Copilot evaluation: MOCK ORACLE (integration only: intent accuracy is 100% by construction and says nothing about any model)
 
-Generated 2026-10-18 07:37 UTC by `backend/scripts/run_copilot_eval.py`. Prompt version `4`. Cases: `backend/tests/fixtures/copilot_eval_cases.json` (76 cases, 68 need a classifier, 8 are AI-off quick questions), developer-authored, frozen before any model ran on them, **not independent**. Sample data, fictional hotels. 
+Generated 2026-10-18 08:51 UTC by `backend/scripts/run_copilot_eval.py`. Prompt version `4`. Cases: `backend/tests/fixtures/copilot_eval_cases.json` (76 cases, 68 need a classifier, 8 are AI-off quick questions), developer-authored, frozen before any model ran on them, **not independent**. Sample data, fictional hotels. 
 
 | Metric | Result |
 |---|---|
