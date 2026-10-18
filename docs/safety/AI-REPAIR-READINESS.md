@@ -1,6 +1,6 @@
-# AI-assisted repair: readiness design (nothing enabled)
+# AI-assisted repair: contract (IMPLEMENTED 2026-10-18)
 
-No new model action is enabled. This is the contract a future repair feature must meet before it ships.
+Status: implemented as `/parse-repair` and `/apply-repair` (`app/repair.py`, `app/llm/repair.py`) and `/parse-profile` (`app/llm/profile.py`). The contract below is what the code enforces; the tests are `backend/tests/test_ai_repair.py` and `test_safety_invariants_ai.py`. Differences from the first design: ids and flags are never read from the model, and the model's free-text reason is dropped when it mentions money or numbers.
 
 ## Allowlisted action schema
 Every model-proposed change is one object from a closed set; anything else is rejected before display:

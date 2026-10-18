@@ -51,3 +51,6 @@ N is given for every figure. Statistics are mean, median, min and max, plus the 
 ## What this does not show
 
 Sample data with 12 attractions and 3 fictional hotels whose rates were tuned for the demo; travel times and fares estimated from straight-line distance, not routing data; synthetic trips from one seeded generator, not users; no live prices or opening hours; one machine and one OR-Tools version. The hotel result measures the model's behaviour on a demo dataset, not real hotel markets.
+
+## Live AI evidence status (prompt version 4)
+Re-run on 2026-10-18 after the AI repair and travel-style features changed the AI package (prompt version 3 -> 4); the earlier reports are historical records for version 3 and are not overwritten. Current (version 4): `docs/ai-selfcheck.md`, the newest `docs/eval/gold-results-live-*-final4.md`, `docs/redteam-live.md`, `docs/ai-repair-selfcheck.md`. The self-check, gold set and red team results are reported as they came, including misses (see the files); the red team's live attacks still cover only the parse and explain paths, so the repair and travel-style paths are covered by mock-model tests and the smoke test.

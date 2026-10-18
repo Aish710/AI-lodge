@@ -43,6 +43,8 @@ Written 2026-10-18 from the code. "Enforcement point" is the exact place a safeg
 | Malformed/unexpected output | Strict schemas (`extra="forbid"`), parse failure → clarification, never partial application | `test_safety_invariants.py` (10) |
 | Missing data shown as impossibility / provisional shown as verified | `Conflict.category` (server-derived), `verification` in the report, UI wording | `test_conflict_resolver.py`, `unknown-hours.spec.js` |
 | Cost runaway / abuse | Rate tiers, call caps, daily breaker, solver slot | `test_hardening.py` |
+| AI repair: privileged action, stale or tampered proposal, locked hotel/stop override, fabricated saving | `app/repair.py` (allowlist, flags derived in code, expected-previous and fingerprint re-check, lock rules), `main.apply_repair_route` (individual confirmations), `llm/repair._clean_reason` | `test_ai_repair.py`, `test_safety_invariants_ai.py`; mutations `repair_*` |
+| AI travel style: invented numbers, overriding the user's own values | `llm/profile._digits` grounding, kept-yours rule, questions instead of amounts | `test_ai_repair.py`; mutation `style_numbers_not_grounded` |
 | Shared-trip threats (future) | Not implemented: see `../design/collaboration-proposal.md` | n/a |
 
 ## Finding made by this audit (fixed)

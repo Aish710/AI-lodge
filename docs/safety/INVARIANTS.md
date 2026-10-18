@@ -14,3 +14,15 @@ Each is a statement about the final application state, tested with hostile mock-
 10. Malformed or unexpected model output yields no operations and never breaks the plan in force; with the model down, deterministic replanning still works.
 
 Strict-mode data rule: opening hours are never invented. A required sight with unknown hours blocks planning in strict mode (reported as missing information), and a provisional plan needs an explicit opt-in and is labelled conditional.
+
+## AI repair and AI travel style (added with those features; `test_ai_repair.py`, `test_safety_invariants_ai.py`)
+11. A repair cannot silently remove a must-visit: giving one up is its own action, flagged, and applied only with that action's individual confirmation; the optional-removal action refuses a must-visit.
+12. A kept hotel and locked stops are never changed by a repair; the only way out of a hotel lock is an individually confirmed unlock.
+13. The model cannot invent an attraction, a hotel or opening hours: names resolve in code, the schema has no hours/price/time fields, unknown hours stay unknown and flagged.
+14. A fabricated saving or number in the model's reason never reaches the user.
+15. Hard-constraint changes need approval; confirmation and hard flags are derived from the action in code, so a forged or model-set flag is ignored.
+16. A proposal cannot be applied to a different plan, hotel, lock state or after the plan changed (fingerprint and expected-previous-value re-check at apply time).
+17. Prompt injection cannot obtain a privileged action: extra fields reject the whole reply, and a requested confirmation is not honoured.
+18. An infeasible repair is labelled not verified, cannot be applied from the interface, and if forced the result is an honest failing plan; a provisional repair is conditional, never verified.
+19. A failing model, invalid output or leak attempt leaves the plan in force untouched and the deterministic repairs available.
+20. A style text cannot invent a number or override a value the user set.
