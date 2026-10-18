@@ -53,7 +53,8 @@ def explore(prefs: Preferences, hotel_ids: list[str], ds: Dataset, *, max_second
             p = prefs.model_copy(update={"value_of_time_per_hour": vot})
             res = solve(p, h, ds, objective=ObjectiveSpec("true_cost", vot, pen), max_seconds=max_seconds, with_alternatives=False)
             tried += 1
-            if res.status != "feasible" or build_report(res, ds, p, h).overall == "fail":
+            report = build_report(res, ds, p, h)
+            if res.status != "feasible" or report.overall == "fail":
                 continue
             sig = (h, _signature(res))
             if sig in seen:
@@ -64,6 +65,7 @@ def explore(prefs: Preferences, hotel_ids: list[str], ds: Dataset, *, max_second
             b_own = _breakdown(ds, p, h, res, nights, base_vot)          # scored at the TRAVELLER's value of time, whatever value generated the plan
             optional_placed = len(scheduled - set(prefs.must_visit))
             cands.append({"hotel_id": h, "hotel_name": ds.hotels[h].name, "generated_at_value_of_time": vot, "factor": f,
+                          "verification": report.verification, "unknown_price_ids": res.totals.unknown_cost_items,
                           "money": b_own.rooms_jpy + b_own.admissions_jpy + b_own.transport_jpy, "rooms": b_own.rooms_jpy, "admissions": b_own.admissions_jpy,
                           "transport": b_own.transport_jpy, "minutes": b_own.travel_minutes, "coverage": optional_placed, "omitted": len(b_own.missed_preferences.attraction_ids),
                           "score_at_your_value_of_time": b_own.true_cost_jpy, "fingerprint": plan_fingerprint(p, h, ds)})

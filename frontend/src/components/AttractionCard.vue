@@ -13,6 +13,7 @@ const props = defineProps({
   compact: { type: Boolean, default: false },
   highlight: { type: Boolean, default: false },  // the sight's theme matches the traveller's interests (a highlight only)  // Plan screen grid: opening hours tuck into a disclosure
 })
+const sourceLink = value => { try { const url = new URL(value); return url.protocol === 'https:' ? url.href : null } catch { return null } }
 const emit = defineEmits(['update:state'])
 const warnings = computed(() => hoursWarnings(props.place, props.startWeekday, props.days))
 const hoursByDay = computed(() => Array.from({ length: props.days }, (_, i) => {
@@ -44,6 +45,19 @@ const gid = computed(() => `wish-${props.place.id}`)
     <details v-if="compact" class="small"><summary>Opening hours</summary>
       <span v-for="h in hoursByDay" :key="h.day" class="d-block">Day {{ h.day }} {{ h.name }}: {{ h.text }}</span>
       <SourceBadge :status="place.source?.hours" what="hours" />
+    </details>
+    <details v-if="place.verification" class="small" :data-testid="`provenance-${place.id}`">
+      <summary>Sources and uncertainty</summary>
+      <p class="muted mb-1">This is sample planning data. A source check is dated evidence, not live availability.</p>
+      <dl class="mb-0">
+        <template v-for="[key, label] in [['hours', 'Opening hours'], ['admission', 'Admission'], ['booking', 'Visit restrictions / booking'], ['visit_duration', 'Visit duration']]" :key="key">
+          <dt>{{ label }}: {{ (place.verification[key]?.state ?? 'unchecked').replaceAll('_', ' ') }}</dt>
+          <dd>{{ place.verification[key]?.note || 'No source check recorded.' }}
+            <span v-if="place.verification[key]?.checked_on"> Checked {{ place.verification[key].checked_on }} ({{ place.verification[key].checked_by }}).</span>
+            <a v-if="sourceLink(place.verification[key]?.source_url)" :href="sourceLink(place.verification[key].source_url)" target="_blank" rel="noopener noreferrer">Source</a>
+          </dd>
+        </template>
+      </dl>
     </details>
     <div class="d-flex flex-wrap gap-1">
       <span class="pill" data-testid="theme-tag"><span aria-hidden="true">{{ themeIcon(place) }}</span> {{ themeLabel(place) }}</span>

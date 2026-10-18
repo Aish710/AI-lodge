@@ -277,3 +277,17 @@ def test_profile_output_with_extra_fields_or_in_sample_mode_changes_nothing(api)
     j = prof(c, "slow")
     assert j["settings"] == [] and j["executed"] is False
     assert prof(api(None), "slow")["status"] == "llm_unavailable"
+
+
+@pytest.mark.parametrize('tags', [['slow_pace', 'many_sights'], ['many_sights', 'slow_pace']])
+def test_conflicting_style_priorities_ask_before_inferring_pace(api, tags):
+    c = api(MockLLM([profile_out(tags=tags, max_activities=3)]))
+    j = prof(c, 'I want a relaxed trip but everything, at most 3 activities per day', overrides=['pace'])
+    assert j['status'] == 'needs_clarification' and j['questions']
+    assert [(s['field'], s['proposed'], s['source']) for s in j['settings']] == [('maxActivities', 3, 'explicit')]
+
+
+def test_cheap_and_convenient_does_not_silently_choose_time_value(api):
+    c = api(MockLLM([profile_out(tags=['save_money', 'short_travel'])]))
+    j = prof(c, 'Cheap but convenient')
+    assert j['questions'] and not j['settings'] and j['status'] == 'needs_clarification'

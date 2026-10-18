@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { MissingProofError, syncProof } from '../../scripts/sync-proof.mjs'
 import { buildSummary } from '../../scripts/write-test-summaries.mjs'
-import { loadProof, readThisFirst, THRESHOLDS } from '../../src/lib/proof.js'
+import { loadProof, readThisFirst, THRESHOLDS, liveStatus } from '../../src/lib/proof.js'
 import { countUserTestRows, parseBlocks, parseClaims, parseRiskTable, plain, sectionBullets, testSummary } from '../../src/lib/mdparse.js'
 import { createMemoryHistory, createRouter } from 'vue-router'
 import Proof from '../../src/views/Proof.vue'
@@ -288,9 +288,11 @@ describe('Live AI card (run history, first run vs after fix, stale and missing)'
     expect(card.get('[data-testid=gold-first]').text()).toContain('LIVE model')
     expect(card.get('[data-testid=gold-first]').text()).not.toContain('Not run')
     expect(card.get('[data-testid=gold-after]').text()).toContain('Latest run (final)')
-    // the committed latest gold run (label final3) was made on the current prompt version and AI code, so it reads as current; the stale state is asserted in the next test
-    expect(card.get('[data-testid=gold-after]').text()).not.toContain('Not run on this version')
-    expect(card.get('[data-testid=gold-after]').text()).toContain('LIVE model')
+    // A new AI implementation must leave historical live evidence stale. Derive freshness from the actual code stamp.
+    const version = JSON.parse(readFileSync(join(dir, 'current-version.json'), 'utf8'))
+    const report = readFileSync(join(dir, 'gold-results-live-final.md'), 'utf8')
+    const current = liveStatus(report, version.prompt_version, { fingerprint: version.llm_fingerprint, enforce: true }).state === 'current'
+    expect(card.get('[data-testid=gold-after]').text()).toContain(current ? 'LIVE model' : 'Not run on this version')
     expect(card.get('[data-testid=gold-mock]').text()).toContain('Rule-based baseline, not a model')
     expect(card.get('[data-testid=gold-mock]').text()).toContain('This is not AI accuracy')
     vi.unstubAllGlobals()

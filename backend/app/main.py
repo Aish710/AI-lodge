@@ -21,7 +21,7 @@ from app.hardening.limiter import SlidingWindowLimiter
 from app.hardening.llm_scope import LLMBudget, llm_for_request
 from app.hardening.logging_setup import configure_logging
 from app.hardening.middleware import HardeningMiddleware
-from app.fingerprint import stamp
+from app.fingerprint import stamp, plan_fingerprint
 from app.hardening.disconnect import run_cancellable
 from app.optimiser.cost_summary import summarise_costs
 from app.hardening.solver_capacity import SolverCapacity
@@ -29,6 +29,7 @@ from app.llm.client import LLMClient
 from app.llm.explain import OptimiseView, explain
 from app.llm.extract import extract_preferences
 from app.llm.parse_replan import parse_replan
+from app.llm.copilot import Intent, Operation as CopilotOperation, answer as copilot_answer, classify as classify_copilot
 from app.llm.profile import parse_profile
 from app.llm.repair import parse_repair
 from app.repair import CONFIRMED, RepairAction, RepairError, apply_actions, base_fingerprint
@@ -38,7 +39,7 @@ from app.optimiser.hotel_compare import ComparisonInputError, compare_hotels
 from app.optimiser.itinerary_compare import ItineraryInputError, evaluate_itinerary
 from app.optimiser.replan import Operation, ReplanError, replan
 from app.optimiser.solver import ObjectiveSpec, solve
-from app.schemas import Preferences, SolveResult, nights_for
+from app.schemas import Preferences, SolveResult, Verification, HotelVerification, nights_for
 from app.verification import count_dataset
 from app.untrusted import rebuild_client_schedule
 from app.validator.feasibility_report import build_report
@@ -150,10 +151,11 @@ def data_places(request: Request, city_id: str = Query(DEFAULT_CITY_ID, max_leng
             {"id": a.id, "name": a.name, "area": a.area, "lat": a.lat, "lon": a.lon, "category": a.category, "priority": a.priority,
              "duration_minutes": a.duration_minutes, "admission_cost": a.admission_cost, "indoor": a.indoor,
              "advance_booking_required": a.advance_booking_required, "opening_hours": a.opening_hours,
-             "source": {"record": src(a.provenance), "hours": src(a.hours_provenance), "cost": src(a.cost_provenance)}}
+             "source": {"record": src(a.provenance), "hours": src(a.hours_provenance), "cost": src(a.cost_provenance)},
+             "verification": (a.verification or Verification()).model_dump()}
             for a in ds.attractions.values()],
         "hotels": [{"id": h.id, "name": h.name, "area": h.area, "lat": h.lat, "lon": h.lon, "nightly_rate": h.nightly_rate,
-                    "source": {"record": src(h.provenance)}} for h in ds.hotels.values()],
+                    "source": {"record": src(h.provenance)}, "verification": (h.verification or HotelVerification()).model_dump()} for h in ds.hotels.values()],
         "travel_times_source": ds.matrix_meta["source_status"],
         "fx": {"jpy_per_sgd": SAMPLE_FX_JPY_PER_SGD, "label": FX_LABEL},
         "city": _city_payload(ds),
@@ -450,6 +452,55 @@ def parse_replan_route(req: ParseReplanRequest, request: Request, client: LLMCli
     out = parse_replan(req.text, current, req.preferences, ds, client, unavailable_note=request.state.llm_note,
                        all_datasets=request.app.state.datasets).model_dump()
     return {**out, "city_id": ds.city.id}
+
+
+class CopilotRequest(_Req):
+    city_id: str = Field(default=DEFAULT_CITY_ID, max_length=32)
+    preferences: Preferences
+    current_result: SolveResult
+    fingerprint: str = Field(min_length=16, max_length=16)
+    text: str = Field(default="", max_length=10_000)
+    operation: CopilotOperation | None = None  # explicit quick question; read-only operations only
+
+
+@router.post("/copilot")
+async def copilot_route(req: CopilotRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
+    ds, cfg = _dataset(request, req.city_id), request.app.state.hconf
+    _check_city_ids(request, ds, hotels=[req.current_result.hotel_id], prefs=req.preferences)
+    if req.current_result.hotel_id not in ds.hotels:
+        raise ApiError(422, "unknown_hotel", "Unknown hotel id.")
+    if req.fingerprint != plan_fingerprint(req.preferences, req.current_result.hotel_id, ds):
+        raise ApiError(409, "stale_scenario", "This question refers to an older scenario. Ask again on the current plan.")
+
+    def work():
+        # Client prose, conflicts, prices, totals and validity assertions are never evidence.
+        if req.current_result.status == "feasible":
+            current = rebuild_client_schedule(req.preferences, req.current_result, ds, request.app.state.datasets)
+        else:
+            with request.app.state.solver_capacity.claim():
+                current = solve(req.preferences, req.current_result.hotel_id, ds,
+                                max_seconds=cfg.optimise_time_limit_seconds, with_alternatives=False)
+        intent, note, calls = (Intent(operation=req.operation), None, 0) if req.operation else classify_copilot(req.text, client, get_settings().max_input_chars)
+        if intent and intent.attraction_name and intent.attraction_name.casefold() not in req.text.casefold():
+            intent = Intent(operation="CLARIFY")  # the model may only COPY a name the person actually wrote
+        alternatives = None
+        if intent and intent.operation in ("COMPARE_ALTERNATIVES", "ANALYSE_TRADEOFF") and current.status == "feasible":
+            with request.app.state.solver_capacity.claim():
+                alternatives = explore(req.preferences, [current.hotel_id], ds,
+                                       max_seconds=min(2.0, cfg.optimise_time_limit_seconds), budget_seconds=4.0)
+        out = copilot_answer(intent or Intent(operation="CLARIFY"), req.preferences, current, ds, alternatives)
+        out.update(fingerprint=req.fingerprint, city_id=ds.city.id, call_count=calls,
+                   mode="llm" if calls else "deterministic", status="ok" if intent else "fallback")
+        if not req.operation and intent:
+            out["interpretation"] = "AI-selected intent; explanation and evidence constructed by code."
+        elif req.operation:
+            out["interpretation"] = "Explicit quick question; explanation and evidence constructed by code."
+        else:
+            out["interpretation"] = "No AI interpretation accepted; use the deterministic controls."
+        if note:
+            out["message"] = note
+        return out
+    return await run_cancellable(request, work)
 
 
 # ---- app factory ------------------------------------------------------------------------------------------------------

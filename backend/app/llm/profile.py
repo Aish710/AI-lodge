@@ -80,7 +80,16 @@ def parse_profile(text: str, current: dict, user_overrides: list[str], ds: Datas
             clar.append("I did not use a budget amount because it was not written in your text.")
     # tags: documented, labelled inferred; never an invented number beyond the documented mapping
     have = {s.field for s in settings}
+    blocked_tags = set()
+    if "many_sights" in o.tags and ({"slow_pace", "few_activities"} & set(o.tags)):
+        questions.append("Would you prefer fewer activities with breaks, or more sights each day? Your explicit limits stay unchanged; no conflicting pace is inferred.")
+        blocked_tags.update({"many_sights", "slow_pace", "few_activities"})
+    if "save_money" in o.tags and ({"pay_more_to_save_time", "short_travel"} & set(o.tags)):
+        questions.append("When lower spending means more estimated travel, which matters more: spending less or travelling less? No time valuation or travel limit is inferred until you choose.")
+        blocked_tags.update({"save_money", "pay_more_to_save_time", "short_travel"})
     for tag in o.tags:
+        if tag in blocked_tags:
+            continue
         for field, val in TAG_MAP.get(tag, []):
             if field not in have:
                 add(field, val, "inferred", {"slow_pace": "A slow trip with breaks: relaxed pace and at most 2 activities a day is a suggested starting point.", "few_activities": "Fewer things each day: 2 a day is a suggested starting point.",
@@ -106,7 +115,7 @@ def parse_profile(text: str, current: dict, user_overrides: list[str], ds: Datas
         clar.append("Not in this dataset: " + ", ".join(f"'{u.input}'" for u in unresolved) + ".")
     if ambiguities:
         clar.append("Please pick one: " + "; ".join(f"'{a.input}' could be " + " or ".join(c.name for c in a.candidates) for a in ambiguities) + ".")
-    status = "ok" if settings and not (unresolved or ambiguities) else "needs_clarification"
+    status = "ok" if settings and not (unresolved or ambiguities or questions) else "needs_clarification"
     if not settings and not questions and not clar and not o.unsupported:
         clar.append("I did not find a supported preference in that.")
     return ProfileProposal(status=status, settings=settings, questions=questions, unsupported=o.unsupported, extracted_json=o.model_dump(), resolved_names=resolved, unresolved_names=unresolved,

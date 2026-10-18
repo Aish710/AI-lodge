@@ -24,7 +24,7 @@ function toggle() { open.value = !open.value; if (open.value && !store.whatif.dr
 function pick(list, id, on) { const s = new Set(list); on ? s.add(id) : s.delete(id); return [...s] }
 </script>
 <template>
-  <section v-if="store.plan && store.planPrefs" class="card-soft" data-testid="whatif" aria-labelledby="wi-h">
+  <section v-if="store.plan && store.planPrefs" class="card-soft" data-testid="whatif" tabindex="-1" aria-labelledby="wi-h">
     <h2 id="wi-h" class="h5 mb-1">What if?</h2>
     <p class="muted small mb-2">Try a change on a copy of this plan. Nothing changes here until you press Apply.</p>
     <button type="button" class="btn btn-sm btn-outline-primary" :aria-expanded="open" data-testid="wi-toggle" @click="toggle">{{ open ? 'Close' : 'Try a what-if' }}</button>
@@ -59,6 +59,7 @@ function pick(list, id, on) { const s = new Set(list); on ? s.add(id) : s.delete
       </div>
 
       <div v-if="feasible && diff" class="mt-3" data-testid="wi-result">
+        <p class="small" role="status" data-testid="wi-validation"><strong>{{ w.result.feasibility_report?.verification === 'conditional' ? 'Provisional: opening hours unverified.' : w.result.feasibility_report?.verification === 'verified' ? 'Validated against the dataset.' : 'Validation status unavailable.' }}</strong> Estimated travel and fictional hotel prices remain assumptions.</p>
         <p class="small muted mb-1">What changes: {{ w.scenario.changes.join(', ') }}.</p>
         <div class="table-responsive"><table class="table table-sm align-middle mb-2" data-testid="wi-table">
           <thead><tr><th></th><th>Current plan</th><th>What-if</th><th>Difference</th></tr></thead>
@@ -74,6 +75,7 @@ function pick(list, id, on) { const s = new Set(list); on ? s.add(id) : s.delete
           <li v-if="diff.moved.length">Moved to another day: {{ diff.moved.map(name).join(', ') }}</li>
           <li v-if="!diff.added.length && !diff.removed.length && !diff.moved.length">The same sights on the same days.</li>
         </ul>
+        <p class="small muted" data-testid="wi-fixed">The preview preserves settings not listed above. Check added and removed sights before comparing spending; different coverage is not like-for-like savings.</p>
         <p v-if="diff.note" class="small muted" data-testid="wi-note">{{ diff.note }}</p>
         <div class="d-flex flex-wrap gap-2">
           <button type="button" class="btn btn-sm btn-primary" :disabled="busy" data-testid="wi-apply" @click="applyWhatIf(); open = false">Apply this what-if</button>

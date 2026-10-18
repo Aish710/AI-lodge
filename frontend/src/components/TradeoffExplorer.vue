@@ -22,7 +22,7 @@ const hotelOf = (id) => ct(store.hotelsById?.[id]?.name ?? id)
 const isNew = computed(() => store.explorer.last && best.value && (best.value !== store.chosenHotel || store.explorer.vot !== current.value))
 </script>
 <template>
-  <section v-if="store.plan && store.planPrefs" class="card-soft" data-testid="explorer" aria-labelledby="explorer-h">
+  <section v-if="store.plan && store.planPrefs" class="card-soft" data-testid="explorer" tabindex="-1" aria-labelledby="explorer-h">
     <h2 id="explorer-h" class="h5 mb-1">Trade-off explorer</h2>
     <p class="muted small">How much is an hour of your time worth? Each button below re-runs the planner for real, with your locked stops and preferences kept. Hotels are demo hotels with sample prices; travel times are estimated from straight-line distances.</p>
 

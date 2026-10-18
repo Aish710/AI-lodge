@@ -42,7 +42,7 @@ test('example trip -> compare hotels -> itinerary with map, timeline, feasibilit
   await expect(report.getByTestId('overall')).not.toContainText('Fail')
   await expect(page.getByTestId('dq-warnings')).toContainText('ESTIMATES')
   await expect(page.getByTestId('not-scheduled')).toBeVisible()
-  await expect(page.getByTestId('not-scheduled')).toContainText('Skipped because including it would cost more than it is worth for this plan.')
+  await expect(page.getByTestId('not-scheduled')).toContainText('the result does not establish a single cause.')
   await expect(page.getByTestId('error-panel')).toHaveCount(0)
   expectClean(problems)
 })

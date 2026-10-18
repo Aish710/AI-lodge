@@ -153,6 +153,33 @@ def _m18():
     lr._clean_reason = lambda reason: reason
 
 
+@mutation("copilot_schedule_rebuild_off", "copilot trusts supplied money and plan validity instead of rebuilding the schedule")
+def _m19():
+    import app.main as m
+    m.rebuild_client_schedule = lambda prefs, current, ds, *a, **k: current
+
+
+@mutation("copilot_fingerprint_unchecked", "copilot accepts a question attached to a stale scenario")
+def _m20():
+    import app.main as m
+    from app.fingerprint import plan_fingerprint as original
+    m.plan_fingerprint = lambda *a, **k: "0" * 16
+
+
+@mutation("style_tension_unchecked", "contradictory style tags silently resolve by order instead of asking")
+def _m21():
+    import app.llm.profile as p
+    original = p.call_json
+    def no_tension(*a, **kw):
+        out = original(*a, **kw)
+        if out.parsed and "many_sights" in out.parsed.tags:
+            out.parsed.tags = [t for t in out.parsed.tags if t != "many_sights"]
+        if out.parsed and "save_money" in out.parsed.tags:
+            out.parsed.tags = [t for t in out.parsed.tags if t != "save_money"]
+        return out
+    p.call_json = no_tension
+
+
 def pytest_configure(config):
     name = os.environ.get("SAFETY_MUTATION")
     if not name:

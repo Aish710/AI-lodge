@@ -50,3 +50,7 @@ export const applyRepair = (preferences, hotelId, keepHotel, baseFingerprint, ac
 /** AI-interpreted travel style: free text -> proposed settings (explicit or inferred). Nothing applied or solved. */
 export const parseProfile = (text, current, userOverrides, cityId) =>
   request('POST', '/parse-profile', { key: 'parse-profile', timeoutMs: SOLVE_TIMEOUT_MS, body: { city_id: city(cityId), text, current, user_overrides: userOverrides } })
+
+/** Read-only contextual question. All plan evidence is rebuilt on the server. */
+export const askCopilot = (preferences, currentResult, fingerprint, text, operation, cityId) =>
+  request('POST', '/copilot', { key: 'copilot', timeoutMs: SOLVE_TIMEOUT_MS, body: { city_id: city(cityId), preferences, current_result: currentResult, fingerprint, text, operation } })

@@ -2,6 +2,7 @@
 // Screen 2 of 2: the plan. The hotel is switched here, in place; the old plan stays visible (dimmed) until the new one arrives, and a failure never blanks it.
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import TripCopilot from '../components/TripCopilot.vue'
 import TripMap from '../components/TripMap.vue'
 import SettingsSummaryStrip from '../components/SettingsSummaryStrip.vue'
 import DayTimeline from '../components/DayTimeline.vue'
@@ -107,14 +108,16 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
 
     <template v-if="resp">
       <HotelSwitch />
+      <TripCopilot />
+      <div v-if="!infeasible" data-testid="copilot-repair" tabindex="-1" class="card-soft"><RepairAssistant /></div>
       <div :class="{ dimmed: planning }" :aria-busy="planning" data-testid="trip-body">
         <div class="stack">
           <!-- infeasible is a NORMAL result: conflict panel, never the error component -->
           <template v-if="infeasible">
             <StatusChip v-bind="status" />
-            <ConflictPanel :result="result" :prefs="store.planPrefs" :places-by-id="store.placesById" :busy="store.busy.optimise" :disabled="rateLimited || solverBusy" @apply="applyAlternative">
+            <div data-testid="copilot-repair" tabindex="-1"><ConflictPanel :result="result" :prefs="store.planPrefs" :places-by-id="store.placesById" :busy="store.busy.optimise" :disabled="rateLimited || solverBusy" @apply="applyAlternative">
               <template #assistant><RepairAssistant /></template>
-            </ConflictPanel>
+            </ConflictPanel></div>
             <FeasibilityReport :report="resp.feasibility_report" />
           </template>
 

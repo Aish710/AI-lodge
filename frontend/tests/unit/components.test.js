@@ -119,12 +119,12 @@ describe('NotScheduledPanel (decision 3)', () => {
   it('lists each skipped sight with the plain explanation and the penalty when given', () => {
     const w = mount(NotScheduledPanel, { props: { missedIds: ['meiji_jingu', 'tokyo_tower'], placesById: byId, penaltyJpy: 3000 } })
     expect(w.findAll('[data-testid=skipped-list] li')).toHaveLength(2)
-    expect(w.text()).toContain('Skipped because including it would cost more than it is worth for this plan.')
+    expect(w.text()).toContain('the result does not establish a single cause.')
     expect(w.get('[data-testid=penalty-note]').text()).toContain('¥3,000')
   })
   it('says nothing about a penalty it was not given, and has an empty state', () => {
     expect(mount(NotScheduledPanel, { props: { missedIds: ['meiji_jingu'], placesById: byId } }).find('[data-testid=penalty-note]').exists()).toBe(false)
-    expect(mount(NotScheduledPanel, { props: { missedIds: [], placesById: byId } }).text()).toContain('Every optional sight')
+    expect(mount(NotScheduledPanel, { props: { missedIds: [], placesById: byId } }).text()).toContain('No omitted optional sights are listed')
   })
 })
 

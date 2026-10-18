@@ -64,7 +64,13 @@ def test_every_live_report_header_carries_the_fingerprint():
     assert "LLM code fingerprint" in Path(sc.__file__).read_text()          # the self-check writes its report from a live client; its header line is pinned here by text
 
 
-def test_the_shipped_live_reports_predate_the_stamp_so_the_proof_page_will_say_not_run_on_this_version():
+def test_historical_live_reports_keep_their_original_code_stamp():
+    import re
     for rel in ("docs/ai-selfcheck.md", "docs/redteam-live.md"):
         text = (ROOT / rel).read_text()
-        assert "LLM code fingerprint" not in text or lc.llm_fingerprint() in text, f"{rel} carries an old fingerprint"
+        match = re.search(r"LLM code fingerprint: `([^`]+)`", text)
+        # Historical evidence may be stale. Its original stamp must remain well formed,
+        # never rewritten to claim that a paid run occurred on new code.
+        if match:
+            assert re.fullmatch(r"[0-9a-f]{12}", match.group(1)), rel
+        assert "PROMPT_VERSION:" in text

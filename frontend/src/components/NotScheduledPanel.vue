@@ -10,14 +10,14 @@ const items = computed(() => notScheduledItems(props.missedIds, props.placesById
 <template>
   <section class="card-soft" aria-labelledby="ns-h" data-testid="not-scheduled">
     <h2 id="ns-h" class="h5">Not scheduled</h2>
-    <p v-if="!items.length" class="mb-0">Every optional sight that can be visited is in the plan.</p>
+    <p v-if="!items.length" class="mb-0">No omitted optional sights are listed for this result.</p>
     <template v-else>
-      <p class="mb-2">These optional sights were left out on purpose. Each one was considered and skipped.</p>
+      <p class="mb-2">These optional sights are absent from this plan. Scheduling limits and the objective can interact; the result does not establish a single cause.</p>
       <ul class="mb-2" data-testid="skipped-list">
-        <li v-for="it in items" :key="it.id"><strong>{{ it.name }}</strong>: {{ it.reason }}</li>
+        <li v-for="it in items" :key="it.id"><strong>{{ it.name }}</strong></li>
       </ul>
       <p v-if="penaltyJpy !== null" class="small muted mb-0" data-testid="penalty-note">
-        The planner charges {{ money(penaltyJpy) }} for each optional sight it leaves out and skips one only when visiting it costs more than that in travel time, fares and admission. To include a sight anyway, mark it "Must visit".
+        The planner charges {{ money(penaltyJpy) }} for each optional sight it leaves out as part of the objective. That penalty alone does not explain why a specific sight is absent. To include a sight anyway, mark it "Must visit".
       </p>
     </template>
   </section>

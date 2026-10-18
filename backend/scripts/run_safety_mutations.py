@@ -18,9 +18,32 @@ sys.path.insert(0, str(ROOT / "tests"))
 import safety_mutation_plugin as plugin  # noqa: E402
 
 OUT = ROOT.parent / "docs" / "safety"
-TESTS = ["tests/test_safety_invariants.py", "tests/test_llm_api_safety.py", "tests/test_llm_explain.py", "tests/test_cited_explanations.py", "tests/test_redteam.py",
+TESTS = ["tests/test_copilot.py", "tests/test_safety_invariants.py", "tests/test_llm_api_safety.py", "tests/test_llm_explain.py", "tests/test_cited_explanations.py", "tests/test_redteam.py",
          "tests/test_unsupported_claims.py", "tests/test_replan.py", "tests/test_city_isolation.py", "tests/test_llm_input.py", "tests/test_solver.py", "tests/test_conflict_resolver.py",
          "tests/test_llm_per_city.py", "tests/test_ai_repair.py", "tests/test_safety_invariants_ai.py"]
+
+
+# Run each mutation against the boundary it disables. The complete application suite
+# is verified separately; repeating unrelated solver checks obscures causal failures.
+BOUNDARY_TESTS = {
+    "leak_scrub_off": ["tests/test_redteam.py"],
+    "leak_check_off": ["tests/test_cited_explanations.py", "tests/test_redteam.py"],
+    "claims_guard_off": ["tests/test_cited_explanations.py", "tests/test_unsupported_claims.py"],
+    "grounding_off": ["tests/test_cited_explanations.py", "tests/test_llm_api_safety.py", "tests/test_llm_explain.py"],
+    "must_visit_confirmation_off": ["tests/test_replan.py", "tests/test_safety_invariants.py"],
+    "untrusted_schedule_trusted": ["tests/test_city_isolation.py", "tests/test_safety_invariants.py", "tests/test_copilot.py"],
+    "no_valid_plan_guard_off": ["tests/test_safety_invariants.py"],
+    "foreign_city_ids_accepted": ["tests/test_city_isolation.py"],
+    "unknown_hours_assumed_open_by_default": ["tests/test_llm_input.py", "tests/test_llm_explain.py"],
+    "conflict_category_wrong": ["tests/test_conflict_resolver.py"],
+    "alternatives_validator_gate_rejects_all": ["tests/test_conflict_resolver.py"],
+    "copilot_schedule_rebuild_off": ["tests/test_copilot.py"],
+    "copilot_fingerprint_unchecked": ["tests/test_copilot.py"],
+    "style_tension_unchecked": ["tests/test_ai_repair.py"],
+}
+for _name in plugin.MUTATIONS:
+    if _name.startswith(("repair_", "style_numbers")):
+        BOUNDARY_TESTS[_name] = ["tests/test_ai_repair.py", "tests/test_safety_invariants_ai.py"]
 
 
 def run(name: str | None):
@@ -28,8 +51,11 @@ def run(name: str | None):
     if name:
         env["SAFETY_MUTATION"] = name
     t0 = time.time()
-    p = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", "-p", "safety_mutation_plugin", "-rf", *TESTS], cwd=ROOT, env=env, capture_output=True, text=True)
+    selected = BOUNDARY_TESTS.get(name, TESTS) if name else sorted(set(t for ts in BOUNDARY_TESTS.values() for t in ts))
+    p = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider", "-p", "safety_mutation_plugin", "-rf", *selected], cwd=ROOT, env=env, capture_output=True, text=True)
     failed = sorted(set(re.findall(r"^FAILED (\S+)", p.stdout, flags=re.M)))
+    if p.returncode not in (0, 1) or (p.returncode == 1 and not failed):
+        raise RuntimeError(f"mutation test process failed without an assertion verdict: {p.stdout[-2000:]} {p.stderr[-500:]}")
     summary = (p.stdout.strip().splitlines() or [""])[-1]
     return failed, summary, round(time.time() - t0, 1)
 
@@ -47,14 +73,14 @@ def main(argv=None):
         if a.only and name != a.only:
             continue
         failed, summary, secs = run(name)
-        rows.append({"mutation": name, "disabled_safeguard": why, "detected": bool(failed), "failing_tests": failed, "pytest_summary": summary, "seconds": secs})
+        rows.append({"mutation": name, "disabled_safeguard": why, "detected": bool(failed), "failing_tests": failed, "pytest_summary": summary, "seconds": secs, "test_files": BOUNDARY_TESTS.get(name, TESTS)})
         print(("DETECTED " if failed else "NOT DETECTED ") + name, len(failed), flush=True)
     res = {"date": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"), "baseline": base_summary, "test_files": TESTS, "mutations": rows}
     if not a.only:
         OUT.mkdir(parents=True, exist_ok=True)
         (OUT / "mutation-results.json").write_text(json.dumps(res, indent=1) + "\n", encoding="utf-8")
         L = ["# Safety mutation testing", "", f"Generated {res['date']} by `backend/scripts/run_safety_mutations.py`. Baseline (no mutation): {base_summary}.", "",
-             "Each row disables ONE safeguard in a throw-away test process and runs the safety-relevant test files. Nothing in the repository or any configuration is changed, and no weakened safeguard is committed.", "",
+             "Each row disables ONE safeguard in a throw-away test process and runs the relevant boundary tests (listed per row in the JSON); the separate full suite checks the application. Nothing in the repository or any configuration is changed, and no weakened safeguard is committed.", "",
              "| Disabled safeguard | Detected? | Tests that failed (first 4 of N) |", "|---|---|---|"]
         for r in rows:
             first = "; ".join(t.split("::", 1)[1] if "::" in t else t for t in r["failing_tests"][:4])
@@ -62,7 +88,7 @@ def main(argv=None):
         L += ["", "## Limits", "", "- A mutation models one way a control can fail; it is not every way.", "- \"Detected\" means at least one test failed, not that every scenario is covered.",
               "- The tests were written by the developer who also built the safeguards; this is not an independent assessment.", "- The validator gate on repair suggestions cannot be removed in a way that changes any output today (the solver's own plans already pass the validator), so that row checks the gate by making it reject everything.", ""]
         (OUT / "mutation-results.md").write_text("\n".join(L), encoding="utf-8")
-    return 0
+    return 0 if all(r["detected"] for r in rows) else 1
 
 
 if __name__ == "__main__":
