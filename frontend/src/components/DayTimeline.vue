@@ -55,7 +55,7 @@ const priceText = (s) => formatPrice(s.cost_status === 'unknown' ? null : s.cost
                 <span v-if="tags(s, lockedIds).must" class="pill pill-must">Must visit</span>
                 <span v-else class="pill">Include if it fits</span>
                 <span v-if="tags(s, lockedIds).booking" class="pill" data-testid="tag-booking">Needs booking</span>
-                <span v-if="tags(s, lockedIds).unknownHours" class="pill" data-testid="tag-unknown-hours">Unknown hours</span>
+                <span v-if="tags(s, lockedIds).unknownHours" class="pill" data-testid="tag-unknown-hours">Opening hours unverified</span>
                 <span v-if="tags(s, lockedIds).locked" class="pill" data-testid="locked-pill"><span aria-hidden="true">🔒</span> Locked</span>
               </div>
               <div class="leg mt-1" :data-testid="`cost-${s.attraction_id}`">

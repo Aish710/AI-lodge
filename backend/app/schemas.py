@@ -303,10 +303,22 @@ class Totals(_Plain):
     attractions_scheduled: int = 0
 
 
+# A conflict is "missing information" when the planner is blocked by something the DATA does not say (e.g. unknown opening hours), not by a rule the data breaks.
+# The UI must not present such a conflict as a real-world impossibility.
+MISSING_INFORMATION_CODES = frozenset({"unknown_hours_not_allowed"})
+
+
 class Conflict(_Plain):
     code: str = Field(max_length=64)
     message: str = Field(max_length=1000)
     attraction_ids: list[Short] = Field(default=[], max_length=50)
+    category: Literal["missing_information", "known_constraints"] = "known_constraints"
+
+    @model_validator(mode="after")
+    def _categorise(self):
+        # derived from the code, never taken from a client: a supplied value that disagrees is overwritten
+        self.category = "missing_information" if self.code in MISSING_INFORMATION_CODES else "known_constraints"
+        return self
 
 
 class Alternative(_Plain):

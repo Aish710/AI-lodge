@@ -116,6 +116,10 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
           </template>
 
           <template v-else>
+            <div v-if="resp.feasibility_report?.verification === 'conditional'" class="notice notice-warn" role="status" data-testid="conditional-banner">
+              <span class="glyph" aria-hidden="true">!</span>
+              <span><strong>Provisional plan. Opening hours unverified.</strong> This plan is feasible only if {{ (resp.feasibility_report.conditional_stop_ids ?? []).map((id) => store.placesById[id]?.name ?? id).join(', ') }} {{ (resp.feasibility_report.conditional_stop_ids ?? []).length === 1 ? 'is' : 'are' }} open at the scheduled time; the sample data does not say. Check the opening hours before you travel. It is not a verified itinerary.</span>
+            </div>
             <section v-if="verdict" class="card-soft" :class="`verdict-${verdict.kind}`" data-testid="verdict" aria-live="polite">
               <div class="verdict">{{ verdict.headline }} <AiMark kind="calc" /></div>
               <div class="verdict-detail">{{ verdict.detail }}</div>

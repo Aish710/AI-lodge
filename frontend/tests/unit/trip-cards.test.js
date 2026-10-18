@@ -177,7 +177,7 @@ describe('day selector, day cards, event cards, connectors', () => {
     const t = w.get('[data-testid=tags-teamlab_planets]').text()
     expect(t).toContain('Include if it fits')
     expect(t).toContain('Needs booking')
-    expect(t).toContain('Unknown hours')
+    expect(t).toContain('Opening hours unverified')
     expect(w.get('[data-testid=cost-teamlab_planets]').text()).toContain('Price unknown')
     expect(w.get('[data-testid=cost-teamlab_planets]').text()).toContain('not in the total')
     expect(o).toBeTruthy()

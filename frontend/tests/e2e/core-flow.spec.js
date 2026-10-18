@@ -92,8 +92,8 @@ test('impossible trip shows the Conflict panel (not the error style) and its alt
   await planFromExample(page, 'load-impossible')
   const panel = page.getByTestId('conflict-panel')
   await expect(panel).toBeVisible()
-  await expect(panel).toContainText('No plan satisfies every requirement')
-  await expect(panel).toContainText('unknown opening hours')
+  await expect(panel).toContainText("We can't confirm a plan yet")      // the 'impossible' example is the unknown-hours case: missing information, not a known-constraint failure
+  await expect(panel).toContainText('no opening hours')
   await expect(page.getByTestId('error-panel')).toHaveCount(0)
   await expect(page.locator('[role=alert]')).toHaveCount(0)
   await expect(page.getByTestId('feasibility-report')).toContainText('Fail')

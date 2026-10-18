@@ -1,3 +1,4 @@
+import { resultState } from './conflicts.js'
 // Verdict-first helpers. Pure functions: the screens show what these return, and nothing is decided inline in a template.
 import { cleanHotelText } from './names.js'
 
@@ -5,6 +6,10 @@ import { cleanHotelText } from './names.js'
 export function planStatus(resp) {
   const status = resp?.result?.status
   const overall = resp?.feasibility_report?.overall
+  const st = resultState(resp)
+  // Three different things: a plan that holds only if unverified hours are open, a plan blocked by information the data lacks, and a plan the known constraints rule out.
+  if (st === 'blocked_missing_info') return { kind: 'warn', icon: '!', label: 'Blocked by missing information' }
+  if (st === 'conditional') return { kind: 'warn', icon: '!', label: 'Feasible if opening hours are confirmed' }
   if (status === 'infeasible' || overall === 'fail') return { kind: 'bad', icon: '✕', label: 'Not possible' }
   if (overall === 'pass_with_warnings') return { kind: 'warn', icon: '!', label: 'Feasible with warnings' }
   return { kind: 'good', icon: '✓', label: 'Feasible' }

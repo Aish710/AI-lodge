@@ -234,7 +234,7 @@ def _replan_work(req: ReplanRequest, request: Request, client, ds, cfg):
     out = result.model_dump()
     out["city_id"] = ds.city.id
     out["cost_summary"] = summarise_costs(result.schedule, ds, result.hotel_id, result.nights_used)
-    stamp(out, result.new_preferences, result.hotel_id, ds)
+    stamp(out, result.new_preferences or req.preferences, result.hotel_id, ds)
     if req.explain:  # built from the result just computed here, never from client-supplied results
         out["explanation"] = explain(result, ds, client, request.state.llm_note, request.app.state.datasets).model_dump()
     return out

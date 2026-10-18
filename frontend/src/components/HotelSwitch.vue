@@ -5,10 +5,12 @@ import { computed } from 'vue'
 import { store, switchHotel, solverBusy, rateLimited } from '../store.js'
 import { formatLocalMoney } from '../lib/format.js'
 import { cleanHotelText as ct } from '../lib/names.js'
+import { categoryOf } from '../lib/conflicts.js'
 
 const results = computed(() => store.comparison?.results ?? [])
 const best = computed(() => store.comparison?.best_by_true_cost ?? null)
 const money = (v) => formatLocalMoney(v, store.city?.currency_code ?? 'JPY')
+const blocked = (r) => (r.conflicts?.length ?? 0) > 0 && r.conflicts.every((c) => categoryOf(c) === 'missing_information')
 const disabled = computed(() => solverBusy.value || rateLimited.value)
 </script>
 <template>
@@ -22,7 +24,7 @@ const disabled = computed(() => solverBusy.value || rateLimited.value)
           <span class="hotel-title">{{ ct(r.hotel_name) }}</span>
           <span class="small muted">{{ money(r.nightly_rate_jpy) }}/night</span>
           <span v-if="r.hotel_id === best" class="pill pill-must">Best value</span>
-          <span v-if="!r.feasible" class="small">No feasible plan</span>
+          <span v-if="!r.feasible" class="small" :data-blocked="blocked(r)">{{ blocked(r) ? 'Blocked by missing information' : 'No feasible plan' }}</span>
         </label>
       </template>
     </div>

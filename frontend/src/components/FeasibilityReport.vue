@@ -7,6 +7,8 @@ import { topWarnings } from '../lib/band.js'
 const props = defineProps({ report: { type: Object, required: true } })
 const warnings = computed(() => topWarnings(props.report.data_quality_warnings))
 const failed = computed(() => props.report.checks.filter((c) => c.status === 'fail'))
+// With no plan there is ONE check that only restates the summary: show the summary once and keep the check under "Technical details".
+const noPlan = computed(() => props.report.verification === 'none' || (props.report.checks.length === 1 && props.report.checks[0].id === 'plan_exists'))
 </script>
 <template>
   <section class="card-soft" data-testid="feasibility-report" aria-labelledby="fr-h">
@@ -17,11 +19,12 @@ const failed = computed(() => props.report.checks.filter((c) => c.status === 'fa
       </span>
     </h2>
     <p class="mb-2" data-testid="report-summary">{{ report.summary }}</p>
-    <ul v-if="failed.length" class="list-unstyled mb-2" data-testid="failed-checks">
+    <ul v-if="failed.length && !noPlan" class="list-unstyled mb-2" data-testid="failed-checks">
       <li v-for="c in failed" :key="c.id" class="text-danger fw-semibold"><span aria-hidden="true">✕</span> Fail: {{ c.name }}. {{ c.message }}</li>
     </ul>
-    <details :open="report.overall !== 'pass'">
-      <summary class="fw-semibold">All {{ report.checks.length }} checks</summary>
+    <p v-if="report.verification === 'conditional'" class="small mb-2" data-testid="report-conditional"><strong>Conditional, not fully verified.</strong> Feasible only if the sights marked "Opening hours unverified" are open at their scheduled time. Check before you travel.</p>
+    <details :open="report.overall !== 'pass' && !noPlan">
+      <summary class="fw-semibold">{{ noPlan ? 'Technical details' : `All ${report.checks.length} checks` }}</summary>
       <ul class="list-unstyled mt-2 mb-0">
         <li v-for="c in report.checks" :key="c.id" class="d-flex gap-2 py-1" :data-status="c.status" data-testid="check">
           <span class="fw-bold flex-none" style="width:5.5em" :class="{ 'text-danger': c.status === 'fail' }">

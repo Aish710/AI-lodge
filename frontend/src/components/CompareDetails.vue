@@ -7,6 +7,7 @@ import { topWarnings } from '../lib/band.js'
 import { store, explain, rateLimited, switchHotel, solverBusy } from '../store.js'
 import { formatDisplayMoney, formatLocalMoney, minutesToHm, UNKNOWN } from '../lib/format.js'
 import { cleanHotelText as ct } from '../lib/names.js'
+import { categoryOf } from '../lib/conflicts.js'
 
 const comp = computed(() => store.comparison)
 const money = (v) => formatLocalMoney(v, store.city?.currency_code ?? 'JPY')
@@ -67,7 +68,7 @@ const displayCost = (id) => comp.value?.display_values?.[id]?.true_cost
               <td v-for="r in results" :key="r.hotel_id" class="num">
                 <span v-if="store.chosenHotel === r.hotel_id" class="pill">In your plan</span>
                 <button v-else-if="r.feasible" class="btn btn-sm" :class="isBest(r.hotel_id) ? 'btn-primary' : 'btn-outline-primary'" :disabled="solverBusy || rateLimited" @click="switchHotel(r.hotel_id)" :data-testid="`use-${r.hotel_id}`">Use this hotel</button>
-                <span v-else>No feasible plan</span>
+                <span v-else>{{ (r.conflicts?.length && r.conflicts.every((c) => categoryOf(c) === 'missing_information')) ? 'Blocked by missing information' : 'No feasible plan' }}</span>
               </td></tr>
           </tbody>
         </table>

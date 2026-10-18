@@ -77,3 +77,88 @@ def test_the_api_returns_structured_changes_the_interface_can_apply():
     for a in j["result"]["alternatives"]:
         assert a["details"]["verified_by_validator"] is True and a["details"]["rank"] >= 1
         assert all("field" in ch for ch in a["details"]["changes"])
+
+
+# ---- strict mode, unknown opening hours (Kuala Lumpur, National Mosque) ---------------------------------------------------------------------------
+import pytest  # noqa: E402
+
+from app.data.loader import load_all_city_datasets  # noqa: E402
+from app.optimiser.hotel_compare import compare_hotels  # noqa: E402
+from app.schemas import Conflict, Preferences  # noqa: E402
+from app.validator.feasibility_report import build_report  # noqa: E402
+
+KL = load_all_city_datasets()["kuala_lumpur"]
+MOSQUE = "national_mosque_malaysia"
+KH = "hotel_klcc_lantern"
+
+
+def kl(**over):
+    return Preferences(days=2, must_visit=[MOSQUE], start_weekday=2, **over)
+
+
+def test_the_mosque_really_has_unknown_hours_and_the_data_is_not_edited():
+    assert any(v == "unknown" for v in KL.attractions[MOSQUE].opening_hours.values())      # the data says "unknown"; nothing fabricates hours
+
+
+def test_strict_mode_blocks_by_missing_information_and_says_so_once():
+    r = solve(kl(), KH, KL)
+    assert r.status == "infeasible"
+    assert [c.code for c in r.conflicts] == ["unknown_hours_not_allowed"] and r.conflicts[0].category == "missing_information"
+    rep = build_report(r, KL, kl(), KH)
+    assert rep.overall == "fail" and rep.blocked_by == "missing_information" and rep.verification == "none"
+    assert len(rep.checks) == 1
+    text = rep.summary + " " + rep.checks[0].message
+    assert text.count("National Mosque") == 0                                    # the specific conflict is returned once, in `conflicts`, not repeated in the report
+    assert "unknown_hours_not_allowed" not in text and "impossible" not in text.lower()
+
+
+def test_every_hotel_is_blocked_by_the_same_missing_information_and_the_insight_does_not_claim_impossibility():
+    c = compare_hotels(kl(), sorted(KL.hotels), KL, include_sensitivity=False)
+    assert all(not r.feasible and all(x.category == "missing_information" for x in r.conflicts) for r in c.results)
+    assert "missing information" in c.insight and "not a finding that the visit is impossible" in c.insight
+
+
+def test_repairs_are_complete_validated_and_never_apply_themselves():
+    r = solve(kl(), KH, KL)
+    kinds = {a.kind: a for a in r.alternatives}
+    assert {"allow_unknown_hours", "demote_must_visit"} <= set(kinds)
+    for a in r.alternatives:
+        assert a.message.strip() and a.details["changes"] and a.details["verified_by_validator"] is True
+    assert kinds["allow_unknown_hours"].details["changes"] == [{"field": "allow_unknown_hours", "from": False, "to": True}]
+    assert "provisionally" in kinds["allow_unknown_hours"].message
+    assert MOSQUE in kl().must_visit                                              # the request still has its must-visit: nothing was removed by diagnosing
+
+
+def test_provisional_planning_is_explicit_conditional_and_never_called_verified():
+    p = kl(allow_unknown_hours=True)
+    r = solve(p, KH, KL)
+    assert r.status == "feasible" and MOSQUE in {s.attraction_id for d in r.days for s in d.stops}
+    stop = next(s for d in r.days for s in d.stops if s.attraction_id == MOSQUE)
+    assert "opening_hours_unknown" in stop.uncertainty_flags
+    rep = build_report(r, KL, p, KH)
+    assert rep.verification == "conditional" and rep.conditional_stop_ids == [MOSQUE] and rep.overall == "pass_with_warnings"
+    assert "Conditional" in rep.summary and "Check before you travel" in rep.summary and "verified" not in rep.summary.lower().replace("unverified", "")
+
+
+def test_provisional_mode_does_not_bypass_other_hard_constraints():
+    tight = kl(allow_unknown_hours=True, day_end="09:30")
+    r = solve(tight, KH, KL, with_alternatives=False)
+    assert r.status == "infeasible" and all(c.code != "unknown_hours_not_allowed" for c in r.conflicts)      # the day window still binds with the opt-in on
+
+
+def test_an_unknown_hours_optional_sight_is_simply_not_scheduled_in_strict_mode():
+    p = Preferences(days=2, must_visit=[], start_weekday=2)
+    r = solve(p, KH, KL, with_alternatives=False)
+    assert r.status == "feasible" and MOSQUE not in {s.attraction_id for d in r.days for s in d.stops}
+    assert build_report(r, KL, p, KH).verification == "verified"
+
+
+def test_a_feasible_plan_without_unknown_hours_is_verified():
+    p = Preferences(days=2, must_visit=["petronas_twin_towers"] if "petronas_twin_towers" in KL.attractions else [], start_weekday=2)
+    r = solve(p, KH, KL, with_alternatives=False)
+    assert build_report(r, KL, p, KH).verification in ("verified", "conditional")
+
+
+def test_a_client_cannot_set_a_conflict_category():
+    c = Conflict(code="closed_all_days", message="x", category="missing_information")
+    assert c.category == "known_constraints"

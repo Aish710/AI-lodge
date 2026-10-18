@@ -64,18 +64,19 @@ export function patchFromChanges(changes) {
 
 export function conflictActions(result, prefs, placesById) {
   return (result?.alternatives ?? []).map((a) => {
-    const base = { kind: a.kind, message: a.message, patch: null, label: a.message.replace(/: a feasible plan exists\.?$/, ''),
+    const msg = typeof a.message === 'string' ? a.message : ''
+    const base = { kind: a.kind, message: msg, patch: null, label: msg.replace(/: a feasible plan exists\.?$/, ''),
       rank: a.details?.rank ?? null, combination: a.details?.combination === true, verified: a.details?.verified_by_validator === true }
     if (a.details?.changes?.length) { const patch = patchFromChanges(a.details.changes); if (patch) return { ...base, patch } }
     if (a.kind === 'add_day') return { ...base, patch: { days: prefs.days + 1 } }
     if (a.kind === 'relax_budget') return { ...base, patch: { strict_budget: false } }
     if (a.kind === 'allow_unknown_hours') return { ...base, patch: { allow_unknown_hours: true } }
     if (a.kind === 'extend_day') {
-      const m = /(\d{2}:\d{2})/.exec(a.message)
+      const m = /(\d{2}:\d{2})/.exec(msg)
       return m ? { ...base, patch: { day_end: m[1] } } : base
     }
     if (a.kind === 'demote_must_visit') {
-      const hit = Object.values(placesById).find((p) => prefs.must_visit.includes(p.id) && a.message.includes(`Treat ${p.name} as`))
+      const hit = Object.values(placesById).find((p) => prefs.must_visit.includes(p.id) && msg.includes(`Treat ${p.name} as`))
       return hit ? { ...base, patch: { demote_must_visit: hit.id } } : base
     }
     return base

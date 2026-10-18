@@ -185,7 +185,7 @@ def run_checks(schedule: SolveResult, ds: Dataset, prefs: Preferences, hotel_id:
     # Data-quality warnings (never a plain pass).
     unk_h = [r[2] for r in known if ds.attractions[r[2]].opening_hours[WD[r[1]]] == "unknown"]
     checks.append(_verdict("unknown_hours_used", "Unknown opening hours", unk_h, "No stop relies on unknown opening hours.",
-                           "Scheduled with UNKNOWN opening hours (not verified open).", "warning"))
+                           "Opening hours unverified (unknown in the data): the plan holds only if this is open at the scheduled time.", "warning"))
     unk_p = [r[2] for r in known if ds.attractions[r[2]].admission_cost is None]
     checks.append(_verdict("unknown_prices", "Unknown prices", unk_p, "All scheduled prices are known.",
                            "Price unknown: excluded from total (unknown).", "warning"))

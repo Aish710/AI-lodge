@@ -11,7 +11,7 @@ import BusyNotice from '../components/BusyNotice.vue'
 import ErrorPanel from '../components/ErrorPanel.vue'
 import Hint from '../components/Hint.vue'
 import Skeleton from '../components/Skeleton.vue'
-import { exampleLabel } from '../lib/rules.js'
+import { exampleLabel, hoursWarnings } from '../lib/rules.js'
 import { PITCH } from '../brand.js'
 import { store, chooseProfile, noteProfileEdits, resetProfileOverrides, highlightThemes, toggleInterestTheme, currentPrefs, currentCityExamples, loadExample, requestCitySwitch, resetAll, planMyTrip, rateLimited, rateLimitSeconds, solverBusy, stateOf, setWish, loadPlaces } from '../store.js'
 import { nightsUsed, budgetInJpy } from '../lib/prefs.js'
@@ -28,6 +28,15 @@ const currencyOptions = computed(() => Array.from(new Set([city.value?.currency_
 const budgetLocal = computed(() => budgetInJpy(store.form, city.value))
 const budgetHint = computed(() => budgetSanityHint(store))
 const vot = computed(() => Number(store.form.valueOfTime))
+// A must-visit whose opening hours are unknown on EVERY trip day cannot be planned in strict mode (the default). Say so BEFORE planning, and offer an explicit opt-in.
+const blockedMusts = computed(() => {
+  if (store.form.allowUnknownHours) return []
+  const days = Math.max(1, Number(store.form.days) || 1)
+  return (store.places ?? []).filter((p) => stateOf(p.id) === 'must').filter((p) => {
+    const w = hoursWarnings(p, Number(store.form.startWeekday), days)
+    return w.length === days && w.some((x) => x.kind === 'unknown')
+  })
+})
 const effectiveRows = computed(() => effective(store.form, store.profile, store.city?.default_value_of_time_per_hour))
 watch(() => [store.form.pace, store.form.maxActivities, store.form.maxDailyTravel, store.form.valueOfTime], noteProfileEdits)
 const votDefault = computed(() => Number(city.value?.default_value_of_time_per_hour) || 1000)
@@ -162,6 +171,19 @@ function example(kind) { loadExample(kind); nudge.value = true }
           </div>
         </div>
       </div>
+
+      <div v-if="blockedMusts.length" class="notice notice-warn mt-3" role="status" data-testid="unknown-hours-warning">
+        <span class="glyph" aria-hidden="true">!</span>
+        <div>
+          <strong>{{ blockedMusts.map((p) => p.name).join(', ') }}: opening hours unknown in the sample data.</strong>
+          Strict mode (the default) never assumes a place is open, so a trip that must include {{ blockedMusts.length === 1 ? 'it' : 'them' }} cannot be confirmed.
+          <div class="mt-1 d-flex flex-wrap gap-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-testid="plan-provisionally" @click="store.form.allowUnknownHours = true">Plan provisionally</button>
+            <span class="small align-self-center">Provisional: {{ blockedMusts.length === 1 ? 'it is' : 'they are' }} scheduled and labelled "Opening hours unverified"; the plan holds only if open, and you must check before travelling. Or keep strict and change your must-visits.</span>
+          </div>
+        </div>
+      </div>
+      <p v-else-if="store.form.allowUnknownHours" class="small mt-3 mb-0" data-testid="provisional-on"><span aria-hidden="true">!</span> Provisional planning is on: sights with unknown opening hours will be scheduled and labelled "Opening hours unverified". <button type="button" class="btn btn-sm btn-link p-0" data-testid="back-to-strict" @click="store.form.allowUnknownHours = false">Back to strict</button></p>
 
       <section class="mt-3" data-testid="profiles" aria-labelledby="prof-h">
         <h3 id="prof-h" class="h6 mb-1">Travel style <span class="muted fw-normal">(optional)</span></h3>

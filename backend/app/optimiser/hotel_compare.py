@@ -205,6 +205,10 @@ def _more_less(x: int, unit: str, more="more", less="less") -> str:
 def _insight(ds: Dataset, results: list[HotelResult], cheapest: str, best: str | None) -> str:
     byid = {r.hotel_id: r for r in results}
     if best is None:
+        cs = [c for r in results for c in r.conflicts]
+        if cs and all(c.category == "missing_information" for c in cs):
+            return ("Every hotel is blocked by the same missing information: the data does not say whether a required sight is open, so no plan can be confirmed. "
+                    "This is a gap in the sample data, not a finding that the visit is impossible.")
         return "No hotel can host a feasible plan for these requirements; see each hotel's conflicts."
     A, B = byid[cheapest], byid[best]
     ranked = sorted([r for r in results if r.breakdown and r.status == "feasible"], key=lambda r: r.breakdown.true_cost_jpy)

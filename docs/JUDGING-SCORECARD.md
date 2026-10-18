@@ -24,7 +24,7 @@ Where to look in the app: **Proof** (`/proof`) shows the measured results, harde
 
 | What a judge can open | Backing |
 |---|---|
-| **Risk table:** 164 rows, each with its safeguard and the test that covers it. | `docs/SAFETY_LOG.md`; Proof page "risk table" |
+| **Risk table:** 165 rows, each with its safeguard and the test that covers it. | `docs/SAFETY_LOG.md`; Proof page "risk table" |
 | **Hardening results:** 33 of 33 cases passed (generated 2026-10-17 20:39 UTC). | `docs/hardening-results.md` (from `backend/scripts/run_hardening_checks.py`) |
 | **Red-team fixtures:** 20 injection prompts in `backend/tests/fixtures/injection_prompts.json` (the original set), plus one injection per language (English, Korean, Chinese, Malay) run against every city. | `backend/tests/test_llm_input.py`, `backend/tests/test_llm_per_city.py` |
 | **Red team (simulated models):** 60 attacks (English, Korean, Chinese, Malay) x 4 cities x 2 simulated models = 840 runs; final result affected in 0; 4 problem(s) found and fixed by the red team itself. These counts come from simulated models and say nothing about a real model; a live red-team report also exists. | `docs/redteam-results.md`, `docs/redteam-results.json`, `backend/tests/fixtures/redteam_attacks.json`, `backend/tests/test_redteam.py` |
@@ -43,7 +43,7 @@ Where to look in the app: **Proof** (`/proof`) shows the measured results, harde
 | **Measured results (generated, with N and caveats):** the sentences below are copied by the script from the claims file (Generated 2026-10-17 20:39 UTC by `backend/scripts/run_evaluation.py` (full mode, seed 20261013, 60 trips). Code version: 0a1eca0. Each sentence is produced from the measured numbers in `docs/eval-results.json`; paste whole sentences, keeping the N and the caveat. If you re-run the evaluation, regenerate this file and re-paste: do not edit numbers by hand. No sentence claims statistical significance.). They come from seeded synthetic trips on the Tokyo sample pack, not from users. | `docs/README-claims.md`, `docs/eval-results.md`; `backend/scripts/run_evaluation.py` |
 | **City packs and scale-out:** 4 packs (kuala_lumpur, seoul, singapore, tokyo); adding a city is documented step by step. | `docs/CITIES.md`; `backend/tests/test_city_packs.py`; `docs/city-eval-results.md` (Singapore and Seoul, smaller samples, reported separately) |
 | **User test:** **Not run.** The kit exists (`docs/user-test/PROTOCOL.md`, an empty `results.csv`, `scripts/summarise_user_test.py`); the Proof page says "Not run yet". | `docs/user-test/` |
-| **Tests behind all of it:** backend suite 917 passed, 0 failed of 917 (revision fab3219c3e2eb4b45a57b7bf64a9af21bccad9ee + uncommitted changes.). | `backend/tests/results/latest-full.md` |
+| **Tests behind all of it:** backend suite 220 passed, 1 failed of 221 (revision 719e4ab62b1b0e3ae4857b8ff5db9ff7d5c50bce + uncommitted changes.). | `backend/tests/results/latest-full.md` |
 
 Generated claim sentences:
 

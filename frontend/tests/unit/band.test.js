@@ -29,7 +29,8 @@ describe('plan band', () => {
   it('status chip: Feasible, Feasible with warnings, Not possible (icon + word)', () => {
     expect(planStatus({ result: { status: 'feasible' }, feasibility_report: { overall: 'pass' } })).toMatchObject({ kind: 'good', label: 'Feasible', icon: '✓' })
     expect(planStatus({ result: { status: 'feasible' }, feasibility_report: { overall: 'pass_with_warnings' } })).toMatchObject({ kind: 'warn', label: 'Feasible with warnings' })
-    expect(planStatus(infeasible)).toMatchObject({ kind: 'bad', label: 'Not possible', icon: '✕' })
+    expect(planStatus(infeasible)).toMatchObject({ kind: 'warn', label: 'Blocked by missing information', icon: '!' })   // the fixture's only conflict is unknown opening hours
+    expect(planStatus({ result: { status: 'infeasible', conflicts: [{ code: 'closed_all_days', message: 'x', attraction_ids: [] }] }, feasibility_report: { overall: 'fail' } })).toMatchObject({ kind: 'bad', label: 'Not possible', icon: '✕' })
     expect(planStatus({ result: { status: 'feasible' }, feasibility_report: { overall: 'fail' } }).label).toBe('Not possible')
   })
   it('checks passed is n of n from the validator report', () => {

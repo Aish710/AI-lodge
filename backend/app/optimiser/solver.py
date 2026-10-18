@@ -422,7 +422,7 @@ def _levers(prefs: Preferences, hotel_id: str, ds: Dataset) -> list[tuple[str, s
     if prefs.strict_budget:
         out.append(("relax_budget", "Treat the budget as a soft target instead of a strict limit", {"strict_budget": False}, {"field": "strict_budget", "from": True, "to": False}))
     if not prefs.allow_unknown_hours:
-        out.append(("allow_unknown_hours", "Allow attractions with unknown opening hours (they will be flagged)", {"allow_unknown_hours": True}, {"field": "allow_unknown_hours", "from": False, "to": True}))
+        out.append(("allow_unknown_hours", "Plan provisionally: allow attractions with unknown opening hours (they will be labelled \"Opening hours unverified\")", {"allow_unknown_hours": True}, {"field": "allow_unknown_hours", "from": False, "to": True}))
     end = min(to_minutes(prefs.day_end) + 120, 23 * 60 + 59)
     if end > to_minutes(prefs.day_end):
         out.append(("extend_day", f"Extend the day end to {fmt(end)}", {"day_end": fmt(end)}, {"field": "day_end", "from": prefs.day_end, "to": fmt(end)}))
