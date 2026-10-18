@@ -203,7 +203,7 @@ def _compare_work(req: CompareRequest, request: Request, client, ds, cfg):
         for r in comp.results if r.breakdown
     }
     if req.explain:
-        out["explanation"] = explain(comp, ds, client, request.state.llm_note, request.app.state.datasets).model_dump()
+        out["explanation"] = explain(comp, ds, *_explain_args(client, request, comp.best_by_true_cost is not None), request.app.state.datasets).model_dump()
     return out
 
 
@@ -236,7 +236,7 @@ def _replan_work(req: ReplanRequest, request: Request, client, ds, cfg):
     out["cost_summary"] = summarise_costs(result.schedule, ds, result.hotel_id, result.nights_used)
     stamp(out, result.new_preferences or req.preferences, result.hotel_id, ds)
     if req.explain:  # built from the result just computed here, never from client-supplied results
-        out["explanation"] = explain(result, ds, client, request.state.llm_note, request.app.state.datasets).model_dump()
+        out["explanation"] = explain(result, ds, *_explain_args(client, request, result.status == "applied"), request.app.state.datasets).model_dump()
     return out
 
 
@@ -273,8 +273,18 @@ def _optimise_work(req: OptimiseRequest, request: Request, client, ds, cfg):
         if approximate:
             out["approximate_note"] = "The solver stopped at its time limit without proving optimality: this plan is good but may not be the best."
     if req.explain:
-        out["explanation"] = explain(OptimiseView(res, rep, req.hotel_id, approximate, nights), ds, client, request.state.llm_note, request.app.state.datasets).model_dump()
+        out["explanation"] = explain(OptimiseView(res, rep, req.hotel_id, approximate, nights), ds, *_explain_args(client, request, res.status == "feasible" and rep.overall != "fail"),
+                                     request.app.state.datasets).model_dump()
     return out
+
+
+NO_VALID_PLAN_NOTE = "No model-written text is used when there is no valid plan: this explanation is written by code from the validator's result."
+
+
+def _explain_args(client, request: Request, ok: bool):
+    """The model may only word an explanation of a VALID result. For a plan that does not exist (infeasible, rejected by the validator, nothing applied) the model is not asked at all:
+    otherwise its prose could say "this plan is valid" next to a failing report. The decision is made here, in code, outside the model's reach."""
+    return (client, request.state.llm_note) if ok else (None, NO_VALID_PLAN_NOTE)
 
 
 class EvaluateItineraryRequest(_Req):
