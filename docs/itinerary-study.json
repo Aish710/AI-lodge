@@ -1,0 +1,6548 @@
+{
+ "meta": {
+  "date": "2026-10-18 03:05 UTC",
+  "commit": "379a95f",
+  "seeds": {
+   "tokyo": 20261013,
+   "others": 20261014
+  },
+  "quick": false,
+  "label": "seeded synthetic trips on SAMPLE data; estimated travel times; trip's own fictional hotel fixed",
+  "elapsed_seconds": 25.0
+ },
+ "cities": {
+  "tokyo": {
+   "n_trips": 60,
+   "default_value_of_time": 1000,
+   "rows": [
+    {
+     "id": "T001",
+     "must": 0,
+     "requested": 6,
+     "optimiser_runtime_s": 0.044,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 3,
+       "minutes": 186,
+       "spend": 29160,
+       "money_ex_rooms": 3660,
+       "score": 41260
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 3,
+       "minutes": 186,
+       "spend": 29160,
+       "money_ex_rooms": 3660,
+       "score": 41260
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 3,
+       "minutes": 152,
+       "spend": 26840,
+       "money_ex_rooms": 1340,
+       "score": 38373
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 181,
+       "spend": 29130,
+       "money_ex_rooms": 3630,
+       "score": 32147
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 181,
+       "spend": 29130,
+       "money_ex_rooms": 3630,
+       "score": 32147
+      }
+     }
+    },
+    {
+     "id": "T002",
+     "must": 0,
+     "requested": 3,
+     "optimiser_runtime_s": 0.003,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 1,
+       "omitted": 1,
+       "minutes": 36,
+       "spend": 42400,
+       "money_ex_rooms": 400,
+       "score": 46000
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 1,
+       "omitted": 1,
+       "minutes": 36,
+       "spend": 42400,
+       "money_ex_rooms": 400,
+       "score": 46000
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 1,
+       "omitted": 1,
+       "minutes": 36,
+       "spend": 42400,
+       "money_ex_rooms": 400,
+       "score": 46000
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 1,
+       "omitted": 0,
+       "minutes": 36,
+       "spend": 42400,
+       "money_ex_rooms": 400,
+       "score": 43000
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 1,
+       "omitted": 0,
+       "minutes": 36,
+       "spend": 42400,
+       "money_ex_rooms": 400,
+       "score": 43000
+      }
+     }
+    },
+    {
+     "id": "T003",
+     "must": 3,
+     "requested": 8,
+     "optimiser_runtime_s": 0.135,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 1,
+       "minutes": 223,
+       "spend": 23640,
+       "money_ex_rooms": 2640,
+       "score": 30357
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T004",
+     "must": 2,
+     "requested": 7,
+     "optimiser_runtime_s": 0.13,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 563,
+       "spend": 37350,
+       "money_ex_rooms": 11850,
+       "score": 46733
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 520,
+       "spend": 37070,
+       "money_ex_rooms": 11570,
+       "score": 45737
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 4,
+       "minutes": 149,
+       "spend": 27310,
+       "money_ex_rooms": 1810,
+       "score": 41793
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 461,
+       "spend": 36660,
+       "money_ex_rooms": 11160,
+       "score": 44343
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 461,
+       "spend": 36660,
+       "money_ex_rooms": 11160,
+       "score": 44343
+      }
+     }
+    },
+    {
+     "id": "T005",
+     "must": 0,
+     "requested": 8,
+     "optimiser_runtime_s": 0.084,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 414,
+       "spend": 51170,
+       "money_ex_rooms": 9170,
+       "score": 58070
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 355,
+       "spend": 50780,
+       "money_ex_rooms": 8780,
+       "score": 56697
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 1,
+       "minutes": 241,
+       "spend": 48860,
+       "money_ex_rooms": 6860,
+       "score": 55877
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 355,
+       "spend": 50780,
+       "money_ex_rooms": 8780,
+       "score": 56697
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 355,
+       "spend": 50780,
+       "money_ex_rooms": 8780,
+       "score": 56697
+      }
+     }
+    },
+    {
+     "id": "T006",
+     "must": 3,
+     "requested": 4,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T007",
+     "must": 3,
+     "requested": 9,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T008",
+     "must": 3,
+     "requested": 6,
+     "optimiser_runtime_s": 0.063,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 289,
+       "spend": 22360,
+       "money_ex_rooms": 8360,
+       "score": 27177
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 230,
+       "spend": 21980,
+       "money_ex_rooms": 7980,
+       "score": 25813
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 226,
+       "spend": 21950,
+       "money_ex_rooms": 7950,
+       "score": 25717
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 226,
+       "spend": 21950,
+       "money_ex_rooms": 7950,
+       "score": 25717
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 226,
+       "spend": 21950,
+       "money_ex_rooms": 7950,
+       "score": 25717
+      }
+     }
+    },
+    {
+     "id": "T009",
+     "must": 1,
+     "requested": 5,
+     "optimiser_runtime_s": 0.014,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 1,
+       "minutes": 137,
+       "spend": 15500,
+       "money_ex_rooms": 5000,
+       "score": 20783
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 1,
+       "minutes": 141,
+       "spend": 14420,
+       "money_ex_rooms": 3920,
+       "score": 19770
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 134,
+       "spend": 15480,
+       "money_ex_rooms": 4980,
+       "score": 17713
+      }
+     }
+    },
+    {
+     "id": "T010",
+     "must": 0,
+     "requested": 8,
+     "optimiser_runtime_s": 0.062,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 4,
+       "minutes": 180,
+       "spend": 28520,
+       "money_ex_rooms": 3020,
+       "score": 43520
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 4,
+       "minutes": 154,
+       "spend": 28850,
+       "money_ex_rooms": 3350,
+       "score": 43417
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 4,
+       "minutes": 180,
+       "spend": 27530,
+       "money_ex_rooms": 2030,
+       "score": 42530
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 180,
+       "spend": 28520,
+       "money_ex_rooms": 3020,
+       "score": 31520
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 154,
+       "spend": 28850,
+       "money_ex_rooms": 3350,
+       "score": 31417
+      }
+     }
+    },
+    {
+     "id": "T011",
+     "must": 2,
+     "requested": 6,
+     "optimiser_runtime_s": 0.05,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 273,
+       "spend": 34170,
+       "money_ex_rooms": 6170,
+       "score": 41720
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 367,
+       "spend": 35880,
+       "money_ex_rooms": 7880,
+       "score": 41997
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 2,
+       "minutes": 168,
+       "spend": 31110,
+       "money_ex_rooms": 3110,
+       "score": 39910
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 201,
+       "spend": 33610,
+       "money_ex_rooms": 5610,
+       "score": 36960
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 292,
+       "spend": 35300,
+       "money_ex_rooms": 7300,
+       "score": 40167
+      }
+     }
+    },
+    {
+     "id": "T012",
+     "must": 0,
+     "requested": 5,
+     "optimiser_runtime_s": 0.014,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 243,
+       "spend": 27300,
+       "money_ex_rooms": 6300,
+       "score": 31350
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 218,
+       "spend": 27140,
+       "money_ex_rooms": 6140,
+       "score": 30773
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 1,
+       "minutes": 127,
+       "spend": 24180,
+       "money_ex_rooms": 3180,
+       "score": 29297
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 208,
+       "spend": 27080,
+       "money_ex_rooms": 6080,
+       "score": 30547
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 208,
+       "spend": 27080,
+       "money_ex_rooms": 6080,
+       "score": 30547
+      }
+     }
+    },
+    {
+     "id": "T013",
+     "must": 0,
+     "requested": 6,
+     "optimiser_runtime_s": 0.063,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 406,
+       "spend": 17470,
+       "money_ex_rooms": 8970,
+       "score": 27237
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 315,
+       "spend": 15860,
+       "money_ex_rooms": 7360,
+       "score": 24110
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 3,
+       "minutes": 153,
+       "spend": 11340,
+       "money_ex_rooms": 2840,
+       "score": 22890
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 387,
+       "spend": 17340,
+       "money_ex_rooms": 8840,
+       "score": 23790
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 289,
+       "spend": 15680,
+       "money_ex_rooms": 7180,
+       "score": 20497
+      }
+     }
+    },
+    {
+     "id": "T014",
+     "must": 1,
+     "requested": 3,
+     "optimiser_runtime_s": 0.01,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 171,
+       "spend": 45560,
+       "money_ex_rooms": 3560,
+       "score": 48410
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 146,
+       "spend": 45390,
+       "money_ex_rooms": 3390,
+       "score": 47823
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 146,
+       "spend": 45390,
+       "money_ex_rooms": 3390,
+       "score": 47823
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 146,
+       "spend": 45390,
+       "money_ex_rooms": 3390,
+       "score": 47823
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 146,
+       "spend": 45390,
+       "money_ex_rooms": 3390,
+       "score": 47823
+      }
+     }
+    },
+    {
+     "id": "T015",
+     "must": 1,
+     "requested": 7,
+     "optimiser_runtime_s": 0.113,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 1,
+       "minutes": 218,
+       "spend": 17800,
+       "money_ex_rooms": 7300,
+       "score": 24433
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 2,
+       "minutes": 170,
+       "spend": 15200,
+       "money_ex_rooms": 4700,
+       "score": 24033
+      }
+     },
+     "matched": {
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 218,
+       "spend": 17800,
+       "money_ex_rooms": 7300,
+       "score": 21433
+      }
+     }
+    },
+    {
+     "id": "T016",
+     "must": 2,
+     "requested": 3,
+     "optimiser_runtime_s": 0.01,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 226,
+       "spend": 29900,
+       "money_ex_rooms": 4400,
+       "score": 33667
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 226,
+       "spend": 29900,
+       "money_ex_rooms": 4400,
+       "score": 33667
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 158,
+       "spend": 29370,
+       "money_ex_rooms": 3870,
+       "score": 32003
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 158,
+       "spend": 29370,
+       "money_ex_rooms": 3870,
+       "score": 32003
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 158,
+       "spend": 29370,
+       "money_ex_rooms": 3870,
+       "score": 32003
+      }
+     }
+    },
+    {
+     "id": "T017",
+     "must": 0,
+     "requested": 8,
+     "optimiser_runtime_s": 0.017,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 2,
+       "minutes": 319,
+       "spend": 18870,
+       "money_ex_rooms": 4870,
+       "score": 30187
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 2,
+       "minutes": 233,
+       "spend": 18810,
+       "money_ex_rooms": 4810,
+       "score": 28693
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 2,
+       "minutes": 229,
+       "spend": 16680,
+       "money_ex_rooms": 2680,
+       "score": 26497
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 242,
+       "spend": 18370,
+       "money_ex_rooms": 4370,
+       "score": 22403
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 232,
+       "spend": 18800,
+       "money_ex_rooms": 4800,
+       "score": 22667
+      }
+     }
+    },
+    {
+     "id": "T018",
+     "must": 3,
+     "requested": 7,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T019",
+     "must": 1,
+     "requested": 9,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T020",
+     "must": 2,
+     "requested": 7,
+     "optimiser_runtime_s": 0.114,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 3,
+       "minutes": 179,
+       "spend": 43680,
+       "money_ex_rooms": 1680,
+       "score": 55663
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T021",
+     "must": 0,
+     "requested": 9,
+     "optimiser_runtime_s": 0.533,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 1,
+       "minutes": 430,
+       "spend": 32040,
+       "money_ex_rooms": 11040,
+       "score": 42207
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 9,
+       "omitted": 0,
+       "minutes": 344,
+       "spend": 31570,
+       "money_ex_rooms": 10570,
+       "score": 37303
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 1,
+       "minutes": 293,
+       "spend": 28950,
+       "money_ex_rooms": 7950,
+       "score": 36833
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 303,
+       "spend": 31200,
+       "money_ex_rooms": 10200,
+       "score": 36250
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 9,
+       "omitted": 0,
+       "minutes": 341,
+       "spend": 31530,
+       "money_ex_rooms": 10530,
+       "score": 37213
+      }
+     }
+    },
+    {
+     "id": "T022",
+     "must": 2,
+     "requested": 6,
+     "optimiser_runtime_s": 0.084,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 353,
+       "spend": 14410,
+       "money_ex_rooms": 5910,
+       "score": 23293
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T023",
+     "must": 0,
+     "requested": 3,
+     "optimiser_runtime_s": 0.008,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 129,
+       "spend": 30770,
+       "money_ex_rooms": 2770,
+       "score": 32920
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 112,
+       "spend": 30580,
+       "money_ex_rooms": 2580,
+       "score": 32447
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 110,
+       "spend": 30560,
+       "money_ex_rooms": 2560,
+       "score": 32393
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 110,
+       "spend": 30560,
+       "money_ex_rooms": 2560,
+       "score": 32393
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 110,
+       "spend": 30560,
+       "money_ex_rooms": 2560,
+       "score": 32393
+      }
+     }
+    },
+    {
+     "id": "T024",
+     "must": 2,
+     "requested": 8,
+     "optimiser_runtime_s": 0.019,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 1,
+       "minutes": 232,
+       "spend": 17980,
+       "money_ex_rooms": 7480,
+       "score": 24847
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 1,
+       "minutes": 194,
+       "spend": 15540,
+       "money_ex_rooms": 5040,
+       "score": 21773
+      }
+     },
+     "matched": {
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 232,
+       "spend": 17980,
+       "money_ex_rooms": 7480,
+       "score": 21847
+      }
+     }
+    },
+    {
+     "id": "T025",
+     "must": 1,
+     "requested": 9,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T026",
+     "must": 3,
+     "requested": 3,
+     "optimiser_runtime_s": 0.007,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 138,
+       "spend": 31430,
+       "money_ex_rooms": 3430,
+       "score": 33730
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 133,
+       "spend": 31410,
+       "money_ex_rooms": 3410,
+       "score": 33627
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 133,
+       "spend": 31410,
+       "money_ex_rooms": 3410,
+       "score": 33627
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 133,
+       "spend": 31410,
+       "money_ex_rooms": 3410,
+       "score": 33627
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 133,
+       "spend": 31410,
+       "money_ex_rooms": 3410,
+       "score": 33627
+      }
+     }
+    },
+    {
+     "id": "T027",
+     "must": 0,
+     "requested": 6,
+     "optimiser_runtime_s": 0.008,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 349,
+       "spend": 16390,
+       "money_ex_rooms": 5890,
+       "score": 25207
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 304,
+       "spend": 16590,
+       "money_ex_rooms": 6090,
+       "score": 24657
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 217,
+       "spend": 15500,
+       "money_ex_rooms": 5000,
+       "score": 22117
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 328,
+       "spend": 16250,
+       "money_ex_rooms": 5750,
+       "score": 21717
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 304,
+       "spend": 16590,
+       "money_ex_rooms": 6090,
+       "score": 21657
+      }
+     }
+    },
+    {
+     "id": "T028",
+     "must": 3,
+     "requested": 7,
+     "optimiser_runtime_s": 0.055,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 1,
+       "minutes": 388,
+       "spend": 14830,
+       "money_ex_rooms": 6330,
+       "score": 24297
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T029",
+     "must": 2,
+     "requested": 6,
+     "optimiser_runtime_s": 0.049,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 294,
+       "spend": 35490,
+       "money_ex_rooms": 7490,
+       "score": 40390
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 207,
+       "spend": 34830,
+       "money_ex_rooms": 6830,
+       "score": 38280
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 159,
+       "spend": 32320,
+       "money_ex_rooms": 4320,
+       "score": 37970
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 205,
+       "spend": 34820,
+       "money_ex_rooms": 6820,
+       "score": 38237
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 205,
+       "spend": 34820,
+       "money_ex_rooms": 6820,
+       "score": 38237
+      }
+     }
+    },
+    {
+     "id": "T030",
+     "must": 1,
+     "requested": 7,
+     "optimiser_runtime_s": 0.111,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 243,
+       "spend": 37380,
+       "money_ex_rooms": 5880,
+       "score": 44430
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 314,
+       "spend": 38010,
+       "money_ex_rooms": 6510,
+       "score": 43243
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 233,
+       "spend": 37400,
+       "money_ex_rooms": 5900,
+       "score": 41283
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 193,
+       "spend": 37050,
+       "money_ex_rooms": 5550,
+       "score": 40267
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 233,
+       "spend": 37400,
+       "money_ex_rooms": 5900,
+       "score": 41283
+      }
+     }
+    },
+    {
+     "id": "T031",
+     "must": 1,
+     "requested": 3,
+     "optimiser_runtime_s": 0.004,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 141,
+       "spend": 18680,
+       "money_ex_rooms": 1680,
+       "score": 21030
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 230,
+       "spend": 19360,
+       "money_ex_rooms": 2360,
+       "score": 23193
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 141,
+       "spend": 18680,
+       "money_ex_rooms": 1680,
+       "score": 21030
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 141,
+       "spend": 18680,
+       "money_ex_rooms": 1680,
+       "score": 21030
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 141,
+       "spend": 18680,
+       "money_ex_rooms": 1680,
+       "score": 21030
+      }
+     }
+    },
+    {
+     "id": "T032",
+     "must": 0,
+     "requested": 8,
+     "optimiser_runtime_s": 0.152,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 386,
+       "spend": 35380,
+       "money_ex_rooms": 7380,
+       "score": 41813
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 348,
+       "spend": 35120,
+       "money_ex_rooms": 7120,
+       "score": 40920
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 1,
+       "minutes": 226,
+       "spend": 33150,
+       "money_ex_rooms": 5150,
+       "score": 39917
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 339,
+       "spend": 35060,
+       "money_ex_rooms": 7060,
+       "score": 40710
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 339,
+       "spend": 35060,
+       "money_ex_rooms": 7060,
+       "score": 40710
+      }
+     }
+    },
+    {
+     "id": "T033",
+     "must": 0,
+     "requested": 9,
+     "optimiser_runtime_s": 0.189,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 5,
+       "minutes": 293,
+       "spend": 24430,
+       "money_ex_rooms": 3430,
+       "score": 44313
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 6,
+       "minutes": 92,
+       "spend": 24030,
+       "money_ex_rooms": 3030,
+       "score": 43563
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 3,
+       "minutes": 225,
+       "spend": 24150,
+       "money_ex_rooms": 3150,
+       "score": 36900
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 283,
+       "spend": 24360,
+       "money_ex_rooms": 3360,
+       "score": 29077
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 92,
+       "spend": 24030,
+       "money_ex_rooms": 3030,
+       "score": 25563
+      }
+     }
+    },
+    {
+     "id": "T034",
+     "must": 3,
+     "requested": 6,
+     "optimiser_runtime_s": 0.14,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 451,
+       "spend": 31830,
+       "money_ex_rooms": 6330,
+       "score": 39347
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 323,
+       "spend": 30910,
+       "money_ex_rooms": 5410,
+       "score": 36293
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 296,
+       "spend": 30710,
+       "money_ex_rooms": 5210,
+       "score": 35643
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 296,
+       "spend": 30710,
+       "money_ex_rooms": 5210,
+       "score": 35643
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 296,
+       "spend": 30710,
+       "money_ex_rooms": 5210,
+       "score": 35643
+      }
+     }
+    },
+    {
+     "id": "T035",
+     "must": 1,
+     "requested": 8,
+     "optimiser_runtime_s": 0.336,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 469,
+       "spend": 53810,
+       "money_ex_rooms": 11810,
+       "score": 61627
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 417,
+       "spend": 53470,
+       "money_ex_rooms": 11470,
+       "score": 60420
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 2,
+       "minutes": 239,
+       "spend": 48850,
+       "money_ex_rooms": 6850,
+       "score": 58833
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 382,
+       "spend": 53240,
+       "money_ex_rooms": 11240,
+       "score": 59607
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 382,
+       "spend": 53240,
+       "money_ex_rooms": 11240,
+       "score": 59607
+      }
+     }
+    },
+    {
+     "id": "T036",
+     "must": 2,
+     "requested": 5,
+     "optimiser_runtime_s": 0.008,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 1,
+       "minutes": 135,
+       "spend": 13720,
+       "money_ex_rooms": 3220,
+       "score": 18970
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 1,
+       "minutes": 177,
+       "spend": 12590,
+       "money_ex_rooms": 2090,
+       "score": 18540
+      }
+     },
+     "matched": {
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 135,
+       "spend": 13720,
+       "money_ex_rooms": 3220,
+       "score": 15970
+      }
+     }
+    },
+    {
+     "id": "T037",
+     "must": 0,
+     "requested": 3,
+     "optimiser_runtime_s": 0.006,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 209,
+       "spend": 30910,
+       "money_ex_rooms": 5410,
+       "score": 34393
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 180,
+       "spend": 30720,
+       "money_ex_rooms": 5220,
+       "score": 33720
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 180,
+       "spend": 30720,
+       "money_ex_rooms": 5220,
+       "score": 33720
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 180,
+       "spend": 30720,
+       "money_ex_rooms": 5220,
+       "score": 33720
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 180,
+       "spend": 30720,
+       "money_ex_rooms": 5220,
+       "score": 33720
+      }
+     }
+    },
+    {
+     "id": "T038",
+     "must": 3,
+     "requested": 4,
+     "optimiser_runtime_s": 0.006,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 257,
+       "spend": 18190,
+       "money_ex_rooms": 4190,
+       "score": 22473
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 252,
+       "spend": 18170,
+       "money_ex_rooms": 4170,
+       "score": 22370
+      }
+     },
+     "matched": {
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 252,
+       "spend": 18170,
+       "money_ex_rooms": 4170,
+       "score": 22370
+      }
+     }
+    },
+    {
+     "id": "T039",
+     "must": 0,
+     "requested": 7,
+     "optimiser_runtime_s": 0.151,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 265,
+       "spend": 39720,
+       "money_ex_rooms": 8220,
+       "score": 44137
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 270,
+       "spend": 39740,
+       "money_ex_rooms": 8240,
+       "score": 44240
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 185,
+       "spend": 36900,
+       "money_ex_rooms": 5400,
+       "score": 42983
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 230,
+       "spend": 39480,
+       "money_ex_rooms": 7980,
+       "score": 43313
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 230,
+       "spend": 39480,
+       "money_ex_rooms": 7980,
+       "score": 43313
+      }
+     }
+    },
+    {
+     "id": "T040",
+     "must": 2,
+     "requested": 9,
+     "optimiser_runtime_s": 0.249,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 2,
+       "minutes": 310,
+       "spend": 21210,
+       "money_ex_rooms": 4210,
+       "score": 32377
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 2,
+       "minutes": 299,
+       "spend": 21150,
+       "money_ex_rooms": 4150,
+       "score": 32133
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 299,
+       "spend": 21150,
+       "money_ex_rooms": 4150,
+       "score": 26133
+      }
+     }
+    },
+    {
+     "id": "T041",
+     "must": 3,
+     "requested": 9,
+     "optimiser_runtime_s": 0.278,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 414,
+       "spend": 39440,
+       "money_ex_rooms": 11440,
+       "score": 46340
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 413,
+       "spend": 39440,
+       "money_ex_rooms": 11440,
+       "score": 46323
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 2,
+       "minutes": 289,
+       "spend": 34070,
+       "money_ex_rooms": 6070,
+       "score": 44887
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 355,
+       "spend": 39060,
+       "money_ex_rooms": 11060,
+       "score": 44977
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 355,
+       "spend": 39060,
+       "money_ex_rooms": 11060,
+       "score": 44977
+      }
+     }
+    },
+    {
+     "id": "T042",
+     "must": 0,
+     "requested": 9,
+     "optimiser_runtime_s": 0.445,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 1,
+       "minutes": 330,
+       "spend": 38600,
+       "money_ex_rooms": 7100,
+       "score": 47100
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 1,
+       "minutes": 343,
+       "spend": 38710,
+       "money_ex_rooms": 7210,
+       "score": 47427
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 2,
+       "minutes": 236,
+       "spend": 35730,
+       "money_ex_rooms": 4230,
+       "score": 45663
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 268,
+       "spend": 38210,
+       "money_ex_rooms": 6710,
+       "score": 42677
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 268,
+       "spend": 38210,
+       "money_ex_rooms": 6710,
+       "score": 42677
+      }
+     }
+    },
+    {
+     "id": "T043",
+     "must": 1,
+     "requested": 8,
+     "optimiser_runtime_s": 0.279,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 1,
+       "minutes": 576,
+       "spend": 25340,
+       "money_ex_rooms": 8340,
+       "score": 37940
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 562,
+       "spend": 26830,
+       "money_ex_rooms": 9830,
+       "score": 36197
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 2,
+       "minutes": 304,
+       "spend": 21670,
+       "money_ex_rooms": 4670,
+       "score": 32737
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 501,
+       "spend": 24840,
+       "money_ex_rooms": 7840,
+       "score": 33190
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 525,
+       "spend": 26590,
+       "money_ex_rooms": 9590,
+       "score": 35340
+      }
+     }
+    },
+    {
+     "id": "T044",
+     "must": 3,
+     "requested": 9,
+     "optimiser_runtime_s": 0.317,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 377,
+       "spend": 37580,
+       "money_ex_rooms": 9580,
+       "score": 43863
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 397,
+       "spend": 37730,
+       "money_ex_rooms": 9730,
+       "score": 44347
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 366,
+       "spend": 37520,
+       "money_ex_rooms": 9520,
+       "score": 43620
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 366,
+       "spend": 37520,
+       "money_ex_rooms": 9520,
+       "score": 43620
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 366,
+       "spend": 37520,
+       "money_ex_rooms": 9520,
+       "score": 43620
+      }
+     }
+    },
+    {
+     "id": "T045",
+     "must": 1,
+     "requested": 6,
+     "optimiser_runtime_s": 0.024,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 3,
+       "minutes": 109,
+       "spend": 12540,
+       "money_ex_rooms": 2040,
+       "score": 23357
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T046",
+     "must": 1,
+     "requested": 9,
+     "optimiser_runtime_s": 1.619,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 9,
+       "omitted": 0,
+       "minutes": 677,
+       "spend": 37350,
+       "money_ex_rooms": 11850,
+       "score": 48633
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 9,
+       "omitted": 0,
+       "minutes": 516,
+       "spend": 36210,
+       "money_ex_rooms": 10710,
+       "score": 44810
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 1,
+       "minutes": 401,
+       "spend": 34360,
+       "money_ex_rooms": 8860,
+       "score": 44043
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 9,
+       "omitted": 0,
+       "minutes": 513,
+       "spend": 36190,
+       "money_ex_rooms": 10690,
+       "score": 44740
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 9,
+       "omitted": 0,
+       "minutes": 513,
+       "spend": 36190,
+       "money_ex_rooms": 10690,
+       "score": 44740
+      }
+     }
+    },
+    {
+     "id": "T047",
+     "must": 3,
+     "requested": 5,
+     "optimiser_runtime_s": 0.026,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 241,
+       "spend": 46200,
+       "money_ex_rooms": 4200,
+       "score": 50217
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 218,
+       "spend": 46030,
+       "money_ex_rooms": 4030,
+       "score": 49663
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 1,
+       "minutes": 143,
+       "spend": 43280,
+       "money_ex_rooms": 1280,
+       "score": 48663
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 202,
+       "spend": 45930,
+       "money_ex_rooms": 3930,
+       "score": 49297
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 202,
+       "spend": 45930,
+       "money_ex_rooms": 3930,
+       "score": 49297
+      }
+     }
+    },
+    {
+     "id": "T048",
+     "must": 0,
+     "requested": 3,
+     "optimiser_runtime_s": 0.006,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 141,
+       "spend": 13260,
+       "money_ex_rooms": 2760,
+       "score": 15610
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 141,
+       "spend": 13260,
+       "money_ex_rooms": 2760,
+       "score": 15610
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 141,
+       "spend": 13260,
+       "money_ex_rooms": 2760,
+       "score": 15610
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 141,
+       "spend": 13260,
+       "money_ex_rooms": 2760,
+       "score": 15610
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 141,
+       "spend": 13260,
+       "money_ex_rooms": 2760,
+       "score": 15610
+      }
+     }
+    },
+    {
+     "id": "T049",
+     "must": 1,
+     "requested": 6,
+     "optimiser_runtime_s": 0.005,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 3,
+       "minutes": 236,
+       "spend": 11320,
+       "money_ex_rooms": 2820,
+       "score": 24253
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 2,
+       "minutes": 247,
+       "spend": 11470,
+       "money_ex_rooms": 2970,
+       "score": 21587
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 2,
+       "minutes": 247,
+       "spend": 11470,
+       "money_ex_rooms": 2970,
+       "score": 21587
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 236,
+       "spend": 11320,
+       "money_ex_rooms": 2820,
+       "score": 15253
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 247,
+       "spend": 11470,
+       "money_ex_rooms": 2970,
+       "score": 15587
+      }
+     }
+    },
+    {
+     "id": "T050",
+     "must": 0,
+     "requested": 6,
+     "optimiser_runtime_s": 0.097,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 311,
+       "spend": 49500,
+       "money_ex_rooms": 7500,
+       "score": 54683
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 271,
+       "spend": 49150,
+       "money_ex_rooms": 7150,
+       "score": 53667
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 166,
+       "spend": 47380,
+       "money_ex_rooms": 5380,
+       "score": 53147
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 259,
+       "spend": 49070,
+       "money_ex_rooms": 7070,
+       "score": 53387
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 259,
+       "spend": 49070,
+       "money_ex_rooms": 7070,
+       "score": 53387
+      }
+     }
+    },
+    {
+     "id": "T051",
+     "must": 1,
+     "requested": 3,
+     "optimiser_runtime_s": 0.004,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 233,
+       "spend": 13380,
+       "money_ex_rooms": 2880,
+       "score": 17263
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 233,
+       "spend": 13380,
+       "money_ex_rooms": 2880,
+       "score": 17263
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 1,
+       "minutes": 91,
+       "spend": 11350,
+       "money_ex_rooms": 850,
+       "score": 15867
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 230,
+       "spend": 13360,
+       "money_ex_rooms": 2860,
+       "score": 17193
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 230,
+       "spend": 13360,
+       "money_ex_rooms": 2860,
+       "score": 17193
+      }
+     }
+    },
+    {
+     "id": "T052",
+     "must": 2,
+     "requested": 9,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T053",
+     "must": 3,
+     "requested": 4,
+     "optimiser_runtime_s": 0.015,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 312,
+       "spend": 33050,
+       "money_ex_rooms": 5050,
+       "score": 38250
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 257,
+       "spend": 32690,
+       "money_ex_rooms": 4690,
+       "score": 36973
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 257,
+       "spend": 32690,
+       "money_ex_rooms": 4690,
+       "score": 36973
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 257,
+       "spend": 32690,
+       "money_ex_rooms": 4690,
+       "score": 36973
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 257,
+       "spend": 32690,
+       "money_ex_rooms": 4690,
+       "score": 36973
+      }
+     }
+    },
+    {
+     "id": "T054",
+     "must": 2,
+     "requested": 9,
+     "optimiser_runtime_s": 1.491,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 367,
+       "spend": 40630,
+       "money_ex_rooms": 9130,
+       "score": 46747
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 313,
+       "spend": 40260,
+       "money_ex_rooms": 8760,
+       "score": 45477
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 271,
+       "spend": 40000,
+       "money_ex_rooms": 8500,
+       "score": 44517
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 271,
+       "spend": 40000,
+       "money_ex_rooms": 8500,
+       "score": 44517
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 8,
+       "omitted": 0,
+       "minutes": 271,
+       "spend": 40000,
+       "money_ex_rooms": 8500,
+       "score": 44517
+      }
+     }
+    },
+    {
+     "id": "T055",
+     "must": 1,
+     "requested": 7,
+     "optimiser_runtime_s": 0.025,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 362,
+       "spend": 17350,
+       "money_ex_rooms": 8850,
+       "score": 23383
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 303,
+       "spend": 14690,
+       "money_ex_rooms": 6190,
+       "score": 22740
+      }
+     },
+     "matched": {
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 358,
+       "spend": 17330,
+       "money_ex_rooms": 8830,
+       "score": 23297
+      }
+     }
+    },
+    {
+     "id": "T056",
+     "must": 0,
+     "requested": 9,
+     "optimiser_runtime_s": 0.254,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 3,
+       "minutes": 229,
+       "spend": 32780,
+       "money_ex_rooms": 4780,
+       "score": 45597
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 2,
+       "minutes": 216,
+       "spend": 32790,
+       "money_ex_rooms": 4790,
+       "score": 42390
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 2,
+       "minutes": 229,
+       "spend": 32180,
+       "money_ex_rooms": 4180,
+       "score": 41997
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 174,
+       "spend": 32430,
+       "money_ex_rooms": 4430,
+       "score": 35330
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 214,
+       "spend": 32780,
+       "money_ex_rooms": 4780,
+       "score": 36347
+      }
+     }
+    },
+    {
+     "id": "T057",
+     "must": 2,
+     "requested": 3,
+     "optimiser_runtime_s": 0.006,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 109,
+       "spend": 11550,
+       "money_ex_rooms": 1050,
+       "score": 13367
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 109,
+       "spend": 11550,
+       "money_ex_rooms": 1050,
+       "score": 13367
+      }
+     },
+     "matched": {
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 109,
+       "spend": 11550,
+       "money_ex_rooms": 1050,
+       "score": 13367
+      }
+     }
+    },
+    {
+     "id": "T058",
+     "must": 2,
+     "requested": 7,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T059",
+     "must": 0,
+     "requested": 7,
+     "optimiser_runtime_s": 0.049,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 1,
+       "minutes": 270,
+       "spend": 21540,
+       "money_ex_rooms": 7540,
+       "score": 29040
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 1,
+       "minutes": 252,
+       "spend": 20430,
+       "money_ex_rooms": 6430,
+       "score": 27630
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 1,
+       "minutes": 231,
+       "spend": 19190,
+       "money_ex_rooms": 5190,
+       "score": 26040
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 237,
+       "spend": 21330,
+       "money_ex_rooms": 7330,
+       "score": 25280
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 240,
+       "spend": 20350,
+       "money_ex_rooms": 6350,
+       "score": 24350
+      }
+     }
+    },
+    {
+     "id": "T060",
+     "must": 3,
+     "requested": 6,
+     "optimiser_runtime_s": 0.081,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 438,
+       "spend": 25630,
+       "money_ex_rooms": 4630,
+       "score": 32930
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 405,
+       "spend": 25410,
+       "money_ex_rooms": 4410,
+       "score": 32160
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 311,
+       "spend": 24720,
+       "money_ex_rooms": 3720,
+       "score": 29903
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 311,
+       "spend": 24720,
+       "money_ex_rooms": 3720,
+       "score": 29903
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 311,
+       "spend": 24720,
+       "money_ex_rooms": 3720,
+       "score": 29903
+      }
+     }
+    }
+   ],
+   "summary": {
+    "arms": {
+     "input_order": {
+      "feasible": 42,
+      "n": 60,
+      "failed_validator": 0,
+      "no_plan": 18,
+      "missed_a_must_visit_where_optimiser_found_a_plan": 11,
+      "optional_coverage_pct": {
+       "n": 41,
+       "mean": 80.2,
+       "median": 85.71428571428571,
+       "min": 20.0,
+       "max": 100.0
+      },
+      "minutes": {
+       "n": 42,
+       "mean": 302.4,
+       "median": 291.0,
+       "min": 36,
+       "max": 677
+      },
+      "money_ex_rooms": {
+       "n": 42,
+       "mean": 6197.6,
+       "median": 5885.0,
+       "min": 400,
+       "max": 11850
+      },
+      "score": {
+       "n": 42,
+       "mean": 38392.9,
+       "median": 40825.0,
+       "min": 15610,
+       "max": 61627
+      }
+     },
+     "nearest_feasible": {
+      "feasible": 46,
+      "n": 60,
+      "failed_validator": 0,
+      "no_plan": 14,
+      "missed_a_must_visit_where_optimiser_found_a_plan": 7,
+      "optional_coverage_pct": {
+       "n": 45,
+       "mean": 82.4,
+       "median": 85.71428571428571,
+       "min": 33.333333333333336,
+       "max": 100.0
+      },
+      "minutes": {
+       "n": 46,
+       "mean": 268.6,
+       "median": 249.5,
+       "min": 36,
+       "max": 562
+      },
+      "money_ex_rooms": {
+       "n": 46,
+       "mean": 6053.0,
+       "median": 6115.0,
+       "min": 400,
+       "max": 11570
+      },
+      "score": {
+       "n": 46,
+       "mean": 35802.0,
+       "median": 36633.0,
+       "min": 13367,
+       "max": 60420
+      }
+     },
+     "optimiser": {
+      "feasible": 53,
+      "n": 60,
+      "failed_validator": 0,
+      "no_plan": 7,
+      "missed_a_must_visit_where_optimiser_found_a_plan": 0,
+      "optional_coverage_pct": {
+       "n": 52,
+       "mean": 70.0,
+       "median": 73.21428571428572,
+       "min": 0.0,
+       "max": 100.0
+      },
+      "minutes": {
+       "n": 53,
+       "mean": 211.0,
+       "median": 217,
+       "min": 36,
+       "max": 401
+      },
+      "money_ex_rooms": {
+       "n": 53,
+       "mean": 4227.2,
+       "median": 4170,
+       "min": 400,
+       "max": 9520
+      },
+      "score": {
+       "n": 53,
+       "mean": 33941.6,
+       "median": 33627,
+       "min": 13367,
+       "max": 58833
+      }
+     }
+    },
+    "matched": {
+     "input_order": {
+      "baseline_feasible": 42,
+      "matched_solved": 42,
+      "minutes_saved": {
+       "n": 42,
+       "mean": 48.7,
+       "median": 43.0,
+       "min": 0,
+       "max": 164,
+       "better": 37,
+       "equal": 5,
+       "worse": 0
+      },
+      "score_gain": {
+       "n": 42,
+       "mean": 3432.5,
+       "median": 2310.0,
+       "min": 0,
+       "max": 15236,
+       "better": 40,
+       "equal": 2,
+       "worse": 0
+      }
+     },
+     "nearest_feasible": {
+      "baseline_feasible": 46,
+      "matched_solved": 46,
+      "minutes_saved": {
+       "n": 46,
+       "mean": 20.2,
+       "median": 4.0,
+       "min": 0,
+       "max": 94,
+       "better": 31,
+       "equal": 15,
+       "worse": 0
+      },
+      "score_gain": {
+       "n": 46,
+       "mean": 2240.6,
+       "median": 892.0,
+       "min": 0,
+       "max": 18000,
+       "better": 39,
+       "equal": 7,
+       "worse": 0
+      }
+     }
+    },
+    "optimiser_infeasible_but_baseline_feasible": 0,
+    "optimiser_runtime_s": {
+     "n": 60,
+     "mean": 0.1,
+     "median": 0.0465,
+     "min": 0.0,
+     "max": 1.619
+    },
+    "all_three_feasible": 40,
+    "score_gain_vs": {
+     "input_order": {
+      "n": 40,
+      "mean": 2303.2,
+      "median": 1974.5,
+      "min": 0,
+      "max": 7413,
+      "positive": 37,
+      "zero": 3,
+      "negative": 0
+     },
+     "nearest_feasible": {
+      "n": 40,
+      "mean": 1305.1,
+      "median": 1001.5,
+      "min": 0,
+      "max": 6663,
+      "positive": 33,
+      "zero": 7,
+      "negative": 0
+     }
+    }
+   }
+  },
+  "singapore": {
+   "n_trips": 20,
+   "default_value_of_time": 18,
+   "rows": [
+    {
+     "id": "T001",
+     "must": 2,
+     "requested": 7,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T002",
+     "must": 3,
+     "requested": 6,
+     "optimiser_runtime_s": 0.118,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 176,
+       "spend": 453,
+       "money_ex_rooms": 78,
+       "score": 506
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 176,
+       "spend": 453,
+       "money_ex_rooms": 78,
+       "score": 506
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 165,
+       "spend": 453,
+       "money_ex_rooms": 78,
+       "score": 503
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 165,
+       "spend": 453,
+       "money_ex_rooms": 78,
+       "score": 503
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 165,
+       "spend": 453,
+       "money_ex_rooms": 78,
+       "score": 503
+      }
+     }
+    },
+    {
+     "id": "T003",
+     "must": 3,
+     "requested": 4,
+     "optimiser_runtime_s": 0.018,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 199,
+       "spend": 635,
+       "money_ex_rooms": 80,
+       "score": 695
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 199,
+       "spend": 635,
+       "money_ex_rooms": 80,
+       "score": 695
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 192,
+       "spend": 634,
+       "money_ex_rooms": 79,
+       "score": 692
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 192,
+       "spend": 634,
+       "money_ex_rooms": 79,
+       "score": 692
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 192,
+       "spend": 634,
+       "money_ex_rooms": 79,
+       "score": 692
+      }
+     }
+    },
+    {
+     "id": "T004",
+     "must": 2,
+     "requested": 6,
+     "optimiser_runtime_s": 0.01,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 125,
+       "spend": 341,
+       "money_ex_rooms": 81,
+       "score": 379
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 1,
+       "minutes": 107,
+       "spend": 338,
+       "money_ex_rooms": 78,
+       "score": 424
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 113,
+       "spend": 340,
+       "money_ex_rooms": 80,
+       "score": 374
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 113,
+       "spend": 340,
+       "money_ex_rooms": 80,
+       "score": 374
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 101,
+       "spend": 338,
+       "money_ex_rooms": 78,
+       "score": 368
+      }
+     }
+    },
+    {
+     "id": "T005",
+     "must": 0,
+     "requested": 3,
+     "optimiser_runtime_s": 0.005,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 121,
+       "spend": 164,
+       "money_ex_rooms": 39,
+       "score": 200
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 117,
+       "spend": 164,
+       "money_ex_rooms": 39,
+       "score": 199
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 117,
+       "spend": 164,
+       "money_ex_rooms": 39,
+       "score": 199
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 117,
+       "spend": 164,
+       "money_ex_rooms": 39,
+       "score": 199
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 117,
+       "spend": 164,
+       "money_ex_rooms": 39,
+       "score": 199
+      }
+     }
+    },
+    {
+     "id": "T006",
+     "must": 0,
+     "requested": 5,
+     "optimiser_runtime_s": 0.014,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 116,
+       "spend": 233,
+       "money_ex_rooms": 48,
+       "score": 268
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 112,
+       "spend": 233,
+       "money_ex_rooms": 48,
+       "score": 267
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 112,
+       "spend": 233,
+       "money_ex_rooms": 48,
+       "score": 267
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 112,
+       "spend": 233,
+       "money_ex_rooms": 48,
+       "score": 267
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 112,
+       "spend": 233,
+       "money_ex_rooms": 48,
+       "score": 267
+      }
+     }
+    },
+    {
+     "id": "T007",
+     "must": 1,
+     "requested": 6,
+     "optimiser_runtime_s": 0.074,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 198,
+       "spend": 880,
+       "money_ex_rooms": 100,
+       "score": 993
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 227,
+       "spend": 884,
+       "money_ex_rooms": 104,
+       "score": 952
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 208,
+       "spend": 881,
+       "money_ex_rooms": 101,
+       "score": 943
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 189,
+       "spend": 879,
+       "money_ex_rooms": 99,
+       "score": 936
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 208,
+       "spend": 881,
+       "money_ex_rooms": 101,
+       "score": 943
+      }
+     }
+    },
+    {
+     "id": "T008",
+     "must": 1,
+     "requested": 5,
+     "optimiser_runtime_s": 0.048,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 234,
+       "spend": 345,
+       "money_ex_rooms": 95,
+       "score": 415
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 225,
+       "spend": 343,
+       "money_ex_rooms": 93,
+       "score": 411
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 220,
+       "spend": 343,
+       "money_ex_rooms": 93,
+       "score": 409
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 220,
+       "spend": 343,
+       "money_ex_rooms": 93,
+       "score": 409
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 220,
+       "spend": 343,
+       "money_ex_rooms": 93,
+       "score": 409
+      }
+     }
+    },
+    {
+     "id": "T009",
+     "must": 3,
+     "requested": 9,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T010",
+     "must": 3,
+     "requested": 6,
+     "optimiser_runtime_s": 0.017,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 117,
+       "spend": 313,
+       "money_ex_rooms": 53,
+       "score": 348
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 125,
+       "spend": 314,
+       "money_ex_rooms": 54,
+       "score": 352
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 115,
+       "spend": 313,
+       "money_ex_rooms": 53,
+       "score": 348
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 115,
+       "spend": 313,
+       "money_ex_rooms": 53,
+       "score": 348
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 115,
+       "spend": 313,
+       "money_ex_rooms": 53,
+       "score": 348
+      }
+     }
+    },
+    {
+     "id": "T011",
+     "must": 3,
+     "requested": 6,
+     "optimiser_runtime_s": 0.083,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 268,
+       "spend": 279,
+       "money_ex_rooms": 29,
+       "score": 359
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 262,
+       "spend": 279,
+       "money_ex_rooms": 29,
+       "score": 358
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 255,
+       "spend": 278,
+       "money_ex_rooms": 28,
+       "score": 355
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 255,
+       "spend": 278,
+       "money_ex_rooms": 28,
+       "score": 355
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 255,
+       "spend": 278,
+       "money_ex_rooms": 28,
+       "score": 355
+      }
+     }
+    },
+    {
+     "id": "T012",
+     "must": 2,
+     "requested": 7,
+     "optimiser_runtime_s": 0.118,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 266,
+       "spend": 460,
+       "money_ex_rooms": 90,
+       "score": 540
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 245,
+       "spend": 457,
+       "money_ex_rooms": 87,
+       "score": 531
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 239,
+       "spend": 457,
+       "money_ex_rooms": 87,
+       "score": 529
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 239,
+       "spend": 457,
+       "money_ex_rooms": 87,
+       "score": 529
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 239,
+       "spend": 457,
+       "money_ex_rooms": 87,
+       "score": 529
+      }
+     }
+    },
+    {
+     "id": "T013",
+     "must": 0,
+     "requested": 3,
+     "optimiser_runtime_s": 0.011,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 79,
+       "spend": 835,
+       "money_ex_rooms": 55,
+       "score": 859
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 79,
+       "spend": 835,
+       "money_ex_rooms": 55,
+       "score": 859
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 79,
+       "spend": 835,
+       "money_ex_rooms": 55,
+       "score": 859
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 79,
+       "spend": 835,
+       "money_ex_rooms": 55,
+       "score": 859
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 79,
+       "spend": 835,
+       "money_ex_rooms": 55,
+       "score": 859
+      }
+     }
+    },
+    {
+     "id": "T014",
+     "must": 0,
+     "requested": 5,
+     "optimiser_runtime_s": 0.016,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 295,
+       "spend": 311,
+       "money_ex_rooms": 61,
+       "score": 400
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 208,
+       "spend": 305,
+       "money_ex_rooms": 55,
+       "score": 367
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 208,
+       "spend": 305,
+       "money_ex_rooms": 55,
+       "score": 367
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 208,
+       "spend": 305,
+       "money_ex_rooms": 55,
+       "score": 367
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 208,
+       "spend": 305,
+       "money_ex_rooms": 55,
+       "score": 367
+      }
+     }
+    },
+    {
+     "id": "T015",
+     "must": 0,
+     "requested": 5,
+     "optimiser_runtime_s": 0.05,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 216,
+       "spend": 432,
+       "money_ex_rooms": 62,
+       "score": 497
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 212,
+       "spend": 431,
+       "money_ex_rooms": 61,
+       "score": 495
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 204,
+       "spend": 431,
+       "money_ex_rooms": 61,
+       "score": 492
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 204,
+       "spend": 431,
+       "money_ex_rooms": 61,
+       "score": 492
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 204,
+       "spend": 431,
+       "money_ex_rooms": 61,
+       "score": 492
+      }
+     }
+    },
+    {
+     "id": "T016",
+     "must": 1,
+     "requested": 7,
+     "optimiser_runtime_s": 0.027,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 211,
+       "spend": 348,
+       "money_ex_rooms": 88,
+       "score": 411
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T017",
+     "must": 2,
+     "requested": 4,
+     "optimiser_runtime_s": 0.007,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 229,
+       "spend": 201,
+       "money_ex_rooms": 76,
+       "score": 270
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 229,
+       "spend": 201,
+       "money_ex_rooms": 76,
+       "score": 270
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 183,
+       "spend": 198,
+       "money_ex_rooms": 73,
+       "score": 253
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 183,
+       "spend": 198,
+       "money_ex_rooms": 73,
+       "score": 253
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 183,
+       "spend": 198,
+       "money_ex_rooms": 73,
+       "score": 253
+      }
+     }
+    },
+    {
+     "id": "T018",
+     "must": 2,
+     "requested": 6,
+     "optimiser_runtime_s": 0.091,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 229,
+       "spend": 628,
+       "money_ex_rooms": 73,
+       "score": 697
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 215,
+       "spend": 624,
+       "money_ex_rooms": 69,
+       "score": 689
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 204,
+       "spend": 624,
+       "money_ex_rooms": 69,
+       "score": 685
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 204,
+       "spend": 624,
+       "money_ex_rooms": 69,
+       "score": 685
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 204,
+       "spend": 624,
+       "money_ex_rooms": 69,
+       "score": 685
+      }
+     }
+    },
+    {
+     "id": "T019",
+     "must": 1,
+     "requested": 3,
+     "optimiser_runtime_s": 0.004,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 50,
+       "spend": 528,
+       "money_ex_rooms": 8,
+       "score": 543
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 50,
+       "spend": 528,
+       "money_ex_rooms": 8,
+       "score": 543
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 50,
+       "spend": 528,
+       "money_ex_rooms": 8,
+       "score": 543
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 50,
+       "spend": 528,
+       "money_ex_rooms": 8,
+       "score": 543
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 50,
+       "spend": 528,
+       "money_ex_rooms": 8,
+       "score": 543
+      }
+     }
+    },
+    {
+     "id": "T020",
+     "must": 2,
+     "requested": 7,
+     "optimiser_runtime_s": 0.029,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 216,
+       "spend": 189,
+       "money_ex_rooms": 64,
+       "score": 254
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 204,
+       "spend": 186,
+       "money_ex_rooms": 61,
+       "score": 247
+      }
+     },
+     "matched": {
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 204,
+       "spend": 186,
+       "money_ex_rooms": 61,
+       "score": 247
+      }
+     }
+    }
+   ],
+   "summary": {
+    "arms": {
+     "input_order": {
+      "feasible": 16,
+      "n": 20,
+      "failed_validator": 0,
+      "no_plan": 4,
+      "missed_a_must_visit_where_optimiser_found_a_plan": 2,
+      "optional_coverage_pct": {
+       "n": 16,
+       "mean": 83.8,
+       "median": 80.0,
+       "min": 50.0,
+       "max": 100.0
+      },
+      "minutes": {
+       "n": 16,
+       "mean": 182.4,
+       "median": 198.5,
+       "min": 50,
+       "max": 295
+      },
+      "money_ex_rooms": {
+       "n": 16,
+       "mean": 64.2,
+       "median": 67.5,
+       "min": 8,
+       "max": 100
+      },
+      "score": {
+       "n": 16,
+       "mean": 498.1,
+       "median": 456.0,
+       "min": 200,
+       "max": 993
+      }
+     },
+     "nearest_feasible": {
+      "feasible": 17,
+      "n": 20,
+      "failed_validator": 0,
+      "no_plan": 3,
+      "missed_a_must_visit_where_optimiser_found_a_plan": 1,
+      "optional_coverage_pct": {
+       "n": 17,
+       "mean": 83.2,
+       "median": 80.0,
+       "min": 50.0,
+       "max": 100.0
+      },
+      "minutes": {
+       "n": 17,
+       "mean": 176.7,
+       "median": 208,
+       "min": 50,
+       "max": 262
+      },
+      "money_ex_rooms": {
+       "n": 17,
+       "mean": 63.4,
+       "median": 64,
+       "min": 8,
+       "max": 104
+      },
+      "score": {
+       "n": 17,
+       "mean": 480.7,
+       "median": 424,
+       "min": 199,
+       "max": 952
+      }
+     },
+     "optimiser": {
+      "feasible": 18,
+      "n": 20,
+      "failed_validator": 0,
+      "no_plan": 2,
+      "missed_a_must_visit_where_optimiser_found_a_plan": 0,
+      "optional_coverage_pct": {
+       "n": 18,
+       "mean": 84.6,
+       "median": 81.66666666666666,
+       "min": 50.0,
+       "max": 100.0
+      },
+      "minutes": {
+       "n": 18,
+       "mean": 171.1,
+       "median": 198.0,
+       "min": 50,
+       "max": 255
+      },
+      "money_ex_rooms": {
+       "n": 18,
+       "mean": 64.2,
+       "median": 65.0,
+       "min": 8,
+       "max": 101
+      },
+      "score": {
+       "n": 18,
+       "mean": 470.9,
+       "median": 410.0,
+       "min": 199,
+       "max": 943
+      }
+     }
+    },
+    "matched": {
+     "input_order": {
+      "baseline_feasible": 16,
+      "matched_solved": 16,
+      "minutes_saved": {
+       "n": 16,
+       "mean": 17.1,
+       "median": 11.5,
+       "min": 0,
+       "max": 87,
+       "better": 14,
+       "equal": 2,
+       "worse": 0
+      },
+      "score_gain": {
+       "n": 16,
+       "mean": 9.9,
+       "median": 4.5,
+       "min": 0,
+       "max": 57,
+       "better": 13,
+       "equal": 3,
+       "worse": 0
+      }
+     },
+     "nearest_feasible": {
+      "baseline_feasible": 17,
+      "matched_solved": 17,
+      "minutes_saved": {
+       "n": 17,
+       "mean": 8.7,
+       "median": 7,
+       "min": 0,
+       "max": 46,
+       "better": 12,
+       "equal": 5,
+       "worse": 0
+      },
+      "score_gain": {
+       "n": 17,
+       "mean": 6.6,
+       "median": 3,
+       "min": 0,
+       "max": 56,
+       "better": 12,
+       "equal": 5,
+       "worse": 0
+      }
+     }
+    },
+    "optimiser_infeasible_but_baseline_feasible": 0,
+    "optimiser_runtime_s": {
+     "n": 20,
+     "mean": 0.0,
+     "median": 0.0175,
+     "min": 0.0,
+     "max": 0.118
+    },
+    "all_three_feasible": 16,
+    "score_gain_vs": {
+     "input_order": {
+      "n": 16,
+      "mean": 9.4,
+      "median": 4.5,
+      "min": 0,
+      "max": 50,
+      "positive": 13,
+      "zero": 3,
+      "negative": 0
+     },
+     "nearest_feasible": {
+      "n": 16,
+      "mean": 6.2,
+      "median": 3.0,
+      "min": 0,
+      "max": 50,
+      "positive": 11,
+      "zero": 5,
+      "negative": 0
+     }
+    }
+   }
+  },
+  "seoul": {
+   "n_trips": 20,
+   "default_value_of_time": 15000,
+   "rows": [
+    {
+     "id": "T001",
+     "must": 2,
+     "requested": 7,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T002",
+     "must": 3,
+     "requested": 6,
+     "optimiser_runtime_s": 0.048,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 2,
+       "minutes": 136,
+       "spend": 444828,
+       "money_ex_rooms": 39828,
+       "score": 568828
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T003",
+     "must": 3,
+     "requested": 4,
+     "optimiser_runtime_s": 0.029,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 97,
+       "spend": 507605,
+       "money_ex_rooms": 12605,
+       "score": 531855
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 91,
+       "spend": 507393,
+       "money_ex_rooms": 12393,
+       "score": 530143
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 91,
+       "spend": 507391,
+       "money_ex_rooms": 12391,
+       "score": 530141
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 91,
+       "spend": 507391,
+       "money_ex_rooms": 12391,
+       "score": 530141
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 91,
+       "spend": 507391,
+       "money_ex_rooms": 12391,
+       "score": 530141
+      }
+     }
+    },
+    {
+     "id": "T004",
+     "must": 2,
+     "requested": 6,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T005",
+     "must": 0,
+     "requested": 3,
+     "optimiser_runtime_s": 0.006,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 74,
+       "spend": 165697,
+       "money_ex_rooms": 30697,
+       "score": 184197
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 69,
+       "spend": 165523,
+       "money_ex_rooms": 30523,
+       "score": 182773
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 69,
+       "spend": 165506,
+       "money_ex_rooms": 30506,
+       "score": 182756
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 69,
+       "spend": 165506,
+       "money_ex_rooms": 30506,
+       "score": 182756
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 69,
+       "spend": 165506,
+       "money_ex_rooms": 30506,
+       "score": 182756
+      }
+     }
+    },
+    {
+     "id": "T006",
+     "must": 0,
+     "requested": 5,
+     "optimiser_runtime_s": 0.01,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 183,
+       "spend": 232486,
+       "money_ex_rooms": 67486,
+       "score": 278236
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 176,
+       "spend": 232288,
+       "money_ex_rooms": 67288,
+       "score": 276288
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 1,
+       "minutes": 70,
+       "spend": 195576,
+       "money_ex_rooms": 30576,
+       "score": 258076
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 164,
+       "spend": 231896,
+       "money_ex_rooms": 66896,
+       "score": 272896
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 164,
+       "spend": 231896,
+       "money_ex_rooms": 66896,
+       "score": 272896
+      }
+     }
+    },
+    {
+     "id": "T007",
+     "must": 1,
+     "requested": 6,
+     "optimiser_runtime_s": 0.054,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 266,
+       "spend": 274470,
+       "money_ex_rooms": 19470,
+       "score": 385970
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 259,
+       "spend": 274202,
+       "money_ex_rooms": 19202,
+       "score": 383952
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 259,
+       "spend": 274202,
+       "money_ex_rooms": 19202,
+       "score": 383952
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 259,
+       "spend": 274202,
+       "money_ex_rooms": 19202,
+       "score": 338952
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 259,
+       "spend": 274202,
+       "money_ex_rooms": 19202,
+       "score": 338952
+      }
+     }
+    },
+    {
+     "id": "T008",
+     "must": 1,
+     "requested": 5,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T009",
+     "must": 3,
+     "requested": 9,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T010",
+     "must": 3,
+     "requested": 6,
+     "optimiser_runtime_s": 0.016,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 283,
+       "spend": 129038,
+       "money_ex_rooms": 44038,
+       "score": 199788
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 259,
+       "spend": 128239,
+       "money_ex_rooms": 43239,
+       "score": 192989
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 257,
+       "spend": 128144,
+       "money_ex_rooms": 43144,
+       "score": 192394
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 257,
+       "spend": 128144,
+       "money_ex_rooms": 43144,
+       "score": 192394
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 257,
+       "spend": 128144,
+       "money_ex_rooms": 43144,
+       "score": 192394
+      }
+     }
+    },
+    {
+     "id": "T011",
+     "must": 3,
+     "requested": 6,
+     "optimiser_runtime_s": 0.042,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 1,
+       "minutes": 130,
+       "spend": 304693,
+       "money_ex_rooms": 34693,
+       "score": 382193
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 1,
+       "minutes": 113,
+       "spend": 304107,
+       "money_ex_rooms": 34107,
+       "score": 377357
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 113,
+       "spend": 304139,
+       "money_ex_rooms": 34139,
+       "score": 332389
+      }
+     }
+    },
+    {
+     "id": "T012",
+     "must": 2,
+     "requested": 7,
+     "optimiser_runtime_s": 0.1,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 260,
+       "spend": 386309,
+       "money_ex_rooms": 56309,
+       "score": 451309
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 261,
+       "spend": 386354,
+       "money_ex_rooms": 56354,
+       "score": 451604
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 1,
+       "minutes": 145,
+       "spend": 349336,
+       "money_ex_rooms": 19336,
+       "score": 430586
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 232,
+       "spend": 385408,
+       "money_ex_rooms": 55408,
+       "score": 443408
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 7,
+       "omitted": 0,
+       "minutes": 232,
+       "spend": 385408,
+       "money_ex_rooms": 55408,
+       "score": 443408
+      }
+     }
+    },
+    {
+     "id": "T013",
+     "must": 0,
+     "requested": 3,
+     "optimiser_runtime_s": 0.01,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 204,
+       "spend": 318194,
+       "money_ex_rooms": 63194,
+       "score": 369194
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 206,
+       "spend": 318222,
+       "money_ex_rooms": 63222,
+       "score": 369722
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 1,
+       "minutes": 125,
+       "spend": 283432,
+       "money_ex_rooms": 28432,
+       "score": 359682
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 204,
+       "spend": 318194,
+       "money_ex_rooms": 63194,
+       "score": 369194
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 204,
+       "spend": 318194,
+       "money_ex_rooms": 63194,
+       "score": 369194
+      }
+     }
+    },
+    {
+     "id": "T014",
+     "must": 0,
+     "requested": 5,
+     "optimiser_runtime_s": 0.018,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 96,
+       "spend": 303567,
+       "money_ex_rooms": 33567,
+       "score": 327567
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 96,
+       "spend": 303553,
+       "money_ex_rooms": 33553,
+       "score": 327553
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 92,
+       "spend": 303399,
+       "money_ex_rooms": 33399,
+       "score": 326399
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 92,
+       "spend": 303399,
+       "money_ex_rooms": 33399,
+       "score": 326399
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 92,
+       "spend": 303399,
+       "money_ex_rooms": 33399,
+       "score": 326399
+      }
+     }
+    },
+    {
+     "id": "T015",
+     "must": 0,
+     "requested": 5,
+     "optimiser_runtime_s": 0.038,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 146,
+       "spend": 345296,
+       "money_ex_rooms": 15296,
+       "score": 381796
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 143,
+       "spend": 345198,
+       "money_ex_rooms": 15198,
+       "score": 380948
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 133,
+       "spend": 344892,
+       "money_ex_rooms": 14892,
+       "score": 378142
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 133,
+       "spend": 344892,
+       "money_ex_rooms": 14892,
+       "score": 378142
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 133,
+       "spend": 344892,
+       "money_ex_rooms": 14892,
+       "score": 378142
+      }
+     }
+    },
+    {
+     "id": "T016",
+     "must": 1,
+     "requested": 7,
+     "optimiser_runtime_s": 0.042,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 347,
+       "spend": 139281,
+       "money_ex_rooms": 54281,
+       "score": 226031
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 337,
+       "spend": 138914,
+       "money_ex_rooms": 53914,
+       "score": 223164
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 1,
+       "minutes": 260,
+       "spend": 104247,
+       "money_ex_rooms": 19247,
+       "score": 214247
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 329,
+       "spend": 138631,
+       "money_ex_rooms": 53631,
+       "score": 220881
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 329,
+       "spend": 138631,
+       "money_ex_rooms": 53631,
+       "score": 220881
+      }
+     }
+    },
+    {
+     "id": "T017",
+     "must": 2,
+     "requested": 4,
+     "optimiser_runtime_s": 0.005,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T018",
+     "must": 2,
+     "requested": 6,
+     "optimiser_runtime_s": 0.015,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 1,
+       "minutes": 121,
+       "spend": 512481,
+       "money_ex_rooms": 17481,
+       "score": 587731
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 1,
+       "minutes": 98,
+       "spend": 510612,
+       "money_ex_rooms": 15612,
+       "score": 580112
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 1,
+       "minutes": 92,
+       "spend": 510430,
+       "money_ex_rooms": 15430,
+       "score": 578430
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 92,
+       "spend": 510430,
+       "money_ex_rooms": 15430,
+       "score": 533430
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 92,
+       "spend": 510430,
+       "money_ex_rooms": 15430,
+       "score": 533430
+      }
+     }
+    },
+    {
+     "id": "T019",
+     "must": 1,
+     "requested": 3,
+     "optimiser_runtime_s": 0.004,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 125,
+       "spend": 180450,
+       "money_ex_rooms": 10450,
+       "score": 211700
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 186,
+       "spend": 183590,
+       "money_ex_rooms": 13590,
+       "score": 230090
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 125,
+       "spend": 180450,
+       "money_ex_rooms": 10450,
+       "score": 211700
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 125,
+       "spend": 180450,
+       "money_ex_rooms": 10450,
+       "score": 211700
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 125,
+       "spend": 180450,
+       "money_ex_rooms": 10450,
+       "score": 211700
+      }
+     }
+    },
+    {
+     "id": "T020",
+     "must": 2,
+     "requested": 7,
+     "optimiser_runtime_s": 0.015,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 176,
+       "spend": 176338,
+       "money_ex_rooms": 41338,
+       "score": 220338
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 142,
+       "spend": 175232,
+       "money_ex_rooms": 40232,
+       "score": 210732
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 141,
+       "spend": 175211,
+       "money_ex_rooms": 40211,
+       "score": 210461
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 141,
+       "spend": 175211,
+       "money_ex_rooms": 40211,
+       "score": 210461
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 141,
+       "spend": 175211,
+       "money_ex_rooms": 40211,
+       "score": 210461
+      }
+     }
+    }
+   ],
+   "summary": {
+    "arms": {
+     "input_order": {
+      "feasible": 14,
+      "n": 20,
+      "failed_validator": 0,
+      "no_plan": 6,
+      "missed_a_must_visit_where_optimiser_found_a_plan": 1,
+      "optional_coverage_pct": {
+       "n": 14,
+       "mean": 78.8,
+       "median": 80.0,
+       "min": 33.333333333333336,
+       "max": 100.0
+      },
+      "minutes": {
+       "n": 14,
+       "mean": 179.1,
+       "median": 161.0,
+       "min": 74,
+       "max": 347
+      },
+      "money_ex_rooms": {
+       "n": 14,
+       "mean": 35778.9,
+       "median": 34130.0,
+       "min": 10450,
+       "max": 67486
+      },
+      "score": {
+       "n": 14,
+       "mean": 338421.8,
+       "median": 348380.5,
+       "min": 184197,
+       "max": 587731
+      }
+     },
+     "nearest_feasible": {
+      "feasible": 13,
+      "n": 20,
+      "failed_validator": 0,
+      "no_plan": 7,
+      "missed_a_must_visit_where_optimiser_found_a_plan": 2,
+      "optional_coverage_pct": {
+       "n": 13,
+       "mean": 82.3,
+       "median": 80.0,
+       "min": 50.0,
+       "max": 100.0
+      },
+      "minutes": {
+       "n": 13,
+       "mean": 178.7,
+       "median": 176,
+       "min": 69,
+       "max": 337
+      },
+      "money_ex_rooms": {
+       "n": 13,
+       "mean": 35716.9,
+       "median": 33553,
+       "min": 12393,
+       "max": 67288
+      },
+      "score": {
+       "n": 13,
+       "mean": 333851.5,
+       "median": 327553,
+       "min": 182773,
+       "max": 580112
+      }
+     },
+     "optimiser": {
+      "feasible": 15,
+      "n": 20,
+      "failed_validator": 0,
+      "no_plan": 5,
+      "missed_a_must_visit_where_optimiser_found_a_plan": 0,
+      "optional_coverage_pct": {
+       "n": 15,
+       "mean": 67.6,
+       "median": 66.66666666666667,
+       "min": 0.0,
+       "max": 100.0
+      },
+      "minutes": {
+       "n": 15,
+       "mean": 140.5,
+       "median": 125,
+       "min": 69,
+       "max": 260
+      },
+      "money_ex_rooms": {
+       "n": 15,
+       "mean": 26076.7,
+       "median": 28432,
+       "min": 10450,
+       "max": 43144
+      },
+      "score": {
+       "n": 15,
+       "mean": 346876.7,
+       "median": 359682,
+       "min": 182756,
+       "max": 578430
+      }
+     }
+    },
+    "matched": {
+     "input_order": {
+      "baseline_feasible": 14,
+      "matched_solved": 14,
+      "minutes_saved": {
+       "n": 14,
+       "mean": 14.8,
+       "median": 15.0,
+       "min": 0,
+       "max": 35,
+       "better": 12,
+       "equal": 2,
+       "worse": 0
+      },
+      "score_gain": {
+       "n": 14,
+       "mean": 13911.6,
+       "median": 5245.0,
+       "min": 0,
+       "max": 54301,
+       "better": 12,
+       "equal": 2,
+       "worse": 0
+      }
+     },
+     "nearest_feasible": {
+      "baseline_feasible": 13,
+      "matched_solved": 13,
+      "minutes_saved": {
+       "n": 13,
+       "mean": 10.4,
+       "median": 4,
+       "min": 0,
+       "max": 61,
+       "better": 10,
+       "equal": 3,
+       "worse": 0
+      },
+      "score_gain": {
+       "n": 13,
+       "mean": 9947.4,
+       "median": 2283,
+       "min": 2,
+       "max": 46682,
+       "better": 13,
+       "equal": 0,
+       "worse": 0
+      }
+     }
+    },
+    "optimiser_infeasible_but_baseline_feasible": 0,
+    "optimiser_runtime_s": {
+     "n": 20,
+     "mean": 0.0,
+     "median": 0.015,
+     "min": 0.0,
+     "max": 0.1
+    },
+    "all_three_feasible": 13,
+    "score_gain_vs": {
+     "input_order": {
+      "n": 13,
+      "mean": 7595.8,
+      "median": 7394,
+      "min": 0,
+      "max": 20723,
+      "positive": 12,
+      "zero": 1,
+      "negative": 0
+     },
+     "nearest_feasible": {
+      "n": 13,
+      "mean": 6392.6,
+      "median": 1682,
+      "min": 0,
+      "max": 21018,
+      "positive": 12,
+      "zero": 1,
+      "negative": 0
+     }
+    }
+   }
+  },
+  "kuala_lumpur": {
+   "n_trips": 20,
+   "default_value_of_time": 45,
+   "rows": [
+    {
+     "id": "T001",
+     "must": 2,
+     "requested": 7,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T002",
+     "must": 3,
+     "requested": 6,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T003",
+     "must": 3,
+     "requested": 4,
+     "optimiser_runtime_s": 0.014,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 155,
+       "spend": 983,
+       "money_ex_rooms": 23,
+       "score": 1099
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 158,
+       "spend": 984,
+       "money_ex_rooms": 24,
+       "score": 1103
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 154,
+       "spend": 983,
+       "money_ex_rooms": 23,
+       "score": 1099
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 154,
+       "spend": 983,
+       "money_ex_rooms": 23,
+       "score": 1099
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 154,
+       "spend": 983,
+       "money_ex_rooms": 23,
+       "score": 1099
+      }
+     }
+    },
+    {
+     "id": "T004",
+     "must": 2,
+     "requested": 6,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T005",
+     "must": 0,
+     "requested": 3,
+     "optimiser_runtime_s": 0.004,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 122,
+       "spend": 396,
+       "money_ex_rooms": 176,
+       "score": 488
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 122,
+       "spend": 396,
+       "money_ex_rooms": 176,
+       "score": 488
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 120,
+       "spend": 397,
+       "money_ex_rooms": 177,
+       "score": 487
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 120,
+       "spend": 397,
+       "money_ex_rooms": 177,
+       "score": 487
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 120,
+       "spend": 397,
+       "money_ex_rooms": 177,
+       "score": 487
+      }
+     }
+    },
+    {
+     "id": "T006",
+     "must": 0,
+     "requested": 5,
+     "optimiser_runtime_s": 0.015,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 113,
+       "spend": 452,
+       "money_ex_rooms": 132,
+       "score": 537
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 113,
+       "spend": 451,
+       "money_ex_rooms": 131,
+       "score": 536
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 92,
+       "spend": 447,
+       "money_ex_rooms": 127,
+       "score": 516
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 92,
+       "spend": 447,
+       "money_ex_rooms": 127,
+       "score": 516
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 4,
+       "omitted": 0,
+       "minutes": 92,
+       "spend": 447,
+       "money_ex_rooms": 127,
+       "score": 516
+      }
+     }
+    },
+    {
+     "id": "T007",
+     "must": 1,
+     "requested": 6,
+     "optimiser_runtime_s": 0.062,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 205,
+       "spend": 450,
+       "money_ex_rooms": 30,
+       "score": 604
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 238,
+       "spend": 456,
+       "money_ex_rooms": 36,
+       "score": 635
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 205,
+       "spend": 450,
+       "money_ex_rooms": 30,
+       "score": 604
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 205,
+       "spend": 450,
+       "money_ex_rooms": 30,
+       "score": 604
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 205,
+       "spend": 450,
+       "money_ex_rooms": 30,
+       "score": 604
+      }
+     }
+    },
+    {
+     "id": "T008",
+     "must": 1,
+     "requested": 5,
+     "optimiser_runtime_s": 0.024,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 188,
+       "spend": 482,
+       "money_ex_rooms": 42,
+       "score": 623
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 210,
+       "spend": 485,
+       "money_ex_rooms": 45,
+       "score": 643
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 185,
+       "spend": 482,
+       "money_ex_rooms": 42,
+       "score": 621
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 185,
+       "spend": 482,
+       "money_ex_rooms": 42,
+       "score": 621
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 185,
+       "spend": 482,
+       "money_ex_rooms": 42,
+       "score": 621
+      }
+     }
+    },
+    {
+     "id": "T009",
+     "must": 3,
+     "requested": 9,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T010",
+     "must": 3,
+     "requested": 6,
+     "optimiser_runtime_s": 0.018,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 223,
+       "spend": 345,
+       "money_ex_rooms": 205,
+       "score": 512
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 207,
+       "spend": 342,
+       "money_ex_rooms": 202,
+       "score": 497
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 207,
+       "spend": 342,
+       "money_ex_rooms": 202,
+       "score": 497
+      }
+     }
+    },
+    {
+     "id": "T011",
+     "must": 3,
+     "requested": 6,
+     "optimiser_runtime_s": 0.033,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 158,
+       "spend": 625,
+       "money_ex_rooms": 185,
+       "score": 744
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 154,
+       "spend": 623,
+       "money_ex_rooms": 183,
+       "score": 739
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 131,
+       "spend": 620,
+       "money_ex_rooms": 180,
+       "score": 718
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 131,
+       "spend": 620,
+       "money_ex_rooms": 180,
+       "score": 718
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 131,
+       "spend": 620,
+       "money_ex_rooms": 180,
+       "score": 718
+      }
+     }
+    },
+    {
+     "id": "T012",
+     "must": 2,
+     "requested": 7,
+     "optimiser_runtime_s": 0.044,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 230,
+       "spend": 750,
+       "money_ex_rooms": 110,
+       "score": 923
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 216,
+       "spend": 746,
+       "money_ex_rooms": 106,
+       "score": 908
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 202,
+       "spend": 744,
+       "money_ex_rooms": 104,
+       "score": 896
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 202,
+       "spend": 744,
+       "money_ex_rooms": 104,
+       "score": 896
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 202,
+       "spend": 744,
+       "money_ex_rooms": 104,
+       "score": 896
+      }
+     }
+    },
+    {
+     "id": "T013",
+     "must": 0,
+     "requested": 3,
+     "optimiser_runtime_s": 0.005,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 131,
+       "spend": 537,
+       "money_ex_rooms": 117,
+       "score": 635
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 131,
+       "spend": 537,
+       "money_ex_rooms": 117,
+       "score": 635
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 131,
+       "spend": 537,
+       "money_ex_rooms": 117,
+       "score": 635
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 131,
+       "spend": 537,
+       "money_ex_rooms": 117,
+       "score": 635
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 2,
+       "omitted": 0,
+       "minutes": 131,
+       "spend": 537,
+       "money_ex_rooms": 117,
+       "score": 635
+      }
+     }
+    },
+    {
+     "id": "T014",
+     "must": 0,
+     "requested": 5,
+     "optimiser_runtime_s": 0.034,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 122,
+       "spend": 618,
+       "money_ex_rooms": 178,
+       "score": 710
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 133,
+       "spend": 619,
+       "money_ex_rooms": 179,
+       "score": 719
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 110,
+       "spend": 616,
+       "money_ex_rooms": 176,
+       "score": 699
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 110,
+       "spend": 616,
+       "money_ex_rooms": 176,
+       "score": 699
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 110,
+       "spend": 616,
+       "money_ex_rooms": 176,
+       "score": 699
+      }
+     }
+    },
+    {
+     "id": "T015",
+     "must": 0,
+     "requested": 5,
+     "optimiser_runtime_s": 0.026,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 199,
+       "spend": 684,
+       "money_ex_rooms": 44,
+       "score": 833
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 203,
+       "spend": 684,
+       "money_ex_rooms": 44,
+       "score": 836
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 191,
+       "spend": 682,
+       "money_ex_rooms": 42,
+       "score": 825
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 191,
+       "spend": 682,
+       "money_ex_rooms": 42,
+       "score": 825
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 191,
+       "spend": 682,
+       "money_ex_rooms": 42,
+       "score": 825
+      }
+     }
+    },
+    {
+     "id": "T016",
+     "must": 1,
+     "requested": 7,
+     "optimiser_runtime_s": 0.045,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 151,
+       "spend": 178,
+       "money_ex_rooms": 38,
+       "score": 291
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 150,
+       "spend": 177,
+       "money_ex_rooms": 37,
+       "score": 290
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 147,
+       "spend": 177,
+       "money_ex_rooms": 37,
+       "score": 287
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 147,
+       "spend": 177,
+       "money_ex_rooms": 37,
+       "score": 287
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 147,
+       "spend": 177,
+       "money_ex_rooms": 37,
+       "score": 287
+      }
+     }
+    },
+    {
+     "id": "T017",
+     "must": 2,
+     "requested": 4,
+     "optimiser_runtime_s": 0.0,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "optimiser": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      }
+     },
+     "matched": {}
+    },
+    {
+     "id": "T018",
+     "must": 2,
+     "requested": 6,
+     "optimiser_runtime_s": 0.061,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 178,
+       "spend": 1048,
+       "money_ex_rooms": 88,
+       "score": 1182
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 175,
+       "spend": 1047,
+       "money_ex_rooms": 87,
+       "score": 1178
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 175,
+       "spend": 1047,
+       "money_ex_rooms": 87,
+       "score": 1178
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 175,
+       "spend": 1047,
+       "money_ex_rooms": 87,
+       "score": 1178
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 5,
+       "omitted": 0,
+       "minutes": 175,
+       "spend": 1047,
+       "money_ex_rooms": 87,
+       "score": 1178
+      }
+     }
+    },
+    {
+     "id": "T019",
+     "must": 1,
+     "requested": 3,
+     "optimiser_runtime_s": 0.008,
+     "arms": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 81,
+       "spend": 353,
+       "money_ex_rooms": 73,
+       "score": 414
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 89,
+       "spend": 354,
+       "money_ex_rooms": 74,
+       "score": 421
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 81,
+       "spend": 353,
+       "money_ex_rooms": 73,
+       "score": 414
+      }
+     },
+     "matched": {
+      "input_order": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 81,
+       "spend": 353,
+       "money_ex_rooms": 73,
+       "score": 414
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 3,
+       "omitted": 0,
+       "minutes": 81,
+       "spend": 353,
+       "money_ex_rooms": 73,
+       "score": 414
+      }
+     }
+    },
+    {
+     "id": "T020",
+     "must": 2,
+     "requested": 7,
+     "optimiser_runtime_s": 0.04,
+     "arms": {
+      "input_order": {
+       "feasible": false,
+       "failed": [
+        "no plan"
+       ]
+      },
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 1,
+       "minutes": 141,
+       "spend": 415,
+       "money_ex_rooms": 195,
+       "score": 656
+      },
+      "optimiser": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 1,
+       "minutes": 203,
+       "spend": 326,
+       "money_ex_rooms": 106,
+       "score": 613
+      }
+     },
+     "matched": {
+      "nearest_feasible": {
+       "feasible": true,
+       "placed": 6,
+       "omitted": 0,
+       "minutes": 139,
+       "spend": 415,
+       "money_ex_rooms": 195,
+       "score": 519
+      }
+     }
+    }
+   ],
+   "summary": {
+    "arms": {
+     "input_order": {
+      "feasible": 14,
+      "n": 20,
+      "failed_validator": 0,
+      "no_plan": 6,
+      "missed_a_must_visit_where_optimiser_found_a_plan": 1,
+      "optional_coverage_pct": {
+       "n": 14,
+       "mean": 90.4,
+       "median": 100.0,
+       "min": 66.66666666666667,
+       "max": 100.0
+      },
+      "minutes": {
+       "n": 14,
+       "mean": 161.1,
+       "median": 156.5,
+       "min": 81,
+       "max": 230
+      },
+      "money_ex_rooms": {
+       "n": 14,
+       "mean": 102.9,
+       "median": 99.0,
+       "min": 23,
+       "max": 205
+      },
+      "score": {
+       "n": 14,
+       "mean": 685.4,
+       "median": 629.0,
+       "min": 291,
+       "max": 1182
+      }
+     },
+     "nearest_feasible": {
+      "feasible": 14,
+      "n": 20,
+      "failed_validator": 0,
+      "no_plan": 6,
+      "missed_a_must_visit_where_optimiser_found_a_plan": 1,
+      "optional_coverage_pct": {
+       "n": 14,
+       "mean": 88.9,
+       "median": 91.66666666666666,
+       "min": 66.66666666666667,
+       "max": 100.0
+      },
+      "minutes": {
+       "n": 14,
+       "mean": 159.5,
+       "median": 152.0,
+       "min": 89,
+       "max": 238
+      },
+      "money_ex_rooms": {
+       "n": 14,
+       "mean": 102.4,
+       "median": 96.5,
+       "min": 24,
+       "max": 195
+      },
+      "score": {
+       "n": 14,
+       "mean": 699.1,
+       "median": 649.5,
+       "min": 290,
+       "max": 1178
+      }
+     },
+     "optimiser": {
+      "feasible": 15,
+      "n": 20,
+      "failed_validator": 0,
+      "no_plan": 5,
+      "missed_a_must_visit_where_optimiser_found_a_plan": 0,
+      "optional_coverage_pct": {
+       "n": 15,
+       "mean": 89.7,
+       "median": 100.0,
+       "min": 66.66666666666667,
+       "max": 100.0
+      },
+      "minutes": {
+       "n": 15,
+       "mean": 155.6,
+       "median": 154,
+       "min": 81,
+       "max": 207
+      },
+      "money_ex_rooms": {
+       "n": 15,
+       "mean": 101.5,
+       "median": 104,
+       "min": 23,
+       "max": 202
+      },
+      "score": {
+       "n": 15,
+       "mean": 672.6,
+       "median": 621,
+       "min": 287,
+       "max": 1178
+      }
+     }
+    },
+    "matched": {
+     "input_order": {
+      "baseline_feasible": 14,
+      "matched_solved": 14,
+      "minutes_saved": {
+       "n": 14,
+       "mean": 8.9,
+       "median": 3.5,
+       "min": 0,
+       "max": 28,
+       "better": 11,
+       "equal": 3,
+       "worse": 0
+      },
+      "score_gain": {
+       "n": 14,
+       "mean": 8.5,
+       "median": 4.0,
+       "min": 0,
+       "max": 27,
+       "better": 10,
+       "equal": 4,
+       "worse": 0
+      }
+     },
+     "nearest_feasible": {
+      "baseline_feasible": 14,
+      "matched_solved": 14,
+      "minutes_saved": {
+       "n": 14,
+       "mean": 12.1,
+       "median": 10.0,
+       "min": 0,
+       "max": 33,
+       "better": 12,
+       "equal": 2,
+       "worse": 0
+      },
+      "score_gain": {
+       "n": 14,
+       "mean": 20.6,
+       "median": 11.5,
+       "min": 0,
+       "max": 137,
+       "better": 12,
+       "equal": 2,
+       "worse": 0
+      }
+     }
+    },
+    "optimiser_infeasible_but_baseline_feasible": 0,
+    "optimiser_runtime_s": {
+     "n": 20,
+     "mean": 0.0,
+     "median": 0.0165,
+     "min": 0.0,
+     "max": 0.062
+    },
+    "all_three_feasible": 13,
+    "score_gain_vs": {
+     "input_order": {
+      "n": 13,
+      "mean": 8,
+      "median": 4,
+      "min": 0,
+      "max": 27,
+      "positive": 9,
+      "zero": 4,
+      "negative": 0
+     },
+     "nearest_feasible": {
+      "n": 13,
+      "mean": 11.7,
+      "median": 11,
+      "min": 0,
+      "max": 31,
+      "positive": 11,
+      "zero": 2,
+      "negative": 0
+     }
+    }
+   }
+  }
+ }
+}
