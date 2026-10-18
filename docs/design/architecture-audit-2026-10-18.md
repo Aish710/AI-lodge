@@ -52,7 +52,7 @@ No new endpoint is needed for profiles or the what-if panel: both build preferen
 
 - Phases 1 to 7 need **no database** and store nothing server-side. That keeps the existing privacy statement true.
 - Collaboration (phase 8) needs server-side persistence, capability tokens, revocation, revision numbers for optimistic concurrency, server-side authorisation and a stored-prompt-injection review. None exist. **Not started; waiting for your approval** (see section 8).
-- New AI-facing work (phase 4) changes the LLM code fingerprint, which turns the live self-check, gold set and red team on the Proof page into "Not run on this version" until they are re-run (paid). Plan: keep AI changes to the end, and re-run once.
+- New AI-facing work (phase 4) changes the LLM code fingerprint, so live reports made before the change are shown as made for an earlier version until they are re-run (paid). Plan: keep AI changes to the end, and re-run once. (Done on 2026-10-18; see `docs/EVALUATION.md`.)
 
 ## 6. Dependency order and complexity
 
