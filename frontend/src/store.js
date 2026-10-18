@@ -30,6 +30,7 @@ export const store = reactive({
   busy: { compare: false, sensitivity: false, optimise: false, replan: false, parse: false, proposal: false },
   sensitivityError: null, sensitivityCancelled: false, sensitivityStartedAt: 0,
   planFromReplan: false,
+  classicBuilder: typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('builder') === 'classic',   // read once at load; a study setting, never stored
   itin: { days: null, result: null, busy: false, error: null, live: null, liveBusy: false, liveSeq: 0 },
   profile: emptyProfile(),
   repair: { proposal: null, text: '', busy: false, applying: false, error: null, keepHotel: false, confirmed: [] },

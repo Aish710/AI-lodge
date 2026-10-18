@@ -8,6 +8,8 @@ import { addStop, armRows, moveAnnouncement, moveStop, moveToDay, moveWithin, pr
 import { formatLocalMoney } from '../lib/format.js'
 import { cleanHotelText as ct } from '../lib/names.js'
 
+// ?builder=classic switches off drag-and-drop and live feedback (arrow buttons only), so a usability study can compare the two workflows with the same planner behind them
+const classic = computed(() => store.classicBuilder)
 const open = ref(false)
 const money = (v) => (v === null || v === undefined ? '—' : formatLocalMoney(v, store.city?.currency_code ?? 'JPY'))
 const mins = (m) => (m === null || m === undefined ? '—' : m >= 60 ? `${Math.floor(m / 60)} h ${Math.round(m % 60)} min` : `${Math.round(m)} min`)
@@ -24,7 +26,7 @@ const liveStop = (id) => live.value?.stops?.find((s) => s.id === id)
 const announce = ref('')
 
 let timer = null
-function schedule() { clearTimeout(timer); timer = setTimeout(() => checkDraft(), 350) }       // debounced: no request per pixel of dragging
+function schedule() { if (classic.value) return; clearTimeout(timer); timer = setTimeout(() => checkDraft(), 350) }       // debounced: no request per pixel of dragging
 onBeforeUnmount(() => clearTimeout(timer))
 watch(() => store.itin.days, () => { if (open.value) schedule() }, { deep: true })
 
@@ -62,7 +64,7 @@ async function keyMove(next, id) { edit(next, id); await nextTick(); document.qu
 
     <div v-if="open && store.itin.days" class="mt-3">
       <p class="visually-hidden" role="status" aria-live="polite" data-testid="ic-announce">{{ announce }}</p>
-      <div class="small mb-2" :class="live?.feasible ? 'text-success' : ''" aria-live="polite" data-testid="ic-live">
+      <div v-if="!classic" class="small mb-2" :class="live?.feasible ? 'text-success' : ''" aria-live="polite" data-testid="ic-live">
         <template v-if="store.itin.liveBusy && !live">Checking your draft…</template>
         <template v-else-if="live?.error">{{ live.error }}</template>
         <template v-else-if="live">
@@ -74,14 +76,14 @@ async function keyMove(next, id) { edit(next, id); await nextTick(); document.qu
       </div>
       <div class="row g-3">
         <div v-for="(d, di) in days" :key="di" class="col-12 col-md-6" :data-testid="'ic-day-' + (di + 1)">
-          <div class="border rounded p-2 h-100" :class="{ 'ic-over': over && over.day === di && drag }" @dragover="onOverDay($event, di)" @drop="onDrop($event, di)" @dragleave.self="over = null">
+          <div class="border rounded p-2 h-100" :class="{ 'ic-over': over && over.day === di && drag }" @dragover="!classic && onOverDay($event, di)" @drop="!classic && onDrop($event, di)" @dragleave.self="over = null">
             <h3 class="h6">Day {{ di + 1 }} <span class="small muted fw-normal">{{ d.length }} stop{{ d.length === 1 ? '' : 's' }}</span></h3>
             <p v-if="!d.length" class="small muted mb-1" data-testid="ic-empty-day">Nothing planned. Drop a sight here.</p>
             <ol class="list-unstyled mb-2" :aria-label="'Day ' + (di + 1) + ' stops'">
               <li v-for="(id, i) in d" :key="id" class="ic-stop mb-1" :class="{ 'ic-dragging': drag && drag.id === id, 'ic-before': over && over.day === di && over.index === i && drag && drag.id !== id, 'ic-problem': liveStop(id)?.problem }"
-                :data-testid="'ic-stop-' + id" draggable="true" @dragstart="onStart(di, i, $event)" @dragend="onEnd" @dragover="onOverItem($event, di, i)" @drop="onDrop($event, di)">
+                :data-testid="'ic-stop-' + id" :draggable="!classic" @dragstart="!classic && onStart(di, i, $event)" @dragend="onEnd" @dragover="!classic && onOverItem($event, di, i)" @drop="!classic && onDrop($event, di)">
                 <div class="d-flex flex-wrap align-items-center gap-1">
-                  <span class="ic-handle" aria-hidden="true" title="Drag to move">⠿</span>
+                  <span v-if="!classic" class="ic-handle" aria-hidden="true" title="Drag to move">⠿</span>
                   <span class="me-auto">{{ nameOf(id) }}<span v-if="must.includes(id)" class="pill pill-must ms-1">Must visit</span>
                     <span v-if="liveStop(id)?.start" class="small muted d-block" :data-testid="'ic-time-' + id">{{ liveStop(id).start }}–{{ liveStop(id).end }}</span></span>
                   <button type="button" data-focus class="btn btn-sm btn-outline-secondary" :disabled="i === 0" :aria-label="`Move ${nameOf(id)} earlier on day ${di + 1}`" @click="keyMove(moveWithin(days, di, i, -1), id)">↑</button>

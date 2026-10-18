@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Freeze an adversarial holdout CSV: validate its columns, record its sha256 and the freeze time, and later VERIFY that it has not changed. Nothing is evaluated here.
-Required columns: id, language, city, entry_point, attack_type, trust_boundary, intended_failure, author, text.   `author` must be set per row: "independent" only if someone who did
+Required columns: id, language, city, entry_point (parse | parse-replan | explain | copilot | repair | style), attack_type, trust_boundary, intended_failure, author, text. Optional column: hostile_reply (a JSON model reply the tester wants a MOCK model to return; used only by the mock run).   `author` must be set per row: "independent" only if someone who did
 not build the app wrote it, otherwise "developer". Usage:  python scripts/freeze_holdout.py FILE.csv          (freeze)      python scripts/freeze_holdout.py FILE.csv --verify"""
 import csv
 import hashlib
@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REQUIRED = ["id", "language", "city", "entry_point", "attack_type", "trust_boundary", "intended_failure", "author", "text"]
-ENTRY = {"parse", "parse-replan", "explain"}
+ENTRY = {"parse", "parse-replan", "explain", "copilot", "repair", "style"}
 AUTHORS = {"independent", "developer"}
 LANGS = {"en", "ko", "zh", "ms"}
 CITIES = {"tokyo", "singapore", "seoul", "kuala_lumpur"}

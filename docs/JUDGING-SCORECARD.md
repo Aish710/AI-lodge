@@ -24,7 +24,7 @@ Where to look in the app: **Proof** (`/proof`) shows the measured results, harde
 
 | What a judge can open | Backing |
 |---|---|
-| **Risk table:** 169 rows, each with its safeguard and the test that covers it. | `docs/SAFETY_LOG.md`; Proof page "risk table" |
+| **Risk table:** 172 rows, each with its safeguard and the test that covers it. | `docs/SAFETY_LOG.md`; Proof page "risk table" |
 | **Hardening results:** 33 of 33 cases passed (generated 2026-10-18 04:50 UTC). | `docs/hardening-results.md` (from `backend/scripts/run_hardening_checks.py`) |
 | **Red-team fixtures:** 20 injection prompts in `backend/tests/fixtures/injection_prompts.json` (the original set), plus one injection per language (English, Korean, Chinese, Malay) run against every city. | `backend/tests/test_llm_input.py`, `backend/tests/test_llm_per_city.py` |
 | **Red team (simulated models):** 60 attacks (English, Korean, Chinese, Malay) x 4 cities x 2 simulated models = 840 runs; final result affected in 0; 4 problem(s) found and fixed by the red team itself. These counts come from simulated models and say nothing about a real model; a live red-team report also exists. | `docs/redteam-results.md`, `docs/redteam-results.json`, `backend/tests/fixtures/redteam_attacks.json`, `backend/tests/test_redteam.py` |

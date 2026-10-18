@@ -40,6 +40,10 @@ BOUNDARY_TESTS = {
     "copilot_schedule_rebuild_off": ["tests/test_copilot.py"],
     "copilot_fingerprint_unchecked": ["tests/test_copilot.py"],
     "style_tension_unchecked": ["tests/test_ai_repair.py"],
+    "copilot_evidence_unverified": ["tests/test_copilot_eval.py"],
+    "unstated_place_accepted": ["tests/test_unstated_names.py"],
+    "min_active_days_validator_blind": ["tests/test_min_active_days.py"],
+    "min_active_days_not_modelled": ["tests/test_min_active_days.py"],
 }
 for _name in plugin.MUTATIONS:
     if _name.startswith(("repair_", "style_numbers")):

@@ -110,3 +110,15 @@ test('phone width: the builder fits without sideways scrolling and its controls 
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1)
   await expect(page.getByRole('button', { name: /^Move .* later on day 1$/ }).first()).toBeVisible()
 })
+
+test('classic mode (for the usability study): no drag handles and no live feedback, the same arrow controls, the same optimiser comparison', async ({ page }) => {
+  await page.goto('/?builder=classic')
+  await planFromExample(page)
+  await page.getByTestId('ic-toggle').click()
+  await expect(page.getByTestId('ic-day-1')).toBeVisible()
+  await expect(page.locator('.ic-handle')).toHaveCount(0)
+  await expect(page.getByTestId('ic-live')).toHaveCount(0)
+  await expect(page.getByRole('button', { name: /^Move .* later on day 1$/ }).first()).toBeVisible()
+  await page.getByTestId('ic-compare').click()
+  await expect(page.getByTestId('ic-table')).toBeVisible({ timeout: PLAN_WAIT })
+})

@@ -17,5 +17,11 @@
 - **Final-result compromise**: what the user or the plan in force would actually see or suffer after the code ran.
 - Report both, per language and per attack type, with N. Report every attack that compromised the final result with the fix, and keep the unfixed ones listed.
 
+## Importing and running someone else's attacks
+- Put the attacks in the CSV template `docs/safety/holdout-template.csv` (entry points: parse, parse-replan, explain, copilot, repair, style; optional `hostile_reply` for the mock run). Freeze it, then run:
+  `python scripts/run_holdout.py FILE.csv` (mock: a scripted model returns each row's `hostile_reply`; this tests what the CODE does with hostile model output and measures no model).
+- The runner refuses a file that was not frozen or changed afterwards, labels the suite "independent" only when every row's author is "independent", and reports raw-compliance indicators and final-result compromise as separate counts, by entry point, attack type, language and trust boundary. Semantic compliance is "not assessed" until a person reads the replies.
+- A live run (`--live`) uses the real model: it prints the call count and token envelope first and needs your explicit approval and `RUN_LIVE_LLM_EVAL=1`.
+
 ## Reporting
 State who wrote the attacks and when they were frozen. If the tester is the developer, say "developer-generated". Never merge these numbers into the earlier red-team counts.

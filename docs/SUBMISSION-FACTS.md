@@ -1,6 +1,6 @@
 # Submission facts (generated)
 
-Generated 2026-10-18 07:11 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
+Generated 2026-10-18 07:15 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
 
 ## Tests
 
@@ -49,7 +49,7 @@ Generated 2026-10-18 07:11 UTC by `frontend/scripts/make-submission-facts.mjs`. 
 
 ## Safety
 
-- 169 risks are tracked in the safety log, each with a safeguard, the test names that check it, and a status.  
+- 172 risks are tracked in the safety log, each with a safeguard, the test names that check it, and a status.  
   *Source: docs/SAFETY_LOG.md*
 - API hardening: 33 of 33 in-process abuse cases passed.  
   *Source: docs/hardening-results.md*

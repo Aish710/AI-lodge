@@ -129,3 +129,15 @@ def test_add_row_appends_one_validated_row_and_refuses_an_email(tmp_path, capsys
 
 def test_prompts_cover_every_column_exactly_once():
     assert list(adder.PROMPTS) == mod.COLUMNS
+
+
+def test_study_v2_with_no_rows_says_not_conducted_and_invents_nothing(tmp_path):
+    import subprocess, sys
+    from pathlib import Path
+    repo = Path(__file__).resolve().parents[2]
+    (tmp_path / "docs/user-test").mkdir(parents=True)
+    (tmp_path / "docs/user-test/study-v2-results.csv").write_text((repo / "docs/user-test/study-v2-results.csv").read_text())
+    subprocess.run([sys.executable, str(repo / "scripts/summarise_study_v2.py"), "--root", str(tmp_path)], check=True, capture_output=True)
+    text = (tmp_path / "docs/user-test/study-v2-summary.md").read_text()
+    assert "No results yet (N = 0)" in text and "not been conducted" in text
+    assert "NOT CONDUCTED" in (repo / "docs/user-test/STUDY-PLAN-v2.md").read_text()

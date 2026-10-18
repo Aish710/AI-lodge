@@ -40,3 +40,8 @@ Strict-mode data rule: opening hours are never invented. A required sight with u
 Tests: `test_copilot.py`, `test_copilot_redteam.py`, additional `test_ai_repair.py` cases, frontend `copilot.test.js`, desktop/mobile `copilot.spec.js`. These are developer-authored, not independent testing.
 
 Apply-time repair validation is now a rejection gate: even a syntactically valid, current-fingerprint action is refused if re-solving is infeasible or the independent validator fails. `/apply-repair` returns `repair_not_feasible` with no replacement plan; the UI's error path preserves the current plan and preferences. Dedicated backend tests force each failure and a frontend test checks state preservation. The `repair_apply_validation_ignored` mutation disables only this gate.
+
+## Evidence and names (this pass)
+21. Every number a copilot answer shows is evidence that is re-derived from the dataset and the schedule before the answer is returned (`app/evidence.py`); one mismatch, an unknown evidence kind or an unexplained number in the message rejects the whole answer (fail closed). Tests: `test_copilot_eval.py`.
+22. A place the model names but the user never wrote is not added to a trip request (`names.stated_in_text`). Test: `test_unstated_names.py`.
+23. A requested minimum number of active days is a hard rule: the solver enforces it, the independent validator re-counts it, and an impossible request is a named conflict. Test: `test_min_active_days.py`.

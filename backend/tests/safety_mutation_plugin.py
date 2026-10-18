@@ -186,6 +186,43 @@ def _m22():
     m._ensure_repair_feasible = lambda out: None
 
 
+@mutation("copilot_evidence_unverified", "copilot evidence is no longer re-derived from the dataset and schedule before an answer is shown (fail-closed check removed)")
+def _m23():
+    import app.main as m
+    m.verify_evidence = lambda *a, **k: []
+
+
+@mutation("unstated_place_accepted", "a place the model names but the user never wrote is accepted as a must-visit or skip")
+def _m24():
+    import app.llm.extract as ex
+    ex.stated_in_text = lambda *a, **k: True
+
+
+@mutation("min_active_days_validator_blind", "the independent validator no longer checks the minimum-active-days requirement")
+def _m25():
+    import app.validator.checks as c
+    orig = c._verdict
+
+    def blind(cid, name, bad, ok_msg, bad_msg, level="fail"):
+        if cid == "active_days":
+            return c.Check(cid, name, "pass", ok_msg)
+        return orig(cid, name, bad, ok_msg, bad_msg, level)
+    c._verdict = blind
+
+
+@mutation("min_active_days_not_modelled", "the solver ignores the minimum-active-days requirement (only the validator would notice)")
+def _m26():
+    from app.schemas import Preferences
+    import app.optimiser.solver as sv
+    orig = sv.solve
+
+    def ignore(prefs, *a, **k):
+        return orig(prefs.model_copy(update={"min_active_days": None}), *a, **k)
+    sv.solve = ignore
+    import app.main as m
+    m.solve = ignore
+
+
 def pytest_configure(config):
     name = os.environ.get("SAFETY_MUTATION")
     if not name:
