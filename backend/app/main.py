@@ -390,6 +390,12 @@ class ApplyRepairRequest(_Req):
     confirmed_ids: list[str] = Field(default=[], max_length=8)    # set only by the person's own ticks in the confirmation step
 
 
+def _ensure_repair_feasible(out: dict) -> None:
+    """A preview is not authority to install an invalid apply-time result."""
+    if out["result"]["status"] != "feasible" or out["feasibility_report"]["overall"] == "fail":
+        raise ApiError(422, "repair_not_feasible", "These changes did not produce a validated plan. Your current plan is unchanged. Preview a different repair.")
+
+
 @router.post("/apply-repair")
 async def apply_repair_route(req: ApplyRepairRequest, request: Request):
     """Apply a confirmed repair. Everything is re-checked NOW: the plan must be the one the proposal was made for, every action must still match its expected previous value, the allowlist and
@@ -414,6 +420,7 @@ async def apply_repair_route(req: ApplyRepairRequest, request: Request):
             raise ApiError(e.status, e.code, e.message)
         with request.app.state.solver_capacity.claim():
             _, _, out, _, _ = _optimise_core(p, h, ds, cfg)
+        _ensure_repair_feasible(out)
         out.update(new_preferences=p.model_dump(), hotel_id=h, keep_hotel=keep, applied=[a.model_dump() for a in req.actions])
         return out
     return await run_cancellable(request, work)

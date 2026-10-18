@@ -101,8 +101,9 @@ def test_an_infeasible_repair_is_never_presented_as_feasible(api):
     c = api(MockLLM([r_out({"action": "set_pace", "pace": "packed"})]))
     j = propose(c, "pack it", p, TH)
     assert j["verification"]["verified"] is False and j["verification"]["state"] in ("infeasible", "blocked_missing_info")
-    r = apply(c, j, p, TH)                                                                # even if a client forces it, the result is honest
-    assert r.status_code == 200 and r.json()["result"]["status"] == "infeasible" and r.json()["feasibility_report"]["overall"] == "fail"
+    r = apply(c, j, p, TH)  # a forced apply now fails closed instead of replacing the current plan
+    assert r.status_code == 422 and r.json()["error"]["code"] == "repair_not_feasible"
+    assert "result" not in r.json() and "new_preferences" not in r.json()
 
 
 def test_a_provisional_repair_is_never_labelled_verified(api):

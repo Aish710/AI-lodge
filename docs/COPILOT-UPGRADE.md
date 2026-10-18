@@ -23,3 +23,7 @@ Scope limits: multi-plan reasoning and scenario simulation use the existing Expl
 Legitimate assertion updates: omission component assertions now require uncertainty rather than an unsupported marginal-cost explanation. The Proof integration assertion derives freshness from the generated code fingerprint instead of assuming the historical gold report matches every future implementation. No test count or threshold is lowered.
 
 The backend historical-report assertion likewise checks the preserved original stamp's format rather than demanding a fresh paid run after every code edit. Python/Node hash equality and frontend stale/current/missing tests still enforce freshness. The adversarial harness distinguishes the existing, labelled exact user-input echo from derived model/plan assertions; it retains the entire API response for inspection.
+
+Apply-path finding: `_optimise_core` returned validator findings, but the repair route previously returned them as a successful replacement even when infeasible. Added an explicit apply-time rejection gate, with separate solver-infeasibility and independent-validator-failure tests and a gate-removal mutation. Conditional valid results remain labelled conditional and are still allowed after confirmation.
+
+Legitimate safety assertion update: `test_an_infeasible_repair_is_never_presented_as_feasible` now requires HTTP 422 and absence of a replacement result/preferences. Its former HTTP 200/infeasible expectation encoded the old replacement behavior; the new assertion enforces the stronger apply-time gate.

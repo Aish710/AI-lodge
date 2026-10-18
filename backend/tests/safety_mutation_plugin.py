@@ -180,6 +180,12 @@ def _m21():
     p.call_json = no_tension
 
 
+@mutation("repair_apply_validation_ignored", "apply-repair installs an infeasible or independently rejected result")
+def _m22():
+    import app.main as m
+    m._ensure_repair_feasible = lambda out: None
+
+
 def pytest_configure(config):
     name = os.environ.get("SAFETY_MUTATION")
     if not name:

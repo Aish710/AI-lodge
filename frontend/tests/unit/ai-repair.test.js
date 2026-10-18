@@ -141,3 +141,12 @@ describe('formFromPrefs', () => {
     expect(wishlist).toEqual({ a: 'skip', b: 'must', c: 'nice' })
   })
 })
+
+it('keeps the existing plan when apply-time validation rejects a repair', async () => {
+  const before = store.plan, prefs = store.planPrefs
+  store.repair.proposal = proposal()
+  vi.stubGlobal('fetch', vi.fn(async () => res(422, { error: { code: 'repair_not_feasible', message: 'These changes did not produce a validated plan. Your current plan is unchanged.' } })))
+  await applyRepair()
+  expect(store.plan).toBe(before); expect(store.planPrefs).toBe(prefs)
+  expect(store.repair.error.code).toBe('repair_not_feasible')
+})

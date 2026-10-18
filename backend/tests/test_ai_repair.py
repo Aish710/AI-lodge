@@ -291,3 +291,32 @@ def test_cheap_and_convenient_does_not_silently_choose_time_value(api):
     c = api(MockLLM([profile_out(tags=['save_money', 'short_travel'])]))
     j = prof(c, 'Cheap but convenient')
     assert j['questions'] and not j['settings'] and j['status'] == 'needs_clarification'
+
+
+def test_apply_rejects_a_forged_change_that_no_longer_produces_a_feasible_plan(api):
+    p = Preferences(days=1, must_visit=['senso_ji', 'meiji_jingu', 'shibuya_sky'], pace='packed', start_weekday=2)
+    c = api(MockLLM([r_out({'action': 'set_max_activities', 'count': 3})]))
+    j = propose(c, 'At most 3 activities per day', p, TH)
+    assert j['verification']['state'] == 'verified'
+    forged = copy.deepcopy(j)
+    forged['actions'][0]['proposed'] = 1
+    response = apply(c, forged, p, TH)
+    assert response.status_code == 422 and response.json()['error']['code'] == 'repair_not_feasible'
+    assert 'new_preferences' not in response.json() and 'unchanged' in response.json()['error']['message']
+
+
+def test_apply_rejects_an_independent_validator_failure_even_when_solver_says_feasible(api, monkeypatch):
+    import app.main as main
+    p = tokyo_cap()
+    c = api(MockLLM([r_out({'action': 'set_max_activities', 'count': 3})]))
+    j = propose(c, 'fit the three must-visits', p, TH)
+    assert j['verification']['state'] == 'verified'
+    original = main._optimise_core
+    def rejected(*args):
+        result = original(*args)
+        assert result[2]['result']['status'] == 'feasible'
+        result[2]['feasibility_report']['overall'] = 'fail'
+        return result
+    monkeypatch.setattr(main, '_optimise_core', rejected)
+    response = apply(c, j, p, TH)
+    assert response.status_code == 422 and response.json()['error']['code'] == 'repair_not_feasible'
