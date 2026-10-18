@@ -1,7 +1,7 @@
 <script setup>
 // Screen 1 of 2: choose everything, see it form (map + rough preview), then ONE action. Nothing here calls the solver or the AI except
 // "Plan my trip" (an explicit click) and "Ask the AI" in the Describe box (an explicit click).
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import NlParsePanel from '../components/NlParsePanel.vue'
 import AttractionCard from '../components/AttractionCard.vue'
@@ -13,8 +13,9 @@ import Hint from '../components/Hint.vue'
 import Skeleton from '../components/Skeleton.vue'
 import { exampleLabel } from '../lib/rules.js'
 import { PITCH } from '../brand.js'
-import { store, highlightThemes, toggleInterestTheme, currentPrefs, currentCityExamples, loadExample, requestCitySwitch, resetAll, planMyTrip, rateLimited, rateLimitSeconds, solverBusy, stateOf, setWish, loadPlaces } from '../store.js'
+import { store, chooseProfile, noteProfileEdits, resetProfileOverrides, highlightThemes, toggleInterestTheme, currentPrefs, currentCityExamples, loadExample, requestCitySwitch, resetAll, planMyTrip, rateLimited, rateLimitSeconds, solverBusy, stateOf, setWish, loadPlaces } from '../store.js'
 import { nightsUsed, budgetInJpy } from '../lib/prefs.js'
+import { PROFILES, effective, profileName } from '../lib/profiles.js'
 import { formatLocalMoney, WEEKDAY_NAMES, WEEKDAYS } from '../lib/format.js'
 import { budgetSanityHint } from '../lib/tripSummary.js'
 import { roughPreview } from '../lib/preview.js'
@@ -27,6 +28,8 @@ const currencyOptions = computed(() => Array.from(new Set([city.value?.currency_
 const budgetLocal = computed(() => budgetInJpy(store.form, city.value))
 const budgetHint = computed(() => budgetSanityHint(store))
 const vot = computed(() => Number(store.form.valueOfTime))
+const effectiveRows = computed(() => effective(store.form, store.profile, store.city?.default_value_of_time_per_hour))
+watch(() => [store.form.pace, store.form.maxActivities, store.form.maxDailyTravel, store.form.valueOfTime], noteProfileEdits)
 const votDefault = computed(() => Number(city.value?.default_value_of_time_per_hour) || 1000)
 const votPresets = computed(() => [
   { key: 'spend', label: 'Lower spending', value: Math.round(votDefault.value * 0.5) },
@@ -159,6 +162,19 @@ function example(kind) { loadExample(kind); nudge.value = true }
           </div>
         </div>
       </div>
+
+      <section class="mt-3" data-testid="profiles" aria-labelledby="prof-h">
+        <h3 id="prof-h" class="h6 mb-1">Travel style <span class="muted fw-normal">(optional)</span></h3>
+        <div class="d-flex flex-wrap gap-2" role="group" aria-label="Travel style">
+          <button v-for="p in PROFILES" :key="p.id" type="button" class="btn btn-sm" :class="store.profile.id === p.id ? 'btn-primary' : 'btn-outline-primary'" :aria-pressed="store.profile.id === p.id" :data-testid="'profile-' + p.id" :title="p.blurb" @click="chooseProfile(p.id)">{{ p.label }}</button>
+        </div>
+        <p class="small muted mt-1 mb-1">A style only proposes values for pace, activities a day, estimated travel a day and the value of an hour. Change any of them yourself and your value is kept. It never changes your must-visits.</p>
+        <div v-if="store.profile.id" class="small" data-testid="profile-effective">
+          <strong data-testid="profile-name">{{ profileName(store.profile) }}</strong>
+          <ul class="mb-1 ps-3"><li v-for="r in effectiveRows" :key="r.field" :data-testid="'eff-' + r.field">{{ r.label }}: <strong>{{ r.value }}</strong> <span class="pill">{{ r.source === 'you' ? 'set by you' : r.source === 'profile' ? 'from the style' : 'default' }}</span></li></ul>
+          <button v-if="Object.keys(store.profile.user).length" type="button" class="btn btn-sm btn-link p-0" data-testid="profile-reset" @click="resetProfileOverrides">Go back to the style's own values</button>
+        </div>
+      </section>
 
       <details class="mt-3" data-testid="advanced">
         <summary class="fw-semibold">Advanced options</summary>

@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "note": "Proposed starting values for settings the planner really enforces. Every value stays editable; none is a claim about what any traveller wants.",
+  "profiles": [
+    { "id": "budget", "label": "Budget-conscious", "blurb": "Weights an hour of travel low, so cheaper plans win even if they take longer.", "votFactor": 0.5, "pace": "balanced", "maxActivities": "", "maxDailyTravel": "" },
+    { "id": "relaxed", "label": "Relaxed", "blurb": "Fewer activities a day and a cap on estimated travel.", "votFactor": 1, "pace": "relaxed", "maxActivities": 2, "maxDailyTravel": 120 },
+    { "id": "sightseeing", "label": "Sightseeing enthusiast", "blurb": "More activities a day; travel time matters a little less.", "votFactor": 0.5, "pace": "packed", "maxActivities": "", "maxDailyTravel": "" },
+    { "id": "convenience", "label": "Convenience-focused", "blurb": "Weights an hour of travel high and caps estimated travel each day.", "votFactor": 4, "pace": "balanced", "maxActivities": "", "maxDailyTravel": 150 }
+  ]
+}

@@ -3,6 +3,7 @@
 import { pushState, summariseRun } from './lib/tradeoff.js'
 import { seedDays } from './lib/itinerary.js'
 import { buildScenario, draftFrom } from './lib/whatif.js'
+import { applyProfile, clearOverrides, emptyProfile, syncOverrides } from './lib/profiles.js'
 import { reactive, computed } from 'vue'
 import * as api from './api/routes.js'
 import { abortKey, ApiError, isAborted, setCityProvider, setRateLimitHandler, waitForServer } from './api/client.js'
@@ -30,6 +31,7 @@ export const store = reactive({
   sensitivityError: null, sensitivityCancelled: false, sensitivityStartedAt: 0,
   planFromReplan: false,
   itin: { days: null, result: null, busy: false, error: null },
+  profile: emptyProfile(),
   whatif: { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 },
   history: [], historySeq: 0, explorer: { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null },
   queue: [], queueError: null, previous: null, lastReplan: null, lastReplanRequest: null, replanError: null, restored: false,
@@ -179,6 +181,7 @@ export async function selectCity(cityId) {
   store.interestThemes = []
   store.parsedInterests = []
   store.placesById = {}
+  store.profile = emptyProfile()
   store.history = []
   store.itin = { days: null, result: null, busy: false, error: null }
   store.whatif = { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 }
@@ -395,6 +398,7 @@ function applyExample(kind) {
   store.planKey = null
   store.planError = null
   store.comparisonError = null
+  store.profile = emptyProfile()
   store.history = []
   store.itin = { days: null, result: null, busy: false, error: null }
   store.whatif = { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 }
@@ -427,6 +431,7 @@ export function resetAll() {
   store.planKey = null
   store.planError = null
   store.comparisonError = null
+  store.profile = emptyProfile()
   store.history = []
   store.itin = { days: null, result: null, busy: false, error: null }
   store.whatif = { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 }
@@ -514,6 +519,19 @@ export function restoreState(id) {
   store.restored = true
   if (store.selectedDay !== 'all' && store.selectedDay > (s.plan.result?.days?.length ?? 0)) store.selectedDay = 'all'
   return true
+}
+
+// ---- Travel profiles: editable presets over supported settings; user-typed values are never overwritten by a profile ----
+export function chooseProfile(id) {
+  const r = applyProfile(store.form, syncOverrides(store.form, store.profile), id, store.city?.default_value_of_time_per_hour)
+  store.form = r.form
+  store.profile = r.state
+}
+export function noteProfileEdits() { store.profile = syncOverrides(store.form, store.profile) }
+export function resetProfileOverrides() {
+  const id = store.profile.id
+  store.profile = clearOverrides(store.profile)
+  if (id) chooseProfile(id)
 }
 
 // ---- What if?: a temporary scenario. The current plan is never touched until Apply; the server optimises and validates the scenario like any other request ----
