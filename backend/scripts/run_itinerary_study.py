@@ -131,7 +131,7 @@ def render(res):
               "| Arm | Feasible | No plan | of which optimiser found a plan | Failed a check | Optional coverage (median %, N) | Median est. travel min | Median known spend ex rooms | Median score |", "|---|---|---|---|---|---|---|---|---|"]
         for k in ARMS:
             a = s["arms"][k]
-            L.append(f"| {LABEL[k]} | {a['feasible']} of {a['n']} | {a['no_plan']} | {a['missed_a_must_visit_where_optimiser_found_a_plan']} | {a['failed_validator']} | {a['optional_coverage_pct'].get('median', '-')} (N={a['optional_coverage_pct']['n']}) | {a['minutes'].get('median', '-')} | {a['money_ex_rooms'].get('median', '-')} | {a['score'].get('median', '-')} |")
+            L.append(f"| {LABEL[k]} | {a['feasible']} of {a['n']} | {a['no_plan']} | {a['missed_a_must_visit_where_optimiser_found_a_plan']} | {a['failed_validator']} | {round(a['optional_coverage_pct'].get('median', 0), 1) if a['optional_coverage_pct']['n'] else '-'} (N={a['optional_coverage_pct']['n']}) | {a['minutes'].get('median', '-')} | {a['money_ex_rooms'].get('median', '-')} | {a['score'].get('median', '-')} |")
         L += ["", f"Trips where all three arms are feasible: {s['all_three_feasible']}. Trips where the optimiser has no plan but a baseline does (would indicate a problem): {s['optimiser_infeasible_but_baseline_feasible']}.", ""]
         for k in ARMS[:2]:
             g, m = s["score_gain_vs"][k], s["matched"][k]
