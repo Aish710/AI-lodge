@@ -1,6 +1,6 @@
 {
- "date": "2026-10-18 06:32 UTC",
- "baseline": "521 passed, 1 warning in 45.08s",
+ "date": "2026-10-18 07:42 UTC",
+ "baseline": "538 passed, 1 warning in 75.35s (0:01:15)",
  "test_files": [
   "tests/test_copilot.py",
   "tests/test_safety_invariants.py",
@@ -31,8 +31,8 @@
     "tests/test_redteam.py::test_model_notes_that_quote_the_prompt_a_key_or_an_email_are_removed_and_the_user_is_told[replan]",
     "tests/test_redteam.py::test_the_committed_results_file_matches_a_fresh_run"
    ],
-   "pytest_summary": "6 failed, 25 passed in 7.43s",
-   "seconds": 8.1,
+   "pytest_summary": "6 failed, 25 passed in 7.85s",
+   "seconds": 8.5,
    "test_files": [
     "tests/test_redteam.py"
    ]
@@ -48,8 +48,8 @@
     "tests/test_redteam.py::test_live_run_writes_a_stamped_report_without_prompts_or_keys",
     "tests/test_redteam.py::test_the_committed_results_file_matches_a_fresh_run"
    ],
-   "pytest_summary": "5 failed, 40 passed in 10.25s",
-   "seconds": 11.3,
+   "pytest_summary": "5 failed, 40 passed in 9.60s",
+   "seconds": 10.7,
    "test_files": [
     "tests/test_cited_explanations.py",
     "tests/test_redteam.py"
@@ -67,8 +67,8 @@
     "tests/test_unsupported_claims.py::test_an_explanation_with_such_a_claim_is_replaced_by_the_template_and_says_why[There",
     "tests/test_unsupported_claims.py::test_an_explanation_with_such_a_claim_is_replaced_by_the_template_and_says_why[This"
    ],
-   "pytest_summary": "8 failed, 163 passed in 4.07s",
-   "seconds": 5.2,
+   "pytest_summary": "8 failed, 163 passed in 3.98s",
+   "seconds": 5.0,
    "test_files": [
     "tests/test_cited_explanations.py",
     "tests/test_unsupported_claims.py"
@@ -93,8 +93,8 @@
     "tests/test_llm_explain.py::test_invented_percentage_is_rejected",
     "tests/test_llm_explain.py::test_spelled_out_number_with_unit_not_in_the_facts_is_flagged"
    ],
-   "pytest_summary": "13 failed, 58 passed, 1 warning in 13.44s",
-   "seconds": 14.8,
+   "pytest_summary": "13 failed, 58 passed, 1 warning in 7.24s",
+   "seconds": 8.4,
    "test_files": [
     "tests/test_cited_explanations.py",
     "tests/test_llm_api_safety.py",
@@ -110,8 +110,8 @@
     "tests/test_replan.py::test_removing_a_must_visit_without_confirmation_is_rejected",
     "tests/test_safety_invariants.py::test_a_model_proposed_must_visit_removal_is_only_a_flagged_proposal_and_cannot_be_applied_without_the_humans_flag"
    ],
-   "pytest_summary": "3 failed, 46 passed, 1 warning in 13.41s",
-   "seconds": 14.3,
+   "pytest_summary": "3 failed, 46 passed, 1 warning in 11.93s",
+   "seconds": 13.0,
    "test_files": [
     "tests/test_replan.py",
     "tests/test_safety_invariants.py"
@@ -151,8 +151,8 @@
     "tests/test_safety_invariants.py::test_a_schedule_from_another_city_is_not_accepted",
     "tests/test_safety_invariants.py::test_a_tampered_current_result_is_rejected_not_trusted"
    ],
-   "pytest_summary": "28 failed, 95 passed, 1 warning in 17.43s",
-   "seconds": 18.6,
+   "pytest_summary": "28 failed, 95 passed, 1 warning in 17.85s",
+   "seconds": 19.0,
    "test_files": [
     "tests/test_city_isolation.py",
     "tests/test_safety_invariants.py",
@@ -166,8 +166,8 @@
    "failing_tests": [
     "tests/test_safety_invariants.py::test_an_explanation_cannot_change_or_overrule_the_validators_verdict"
    ],
-   "pytest_summary": "1 failed, 20 passed, 1 warning in 3.80s",
-   "seconds": 4.9,
+   "pytest_summary": "1 failed, 20 passed, 1 warning in 3.89s",
+   "seconds": 5.1,
    "test_files": [
     "tests/test_safety_invariants.py"
    ]
@@ -226,8 +226,8 @@
     "tests/test_city_isolation.py::test_foreign_replan_operation_targets_are_rejected[tokyo-seoul]",
     "tests/test_city_isolation.py::test_foreign_replan_operation_targets_are_rejected[tokyo-singapore]"
    ],
-   "pytest_summary": "48 failed, 24 passed, 1 warning in 12.48s",
-   "seconds": 13.6,
+   "pytest_summary": "48 failed, 24 passed, 1 warning in 11.56s",
+   "seconds": 12.7,
    "test_files": [
     "tests/test_city_isolation.py"
    ]
@@ -266,8 +266,8 @@
     "tests/test_llm_input.py::test_injection_text_is_confined_to_one_data_block_and_never_reaches_instructions[zero_width_and_bidi]",
     "tests/test_llm_input.py::test_valid_extraction_gives_ok_draft_with_code_side_fx_and_assumptions"
    ],
-   "pytest_summary": "28 failed, 71 passed in 3.47s",
-   "seconds": 4.0,
+   "pytest_summary": "28 failed, 71 passed in 3.20s",
+   "seconds": 3.8,
    "test_files": [
     "tests/test_llm_input.py",
     "tests/test_llm_explain.py"
@@ -281,8 +281,8 @@
     "tests/test_conflict_resolver.py::test_every_hotel_is_blocked_by_the_same_missing_information_and_the_insight_does_not_claim_impossibility",
     "tests/test_conflict_resolver.py::test_strict_mode_blocks_by_missing_information_and_says_so_once"
    ],
-   "pytest_summary": "2 failed, 14 passed, 1 warning in 3.47s",
-   "seconds": 4.1,
+   "pytest_summary": "2 failed, 14 passed, 1 warning in 3.30s",
+   "seconds": 3.8,
    "test_files": [
     "tests/test_conflict_resolver.py"
    ]
@@ -297,7 +297,7 @@
     "tests/test_conflict_resolver.py::test_repairs_are_complete_validated_and_never_apply_themselves",
     "tests/test_conflict_resolver.py::test_the_api_returns_structured_changes_the_interface_can_apply"
    ],
-   "pytest_summary": "4 failed, 12 passed, 1 warning in 7.38s",
+   "pytest_summary": "4 failed, 12 passed, 1 warning in 7.36s",
    "seconds": 7.9,
    "test_files": [
     "tests/test_conflict_resolver.py"
@@ -332,7 +332,7 @@
     "tests/test_safety_invariants_ai.py::test_the_model_cannot_invent_an_attraction_a_hotel_or_opening_hours",
     "tests/test_safety_invariants_ai.py::test_the_model_cannot_silently_remove_a_must_visit"
    ],
-   "pytest_summary": "23 failed, 16 passed, 1 warning in 1.01s",
+   "pytest_summary": "23 failed, 16 passed, 1 warning in 1.02s",
    "seconds": 1.9,
    "test_files": [
     "tests/test_ai_repair.py",
@@ -347,7 +347,7 @@
     "tests/test_ai_repair.py::test_a_kept_hotel_can_never_be_switched_by_a_repair",
     "tests/test_safety_invariants_ai.py::test_a_locked_hotel_and_locked_stops_survive_every_model_output"
    ],
-   "pytest_summary": "2 failed, 37 passed, 1 warning in 2.01s",
+   "pytest_summary": "2 failed, 37 passed, 1 warning in 2.03s",
    "seconds": 2.9,
    "test_files": [
     "tests/test_ai_repair.py",
@@ -365,8 +365,8 @@
     "tests/test_safety_invariants_ai.py::test_relaxing_a_hard_constraint_needs_individual_approval_for_every_such_action",
     "tests/test_safety_invariants_ai.py::test_the_model_cannot_silently_remove_a_must_visit"
    ],
-   "pytest_summary": "5 failed, 34 passed, 1 warning in 2.12s",
-   "seconds": 3.4,
+   "pytest_summary": "5 failed, 34 passed, 1 warning in 2.07s",
+   "seconds": 3.1,
    "test_files": [
     "tests/test_ai_repair.py",
     "tests/test_safety_invariants_ai.py"
@@ -384,7 +384,7 @@
     "tests/test_safety_invariants_ai.py::test_relaxing_a_hard_constraint_needs_individual_approval_for_every_such_action",
     "tests/test_safety_invariants_ai.py::test_the_model_cannot_silently_remove_a_must_visit"
    ],
-   "pytest_summary": "6 failed, 33 passed, 1 warning in 1.82s",
+   "pytest_summary": "6 failed, 33 passed, 1 warning in 1.81s",
    "seconds": 2.7,
    "test_files": [
     "tests/test_ai_repair.py",
@@ -399,8 +399,8 @@
     "tests/test_ai_repair.py::test_a_stale_proposal_is_refused",
     "tests/test_safety_invariants_ai.py::test_a_proposal_cannot_be_applied_to_a_different_scenario_or_a_changed_plan"
    ],
-   "pytest_summary": "2 failed, 37 passed, 1 warning in 2.01s",
-   "seconds": 3.0,
+   "pytest_summary": "2 failed, 37 passed, 1 warning in 2.07s",
+   "seconds": 3.2,
    "test_files": [
     "tests/test_ai_repair.py",
     "tests/test_safety_invariants_ai.py"
@@ -415,8 +415,8 @@
     "tests/test_ai_repair.py::test_explicit_numbers_must_be_in_the_users_words_a_made_up_number_is_dropped",
     "tests/test_safety_invariants_ai.py::test_a_style_text_cannot_invent_a_number_or_change_a_value_the_user_set"
    ],
-   "pytest_summary": "3 failed, 36 passed, 1 warning in 2.17s",
-   "seconds": 3.0,
+   "pytest_summary": "3 failed, 36 passed, 1 warning in 2.28s",
+   "seconds": 3.2,
    "test_files": [
     "tests/test_ai_repair.py",
     "tests/test_safety_invariants_ai.py"
@@ -430,7 +430,7 @@
     "tests/test_safety_invariants_ai.py::test_a_fabricated_monetary_saving_in_the_models_reason_never_reaches_the_user"
    ],
    "pytest_summary": "1 failed, 38 passed, 1 warning in 1.95s",
-   "seconds": 2.8,
+   "seconds": 2.9,
    "test_files": [
     "tests/test_ai_repair.py",
     "tests/test_safety_invariants_ai.py"
@@ -444,8 +444,8 @@
     "tests/test_copilot.py::test_fabricated_costs_are_recomputed",
     "tests/test_copilot.py::test_invalid_plan_rejected_before_classification"
    ],
-   "pytest_summary": "2 failed, 28 passed, 1 warning in 1.61s",
-   "seconds": 2.6,
+   "pytest_summary": "2 failed, 28 passed, 1 warning in 1.76s",
+   "seconds": 2.8,
    "test_files": [
     "tests/test_copilot.py"
    ]
@@ -486,7 +486,7 @@
     "tests/test_copilot.py::test_tradeoff_answers_contain_real_bounded_solver_evidence"
    ],
    "pytest_summary": "29 failed, 1 passed, 1 warning in 1.43s",
-   "seconds": 2.4,
+   "seconds": 2.6,
    "test_files": [
     "tests/test_copilot.py"
    ]
@@ -500,8 +500,8 @@
     "tests/test_ai_repair.py::test_conflicting_style_priorities_ask_before_inferring_pace[tags0]",
     "tests/test_ai_repair.py::test_conflicting_style_priorities_ask_before_inferring_pace[tags1]"
    ],
-   "pytest_summary": "3 failed, 24 passed, 1 warning in 1.34s",
-   "seconds": 2.4,
+   "pytest_summary": "3 failed, 24 passed, 1 warning in 1.39s",
+   "seconds": 2.5,
    "test_files": [
     "tests/test_ai_repair.py"
    ]
@@ -515,11 +515,63 @@
     "tests/test_ai_repair.py::test_apply_rejects_an_independent_validator_failure_even_when_solver_says_feasible",
     "tests/test_safety_invariants_ai.py::test_an_infeasible_repair_is_never_presented_as_feasible"
    ],
-   "pytest_summary": "3 failed, 36 passed, 1 warning in 1.84s",
-   "seconds": 2.8,
+   "pytest_summary": "3 failed, 36 passed, 1 warning in 1.89s",
+   "seconds": 3.0,
    "test_files": [
     "tests/test_ai_repair.py",
     "tests/test_safety_invariants_ai.py"
+   ]
+  },
+  {
+   "mutation": "copilot_evidence_unverified",
+   "disabled_safeguard": "copilot evidence is no longer re-derived from the dataset and schedule before an answer is shown (fail-closed check removed)",
+   "detected": true,
+   "failing_tests": [
+    "tests/test_copilot_eval.py::test_a_wrong_cost_in_the_evidence_is_rejected_and_nothing_is_shown"
+   ],
+   "pytest_summary": "1 failed, 7 passed, 1 warning in 6.38s",
+   "seconds": 7.5,
+   "test_files": [
+    "tests/test_copilot_eval.py"
+   ]
+  },
+  {
+   "mutation": "unstated_place_accepted",
+   "disabled_safeguard": "a place the model names but the user never wrote is accepted as a must-visit or skip",
+   "detected": true,
+   "failing_tests": [
+    "tests/test_unstated_names.py::test_a_guessed_place_is_not_added_and_the_ambiguity_is_reported"
+   ],
+   "pytest_summary": "1 failed, 2 passed in 0.25s",
+   "seconds": 1.3,
+   "test_files": [
+    "tests/test_unstated_names.py"
+   ]
+  },
+  {
+   "mutation": "min_active_days_validator_blind",
+   "disabled_safeguard": "the independent validator no longer checks the minimum-active-days requirement",
+   "detected": true,
+   "failing_tests": [
+    "tests/test_min_active_days.py::test_the_validator_rejects_a_schedule_that_breaks_the_requirement"
+   ],
+   "pytest_summary": "1 failed, 5 passed, 1 warning in 22.34s",
+   "seconds": 22.9,
+   "test_files": [
+    "tests/test_min_active_days.py"
+   ]
+  },
+  {
+   "mutation": "min_active_days_not_modelled",
+   "disabled_safeguard": "the solver ignores the minimum-active-days requirement (only the validator would notice)",
+   "detected": true,
+   "failing_tests": [
+    "tests/test_min_active_days.py::test_an_impossible_requirement_is_a_named_conflict_not_a_silent_relaxation"
+   ],
+   "pytest_summary": "1 failed, 5 passed, 1 warning in 21.88s",
+   "seconds": 23.0,
+   "test_files": [
+    "tests/test_min_active_days.py"
    ]
   }
  ]

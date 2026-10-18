@@ -1,9 +1,9 @@
 {
- "generated": "2026-10-18 06:37:28 UTC",
- "git_revision": "11601efe0dc6be6df6d3fc5fc2f9d7a96ce1a6e4 + uncommitted changes",
- "collected": 1103,
- "total": 1103,
- "passed": 1103,
- "failed": 0,
+ "generated": "2026-10-18 07:37:48 UTC",
+ "git_revision": "ac314251c96794f74277cee5c8d73b0b0fad9f65 + uncommitted changes",
+ "collected": 1128,
+ "total": 1128,
+ "passed": 1126,
+ "failed": 2,
  "skipped": 0
 }

@@ -1,6 +1,6 @@
 # Hotel comparison results (SAMPLE data)
 
-Generated 2026-10-18 04:50 UTC by `backend/scripts/run_hotel_comparison.py`. Hotels are FICTIONAL; attraction data is approximate sample data; travel times and fares are ESTIMATES. Not live prices.
+Generated 2026-10-18 07:26 UTC by `backend/scripts/run_hotel_comparison.py`. Hotels are FICTIONAL; attraction data is approximate sample data; travel times and fares are ESTIMATES. Not live prices.
 
 Settings: value of time 1,000 JPY/h unless stated; missed-preference penalty 3000 JPY per visitable nice-to-have not scheduled (a judgement call, not data); nights = days - 1; sensitivity range 0-3000 JPY/h. Reported results use a 120 s limit; the default API limit (10 s) is reported per trip.
 
@@ -20,7 +20,7 @@ Must-visits: senso_ji, shibuya_sky. Pace: balanced. Nights used: 1 (default (day
 | Missed-preference penalty | 15,000 | 15,000 | 15,000 |
 | **True cost** | 37,040 | 34,090 | 33,403 |
 | Missed (count) | 5 | 5 | 5 |
-| Solver status | feasible / OPTIMAL / 0.1043s | feasible / OPTIMAL / 0.2012s | feasible / OPTIMAL / 0.1295s |
+| Solver status | feasible / OPTIMAL / 0.1043s | feasible / OPTIMAL / 0.201s | feasible / OPTIMAL / 0.1297s |
 
 - Cheapest by rate: **Odaiba Harbour Stay (fictional)**; best by true cost: **Odaiba Harbour Stay (fictional)**; rate winner differs from true winner: **False**.
 - Insight: Odaiba Harbour Stay (fictional) is both the cheapest per night and the best by true cost; it is 687 JPY cheaper in total than Asakusa Lantern Inn (fictional).
@@ -38,8 +38,8 @@ Must-visits: senso_ji, shibuya_sky. Pace: balanced. Nights used: 1 (default (day
 | 2,500 | 42,065 | 39,715 | 40,953 | Asakusa Lantern Inn (fictional) |
 | 3,000 | 43,740 | 41,590 | 43,470 | Asakusa Lantern Inn (fictional) |
 
-- Default-limit run (10 s): elapsed 1.142s, partial: False, approximate: False.
-- Extended run: elapsed 1.134s, partial: False.
+- Default-limit run (10 s): elapsed 1.129s, partial: False, approximate: False.
+- Extended run: elapsed 1.125s, partial: False.
 
 ## Trip B: 3 days, Wed-Fri
 
@@ -55,7 +55,7 @@ Must-visits: senso_ji, meiji_jingu, tokyo_national_museum. Pace: balanced. Night
 | Missed-preference penalty | 6,000 | 6,000 | 6,000 |
 | **True cost** | 47,267 | 40,177 | 38,957 |
 | Missed (count) | 2 | 2 | 2 |
-| Solver status | feasible / OPTIMAL / 0.6625s | feasible / OPTIMAL / 1.0917s | feasible / OPTIMAL / 0.9042s |
+| Solver status | feasible / OPTIMAL / 0.6564s | feasible / OPTIMAL / 1.0798s | feasible / OPTIMAL / 0.9019s |
 
 - Cheapest by rate: **Odaiba Harbour Stay (fictional)**; best by true cost: **Odaiba Harbour Stay (fictional)**; rate winner differs from true winner: **False**.
 - Insight: Odaiba Harbour Stay (fictional) is both the cheapest per night and the best by true cost; it is 1,220 JPY cheaper in total than Asakusa Lantern Inn (fictional).
@@ -76,8 +76,8 @@ Must-visits: senso_ji, meiji_jingu, tokyo_national_museum. Pace: balanced. Night
 | 2,500 | 54,427 | 47,532 | 48,337 | Asakusa Lantern Inn (fictional) |
 | 3,000 | 56,760 | 49,640 | 50,870 | Asakusa Lantern Inn (fictional) |
 
-- Default-limit run (10 s): elapsed 10.009s, partial: True, approximate: True.
-- Extended run: elapsed 23.633s, partial: False.
+- Default-limit run (10 s): elapsed 10.008s, partial: True, approximate: True.
+- Extended run: elapsed 23.493s, partial: False.
 
 ## Trip C: 4 days, Thu-Sun
 
@@ -93,7 +93,7 @@ Must-visits: ghibli_museum, teamlab_planets, tsukiji_outer_market, shinjuku_gyoe
 | Missed-preference penalty | 9,000 | 9,000 | 9,000 |
 | **True cost** | 63,947 | 54,067 | 51,953 |
 | Missed (count) | 3 | 3 | 3 |
-| Solver status | feasible / OPTIMAL / 0.2197s | feasible / OPTIMAL / 0.2141s | feasible / OPTIMAL / 0.2956s |
+| Solver status | feasible / OPTIMAL / 0.2298s | feasible / OPTIMAL / 0.2251s | feasible / OPTIMAL / 0.298s |
 
 - Cheapest by rate: **Odaiba Harbour Stay (fictional)**; best by true cost: **Odaiba Harbour Stay (fictional)**; rate winner differs from true winner: **False**.
 - Insight: Odaiba Harbour Stay (fictional) is both the cheapest per night and the best by true cost; it is 2,114 JPY cheaper in total than Asakusa Lantern Inn (fictional).
@@ -113,8 +113,8 @@ Must-visits: ghibli_museum, teamlab_planets, tsukiji_outer_market, shinjuku_gyoe
 | 2,500 | 73,968 | 64,892 | 64,243 | Odaiba Harbour Stay (fictional) |
 | 3,000 | 76,510 | 68,500 | 66,960 | Odaiba Harbour Stay (fictional) |
 
-- Default-limit run (10 s): elapsed 4.616s, partial: False, approximate: True.
-- Extended run: elapsed 4.592s, partial: False.
+- Default-limit run (10 s): elapsed 4.632s, partial: False, approximate: True.
+- Extended run: elapsed 4.695s, partial: False.
 
 ## Does the cheapest-by-rate hotel ever lose?
 

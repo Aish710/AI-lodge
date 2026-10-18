@@ -1,6 +1,6 @@
 # Copilot evaluation: KEYWORD BASELINE (deterministic rules written by the case author AFTER seeing the cases: optimistic and case-aware, NOT a language model, and not an independent or lower-bound measure)
 
-Generated 2026-10-18 07:11 UTC by `backend/scripts/run_copilot_eval.py`. Prompt version `4`. Cases: `backend/tests/fixtures/copilot_eval_cases.json` (76 cases, 68 need a classifier, 8 are AI-off quick questions), developer-authored, frozen before any model ran on them, **not independent**. Sample data, fictional hotels. 
+Generated 2026-10-18 07:37 UTC by `backend/scripts/run_copilot_eval.py`. Prompt version `4`. Cases: `backend/tests/fixtures/copilot_eval_cases.json` (76 cases, 68 need a classifier, 8 are AI-off quick questions), developer-authored, frozen before any model ran on them, **not independent**. Sample data, fictional hotels. 
 
 | Metric | Result |
 |---|---|
