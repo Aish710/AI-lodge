@@ -288,9 +288,9 @@ describe('Live AI card (run history, first run vs after fix, stale and missing)'
     expect(card.get('[data-testid=gold-first]').text()).toContain('LIVE model')
     expect(card.get('[data-testid=gold-first]').text()).not.toContain('Not run')
     expect(card.get('[data-testid=gold-after]').text()).toContain('Latest run (final)')
-    // the committed latest gold run was made before the last change to the AI code and carries no code stamp, so it must say so (re-run to make it current)
-    expect(card.get('[data-testid=gold-after]').text()).toContain('Not run on this version')
-    expect(card.get('[data-testid=gold-after]').text()).toContain('Made with prompt version 2')
+    // the committed latest gold run (label final3) was made on the current prompt version and AI code, so it reads as current; the stale state is asserted in the next test
+    expect(card.get('[data-testid=gold-after]').text()).not.toContain('Not run on this version')
+    expect(card.get('[data-testid=gold-after]').text()).toContain('LIVE model')
     expect(card.get('[data-testid=gold-mock]').text()).toContain('Rule-based baseline, not a model')
     expect(card.get('[data-testid=gold-mock]').text()).toContain('This is not AI accuracy')
     vi.unstubAllGlobals()
