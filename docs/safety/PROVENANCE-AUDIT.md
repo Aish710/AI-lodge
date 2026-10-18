@@ -1,5 +1,7 @@
 # Provenance audit: what the data says it knows
 
+Upgrade addendum (2026-10-18): `/data/places` now returns typed per-field verification records for every attraction and hotel, retaining unknown/unchecked/not-applicable states. Attraction cards expose source URLs, original check dates and scope notes. Copilot answers separately label dataset evidence, calculations, preferences and unknowns. See [demonstration-city review](../data-verification/COPILOT-SOURCE-REVIEW.md). The table and recommendation below describe the earlier audit; their API gap is now partly closed. Stop-level routing provenance remains a limitation.
+
 Audited from the code and data on 2026-10-18; no model-facing contract was changed.
 
 | Kind of value | Where it comes from | How it is labelled today | Gap |

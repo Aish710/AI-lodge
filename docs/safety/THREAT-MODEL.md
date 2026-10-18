@@ -52,3 +52,11 @@ Written 2026-10-18 from the code. "Enforcement point" is the exact place a safeg
 
 ## What is NOT claimed
 No immunity from prompt injection. The model can still produce misleading prose about a VALID plan inside what grounding and the claims word list can see; the code-computed verdicts, numbers and warnings beside it are the authority. The live red team is small-N, one model, developer-written.
+
+## Copilot trust boundary (2026-10-18)
+
+The new classifier has no tool access, no mutation route, no plan numbers and no external description context. Its output selects only a read operation; code resolves copied entities and constructs typed evidence. Untrusted schedules cross the existing rebuild/independent-validation boundary before classification. Stale references fail before model calls. Read-only workflow links never set confirmation flags.
+
+Residual risks: semantic intent misclassification; dataset inaccuracies and outdated field checks; reduced usefulness from conservative refusals; provider/gateway processing of user questions; stateless fingerprints cannot prove ownership; and the existing repair/style free-text fields retain their prior sanitisation limitations. The new adversarial suite is development material, not an unseen holdout. Malformed-output mock coverage is not an estimate of live model resistance. Live raw compliance requires semantic adjudication separate from final-result compromise. Proposal-only runs cannot establish apply-time safety; existing forged-apply tests and mutations cover that boundary separately.
+
+Apply-time validator enforcement: a forged, range-valid action can still make required visits impossible, and solver outcomes can change after preview. The repair API now refuses a replacement unless apply-time solving is feasible and independent validation does not fail. It returns no new preferences on rejection, preserving the current client plan. This gate is outside the model and separately mutation-tested.

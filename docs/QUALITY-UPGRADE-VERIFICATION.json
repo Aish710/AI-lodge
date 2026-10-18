@@ -1,0 +1,78 @@
+{
+  "generated_utc": "2026-10-18T06:38:23.746585+00:00",
+  "production_code_commit": "11601efe0dc6be6df6d3fc5fc2f9d7a96ce1a6e4",
+  "production_source_sha256": "d37acf0288da5b17e034eecada9e137868ae434ea2ef001be119fbee3de0ae98",
+  "source_hash_method": "sorted git-tracked backend/app and frontend/src paths: path + newline + raw bytes + newline",
+  "backend": {
+    "generated": "2026-10-18 06:37:28 UTC",
+    "git_revision": "11601efe0dc6be6df6d3fc5fc2f9d7a96ce1a6e4 + uncommitted changes",
+    "collected": 1103,
+    "total": 1103,
+    "passed": 1103,
+    "failed": 0,
+    "skipped": 0
+  },
+  "frontend": {
+    "timestamp": "2026-10-18T06:35:03.429Z",
+    "git_hash": "11601efe0dc6be6df6d3fc5fc2f9d7a96ce1a6e4",
+    "suites": [
+      {
+        "suite": "Vitest",
+        "total": 391,
+        "passed": 391,
+        "failed": 0,
+        "skipped": 0,
+        "duration_ms": 17191.7802734375,
+        "timestamp": "2026-10-18T06:30:28.292Z"
+      },
+      {
+        "suite": "Playwright",
+        "total": 70,
+        "passed": 70,
+        "failed": 0,
+        "skipped": 0,
+        "duration_ms": 266147,
+        "timestamp": "2026-10-18T06:30:37.209Z"
+      }
+    ]
+  },
+  "mutation_safeguards": {
+    "total": 22,
+    "detected": 22
+  },
+  "checks": {
+    "scripts/check_claims.py": {
+      "exit_code": 0,
+      "summary": "0 unmatched number(s)."
+    },
+    "scripts/check_doc_consistency.py": {
+      "exit_code": 0,
+      "summary": "0 conflicts."
+    },
+    "scripts/check_tracked_imports.py": {
+      "exit_code": 0,
+      "summary": "checked 225 source files, 181 imported local files"
+    }
+  },
+  "artifact_sha256": {
+    "backend/tests/results/full-suite.json": "2c7e611e1e5a93bc3f31f03e0fddb784097b30e6777b74a1582fc8dafddd265c",
+    "backend/tests/results/latest-full.md": "bc4e3c68ef7628c947a737e8b5291efe48aed2f6196d278a1fab4049a6138875",
+    "docs/test-summary-frontend.json": "f669b8bcaebe21d16a7fb05097bb18e90c4177979a39dae69a7ea1cdabdbb42e",
+    "docs/safety/mutation-results.json": "2582728655d18fa6bf9734b1933d0439705acbe67cfc26ca4f6905829a875979",
+    "docs/safety/copilot-redteam-mock.json": "61b1e93db63a0e59fbbe7e37e479d0cae630e565aedb14484aeaf7ae80894a1e",
+    "docs/itinerary-study.json": "7e027496ce2013e79558f15fc4534306a617c800870d00a28f58201bdd0510d9",
+    "docs/eval/copilot-local/README-claims.md": "43681c1fa4cc54d985740268c30fa656f65592f86e921996a751f3649e827bf5",
+    "docs/eval/copilot-local/city-eval-results.json": "ff4e78124598dc6789fc529d29348372e945838278845945512cc4df76e11f66",
+    "docs/eval/copilot-local/city-eval-results.md": "a2cb4d7ab3d752694a5e2638429091fa401936ec4823e76536d7be8f7e313e77",
+    "docs/eval/copilot-local/eval-hotel-gaps.csv": "dafe2596b0d82ee1c633208b21e8c087f6e17b1c43e14aa98262b6891f3808a9",
+    "docs/eval/copilot-local/eval-results.json": "a6d204f77bd84b97af2811cd98da4a225599c993c407e67dfe9a6dc6069692dc",
+    "docs/eval/copilot-local/eval-results.md": "116f21d3ce5a9db89b82fd30ad69a11866835e749f1550d7bd9a7d3b1e00687f",
+    "docs/eval/copilot-local/eval-scenarios.json": "b6178074e90b91a34707eb85c85b193bcecced5c8c4d62de5e6375e9fa0aece5",
+    "docs/eval/copilot-local/eval-travel-minutes.csv": "21aba08fa0e460e4da6e167ae1bf07e0130ece8fe34da4a9e9773a4be0456ed5",
+    "docs/eval/copilot-local/tests-results/evaluation-scenarios.md": "b7ccf97fce6c9e9a325170ffa7edb0a99892fb0fa84375ddfbe71867616252f7"
+  },
+  "paid_live_runs": "not conducted; provider rates, cost estimate and approval pending",
+  "participant_study": "prepared, not conducted",
+  "browser": "Chromium desktop/mobile functional checks in Playwright; in-app browser runtime had no available connection",
+  "limits": "Developer-authored verification, not independent assurance. Evidence generation left documentation/results dirty; production source matched the committed tree. Evaluation artifacts retain their own original code stamps."
+}

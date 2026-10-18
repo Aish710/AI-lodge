@@ -1,0 +1,1267 @@
+{
+  "generator_version": 1,
+  "seed": 20261013,
+  "n": 60,
+  "parameters": {
+    "days_range": [
+      2,
+      4
+    ],
+    "attractions_range": [
+      3,
+      9
+    ],
+    "must_range": [
+      0,
+      3
+    ],
+    "budget_kind_weights": {
+      "none": 3,
+      "soft": 3,
+      "strict": 4
+    },
+    "strict_factor_range": [
+      0.25,
+      1.4
+    ],
+    "soft_factor_range": [
+      0.4,
+      1.5
+    ],
+    "fare_reference_jpy_per_leg": 250,
+    "pace": "balanced",
+    "hotel_assignment": "round-robin over the sorted hotel ids (each hotel is the base in turn)",
+    "input_order": "uniformly shuffled order of the requested attractions (no geographic ordering)"
+  },
+  "note": "SAMPLE data and synthetic trips. Attraction ids refer to backend/app/data/attractions.json; hotels are FICTIONAL.",
+  "trips": [
+    {
+      "id": "T001",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 4,
+      "start_weekday": 6,
+      "order": [
+        "meiji_jingu",
+        "tokyo_skytree",
+        "shibuya_sky",
+        "teamlab_planets",
+        "ghibli_museum",
+        "tsukiji_outer_market"
+      ],
+      "must_visit": [],
+      "budget_kind": "strict",
+      "budget": 4100,
+      "budget_factor": 0.523
+    },
+    {
+      "id": "T002",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 4,
+      "start_weekday": 1,
+      "order": [
+        "akihabara",
+        "meiji_jingu",
+        "tokyo_skytree"
+      ],
+      "must_visit": [],
+      "budget_kind": "strict",
+      "budget": 1900,
+      "budget_factor": 0.481
+    },
+    {
+      "id": "T003",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 3,
+      "start_weekday": 2,
+      "order": [
+        "imperial_palace_east_gardens",
+        "akihabara",
+        "tsukiji_outer_market",
+        "meiji_jingu",
+        "tokyo_skytree",
+        "senso_ji",
+        "shinjuku_gyoen",
+        "teamlab_planets"
+      ],
+      "must_visit": [
+        "senso_ji",
+        "shinjuku_gyoen",
+        "teamlab_planets"
+      ],
+      "budget_kind": "strict",
+      "budget": 4200,
+      "budget_factor": 0.791
+    },
+    {
+      "id": "T004",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 4,
+      "start_weekday": 5,
+      "order": [
+        "teamlab_planets",
+        "tsukiji_outer_market",
+        "shinjuku_gyoen",
+        "tokyo_tower",
+        "tokyo_skytree",
+        "ghibli_museum",
+        "shibuya_sky"
+      ],
+      "must_visit": [
+        "teamlab_planets",
+        "tsukiji_outer_market"
+      ],
+      "budget_kind": "soft",
+      "budget": 6600,
+      "budget_factor": 0.659
+    },
+    {
+      "id": "T005",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 4,
+      "start_weekday": 3,
+      "order": [
+        "akihabara",
+        "tokyo_tower",
+        "teamlab_planets",
+        "ghibli_museum",
+        "tokyo_skytree",
+        "senso_ji",
+        "meiji_jingu",
+        "tokyo_national_museum"
+      ],
+      "must_visit": [],
+      "budget_kind": "strict",
+      "budget": 10100,
+      "budget_factor": 1.176
+    },
+    {
+      "id": "T006",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 3,
+      "start_weekday": 1,
+      "order": [
+        "shibuya_sky",
+        "meiji_jingu",
+        "tokyo_tower",
+        "akihabara"
+      ],
+      "must_visit": [
+        "shibuya_sky",
+        "meiji_jingu",
+        "akihabara"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T007",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 4,
+      "start_weekday": 0,
+      "order": [
+        "teamlab_planets",
+        "imperial_palace_east_gardens",
+        "tokyo_national_museum",
+        "shibuya_sky",
+        "shinjuku_gyoen",
+        "tsukiji_outer_market",
+        "ghibli_museum",
+        "akihabara",
+        "senso_ji"
+      ],
+      "must_visit": [
+        "shibuya_sky",
+        "ghibli_museum",
+        "akihabara"
+      ],
+      "budget_kind": "soft",
+      "budget": 8400,
+      "budget_factor": 1.051
+    },
+    {
+      "id": "T008",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 2,
+      "start_weekday": 6,
+      "order": [
+        "tokyo_tower",
+        "tokyo_skytree",
+        "shibuya_sky",
+        "senso_ji",
+        "tsukiji_outer_market",
+        "meiji_jingu"
+      ],
+      "must_visit": [
+        "tokyo_tower",
+        "shibuya_sky",
+        "senso_ji"
+      ],
+      "budget_kind": "strict",
+      "budget": 10100,
+      "budget_factor": 1.294
+    },
+    {
+      "id": "T009",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 2,
+      "start_weekday": 6,
+      "order": [
+        "senso_ji",
+        "tokyo_skytree",
+        "tsukiji_outer_market",
+        "tokyo_national_museum",
+        "tokyo_tower"
+      ],
+      "must_visit": [
+        "tokyo_tower"
+      ],
+      "budget_kind": "strict",
+      "budget": 5900,
+      "budget_factor": 0.928
+    },
+    {
+      "id": "T010",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 4,
+      "start_weekday": 2,
+      "order": [
+        "senso_ji",
+        "meiji_jingu",
+        "tokyo_tower",
+        "shibuya_sky",
+        "tokyo_skytree",
+        "ghibli_museum",
+        "shinjuku_gyoen",
+        "akihabara"
+      ],
+      "must_visit": [],
+      "budget_kind": "strict",
+      "budget": 3600,
+      "budget_factor": 0.345
+    },
+    {
+      "id": "T011",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 3,
+      "start_weekday": 6,
+      "order": [
+        "shinjuku_gyoen",
+        "shibuya_sky",
+        "tokyo_national_museum",
+        "teamlab_planets",
+        "imperial_palace_east_gardens",
+        "ghibli_museum"
+      ],
+      "must_visit": [
+        "tokyo_national_museum",
+        "imperial_palace_east_gardens"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T012",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 3,
+      "start_weekday": 3,
+      "order": [
+        "shinjuku_gyoen",
+        "tokyo_tower",
+        "akihabara",
+        "shibuya_sky",
+        "meiji_jingu"
+      ],
+      "must_visit": [],
+      "budget_kind": "soft",
+      "budget": 7100,
+      "budget_factor": 1.148
+    },
+    {
+      "id": "T013",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 2,
+      "start_weekday": 3,
+      "order": [
+        "ghibli_museum",
+        "tokyo_national_museum",
+        "tokyo_tower",
+        "meiji_jingu",
+        "shibuya_sky",
+        "tsukiji_outer_market"
+      ],
+      "must_visit": [],
+      "budget_kind": "strict",
+      "budget": 9200,
+      "budget_factor": 1.192
+    },
+    {
+      "id": "T014",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 4,
+      "start_weekday": 1,
+      "order": [
+        "tokyo_skytree",
+        "teamlab_planets",
+        "senso_ji"
+      ],
+      "must_visit": [
+        "tokyo_skytree"
+      ],
+      "budget_kind": "soft",
+      "budget": 4000,
+      "budget_factor": 1.049
+    },
+    {
+      "id": "T015",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 2,
+      "start_weekday": 5,
+      "order": [
+        "tokyo_national_museum",
+        "shinjuku_gyoen",
+        "tokyo_tower",
+        "shibuya_sky",
+        "senso_ji",
+        "ghibli_museum",
+        "imperial_palace_east_gardens"
+      ],
+      "must_visit": [
+        "imperial_palace_east_gardens"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T016",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 4,
+      "start_weekday": 0,
+      "order": [
+        "tokyo_tower",
+        "teamlab_planets",
+        "tokyo_national_museum"
+      ],
+      "must_visit": [
+        "tokyo_tower",
+        "teamlab_planets"
+      ],
+      "budget_kind": "soft",
+      "budget": 1900,
+      "budget_factor": 0.436
+    },
+    {
+      "id": "T017",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 2,
+      "start_weekday": 6,
+      "order": [
+        "teamlab_planets",
+        "senso_ji",
+        "imperial_palace_east_gardens",
+        "tokyo_national_museum",
+        "tsukiji_outer_market",
+        "shinjuku_gyoen",
+        "meiji_jingu",
+        "tokyo_skytree"
+      ],
+      "must_visit": [],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T018",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 2,
+      "start_weekday": 2,
+      "order": [
+        "tsukiji_outer_market",
+        "tokyo_skytree",
+        "tokyo_tower",
+        "ghibli_museum",
+        "akihabara",
+        "teamlab_planets",
+        "shinjuku_gyoen"
+      ],
+      "must_visit": [
+        "tsukiji_outer_market",
+        "akihabara",
+        "teamlab_planets"
+      ],
+      "budget_kind": "soft",
+      "budget": 10800,
+      "budget_factor": 1.469
+    },
+    {
+      "id": "T019",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 3,
+      "start_weekday": 4,
+      "order": [
+        "tokyo_tower",
+        "imperial_palace_east_gardens",
+        "tokyo_national_museum",
+        "shibuya_sky",
+        "teamlab_planets",
+        "tsukiji_outer_market",
+        "meiji_jingu",
+        "akihabara",
+        "tokyo_skytree"
+      ],
+      "must_visit": [
+        "akihabara"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T020",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 4,
+      "start_weekday": 2,
+      "order": [
+        "teamlab_planets",
+        "meiji_jingu",
+        "senso_ji",
+        "imperial_palace_east_gardens",
+        "tokyo_national_museum",
+        "shinjuku_gyoen",
+        "shibuya_sky"
+      ],
+      "must_visit": [
+        "senso_ji",
+        "imperial_palace_east_gardens"
+      ],
+      "budget_kind": "strict",
+      "budget": 1900,
+      "budget_factor": 0.3
+    },
+    {
+      "id": "T021",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 3,
+      "start_weekday": 2,
+      "order": [
+        "shinjuku_gyoen",
+        "tokyo_skytree",
+        "teamlab_planets",
+        "shibuya_sky",
+        "meiji_jingu",
+        "tsukiji_outer_market",
+        "tokyo_national_museum",
+        "tokyo_tower",
+        "imperial_palace_east_gardens"
+      ],
+      "must_visit": [],
+      "budget_kind": "soft",
+      "budget": 13100,
+      "budget_factor": 1.275
+    },
+    {
+      "id": "T022",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 2,
+      "start_weekday": 5,
+      "order": [
+        "imperial_palace_east_gardens",
+        "tokyo_skytree",
+        "shinjuku_gyoen",
+        "tokyo_tower",
+        "teamlab_planets",
+        "ghibli_museum"
+      ],
+      "must_visit": [
+        "shinjuku_gyoen",
+        "ghibli_museum"
+      ],
+      "budget_kind": "strict",
+      "budget": 7100,
+      "budget_factor": 0.996
+    },
+    {
+      "id": "T023",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 3,
+      "start_weekday": 4,
+      "order": [
+        "tokyo_national_museum",
+        "meiji_jingu",
+        "shinjuku_gyoen"
+      ],
+      "must_visit": [],
+      "budget_kind": "soft",
+      "budget": 2600,
+      "budget_factor": 0.883
+    },
+    {
+      "id": "T024",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 2,
+      "start_weekday": 0,
+      "order": [
+        "akihabara",
+        "shibuya_sky",
+        "tsukiji_outer_market",
+        "tokyo_skytree",
+        "teamlab_planets",
+        "tokyo_national_museum",
+        "imperial_palace_east_gardens",
+        "senso_ji"
+      ],
+      "must_visit": [
+        "teamlab_planets",
+        "imperial_palace_east_gardens"
+      ],
+      "budget_kind": "soft",
+      "budget": 3400,
+      "budget_factor": 0.432
+    },
+    {
+      "id": "T025",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 4,
+      "start_weekday": 4,
+      "order": [
+        "tokyo_skytree",
+        "shinjuku_gyoen",
+        "shibuya_sky",
+        "imperial_palace_east_gardens",
+        "tokyo_tower",
+        "teamlab_planets",
+        "ghibli_museum",
+        "meiji_jingu",
+        "akihabara"
+      ],
+      "must_visit": [
+        "akihabara"
+      ],
+      "budget_kind": "soft",
+      "budget": 10200,
+      "budget_factor": 0.963
+    },
+    {
+      "id": "T026",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 3,
+      "start_weekday": 4,
+      "order": [
+        "senso_ji",
+        "meiji_jingu",
+        "shibuya_sky"
+      ],
+      "must_visit": [
+        "senso_ji",
+        "meiji_jingu",
+        "shibuya_sky"
+      ],
+      "budget_kind": "soft",
+      "budget": 5400,
+      "budget_factor": 1.447
+    },
+    {
+      "id": "T027",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 2,
+      "start_weekday": 0,
+      "order": [
+        "ghibli_museum",
+        "teamlab_planets",
+        "shinjuku_gyoen",
+        "imperial_palace_east_gardens",
+        "tokyo_tower",
+        "tokyo_national_museum"
+      ],
+      "must_visit": [],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T028",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 2,
+      "start_weekday": 3,
+      "order": [
+        "senso_ji",
+        "shibuya_sky",
+        "ghibli_museum",
+        "tokyo_skytree",
+        "imperial_palace_east_gardens",
+        "teamlab_planets",
+        "meiji_jingu"
+      ],
+      "must_visit": [
+        "ghibli_museum",
+        "tokyo_skytree",
+        "meiji_jingu"
+      ],
+      "budget_kind": "strict",
+      "budget": 7800,
+      "budget_factor": 1.039
+    },
+    {
+      "id": "T029",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 3,
+      "start_weekday": 4,
+      "order": [
+        "tokyo_skytree",
+        "meiji_jingu",
+        "tsukiji_outer_market",
+        "shinjuku_gyoen",
+        "shibuya_sky",
+        "imperial_palace_east_gardens"
+      ],
+      "must_visit": [
+        "shinjuku_gyoen",
+        "imperial_palace_east_gardens"
+      ],
+      "budget_kind": "soft",
+      "budget": 9900,
+      "budget_factor": 1.406
+    },
+    {
+      "id": "T030",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 4,
+      "start_weekday": 6,
+      "order": [
+        "teamlab_planets",
+        "shibuya_sky",
+        "senso_ji",
+        "tokyo_national_museum",
+        "akihabara",
+        "shinjuku_gyoen",
+        "tsukiji_outer_market"
+      ],
+      "must_visit": [
+        "shibuya_sky"
+      ],
+      "budget_kind": "soft",
+      "budget": 6700,
+      "budget_factor": 1.043
+    },
+    {
+      "id": "T031",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 3,
+      "start_weekday": 4,
+      "order": [
+        "imperial_palace_east_gardens",
+        "akihabara",
+        "shinjuku_gyoen"
+      ],
+      "must_visit": [
+        "shinjuku_gyoen"
+      ],
+      "budget_kind": "soft",
+      "budget": 900,
+      "budget_factor": 0.441
+    },
+    {
+      "id": "T032",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 3,
+      "start_weekday": 4,
+      "order": [
+        "meiji_jingu",
+        "shinjuku_gyoen",
+        "tokyo_national_museum",
+        "akihabara",
+        "teamlab_planets",
+        "ghibli_museum",
+        "imperial_palace_east_gardens",
+        "tokyo_tower"
+      ],
+      "must_visit": [],
+      "budget_kind": "soft",
+      "budget": 7700,
+      "budget_factor": 1.141
+    },
+    {
+      "id": "T033",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 3,
+      "start_weekday": 3,
+      "order": [
+        "meiji_jingu",
+        "ghibli_museum",
+        "tokyo_skytree",
+        "teamlab_planets",
+        "imperial_palace_east_gardens",
+        "tsukiji_outer_market",
+        "shibuya_sky",
+        "tokyo_national_museum",
+        "senso_ji"
+      ],
+      "must_visit": [],
+      "budget_kind": "strict",
+      "budget": 3500,
+      "budget_factor": 0.377
+    },
+    {
+      "id": "T034",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 4,
+      "start_weekday": 5,
+      "order": [
+        "meiji_jingu",
+        "tsukiji_outer_market",
+        "shinjuku_gyoen",
+        "teamlab_planets",
+        "tokyo_skytree",
+        "senso_ji"
+      ],
+      "must_visit": [
+        "meiji_jingu",
+        "shinjuku_gyoen",
+        "tokyo_skytree"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T035",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 4,
+      "start_weekday": 1,
+      "order": [
+        "shibuya_sky",
+        "teamlab_planets",
+        "tokyo_tower",
+        "senso_ji",
+        "imperial_palace_east_gardens",
+        "tokyo_national_museum",
+        "tokyo_skytree",
+        "ghibli_museum"
+      ],
+      "must_visit": [
+        "tokyo_national_museum"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T036",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 2,
+      "start_weekday": 6,
+      "order": [
+        "tokyo_tower",
+        "tsukiji_outer_market",
+        "akihabara",
+        "teamlab_planets",
+        "shinjuku_gyoen"
+      ],
+      "must_visit": [
+        "teamlab_planets",
+        "shinjuku_gyoen"
+      ],
+      "budget_kind": "strict",
+      "budget": 3500,
+      "budget_factor": 0.928
+    },
+    {
+      "id": "T037",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 4,
+      "start_weekday": 6,
+      "order": [
+        "shinjuku_gyoen",
+        "tokyo_national_museum",
+        "shibuya_sky"
+      ],
+      "must_visit": [],
+      "budget_kind": "strict",
+      "budget": 7400,
+      "budget_factor": 1.353
+    },
+    {
+      "id": "T038",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 2,
+      "start_weekday": 3,
+      "order": [
+        "ghibli_museum",
+        "teamlab_planets",
+        "tokyo_national_museum",
+        "imperial_palace_east_gardens"
+      ],
+      "must_visit": [
+        "ghibli_museum",
+        "teamlab_planets",
+        "tokyo_national_museum"
+      ],
+      "budget_kind": "strict",
+      "budget": 4200,
+      "budget_factor": 1.203
+    },
+    {
+      "id": "T039",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 4,
+      "start_weekday": 2,
+      "order": [
+        "tokyo_skytree",
+        "shibuya_sky",
+        "akihabara",
+        "tokyo_national_museum",
+        "tsukiji_outer_market",
+        "meiji_jingu",
+        "shinjuku_gyoen"
+      ],
+      "must_visit": [],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T040",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 3,
+      "start_weekday": 1,
+      "order": [
+        "tokyo_tower",
+        "meiji_jingu",
+        "teamlab_planets",
+        "ghibli_museum",
+        "akihabara",
+        "tsukiji_outer_market",
+        "shinjuku_gyoen",
+        "senso_ji",
+        "imperial_palace_east_gardens"
+      ],
+      "must_visit": [
+        "tokyo_tower",
+        "meiji_jingu"
+      ],
+      "budget_kind": "strict",
+      "budget": 4300,
+      "budget_factor": 0.71
+    },
+    {
+      "id": "T041",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 3,
+      "start_weekday": 5,
+      "order": [
+        "senso_ji",
+        "shibuya_sky",
+        "tokyo_tower",
+        "tokyo_skytree",
+        "tokyo_national_museum",
+        "imperial_palace_east_gardens",
+        "akihabara",
+        "meiji_jingu",
+        "ghibli_museum"
+      ],
+      "must_visit": [
+        "senso_ji",
+        "meiji_jingu",
+        "ghibli_museum"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T042",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 4,
+      "start_weekday": 3,
+      "order": [
+        "tokyo_skytree",
+        "teamlab_planets",
+        "shinjuku_gyoen",
+        "tsukiji_outer_market",
+        "imperial_palace_east_gardens",
+        "meiji_jingu",
+        "tokyo_tower",
+        "akihabara",
+        "ghibli_museum"
+      ],
+      "must_visit": [],
+      "budget_kind": "strict",
+      "budget": 8900,
+      "budget_factor": 1.067
+    },
+    {
+      "id": "T043",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 3,
+      "start_weekday": 4,
+      "order": [
+        "ghibli_museum",
+        "tsukiji_outer_market",
+        "shibuya_sky",
+        "shinjuku_gyoen",
+        "imperial_palace_east_gardens",
+        "senso_ji",
+        "meiji_jingu",
+        "tokyo_tower"
+      ],
+      "must_visit": [
+        "senso_ji"
+      ],
+      "budget_kind": "soft",
+      "budget": 11100,
+      "budget_factor": 1.399
+    },
+    {
+      "id": "T044",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 3,
+      "start_weekday": 3,
+      "order": [
+        "teamlab_planets",
+        "tokyo_national_museum",
+        "senso_ji",
+        "tokyo_tower",
+        "shibuya_sky",
+        "meiji_jingu",
+        "ghibli_museum",
+        "akihabara",
+        "shinjuku_gyoen"
+      ],
+      "must_visit": [
+        "tokyo_tower",
+        "shibuya_sky",
+        "ghibli_museum"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T045",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 2,
+      "start_weekday": 1,
+      "order": [
+        "teamlab_planets",
+        "shinjuku_gyoen",
+        "tokyo_skytree",
+        "tokyo_national_museum",
+        "senso_ji",
+        "ghibli_museum"
+      ],
+      "must_visit": [
+        "tokyo_national_museum"
+      ],
+      "budget_kind": "strict",
+      "budget": 2800,
+      "budget_factor": 0.417
+    },
+    {
+      "id": "T046",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 4,
+      "start_weekday": 3,
+      "order": [
+        "tsukiji_outer_market",
+        "imperial_palace_east_gardens",
+        "senso_ji",
+        "tokyo_national_museum",
+        "shibuya_sky",
+        "meiji_jingu",
+        "ghibli_museum",
+        "teamlab_planets",
+        "tokyo_skytree"
+      ],
+      "must_visit": [
+        "shibuya_sky"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T047",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 4,
+      "start_weekday": 5,
+      "order": [
+        "senso_ji",
+        "teamlab_planets",
+        "imperial_palace_east_gardens",
+        "akihabara",
+        "tokyo_skytree"
+      ],
+      "must_visit": [
+        "senso_ji",
+        "teamlab_planets",
+        "imperial_palace_east_gardens"
+      ],
+      "budget_kind": "soft",
+      "budget": 5100,
+      "budget_factor": 1.183
+    },
+    {
+      "id": "T048",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 2,
+      "start_weekday": 6,
+      "order": [
+        "meiji_jingu",
+        "tokyo_tower",
+        "teamlab_planets"
+      ],
+      "must_visit": [],
+      "budget_kind": "soft",
+      "budget": 2300,
+      "budget_factor": 0.822
+    },
+    {
+      "id": "T049",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 2,
+      "start_weekday": 5,
+      "order": [
+        "ghibli_museum",
+        "imperial_palace_east_gardens",
+        "shibuya_sky",
+        "akihabara",
+        "tsukiji_outer_market",
+        "tokyo_skytree"
+      ],
+      "must_visit": [
+        "ghibli_museum"
+      ],
+      "budget_kind": "strict",
+      "budget": 3100,
+      "budget_factor": 0.431
+    },
+    {
+      "id": "T050",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 4,
+      "start_weekday": 1,
+      "order": [
+        "shinjuku_gyoen",
+        "imperial_palace_east_gardens",
+        "ghibli_museum",
+        "shibuya_sky",
+        "tokyo_national_museum",
+        "meiji_jingu"
+      ],
+      "must_visit": [],
+      "budget_kind": "soft",
+      "budget": 6400,
+      "budget_factor": 0.891
+    },
+    {
+      "id": "T051",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 2,
+      "start_weekday": 0,
+      "order": [
+        "tsukiji_outer_market",
+        "teamlab_planets",
+        "ghibli_museum"
+      ],
+      "must_visit": [
+        "tsukiji_outer_market"
+      ],
+      "budget_kind": "soft",
+      "budget": 2000,
+      "budget_factor": 0.895
+    },
+    {
+      "id": "T052",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 4,
+      "start_weekday": 5,
+      "order": [
+        "teamlab_planets",
+        "shinjuku_gyoen",
+        "shibuya_sky",
+        "tokyo_national_museum",
+        "akihabara",
+        "senso_ji",
+        "tokyo_tower",
+        "tokyo_skytree",
+        "tsukiji_outer_market"
+      ],
+      "must_visit": [
+        "teamlab_planets",
+        "akihabara"
+      ],
+      "budget_kind": "soft",
+      "budget": 7800,
+      "budget_factor": 0.744
+    },
+    {
+      "id": "T053",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 3,
+      "start_weekday": 4,
+      "order": [
+        "teamlab_planets",
+        "ghibli_museum",
+        "senso_ji",
+        "tokyo_tower"
+      ],
+      "must_visit": [
+        "ghibli_museum",
+        "senso_ji",
+        "tokyo_tower"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T054",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 4,
+      "start_weekday": 3,
+      "order": [
+        "shinjuku_gyoen",
+        "senso_ji",
+        "tokyo_national_museum",
+        "tokyo_skytree",
+        "tsukiji_outer_market",
+        "shibuya_sky",
+        "meiji_jingu",
+        "imperial_palace_east_gardens",
+        "akihabara"
+      ],
+      "must_visit": [
+        "senso_ji",
+        "meiji_jingu"
+      ],
+      "budget_kind": "soft",
+      "budget": 5100,
+      "budget_factor": 0.563
+    },
+    {
+      "id": "T055",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 2,
+      "start_weekday": 0,
+      "order": [
+        "tokyo_national_museum",
+        "shibuya_sky",
+        "meiji_jingu",
+        "shinjuku_gyoen",
+        "tokyo_skytree",
+        "senso_ji",
+        "akihabara"
+      ],
+      "must_visit": [
+        "tokyo_skytree"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T056",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 3,
+      "start_weekday": 6,
+      "order": [
+        "teamlab_planets",
+        "shinjuku_gyoen",
+        "akihabara",
+        "shibuya_sky",
+        "tsukiji_outer_market",
+        "tokyo_tower",
+        "meiji_jingu",
+        "tokyo_skytree",
+        "senso_ji"
+      ],
+      "must_visit": [],
+      "budget_kind": "strict",
+      "budget": 5300,
+      "budget_factor": 0.572
+    },
+    {
+      "id": "T057",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 2,
+      "start_weekday": 5,
+      "order": [
+        "imperial_palace_east_gardens",
+        "teamlab_planets",
+        "tsukiji_outer_market"
+      ],
+      "must_visit": [
+        "teamlab_planets",
+        "tsukiji_outer_market"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T058",
+      "hotel_id": "hotel_harbour_odaiba",
+      "days": 2,
+      "start_weekday": 1,
+      "order": [
+        "senso_ji",
+        "shibuya_sky",
+        "ghibli_museum",
+        "tokyo_tower",
+        "tsukiji_outer_market",
+        "akihabara",
+        "tokyo_skytree"
+      ],
+      "must_visit": [
+        "ghibli_museum",
+        "akihabara"
+      ],
+      "budget_kind": "soft",
+      "budget": 4800,
+      "budget_factor": 0.531
+    },
+    {
+      "id": "T059",
+      "hotel_id": "hotel_kitsune_shinjuku",
+      "days": 2,
+      "start_weekday": 2,
+      "order": [
+        "tokyo_national_museum",
+        "senso_ji",
+        "tokyo_skytree",
+        "teamlab_planets",
+        "shinjuku_gyoen",
+        "tsukiji_outer_market",
+        "tokyo_tower"
+      ],
+      "must_visit": [],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    },
+    {
+      "id": "T060",
+      "hotel_id": "hotel_lantern_asakusa",
+      "days": 3,
+      "start_weekday": 5,
+      "order": [
+        "imperial_palace_east_gardens",
+        "senso_ji",
+        "ghibli_museum",
+        "teamlab_planets",
+        "meiji_jingu",
+        "tsukiji_outer_market"
+      ],
+      "must_visit": [
+        "ghibli_museum",
+        "meiji_jingu",
+        "tsukiji_outer_market"
+      ],
+      "budget_kind": "none",
+      "budget": null,
+      "budget_factor": null
+    }
+  ]
+}

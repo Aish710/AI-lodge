@@ -26,3 +26,17 @@ Strict-mode data rule: opening hours are never invented. A required sight with u
 18. An infeasible repair is labelled not verified, cannot be applied from the interface, and if forced the result is an honest failing plan; a provisional repair is conditional, never verified.
 19. A failing model, invalid output or leak attempt leaves the plan in force untouched and the deterministic repairs available.
 20. A style text cannot invent a number or override a value the user set.
+
+## Contextual copilot (local upgrade, 2026-10-18)
+
+- `/copilot` is read-only, regardless of selected operation. `PROPOSE_REPAIR` and `PREVIEW_SCENARIO` identify existing controls; they grant no authority and execute no change.
+- The only accepted model fields are an allowlisted operation and an optional copied attraction name. Extra fields, malformed output and removed sensitive text fail closed. No model prose is displayed.
+- Every cost and schedule fact comes from a rebuilt feasible schedule and the independent validator. A client-declared infeasible result is recomputed; client conflict text is discarded.
+- Fingerprints bind questions to their supplied current preferences, city and hotel. They are not signatures or server-side session authentication. The UI discards in-flight answers after a plan change.
+- Evidence distinguishes dataset facts, calculations, preferences and unknowns. Conditional feasibility is never relabelled verified. A validated sample plan is not proof of real-world availability.
+- Omissions carry no unique causal claim without a counterfactual. Comparisons with different coverage carry no like-for-like savings claim.
+- Style tensions withhold conflicting inferred fields and ask a targeted question; explicit numeric settings and overrides survive.
+
+Tests: `test_copilot.py`, `test_copilot_redteam.py`, additional `test_ai_repair.py` cases, frontend `copilot.test.js`, desktop/mobile `copilot.spec.js`. These are developer-authored, not independent testing.
+
+Apply-time repair validation is now a rejection gate: even a syntactically valid, current-fingerprint action is refused if re-solving is infeasible or the independent validator fails. `/apply-repair` returns `repair_not_feasible` with no replacement plan; the UI's error path preserves the current plan and preferences. Dedicated backend tests force each failure and a frontend test checks state preservation. The `repair_apply_validation_ignored` mutation disables only this gate.

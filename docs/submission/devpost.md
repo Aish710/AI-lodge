@@ -26,12 +26,12 @@ The planning is not done by the language model. An OR-Tools CP-SAT optimiser (fi
 ## Results (with N and caveats)
 
 - **No language model involved (seeded synthetic trips, sample data):** 15 of 15 named scenarios pass; across 15 comparable trips of 60 the optimised routes used a mean of 14.1% less travel time than an input-order baseline; the validator passed 53 of 53 plans; the lowest-rate hotel was not the best by true cost in 4 of 52 trips at the default value of time and in 10 of 52 at 2,000 yen an hour. The hotels and rates are fictional and were tuned for the demo; this is not a claim about real hotel markets.
-- **Live AI (one model, `claude-haiku-4-5-20251001`, through a third-party gateway):** a 20-check smoke test passed 20 of 20 in the latest run (earlier runs failed 4, 2 and 1 checks while problems were found and fixed, so it was tuned on these checks); a gold set of 48 hand-written prompts, 12 per city, scored 48 of 48 exact on the first run and again on two later runs. Treat these as optimistic: the prompts were written by me, the pipeline had been tuned on similar checks, and many fields are decided by code. Not measured: a second model, unseen requests, any user study.
+- **Historical live AI (earlier code, one model, `claude-haiku-4-5-20251001`, through a third-party gateway):** a 20-check smoke test passed 19 of 20 in the last recorded prompt-v4 run (earlier runs failed 4, 2 and 1 checks while problems were found and fixed, so it was tuned on these checks); a gold set of 48 hand-written prompts, 12 per city, scored 48 of 48 exact in earlier runs; the last recorded prompt-v4 field result is 37 of 37 in Tokyo, Singapore and Seoul and 35 of 37 in Kuala Lumpur. Treat these as optimistic: the prompts were written by me, the pipeline had been tuned on similar checks, and many fields are decided by code. Not measured: a second model, unseen requests, any user study.
 **User test (informal, small N):** Not run yet.
 
 **Human red team (informal, small N):** Not run yet.
 
-- Tests: 1014 backend, 383 Vitest and 68 Playwright tests pass. Lighthouse (mobile, local): performance 92 on the Plan page and 93 on the Proof page, accessibility 100 and best practices 100 on both.
+- Backend, Vitest and Playwright results are recorded with run versions in `backend/tests/results/full-suite.json` and `docs/test-summary-frontend.json`; the dated local upgrade report distinguishes current verification from historical evidence. Lighthouse (mobile, local): performance 92 on the Plan page and 93 on the Proof page, accessibility 100 and best practices 100 on both.
 - Not run: a user test (the kit is in the repository, with no results), a second model, and any unseen-request test. [PLACEHOLDER: replace the user-test line if you run the user test]
 
 ## Challenges

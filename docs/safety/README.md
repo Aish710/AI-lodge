@@ -1,5 +1,7 @@
 # Safety documentation index
 
+Current local upgrade (2026-10-18): see [copilot audit and design](../COPILOT-UPGRADE.md), the copilot addenda in the threat model/invariants, and the latest generated mutation report. The previous-pass narrative below is historical; its statements about current prompt version, unchanged AI code and disabled repair are superseded. Repair is implemented. Live reports retain their original stamps and do not validate the new copilot. The new frozen development suite is `backend/tests/fixtures/copilot_attacks.json`; its opt-in runner is `backend/scripts/redteam_copilot.py` (dry-run by default; paid execution pending rates, estimate and approval).
+
 | Document | What it is |
 |---|---|
 | [THREAT-MODEL.md](THREAT-MODEL.md) | Trust boundaries, threats, the exact enforcement point and test for each, one finding from this audit and its fix |

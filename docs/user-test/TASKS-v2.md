@@ -17,3 +17,13 @@ Measure per task: **completed unaided (yes/no)**, **time**, **errors or wrong tu
 | 9 | End: "What here is made-up or estimated?" | Trust calibration | Hotels fictional, travel estimated, prices unverified: how many did they name? |
 
 Do not report percentages as findings at this N; report counts and quotes (with permission).
+
+## Copilot addendum (prepared, not conducted)
+
+No genuine participants were available during this local engineering pass. Do not count developer walkthroughs or automated browser tests as participants.
+
+Add task 10: "Use Understand your trip to explain why the trip is expensive, then choose a way to investigate a cheaper plan without losing your must-visits." Record whether the person identifies the fictional room component, excluded unknown admissions, and the difference between a suggestion, a preview and Apply. Ask for decision clarity, usefulness and trust (each 1–5) and any confusion about estimates.
+
+Add preference task: "Describe a relaxed trip that still sees everything." Observe whether clarification helps them choose a priority, whether explicit limits survive, and whether they can reject suggestions. Compare task completion, time and errors with the preset/manual-controls condition, not number of AI interactions.
+
+Counterbalance order: odd anonymous ids use controls first, even ids use copilot first. Give equivalent scenarios, do not reveal the expected answer, and report learning/order effects. Collect one row per task in a separate task-level file with these fields: anonymous participant id, condition, task, city, completed unaided, seconds, errors, decision clarity, usefulness, trust, estimate confusion, observer notes. Obtain consent before quotes; never record sensitive travel details. Keep existing historical CSV formats intact. Report counts and individual failures at small N; no causal or statistical significance claim.
