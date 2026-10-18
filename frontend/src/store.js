@@ -372,7 +372,7 @@ export async function applyAlternative(patch) {
   const next = applyPatch(store.form, store.wishlist, patch)
   store.form = next.form
   store.wishlist = next.wishlist
-  await runOptimise()
+  await runOptimise(patch.hotel && store.hotelsById[patch.hotel] ? patch.hotel : store.chosenHotel)
 }
 
 // ---- demo helpers (decision: pre-tested requests, see tests) ----

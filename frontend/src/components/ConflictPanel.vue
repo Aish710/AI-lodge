@@ -22,15 +22,18 @@ const name = (id) => props.placesById[id]?.name ?? id
         </li>
       </ul>
       <div v-if="actions.length">
-        <h3 class="h6">What could work (each was actually solved and found feasible)</h3>
+        <h3 class="h6">What could work</h3>
+        <p class="small muted mb-2" data-testid="alt-note">Each option below was actually solved and then re-checked by the independent validator. Nothing changes until you press a button. Options are ordered by how little they change; that is a convenience, not a proof that nothing smaller exists.</p>
         <ul class="list-unstyled mb-0 stack" data-testid="alternatives">
           <li v-for="a in actions" :key="a.kind + a.message">
             <button v-if="a.patch" class="btn btn-sm btn-primary" :disabled="busy || disabled" @click="emit('apply', a.patch)" :data-kind="a.kind">{{ a.label }}</button>
+            <span v-if="a.patch && a.combination" class="pill ms-2" data-testid="alt-combo">two changes together</span>
+            <span v-if="a.patch && a.verified" class="small muted ms-2">checked by the validator</span>
             <span v-else>{{ a.label }} <span class="muted">(change this in the form)</span></span>
           </li>
         </ul>
       </div>
-      <p v-else class="mb-0">No single relaxation was found that makes this feasible. Try changing the inputs.</p>
+      <p v-else class="mb-0" data-testid="no-repair">No verified repair was found, even trying pairs of changes within a fixed limit. The requirements cannot be met under the sample data and planning assumptions as entered; try changing the inputs yourself.</p>
     </div>
   </section>
 </template>

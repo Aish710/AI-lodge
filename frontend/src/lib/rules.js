@@ -44,9 +44,29 @@ export function isInfeasible(resp) {
  * Turn the server's computed alternatives into actions: each is a patch to the preferences/wishlist that re-runs the request.
  * Alternatives we cannot map safely are returned with `patch: null` and shown as plain text (never as a button).
  */
+/** Structured changes from a verified repair -> one patch (applied only when the user presses Apply). */
+export function patchFromChanges(changes) {
+  const patch = {}
+  for (const c of changes ?? []) {
+    if (c.field === 'days') patch.days = c.to
+    else if (c.field === 'strict_budget') patch.strict_budget = c.to
+    else if (c.field === 'allow_unknown_hours') patch.allow_unknown_hours = c.to
+    else if (c.field === 'day_end') patch.day_end = c.to
+    else if (c.field === 'max_activities_per_day') patch.max_activities_per_day = c.to
+    else if (c.field === 'max_daily_travel_minutes') patch.max_daily_travel_minutes = c.to
+    else if (c.field === 'pace') patch.pace = c.to
+    else if (c.field === 'hotel') patch.hotel = c.to
+    else if (c.field === 'must_visit' && c.removed) patch.demote_must_visit = c.removed
+    else return null                         // a change we do not know how to apply is shown as text, never guessed
+  }
+  return Object.keys(patch).length ? patch : null
+}
+
 export function conflictActions(result, prefs, placesById) {
   return (result?.alternatives ?? []).map((a) => {
-    const base = { kind: a.kind, message: a.message, patch: null, label: a.message.replace(/: a feasible plan exists\.?$/, '') }
+    const base = { kind: a.kind, message: a.message, patch: null, label: a.message.replace(/: a feasible plan exists\.?$/, ''),
+      rank: a.details?.rank ?? null, combination: a.details?.combination === true, verified: a.details?.verified_by_validator === true }
+    if (a.details?.changes?.length) { const patch = patchFromChanges(a.details.changes); if (patch) return { ...base, patch } }
     if (a.kind === 'add_day') return { ...base, patch: { days: prefs.days + 1 } }
     if (a.kind === 'relax_budget') return { ...base, patch: { strict_budget: false } }
     if (a.kind === 'allow_unknown_hours') return { ...base, patch: { allow_unknown_hours: true } }

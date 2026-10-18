@@ -411,42 +411,105 @@ def solve(prefs: Preferences, hotel_id: str, ds: Dataset, *, with_alternatives: 
     return res
 
 
-def _alternatives(prefs: Preferences, hotel_id: str, ds: Dataset, budget: float | None = None) -> list[Alternative]:
-    """Computed alternatives: each one is a relaxed problem that was actually solved and found feasible."""
-    probes: list[tuple[str, str, Preferences]] = []
+MAX_COMBINATIONS = 10        # stage C bound: at most this many two-change probes, in a fixed order
+
+
+def _levers(prefs: Preferences, hotel_id: str, ds: Dataset) -> list[tuple[str, str, dict, dict]]:
+    """Single changes worth trying, in a fixed order: (kind, message, preference update, structured change). A change that would not alter the request is not offered."""
+    out: list[tuple[str, str, dict, dict]] = []
     if prefs.days < 7:
-        probes.append(("add_day", f"Add a day (trip becomes {prefs.days + 1} days)", prefs.model_copy(update={"days": prefs.days + 1})))
+        out.append(("add_day", f"Add a day (trip becomes {prefs.days + 1} days)", {"days": prefs.days + 1}, {"field": "days", "from": prefs.days, "to": prefs.days + 1}))
     if prefs.strict_budget:
-        probes.append(("relax_budget", "Treat the budget as a soft target instead of a strict limit", prefs.model_copy(update={"strict_budget": False})))
+        out.append(("relax_budget", "Treat the budget as a soft target instead of a strict limit", {"strict_budget": False}, {"field": "strict_budget", "from": True, "to": False}))
     if not prefs.allow_unknown_hours:
-        probes.append(("allow_unknown_hours", "Allow attractions with unknown opening hours (they will be flagged)", prefs.model_copy(update={"allow_unknown_hours": True})))
+        out.append(("allow_unknown_hours", "Allow attractions with unknown opening hours (they will be flagged)", {"allow_unknown_hours": True}, {"field": "allow_unknown_hours", "from": False, "to": True}))
     end = min(to_minutes(prefs.day_end) + 120, 23 * 60 + 59)
     if end > to_minutes(prefs.day_end):
-        probes.append(("extend_day", f"Extend the day end to {fmt(end)}", prefs.model_copy(update={"day_end": fmt(end)})))
+        out.append(("extend_day", f"Extend the day end to {fmt(end)}", {"day_end": fmt(end)}, {"field": "day_end", "from": prefs.day_end, "to": fmt(end)}))
+    if prefs.max_activities_per_day is not None and prefs.max_activities_per_day < 8:
+        n = prefs.max_activities_per_day + 1
+        out.append(("raise_activity_limit", f"Allow {n} activities a day instead of {prefs.max_activities_per_day}", {"max_activities_per_day": n}, {"field": "max_activities_per_day", "from": prefs.max_activities_per_day, "to": n}))
+    elif prefs.max_activities_per_day is None and prefs.pace != "packed":
+        out.append(("pace_packed", "Use the packed pace (more activities a day)", {"pace": "packed"}, {"field": "pace", "from": prefs.pace, "to": "packed"}))
+    if prefs.max_daily_travel_minutes is not None:
+        m = min(prefs.max_daily_travel_minutes + 60, 720)
+        if m > prefs.max_daily_travel_minutes:
+            out.append(("raise_travel_limit", f"Allow {m} min of estimated travel a day instead of {prefs.max_daily_travel_minutes}", {"max_daily_travel_minutes": m}, {"field": "max_daily_travel_minutes", "from": prefs.max_daily_travel_minutes, "to": m}))
+        out.append(("remove_travel_limit", "Remove the daily estimated-travel limit", {"max_daily_travel_minutes": None}, {"field": "max_daily_travel_minutes", "from": prefs.max_daily_travel_minutes, "to": None}))
     for a in dict.fromkeys(prefs.must_visit):
         if a in ds.attractions and len(prefs.must_visit) > 1 or a in ds.attractions and not prefs.locked:
-            rest = [x for x in prefs.must_visit if x != a]
-            probes.append(("demote_must_visit", f"Treat {ds.attractions[a].name} as nice-to-have instead of must-visit", prefs.model_copy(update={"must_visit": rest})))
-    out = []
+            out.append(("demote_must_visit", f"Treat {ds.attractions[a].name} as nice-to-have instead of must-visit", {"must_visit": [x for x in prefs.must_visit if x != a]},
+                        {"field": "must_visit", "removed": a}))
+    return out
+
+
+def _rank_key(alt: Alternative) -> tuple:
+    d = alt.details
+    changes = d.get("changes", [])
+    return (len(changes), any(c.get("removed") for c in changes), -d.get("attractions_scheduled", 0), d.get("travel_minutes", 0), d.get("total_jpy", 0))
+
+
+def _alternatives(prefs: Preferences, hotel_id: str, ds: Dataset, budget: float | None = None) -> list[Alternative]:
+    """Computed alternatives: each one is a relaxed problem that was actually solved, found feasible AND passed the independent validator.
+
+    Stage B: every single change from `_levers`, plus the same request at each other hotel. Stage C: only if no single change works, at most MAX_COMBINATIONS two-change
+    combinations in a fixed order. Ranked by number of changes, then whether a must-visit is given up, then coverage and travel. The ranking is a convenience, NOT a claim of minimality:
+    only the probes that ran were tried, and the search stops at the time budget."""
+    from app.validator.feasibility_report import build_report
+    levers = _levers(prefs, hotel_id, ds)
     t_end = time.monotonic() + budget if budget is not None else None
-    for kind, msg, p2 in probes:
-        if t_end is not None and time.monotonic() >= t_end:
-            break  # bounded: remaining relaxations are not tried
+
+    def probe(kind: str, msg: str, p2: Preferences, h2: str, changes: list[dict]) -> Alternative | None:
         try:
-            r = solve(p2, hotel_id, ds, with_alternatives=False, max_seconds=config.SOLVER_PROBE_SECONDS)
+            r = solve(p2, h2, ds, with_alternatives=False, max_seconds=config.SOLVER_PROBE_SECONDS)
         except Cancelled:
             raise
         except Exception:
+            return None
+        if r.status != "feasible" or build_report(r, ds, p2, h2).overall == "fail":
+            return None
+        details = {"attractions_scheduled": r.totals.attractions_scheduled, "total_jpy": r.totals.total_jpy, "travel_minutes": r.totals.travel_minutes,
+                   "changes": changes, "hotel_id": h2, "verified_by_validator": True, "combination": len(changes) > 1}
+        if kind == "demote_must_visit" or any(c.get("removed") for c in changes):
+            dropped = [c["removed"] for c in changes if c.get("removed")]
+            scheduled = {s.attraction_id for dp in r.days for s in dp.stops}
+            details["still_scheduled"] = bool(dropped) and dropped[0] in scheduled
+        return Alternative(kind=kind, message=msg + ": a feasible plan exists.", details=details)
+
+    def out_of_time() -> bool:
+        return t_end is not None and time.monotonic() >= t_end
+
+    out: list[Alternative] = []
+    for kind, msg, upd, ch in levers:                                   # stage B
+        if out_of_time():
+            break
+        a = probe(kind, msg, prefs.model_copy(update=upd), hotel_id, [ch])
+        if a:
+            out.append(a)
+    for h2 in sorted(ds.hotels):                                        # stage B, hotel lever (same request, another hotel)
+        if h2 == hotel_id or out_of_time():
             continue
-        if r.status == "feasible":
-            details = {"attractions_scheduled": r.totals.attractions_scheduled, "total_jpy": r.totals.total_jpy,
-                       "travel_minutes": r.totals.travel_minutes}
-            if kind == "demote_must_visit":
-                dropped = [a for a in prefs.must_visit if a not in p2.must_visit]
-                scheduled = {s.attraction_id for dp in r.days for s in dp.stops}
-                details["still_scheduled"] = dropped[0] in scheduled
-            out.append(Alternative(kind=kind, message=msg + ": a feasible plan exists.", details=details))
-    return out
+        a = probe("switch_hotel", f"Stay at {ds.hotels[h2].name} instead", prefs, h2, [{"field": "hotel", "from": hotel_id, "to": h2}])
+        if a:
+            out.append(a)
+    if not out:                                                         # stage C: bounded, deterministic pairs of the cheaper levers
+        pool = [l for l in levers if l[0] != "demote_must_visit"]
+        tried = 0
+        for x in range(len(pool)):
+            for y in range(x + 1, len(pool)):
+                if tried >= MAX_COMBINATIONS or out_of_time():
+                    break
+                (k1, m1, u1, c1), (k2, m2, u2, c2) = pool[x], pool[y]
+                if c1["field"] == c2["field"]:
+                    continue
+                tried += 1
+                a = probe(f"{k1}+{k2}", f"{m1}, and {m2[0].lower() + m2[1:]}", prefs.model_copy(update={**u1, **u2}), hotel_id, [c1, c2])
+                if a:
+                    out.append(a)
+    out.sort(key=_rank_key)
+    for i, a in enumerate(out, 1):
+        a.details["rank"] = i
+    return out[:20]
 
 
 def precheck(prefs: Preferences, hotel_id: str, ds: Dataset) -> list[Conflict]:

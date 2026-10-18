@@ -77,6 +77,9 @@ export function applyPatch(form, wishlist, patch) {
   if ('allow_unknown_hours' in patch) f.allowUnknownHours = patch.allow_unknown_hours
   if ('day_end' in patch) f.dayEnd = patch.day_end
   if ('demote_must_visit' in patch) w[patch.demote_must_visit] = 'nice'
+  if ('max_activities_per_day' in patch) f.maxActivities = patch.max_activities_per_day === null ? '' : String(patch.max_activities_per_day)
+  if ('max_daily_travel_minutes' in patch) f.maxDailyTravel = patch.max_daily_travel_minutes === null ? '' : String(patch.max_daily_travel_minutes)
+  if ('pace' in patch) f.pace = patch.pace
   return { form: f, wishlist: w }
 }
 
