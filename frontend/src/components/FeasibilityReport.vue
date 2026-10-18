@@ -4,8 +4,13 @@
 import { computed } from 'vue'
 import { checkIcon, checkLabel, overallLabel } from '../lib/rules.js'
 import { topWarnings } from '../lib/band.js'
-const props = defineProps({ report: { type: Object, required: true } })
-const warnings = computed(() => topWarnings(props.report.data_quality_warnings))
+// compact: the unverified items are already listed once under "To check before you go", so the validator's own wording of them is folded into the details instead of repeated
+const props = defineProps({ report: { type: Object, required: true }, compact: Boolean })
+// in compact mode only the warnings "To check before you go" already lists (unknown prices or hours, advance booking) are folded away; every other warning stays visible
+const covered = (w) => /unknown|advance booking|price/i.test(w)
+const shownWarnings = computed(() => (props.compact ? (props.report.data_quality_warnings ?? []).filter((w) => !covered(w)) : props.report.data_quality_warnings ?? []))
+const foldedWarnings = computed(() => (props.compact ? (props.report.data_quality_warnings ?? []).filter(covered) : []))
+const warnings = computed(() => topWarnings(shownWarnings.value))
 const failed = computed(() => props.report.checks.filter((c) => c.status === 'fail'))
 // With no plan there is ONE check that only restates the summary: show the summary once and keep the check under "Technical details".
 const noPlan = computed(() => props.report.verification === 'none' || (props.report.checks.length === 1 && props.report.checks[0].id === 'plan_exists'))
@@ -33,8 +38,9 @@ const noPlan = computed(() => props.report.verification === 'none' || (props.rep
           <span><strong>{{ c.name }}.</strong> {{ c.message }}</span>
         </li>
       </ul>
+      <template v-if="foldedWarnings.length"><h3 class="h6 mt-2" data-testid="dq-warnings-folded">Validator wording of items listed under "To check before you go"</h3><ul class="mb-0"><li v-for="w in foldedWarnings" :key="w">{{ w }}</li></ul></template>
     </details>
-    <div v-if="report.data_quality_warnings?.length" class="mt-3" data-testid="dq-warnings">
+    <div v-if="shownWarnings.length" class="mt-3" data-testid="dq-warnings">
       <h3 class="h6">Data-quality warnings</h3>
       <ul class="mb-0"><li v-for="w in warnings.shown" :key="w">{{ w }}</li></ul>
       <details v-if="warnings.more.length" class="mt-1"><summary>Show {{ warnings.more.length }} more</summary><ul class="mb-0 mt-1"><li v-for="w in warnings.more" :key="w">{{ w }}</li></ul></details>

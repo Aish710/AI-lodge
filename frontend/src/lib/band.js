@@ -34,12 +34,13 @@ export function hotelVerdict(comp, fmt) {
   const name = (id) => cleanHotelText(comp.results.find((r) => r.hotel_id === id)?.hotel_name ?? id)
   const n = comp.results?.length ?? 0
   const scope = `of the ${n} demo hotel${n === 1 ? '' : 's'} compared`
+  const caveat = comp.approximate || comp.partial ? ' The solver did not prove every hotel plan optimal, so the ranking could change.' : ' Each hotel was planned with the same must-visits; how many optional sights each plan includes can differ.'
   if (comp.cheapest_by_rate === comp.best_by_true_cost || !comp.cheapest_by_rate) {
-    return { kind: 'good', icon: '✓', headline: 'Among these demo hotels, the cheapest is also the best overall', detail: `${name(comp.best_by_true_cost)} has the lowest nightly rate and the lowest generalised cost ${scope} (generalised cost includes valued travel time; it is not money you spend). Hotels and rates are demo sample data.` }
+    return { kind: 'good', icon: '✓', headline: 'Among these demo hotels, the cheapest is also the best overall', detail: `${name(comp.best_by_true_cost)} has the lowest nightly rate and the lowest generalised cost ${scope} (generalised cost includes valued travel time; it is not money you spend). Hotels and rates are demo sample data.${caveat}` }
   }
   const gap = comp.ranking?.find((r) => r.hotel_id === comp.cheapest_by_rate)?.gap_to_winner_jpy
   const lower = Number.isFinite(gap) && gap > 0 ? `, ${fmt(gap)} lower than ${name(comp.cheapest_by_rate)}` : ` than ${name(comp.cheapest_by_rate)}`
-  return { kind: 'good', icon: '✓', headline: `Best overall among these demo hotels: ${name(comp.best_by_true_cost)}`, detail: `It has the lowest generalised cost ${scope}${lower}, which has the lowest nightly rate. Generalised cost includes valued travel time, so this is a comparison figure, not money you spend. Hotels and rates are demo sample data.` }
+  return { kind: 'good', icon: '✓', headline: `Best overall among these demo hotels: ${name(comp.best_by_true_cost)}`, detail: `It has the lowest generalised cost ${scope}${lower}, which has the lowest nightly rate. Generalised cost includes valued travel time, so this is a comparison figure, not money you spend. Hotels and rates are demo sample data.${caveat}` }
 }
 
 // Which warnings matter most: must-visit problems, then budget, then unknown data, then everything else.

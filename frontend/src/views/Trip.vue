@@ -195,7 +195,7 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
               </DayTimeline></div>
             </div>
 
-            <FeasibilityReport :report="resp.feasibility_report" />
+            <FeasibilityReport :report="resp.feasibility_report" compact />
             <NotScheduledPanel :missed-ids="result.missed_preferences" :places-by-id="store.placesById" :penalty-jpy="penalty" />
             <CompareDetails />
             <SensitivityPanel />

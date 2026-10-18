@@ -172,3 +172,13 @@ test('phone width and keyboard: the new summary and the builder error state fit 
   await page.keyboard.press('Tab')
   expect(await page.evaluate(() => document.activeElement !== document.body)).toBe(true)
 })
+
+test('warnings appear once: the validator wording of the unverified items is folded away, the hotel claim names its limits', async ({ page }) => {
+  await klPlan(page)
+  const dq = page.getByTestId('feasibility-report').getByTestId('dq-warnings')
+  if (await dq.count()) await expect(dq).not.toContainText(/unknown|booking/i)         // those items are listed once under "To check before you go"; other warnings (estimates) stay
+  await expect(page.getByTestId('verdict')).toContainText('demo hotel')
+  await expect(page.getByTestId('verdict')).toContainText(/same must-visits|did not prove/)
+  const text = await page.locator('main').innerText()
+  expect((text.match(/Admission price unknown:/g) ?? []).length).toBe(1)
+})
