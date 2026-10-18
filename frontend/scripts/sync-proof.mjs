@@ -28,6 +28,7 @@ export const FILES = [
   { name: 'redteam-results.json', src: 'docs/redteam-results.json', required: false },
   { name: 'redteam-live.md', src: 'docs/redteam-live.md', required: false },
   { name: 'redteam-human.csv', src: 'docs/user-test/redteam-human.csv', required: false },
+  { name: 'ai-repair-selfcheck.md', src: 'docs/ai-repair-selfcheck.md', required: false },
   { name: 'itinerary-study.json', src: 'docs/itinerary-study.json', required: false },
   { name: 'profile-results.json', src: 'docs/profile-results.json', required: false },
   { name: 'baseline-results.json', src: 'docs/baseline-results.json', required: false },

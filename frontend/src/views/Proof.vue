@@ -81,6 +81,8 @@ const goldMock = computed(() => blocksOf(d.value?.goldMock))
 const fp = computed(() => d.value?.llmFingerprint ?? null)
 const latestOpts = computed(() => ({ fingerprint: fp.value, enforce: true }))
 const staleWhy = (s) => (s.why === 'code' ? 'Made before the last change to the AI code (or without a code stamp); the live script has to be run again.' : `Made with prompt version ${s.version}; the current version is ${promptVersion.value}.`)
+const repairSelf = computed(() => (d.value?.repairSelf ? parseBlocks(d.value.repairSelf) : null))
+const repairSelfStatus = computed(() => liveStatus(d.value?.repairSelf, promptVersion.value, latestOpts.value))
 const selfStatus = computed(() => liveStatus(d.value?.selfcheck, promptVersion.value, latestOpts.value))
 const firstStatus = computed(() => liveStatus(d.value?.goldFirst, promptVersion.value))
 const afterStatus = computed(() => liveStatus(d.value?.goldAfter, promptVersion.value, latestOpts.value))
@@ -336,6 +338,11 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         <p v-else-if="selfStatus.state === 'stale'" class="mb-2" data-testid="selfcheck-stale"><strong>Not run on this version.</strong> {{ staleWhy(selfStatus) }}</p>
         <div v-else class="mb-2" data-testid="selfcheck"><MdBlocks :blocks="selfcheck" /></div>
         <details v-if="selfcheckHistory" class="small mb-2" open data-testid="selfcheck-history"><summary class="fw-semibold">Run history: every run, its root cause and its fix</summary><div class="mt-2"><MdBlocks :blocks="selfcheckHistory" /></div></details>
+
+        <h3 class="h6 mt-3">AI repair and travel-style smoke test (16 checks)</h3>
+        <p v-if="repairSelfStatus.state === 'missing'" class="mb-2" data-testid="repair-selfcheck-none"><strong>Not run on this version.</strong> No report for the AI repair and travel-style features is part of this build.</p>
+        <p v-else-if="repairSelfStatus.state === 'stale'" class="mb-2" data-testid="repair-selfcheck-stale"><strong>Not run on this version.</strong> {{ staleWhy(repairSelfStatus) }}</p>
+        <div v-else class="mb-2" data-testid="repair-selfcheck"><MdBlocks :blocks="repairSelf" /></div>
 
         <h3 class="h6 mt-3">Gold set: 48 hand-written prompts (12 per city, never pooled)</h3>
         <div class="row g-3" data-testid="gold-live">
