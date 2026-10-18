@@ -12,7 +12,7 @@ from pathlib import Path
 
 SLOTS = {"**User test (informal, small N):**": "docs/user-test/summary.md", "**Human red team (informal, small N):**": "docs/user-test/redteam-human-summary.md"}
 DRAFTS = ["README.md", "docs/submission/devpost.md", "docs/submission/linkedin.md"]
-CORPUS = ["docs/SUBMISSION-FACTS.md", "docs/eval-results.md", "docs/eval-results.json", "docs/README-claims.md", "docs/city-eval-results.md", "docs/baseline-results.md", "docs/baseline-results.json", "docs/hotel-comparison-results.md",
+CORPUS = ["docs/SUBMISSION-FACTS.md", "docs/eval-results.md", "docs/eval-results.json", "docs/README-claims.md", "docs/city-eval-results.md", "docs/baseline-results.md", "docs/baseline-results.json", "docs/itinerary-study.md", "docs/itinerary-study.json", "docs/profile-results.md", "docs/profile-results.json", "docs/hotel-comparison-results.md",
           "docs/hardening-results.md", "docs/worked-example.md", "docs/lighthouse-results.md", "docs/lighthouse-summary.json", "docs/ai-selfcheck.md", "docs/ai-selfcheck-history.md",
           "docs/redteam-results.md", "docs/redteam-results.json", "docs/redteam-live.md", "docs/redteam-live-first-run.md",
           "docs/SAFETY_LOG.md", "docs/JUDGING-SCORECARD.md", "docs/BUILD_NOTES.md", "docs/ux-metrics.md", "docs/EVIDENCE-STATUS.md", "docs/test-summary-frontend.json",

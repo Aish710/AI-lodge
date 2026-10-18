@@ -28,6 +28,8 @@ export const FILES = [
   { name: 'redteam-results.json', src: 'docs/redteam-results.json', required: false },
   { name: 'redteam-live.md', src: 'docs/redteam-live.md', required: false },
   { name: 'redteam-human.csv', src: 'docs/user-test/redteam-human.csv', required: false },
+  { name: 'itinerary-study.json', src: 'docs/itinerary-study.json', required: false },
+  { name: 'profile-results.json', src: 'docs/profile-results.json', required: false },
   { name: 'baseline-results.json', src: 'docs/baseline-results.json', required: false },
   { name: 'verification-counts.json', src: 'docs/data-verification/counts.json', required: false },
   { name: 'user-test-results.csv', src: 'docs/user-test/results.csv', required: false },

@@ -58,6 +58,14 @@ const rtFirstStatus = computed(() => liveStatus(rtFirstText.value, promptVersion
 const rtSame = computed(() => !!d.value?.redteamLive && (!d.value?.redteamFirst || d.value.redteamFirst === d.value.redteamLive))
 const verification = computed(() => d.value?.verification ?? null)
 const baseline = computed(() => d.value?.baseline ?? null)
+const itinerary = computed(() => d.value?.itinerary ?? null)
+const profileRes = computed(() => d.value?.profiles ?? null)
+const itinRows = computed(() => Object.entries(itinerary.value?.cities ?? {}).map(([id, c]) => {
+  const a = c.summary.arms, m = c.summary.matched
+  return { id, n: c.n_trips, io: a.input_order.feasible, nf: a.nearest_feasible.feasible, opt: a.optimiser.feasible, missed: a.input_order.missed_a_must_visit_where_optimiser_found_a_plan,
+    ioB: m.input_order.minutes_saved, nfB: m.nearest_feasible.minutes_saved, ioN: m.input_order.matched_solved, nfN: m.nearest_feasible.matched_solved }
+}))
+const profRows = computed(() => Object.entries(profileRes.value?.cities ?? {}).flatMap(([id, c]) => Object.values(c.profiles).map((p) => ({ city: id, ...p }))))
 const baselineCities = computed(() => Object.entries(baseline.value?.cities ?? {}).map(([id, c]) => {
   const r = c.by_multiple?.['1'] ?? {}
   return { id, n: r.n_eligible, differs: r.joint_differs_from_cheapest, noGain: r.no_gain_vs_cheapest, meanPct: r.percent_gain_vs_cheapest?.mean, vot: c.default_value_of_time,
@@ -263,6 +271,19 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
             <div v-else data-testid="rt-live"><MdBlocks :blocks="rtLiveBlocks" /></div>
           </div>
         </div>
+      </section>
+
+      <section v-if="itinRows.length" id="itinerary" class="card-soft" aria-labelledby="it-h" data-testid="itinerary-study">
+        <h2 id="it-h" class="h5">Itinerary planning, separate from hotel choice</h2>
+        <p class="small muted">Same trips, trip's own (fictional) hotel, data, constraints, estimated travel times and scoring for every arm. "Feasible" means every must-visit placed and no failed independent check. Matched routing re-solves the optimiser for exactly the sights a baseline placed, so any difference is order and day only. Seeded synthetic trips on sample data; not user-tested; each city on its own.</p>
+        <div class="table-responsive"><table class="table table-honest align-middle" data-testid="itinerary-table">
+          <thead><tr><th scope="col">City</th><th scope="col" class="num">Trips</th><th scope="col" class="num">Input order feasible</th><th scope="col" class="num">Nearest feasible feasible</th><th scope="col" class="num">Optimiser feasible</th><th scope="col" class="num">Input order missed a must-visit where a plan existed</th><th scope="col" class="num">Matched vs input order: less / same / more travel</th><th scope="col" class="num">Matched vs nearest feasible: less / same / more travel</th></tr></thead>
+          <tbody><tr v-for="r in itinRows" :key="r.id" :data-testid="`itin-${r.id}`"><th scope="row">{{ cityLabel(r.id) }}</th><td class="num">{{ r.n }}</td><td class="num">{{ r.io }}</td><td class="num">{{ r.nf }}</td><td class="num">{{ r.opt }}</td><td class="num">{{ r.missed }}</td>
+            <td class="num">{{ r.ioB.better }} / {{ r.ioB.equal }} / {{ r.ioB.worse }} (median {{ r.ioB.median }} min, N={{ r.ioN }})</td><td class="num">{{ r.nfB.better }} / {{ r.nfB.equal }} / {{ r.nfB.worse }} (median {{ r.nfB.median }} min, N={{ r.nfN }})</td></tr></tbody></table></div>
+        <p class="small mb-2" data-testid="itinerary-honest">Against the nearest-feasible heuristic the typical difference is small: many trips tie. The clearest verified benefit is feasibility (keeping every must-visit) and reordering a listed-order plan, not a large saving over a careful heuristic.</p>
+        <details v-if="profRows.length" class="small" data-testid="profile-study"><summary class="fw-semibold">Do travel profiles change plans?</summary>
+          <div class="table-responsive mt-2"><table class="table table-honest align-middle mb-0"><thead><tr><th scope="col">City</th><th scope="col">Profile</th><th scope="col" class="num">Comparable trips</th><th scope="col" class="num">Infeasible with profile</th><th scope="col" class="num">Same plan as no profile</th><th scope="col" class="num">Median change in est. travel (min)</th></tr></thead>
+            <tbody><tr v-for="p in profRows" :key="p.city + p.label"><th scope="row">{{ cityLabel(p.city) }}</th><td>{{ p.label }}</td><td class="num">{{ p.comparable_trips }}</td><td class="num">{{ p.infeasible_with_profile }}</td><td class="num">{{ p.same_plan_as_no_profile }} of {{ p.feasible }}</td><td class="num">{{ p.changed_minutes.median ?? '-' }}</td></tr></tbody></table></div></details>
       </section>
 
       <section v-if="baselineCities.length" id="baselines" class="card-soft" aria-labelledby="bl-h" data-testid="baselines">

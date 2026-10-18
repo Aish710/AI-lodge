@@ -28,6 +28,7 @@ import CostPanel from '../components/CostPanel.vue'
 import TradeoffExplorer from '../components/TradeoffExplorer.vue'
 import ItineraryCompare from '../components/ItineraryCompare.vue'
 import WhatIfPanel from '../components/WhatIfPanel.vue'
+import BenefitStrip from '../components/BenefitStrip.vue'
 import DaySelector from '../components/DaySelector.vue'
 import AiMark from '../components/AiMark.vue'
 import AiLegend from '../components/AiLegend.vue'
@@ -156,6 +157,8 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
                 <span v-if="t.unknown_cost_items.length" style="color: var(--amber)"> · + {{ t.unknown_cost_items.length }} unknown price(s), not included</span>
               </p>
             </section>
+
+            <BenefitStrip />
 
             <WhatIfPanel />
 

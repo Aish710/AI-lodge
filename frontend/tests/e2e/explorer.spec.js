@@ -79,3 +79,13 @@ test('what-if: preview leaves the plan alone, discard keeps it, apply commits an
   }
   expectClean(problems)
 })
+
+test('Proof shows the itinerary study with ties and the honest summary; Your trip shows the sample-evidence strip with a link to it', async ({ page }) => {
+  await page.goto('/')
+  await planFromExample(page)
+  await expect(page.getByTestId('benefit-strip')).toContainText('not a prediction for your trip')
+  await page.goto('/proof')
+  await expect(page.getByTestId('itinerary-table')).toBeVisible({ timeout: PLAN_WAIT })
+  for (const c of ['tokyo', 'singapore', 'seoul', 'kuala_lumpur']) await expect(page.getByTestId(`itin-${c}`)).toBeVisible()
+  await expect(page.getByTestId('itinerary-honest')).toContainText('many trips tie')
+})

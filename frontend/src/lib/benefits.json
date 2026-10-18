@@ -1,0 +1,55 @@
+{
+ "source": "docs/itinerary-study.json",
+ "generated": "2026-10-18 03:05 UTC",
+ "commit": "379a95f",
+ "cities": {
+  "tokyo": {
+   "trips": 60,
+   "input_order_feasible": 42,
+   "optimiser_feasible": 53,
+   "input_order_missed_a_must_where_optimiser_found_plan": 11,
+   "matched_solved": 42,
+   "minutes_better": 37,
+   "minutes_equal": 5,
+   "minutes_worse": 0,
+   "minutes_median": 43.0,
+   "minutes_max": 164
+  },
+  "singapore": {
+   "trips": 20,
+   "input_order_feasible": 16,
+   "optimiser_feasible": 18,
+   "input_order_missed_a_must_where_optimiser_found_plan": 2,
+   "matched_solved": 16,
+   "minutes_better": 14,
+   "minutes_equal": 2,
+   "minutes_worse": 0,
+   "minutes_median": 11.5,
+   "minutes_max": 87
+  },
+  "seoul": {
+   "trips": 20,
+   "input_order_feasible": 14,
+   "optimiser_feasible": 15,
+   "input_order_missed_a_must_where_optimiser_found_plan": 1,
+   "matched_solved": 14,
+   "minutes_better": 12,
+   "minutes_equal": 2,
+   "minutes_worse": 0,
+   "minutes_median": 15.0,
+   "minutes_max": 35
+  },
+  "kuala_lumpur": {
+   "trips": 20,
+   "input_order_feasible": 14,
+   "optimiser_feasible": 15,
+   "input_order_missed_a_must_where_optimiser_found_plan": 1,
+   "matched_solved": 14,
+   "minutes_better": 11,
+   "minutes_equal": 3,
+   "minutes_worse": 0,
+   "minutes_median": 3.5,
+   "minutes_max": 28
+  }
+ }
+}
