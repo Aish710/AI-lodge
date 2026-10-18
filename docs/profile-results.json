@@ -1,0 +1,478 @@
+{
+ "meta": {
+  "date": "2026-10-18 03:18 UTC",
+  "commit": "f02e356",
+  "quick": false,
+  "profiles_version": 1
+ },
+ "cities": {
+  "tokyo": {
+   "n_trips": 60,
+   "profiles": {
+    "budget": {
+     "label": "Budget-conscious",
+     "comparable_trips": 53,
+     "feasible": 53,
+     "infeasible_with_profile": 0,
+     "same_plan_as_no_profile": 16,
+     "changed_minutes": {
+      "n": 53,
+      "mean": 28.8,
+      "median": 0,
+      "min": 0,
+      "max": 249
+     },
+     "changed_spend": {
+      "n": 53,
+      "mean": 859.6,
+      "median": 0,
+      "min": -10,
+      "max": 6440
+     },
+     "changed_sights": {
+      "n": 53,
+      "mean": 0.4,
+      "median": 0,
+      "min": 0,
+      "max": 3
+     }
+    },
+    "relaxed": {
+     "label": "Relaxed",
+     "comparable_trips": 53,
+     "feasible": 45,
+     "infeasible_with_profile": 8,
+     "same_plan_as_no_profile": 2,
+     "changed_minutes": {
+      "n": 45,
+      "mean": -9.3,
+      "median": 0,
+      "min": -180,
+      "max": 73
+     },
+     "changed_spend": {
+      "n": 45,
+      "mean": -1000.4,
+      "median": -470,
+      "min": -5220,
+      "max": 2750
+     },
+     "changed_sights": {
+      "n": 45,
+      "mean": -0.9,
+      "median": -1,
+      "min": -3,
+      "max": 1
+     }
+    },
+    "sightseeing": {
+     "label": "Sightseeing enthusiast",
+     "comparable_trips": 53,
+     "feasible": 53,
+     "infeasible_with_profile": 0,
+     "same_plan_as_no_profile": 13,
+     "changed_minutes": {
+      "n": 53,
+      "mean": 12.7,
+      "median": 0,
+      "min": -69,
+      "max": 134
+     },
+     "changed_spend": {
+      "n": 53,
+      "mean": 821.9,
+      "median": 0,
+      "min": -810,
+      "max": 4720
+     },
+     "changed_sights": {
+      "n": 53,
+      "mean": 0.4,
+      "median": 0,
+      "min": 0,
+      "max": 2
+     }
+    },
+    "convenience": {
+     "label": "Convenience-focused",
+     "comparable_trips": 53,
+     "feasible": 49,
+     "infeasible_with_profile": 4,
+     "same_plan_as_no_profile": 3,
+     "changed_minutes": {
+      "n": 49,
+      "mean": -94.6,
+      "median": -78,
+      "min": -254,
+      "max": 0
+     },
+     "changed_spend": {
+      "n": 49,
+      "mean": -2165.3,
+      "median": -1860,
+      "min": -6460,
+      "max": 1130
+     },
+     "changed_sights": {
+      "n": 49,
+      "mean": -2.1,
+      "median": -2,
+      "min": -5,
+      "max": 0
+     }
+    }
+   }
+  },
+  "singapore": {
+   "n_trips": 20,
+   "profiles": {
+    "budget": {
+     "label": "Budget-conscious",
+     "comparable_trips": 18,
+     "feasible": 18,
+     "infeasible_with_profile": 0,
+     "same_plan_as_no_profile": 0,
+     "changed_minutes": {
+      "n": 18,
+      "mean": 99.6,
+      "median": 85.0,
+      "min": 20,
+      "max": 208
+     },
+     "changed_spend": {
+      "n": 18,
+      "mean": 44.4,
+      "median": 45.0,
+      "min": 4,
+      "max": 83
+     },
+     "changed_sights": {
+      "n": 18,
+      "mean": 3.2,
+      "median": 3.0,
+      "min": 1,
+      "max": 5
+     }
+    },
+    "relaxed": {
+     "label": "Relaxed",
+     "comparable_trips": 18,
+     "feasible": 14,
+     "infeasible_with_profile": 4,
+     "same_plan_as_no_profile": 0,
+     "changed_minutes": {
+      "n": 14,
+      "mean": 101,
+      "median": 93.0,
+      "min": 20,
+      "max": 198
+     },
+     "changed_spend": {
+      "n": 14,
+      "mean": 30.9,
+      "median": 18.5,
+      "min": 4,
+      "max": 86
+     },
+     "changed_sights": {
+      "n": 14,
+      "mean": 2.6,
+      "median": 2.5,
+      "min": 1,
+      "max": 4
+     }
+    },
+    "sightseeing": {
+     "label": "Sightseeing enthusiast",
+     "comparable_trips": 18,
+     "feasible": 18,
+     "infeasible_with_profile": 0,
+     "same_plan_as_no_profile": 0,
+     "changed_minutes": {
+      "n": 18,
+      "mean": 91.8,
+      "median": 80.0,
+      "min": 11,
+      "max": 204
+     },
+     "changed_spend": {
+      "n": 18,
+      "mean": 43.3,
+      "median": 43.5,
+      "min": 4,
+      "max": 81
+     },
+     "changed_sights": {
+      "n": 18,
+      "mean": 3.2,
+      "median": 3.0,
+      "min": 1,
+      "max": 5
+     }
+    },
+    "convenience": {
+     "label": "Convenience-focused",
+     "comparable_trips": 18,
+     "feasible": 18,
+     "infeasible_with_profile": 0,
+     "same_plan_as_no_profile": 2,
+     "changed_minutes": {
+      "n": 18,
+      "mean": 38.4,
+      "median": 30.5,
+      "min": 0,
+      "max": 96
+     },
+     "changed_spend": {
+      "n": 18,
+      "mean": 26.5,
+      "median": 31.5,
+      "min": 0,
+      "max": 56
+     },
+     "changed_sights": {
+      "n": 18,
+      "mean": 1.9,
+      "median": 1.5,
+      "min": 0,
+      "max": 5
+     }
+    }
+   }
+  },
+  "seoul": {
+   "n_trips": 20,
+   "profiles": {
+    "budget": {
+     "label": "Budget-conscious",
+     "comparable_trips": 15,
+     "feasible": 15,
+     "infeasible_with_profile": 0,
+     "same_plan_as_no_profile": 4,
+     "changed_minutes": {
+      "n": 15,
+      "mean": -12.1,
+      "median": 0,
+      "min": -94,
+      "max": 0
+     },
+     "changed_spend": {
+      "n": 15,
+      "mean": -4826.1,
+      "median": 0,
+      "min": -36320,
+      "max": 0
+     },
+     "changed_sights": {
+      "n": 15,
+      "mean": -0.1,
+      "median": 0,
+      "min": -1,
+      "max": 0
+     }
+    },
+    "relaxed": {
+     "label": "Relaxed",
+     "comparable_trips": 15,
+     "feasible": 14,
+     "infeasible_with_profile": 1,
+     "same_plan_as_no_profile": 0,
+     "changed_minutes": {
+      "n": 14,
+      "mean": -10,
+      "median": 2.0,
+      "min": -137,
+      "max": 147
+     },
+     "changed_spend": {
+      "n": 14,
+      "mean": -13220.4,
+      "median": 76.5,
+      "min": -57358,
+      "max": 3140
+     },
+     "changed_sights": {
+      "n": 14,
+      "mean": -0.8,
+      "median": 0.0,
+      "min": -4,
+      "max": 0
+     }
+    },
+    "sightseeing": {
+     "label": "Sightseeing enthusiast",
+     "comparable_trips": 15,
+     "feasible": 15,
+     "infeasible_with_profile": 0,
+     "same_plan_as_no_profile": 2,
+     "changed_minutes": {
+      "n": 15,
+      "mean": -15.3,
+      "median": -11,
+      "min": -95,
+      "max": 0
+     },
+     "changed_spend": {
+      "n": 15,
+      "mean": -3086.2,
+      "median": -943,
+      "min": -35322,
+      "max": 0
+     },
+     "changed_sights": {
+      "n": 15,
+      "mean": -0.1,
+      "median": 0,
+      "min": -1,
+      "max": 0
+     }
+    },
+    "convenience": {
+     "label": "Convenience-focused",
+     "comparable_trips": 15,
+     "feasible": 15,
+     "infeasible_with_profile": 0,
+     "same_plan_as_no_profile": 0,
+     "changed_minutes": {
+      "n": 15,
+      "mean": -58.8,
+      "median": -27,
+      "min": -204,
+      "max": 0
+     },
+     "changed_spend": {
+      "n": 15,
+      "mean": -16143.9,
+      "median": -7441,
+      "min": -63194,
+      "max": 0
+     },
+     "changed_sights": {
+      "n": 15,
+      "mean": -0.9,
+      "median": -1,
+      "min": -3,
+      "max": 0
+     }
+    }
+   }
+  },
+  "kuala_lumpur": {
+   "n_trips": 20,
+   "profiles": {
+    "budget": {
+     "label": "Budget-conscious",
+     "comparable_trips": 15,
+     "feasible": 15,
+     "infeasible_with_profile": 0,
+     "same_plan_as_no_profile": 0,
+     "changed_minutes": {
+      "n": 15,
+      "mean": 109.7,
+      "median": 122,
+      "min": 27,
+      "max": 191
+     },
+     "changed_spend": {
+      "n": 15,
+      "mean": 75.3,
+      "median": 78,
+      "min": 4,
+      "max": 176
+     },
+     "changed_sights": {
+      "n": 15,
+      "mean": 3.5,
+      "median": 4,
+      "min": 1,
+      "max": 5
+     }
+    },
+    "relaxed": {
+     "label": "Relaxed",
+     "comparable_trips": 15,
+     "feasible": 15,
+     "infeasible_with_profile": 0,
+     "same_plan_as_no_profile": 0,
+     "changed_minutes": {
+      "n": 15,
+      "mean": 109.1,
+      "median": 110,
+      "min": 36,
+      "max": 212
+     },
+     "changed_spend": {
+      "n": 15,
+      "mean": 60.4,
+      "median": 41,
+      "min": 5,
+      "max": 180
+     },
+     "changed_sights": {
+      "n": 15,
+      "mean": 3,
+      "median": 3,
+      "min": 1,
+      "max": 5
+     }
+    },
+    "sightseeing": {
+     "label": "Sightseeing enthusiast",
+     "comparable_trips": 15,
+     "feasible": 15,
+     "infeasible_with_profile": 0,
+     "same_plan_as_no_profile": 0,
+     "changed_minutes": {
+      "n": 15,
+      "mean": 105.3,
+      "median": 120,
+      "min": 11,
+      "max": 182
+     },
+     "changed_spend": {
+      "n": 15,
+      "mean": 81.4,
+      "median": 78,
+      "min": 2,
+      "max": 180
+     },
+     "changed_sights": {
+      "n": 15,
+      "mean": 3.5,
+      "median": 4,
+      "min": 1,
+      "max": 5
+     }
+    },
+    "convenience": {
+     "label": "Convenience-focused",
+     "comparable_trips": 15,
+     "feasible": 15,
+     "infeasible_with_profile": 0,
+     "same_plan_as_no_profile": 2,
+     "changed_minutes": {
+      "n": 15,
+      "mean": 51.1,
+      "median": 60,
+      "min": 0,
+      "max": 92
+     },
+     "changed_spend": {
+      "n": 15,
+      "mean": 29.2,
+      "median": 25,
+      "min": 0,
+      "max": 88
+     },
+     "changed_sights": {
+      "n": 15,
+      "mean": 2.4,
+      "median": 3,
+      "min": 0,
+      "max": 5
+     }
+    }
+   }
+  }
+ }
+}
