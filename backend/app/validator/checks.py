@@ -146,6 +146,11 @@ def run_checks(schedule: SolveResult, ds: Dataset, prefs: Preferences, hotel_id:
                            f"At most {cap} attractions per day ({'your limit' if own else repr(prefs.pace)}).",
                            f"A day exceeds {'your limit' if own else 'the ' + repr(prefs.pace) + ' cap'} of {cap}."))
 
+    if prefs.min_active_days is not None:     # counted from the schedule itself: days that have at least one stop
+        active = sum(1 for d in by_day if by_day[d])
+        checks.append(_verdict("active_days", "Minimum active days respected", [] if active >= prefs.min_active_days else [str(d) for d in range(1, prefs.days + 1) if not by_day.get(d)],
+                               f"{active} of {prefs.days} days have activities (at least {prefs.min_active_days} requested).",
+                               f"Only {active} of {prefs.days} days have activities; at least {prefs.min_active_days} were requested."))
     if prefs.max_daily_travel_minutes is not None:   # recomputed from the matrix: first leg from the hotel, legs between stops, the leg back
         limit, bad = prefs.max_daily_travel_minutes, []
         for d, lst in by_day.items():

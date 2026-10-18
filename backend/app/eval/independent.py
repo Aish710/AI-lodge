@@ -99,6 +99,8 @@ def confirm_conflict(code: str, attraction_ids: list[str], ds: Dataset, prefs: P
         return not all(h is None for h in hours) and not any(h == "unknown" for h in hours)  # no_open_slot
     if code == "pace_cap":
         return len(musts) > (prefs.max_activities_per_day or PACE_CAP[prefs.pace]) * prefs.days
+    if code == "active_days_unreachable":
+        return bool(prefs.min_active_days) and sum(1 for a in ds.attractions if a not in prefs.skip) < prefs.min_active_days
     if code == "daily_travel_limit":
         return bool(prefs.max_daily_travel_minutes) and bool(attraction_ids) and travel_minutes(ds, hotel, attraction_ids[0]) + travel_minutes(ds, attraction_ids[0], hotel) > prefs.max_daily_travel_minutes
     if code == "not_enough_time":

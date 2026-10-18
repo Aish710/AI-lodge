@@ -243,6 +243,7 @@ class Preferences(_Strict):
     nights: int | None = Field(default=None, ge=0, le=30)  # None = days - 1 (see nights_for)
     max_activities_per_day: int | None = Field(default=None, ge=1, le=8)    # None = the pace preset's cap; set = the user's own hard limit, instead of the preset's
     max_daily_travel_minutes: int | None = Field(default=None, ge=20, le=720)  # None = no limit; ESTIMATED minutes per day including both hotel legs (a hard constraint)
+    min_active_days: int | None = Field(default=None, ge=1, le=7)          # None = no requirement; set = a HARD requirement: at least this many trip days must have at least one stop
     locked: list["LockedActivity"] = Field(default=[], max_length=12)  # fixed activities
 
     @model_validator(mode="after")
@@ -251,6 +252,8 @@ class Preferences(_Strict):
             raise ValueError("day_end must be after day_start")
         if self.strict_budget and self.budget is None:
             raise ValueError("strict_budget requires a budget")
+        if self.min_active_days is not None and self.min_active_days > self.days:
+            raise ValueError("min_active_days cannot exceed days")
         return self
 
 

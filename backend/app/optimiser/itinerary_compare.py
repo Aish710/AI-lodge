@@ -163,3 +163,36 @@ def _verdict(ds, user, same, full, cs, cf) -> dict:
             return {"kind": "better_same_sights", "text": f"For exactly the same sights, the optimised order saves {max(m, 0)} min of estimated travel and {max(s, 0):,} of sight and transport spending."}
         return {"kind": "yours_cheaper_on_time_or_money", "text": "For the same sights the optimiser's plan is not shorter or cheaper than yours; it can still differ in score because of how the score weighs them."}
     return {"kind": "no_like_for_like", "text": cs["why_not"] or "No like-for-like comparison is available."}
+
+
+def check_itinerary(prefs: Preferences, hotel_id: str, ds: Dataset, days: list[list[str]]) -> dict:
+    """Live feedback for a DRAFT itinerary: where each stop would happen, what the independent validator says, and the modelled cash total. No optimisation runs here, so it is cheap
+    enough to call while the person drags. Nothing about the draft is changed or saved."""
+    if hotel_id not in ds.hotels:
+        raise ItineraryInputError("unknown_hotel", f"Unknown hotel id '{hotel_id[:64]}'.")
+    if len(days) > prefs.days:
+        raise ItineraryInputError("too_many_days", f"The itinerary has {len(days)} day(s) but the trip has {prefs.days}.")
+    target = list(dict.fromkeys(a for ids in days for a in ids))
+    unknown = [a for a in target if a not in ds.attractions]
+    if unknown:
+        raise ItineraryInputError("unknown_attraction", f"Unknown attraction id '{unknown[0][:64]}'.")
+    if len(target) != sum(len(i) for i in days):
+        raise ItineraryInputError("duplicate_stop", "An attraction appears more than once in your itinerary.")
+    base = prefs.model_copy(update={"skip": [a for a in sorted(ds.attractions) if a not in target], "locked": [l for l in prefs.locked if l.attraction_id in target]})
+    nights, _ = nights_for(base)
+    mine = place_user_plan(base, hotel_id, ds, days)
+    placed = {s.attraction_id: (d.day, s.start, s.end, s.travel_minutes_from_previous) for d in mine.days for s in d.stops}
+    stops = [{"id": a, "day": di + 1, "placed": a in placed, **({"start": placed[a][1], "end": placed[a][2], "travel_minutes": placed[a][3]} if a in placed else {})}
+             for di, ids in enumerate(days) for a in ids]
+    reasons = {x for c in mine.conflicts for x in c.attraction_ids}
+    for st in stops:
+        if st["id"] in reasons:
+            st["problem"] = next(c.message for c in mine.conflicts if st["id"] in c.attraction_ids)
+    arm = _arm(ds, base, hotel_id, mine if mine.status == "feasible" else mine.model_copy(update={"status": "infeasible"}), target, nights, base.value_of_time_per_hour, "yours", "Your itinerary")
+    from app.optimiser.cost_summary import summarise_costs
+    trip = summarise_costs(mine, ds, hotel_id, nights)["trip"] if mine.status == "feasible" else None
+    rep = build_report(mine.model_copy(update={"missed_preferences": []}), ds, base, hotel_id) if mine.status == "feasible" else None
+    return {"hotel_id": hotel_id, "stops": stops, "feasible": bool(arm["feasible"]), "conflicts": arm["conflicts"], "failed_checks": arm["failed_checks"],
+            "verification": rep.verification if rep else "none", "conditional_stop_ids": rep.conditional_stop_ids if rep else [], "cash": trip,
+            "active_days": sum(1 for d in mine.days if d.stops), "warnings": [c.message for c in (rep.checks if rep else []) if c.status == "warning"],
+            "note": "Draft check only: nothing is saved or optimised. Estimated straight-line travel on sample data."}

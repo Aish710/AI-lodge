@@ -36,7 +36,7 @@ from app.repair import CONFIRMED, RepairAction, RepairError, apply_actions, base
 from app.llm.sanitize import EmptyInput, InputTooLong
 from app.optimiser.alternatives import explore
 from app.optimiser.hotel_compare import ComparisonInputError, compare_hotels
-from app.optimiser.itinerary_compare import ItineraryInputError, evaluate_itinerary
+from app.optimiser.itinerary_compare import ItineraryInputError, check_itinerary, evaluate_itinerary
 from app.optimiser.replan import Operation, ReplanError, replan
 from app.optimiser.solver import ObjectiveSpec, solve
 from app.schemas import Preferences, SolveResult, Verification, HotelVerification, nights_for
@@ -300,6 +300,22 @@ class EvaluateItineraryRequest(_Req):
     preferences: Preferences
     hotel_id: str = Field(max_length=64)
     days: list[list[str]] = Field(max_length=7)      # the user's own days: attraction ids in visiting order
+
+
+@router.post("/check-itinerary")
+def check_itinerary_route(req: EvaluateItineraryRequest, request: Request):
+    """Live feedback for a DRAFT itinerary (placement, independent validator, modelled cash). No optimiser run, no storage."""
+    ds = _dataset(request, req.city_id)
+    _check_city_ids(request, ds, hotels=[req.hotel_id], prefs=req.preferences)
+    if any(len(d) > 8 or any(len(a) > 64 for a in d) for d in req.days):
+        raise ApiError(422, "invalid_itinerary", "Each day can hold at most 8 attractions.")
+    _check_city_ids(request, ds, prefs=req.preferences.model_copy(update={"must_visit": [a for d in req.days for a in d], "skip": [], "locked": []}))
+    try:
+        out = check_itinerary(req.preferences, req.hotel_id, ds, req.days)
+    except ItineraryInputError as e:
+        raise ApiError(422, e.code, e.message)
+    out["city_id"] = ds.city.id
+    return stamp(out, req.preferences, req.hotel_id, ds)
 
 
 @router.post("/evaluate-itinerary")

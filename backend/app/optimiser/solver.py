@@ -179,6 +179,8 @@ def _precheck(c: _Ctx) -> list[Conflict]:
         return out
 
     req = c.required
+    if p.min_active_days and len(c.candidates) < p.min_active_days:
+        out.append(Conflict(code="active_days_unreachable", message=f"At least {p.min_active_days} active days were requested but only {len(c.candidates)} sight(s) can be scheduled at all.", attraction_ids=[]))
     if len(req) > c.D * c.cap:
         out.append(Conflict(code="pace_cap", message=f"{len(req)} required attractions but {_cap_text(c)} allows {c.cap}/day x {c.D} day(s) = {c.D * c.cap}.", attraction_ids=req))
     # Lower bound on time: visits + the cheapest possible inbound leg for each + one return leg.
@@ -221,6 +223,7 @@ def _solve_core(c: _Ctx, max_seconds: float, spec: ObjectiveSpec = ObjectiveSpec
     S = config.OBJECTIVE_SCALE
     presence: dict[str, list] = {a: [] for a in c.candidates}  # literals per attraction
     day_count = []
+    empties: list = []
     travel_terms, fare_terms, adm_terms, ph_terms = [], [], [], []
     placeholder = unknown_price_placeholder(ds)
     ref = {a: (d, st) for a, d, st in spec.reference}
@@ -268,6 +271,7 @@ def _solve_core(c: _Ctx, max_seconds: float, spec: ObjectiveSpec = ObjectiveSpec
                     m.AddHint(st, min(max(ref[a][1], lo), hi))
         node_info.append([(nodes[k][0], pres[k], starts[k]) for k in range(len(nodes))])
         empty = m.NewBoolVar(f"empty_{d}")
+        empties.append(empty)
         arcs = [(0, 0, empty)]
         for k, pr in enumerate(pres):
             m.AddImplication(pr, empty.Not())
@@ -299,6 +303,8 @@ def _solve_core(c: _Ctx, max_seconds: float, spec: ObjectiveSpec = ObjectiveSpec
         cnt = m.NewIntVar(0, c.cap, f"cnt_{d}")
         m.Add(cnt == sum(pres)) if pres else m.Add(cnt == 0)
         day_count.append(cnt)
+    if p.min_active_days:      # hard: at least this many days have a stop (a day is "empty" exactly when the depot self-loops, i.e. no stop)
+        m.Add(sum(empties) <= c.D - p.min_active_days)
 
     for a in c.candidates:
         lits = presence[a]
@@ -431,6 +437,8 @@ def _levers(prefs: Preferences, hotel_id: str, ds: Dataset) -> list[tuple[str, s
         out.append(("raise_activity_limit", f"Allow {n} activities a day instead of {prefs.max_activities_per_day}", {"max_activities_per_day": n}, {"field": "max_activities_per_day", "from": prefs.max_activities_per_day, "to": n}))
     elif prefs.max_activities_per_day is None and prefs.pace != "packed":
         out.append(("pace_packed", "Use the packed pace (more activities a day)", {"pace": "packed"}, {"field": "pace", "from": prefs.pace, "to": "packed"}))
+    if prefs.min_active_days:
+        out.append(("lower_min_active_days", "Remove the minimum-active-days requirement", {"min_active_days": None}, {"field": "min_active_days", "from": prefs.min_active_days, "to": None}))
     if prefs.max_daily_travel_minutes is not None:
         m = min(prefs.max_daily_travel_minutes + 60, 720)
         if m > prefs.max_daily_travel_minutes:

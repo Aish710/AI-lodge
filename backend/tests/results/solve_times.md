@@ -4,27 +4,27 @@ Measured on this machine during the test run (CP-SAT, 1 worker, fixed seed).
 
 | Case | Days | Status | Solver status | Seconds |
 |---|---|---|---|---|
-| 1 | 1 | feasible | OPTIMAL | 0.0056 |
-| 2 | 2 | feasible | OPTIMAL | 0.2222 |
-| 3 | 2 | feasible | OPTIMAL | 0.165 |
-| 4 | 2 | feasible | OPTIMAL | 0.0682 |
-| 5 | 1 | feasible | OPTIMAL | 0.0207 |
-| 6 | 1 | infeasible | NOT_RUN | 0.0638 |
-| 7 | 1 | feasible | OPTIMAL | 0.0068 |
+| 1 | 1 | feasible | OPTIMAL | 0.0052 |
+| 2 | 2 | feasible | OPTIMAL | 0.2258 |
+| 3 | 2 | feasible | OPTIMAL | 0.1666 |
+| 4 | 2 | feasible | OPTIMAL | 0.0692 |
+| 5 | 1 | feasible | OPTIMAL | 0.021 |
+| 6 | 1 | infeasible | NOT_RUN | 0.0656 |
+| 7 | 1 | feasible | OPTIMAL | 0.0069 |
 | 8 | 1 | infeasible | NOT_RUN | 0.0004 |
-| 9 | 1 | feasible | OPTIMAL | 0.0092 |
-| 10 | 1 | feasible | OPTIMAL | 0.0091 |
-| 11 | 2 | feasible | OPTIMAL | 0.121 |
-| 12 | 1 | infeasible | NOT_RUN | 0.0108 |
-| 13 | 1 | feasible | OPTIMAL | 0.0104 |
-| 14 | 1 | infeasible | NOT_RUN | 1.7894 |
-| 15 | 1 | infeasible | NOT_RUN | 0.0056 |
-| 16 | 1 | feasible | OPTIMAL | 0.0185 |
-| 17 | 1 | feasible | OPTIMAL | 0.0157 |
-| 18 | 1 | infeasible | NOT_RUN | 0.0393 |
-| 19 | 1 | feasible | OPTIMAL | 0.0234 |
-| 20 | 2 | feasible | OPTIMAL | 0.0548 |
-| 21 | 1 | infeasible | NOT_RUN | 0.0167 |
-| 22 | 1 | infeasible | NOT_RUN | 0.0662 |
+| 9 | 1 | feasible | OPTIMAL | 0.0094 |
+| 10 | 1 | feasible | OPTIMAL | 0.0092 |
+| 11 | 2 | feasible | OPTIMAL | 0.1216 |
+| 12 | 1 | infeasible | NOT_RUN | 0.0118 |
+| 13 | 1 | feasible | OPTIMAL | 0.0101 |
+| 14 | 1 | infeasible | NOT_RUN | 1.7847 |
+| 15 | 1 | infeasible | NOT_RUN | 0.0048 |
+| 16 | 1 | feasible | OPTIMAL | 0.0175 |
+| 17 | 1 | feasible | OPTIMAL | 0.0143 |
+| 18 | 1 | infeasible | NOT_RUN | 0.0355 |
+| 19 | 1 | feasible | OPTIMAL | 0.021 |
+| 20 | 2 | feasible | OPTIMAL | 0.0523 |
+| 21 | 1 | infeasible | NOT_RUN | 0.0153 |
+| 22 | 1 | infeasible | NOT_RUN | 0.065 |
 
-Cases: 22, mean 0.125s, max 1.789s.
+Cases: 22, mean 0.124s, max 1.785s.

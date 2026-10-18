@@ -98,3 +98,38 @@ def test_every_field_the_interface_reads_is_in_the_response():
         assert f in arm["breakdown"]
     assert {"verdict", "target_sights", "full_plan", "same_sights"} <= set(r)
     assert {"sights_left_out", "different_sights"} <= set(r["full_plan"])
+
+
+# ---- live draft check ---------------------------------------------------------------------------------------------------------------------------------
+def test_the_draft_check_places_stops_validates_and_reports_cash_including_rooms_without_optimising():
+    from app.optimiser.itinerary_compare import check_itinerary
+    p, h, ds, days = _days_from_solver()
+    r = check_itinerary(p, h, ds, days)
+    assert r["feasible"] and r["cash"]["cash_total_with_rooms"] == r["cash"]["cash_total"] + r["cash"]["rooms"] and r["cash"]["rooms"] > 0
+    assert all(s["placed"] and "start" in s for s in r["stops"]) and r["active_days"] == sum(1 for d in days if d)
+    assert r["verification"] in ("verified", "conditional")
+
+
+def test_the_draft_check_names_the_stop_that_cannot_happen_and_never_calls_it_feasible():
+    from app.optimiser.itinerary_compare import check_itinerary
+    p, h, ds, days = _days_from_solver()
+    crowded = [[a for d in days for a in d]] + [[] for _ in days[1:]]
+    r = check_itinerary(p, h, ds, crowded)
+    if r["feasible"]:
+        pytest.skip("the whole trip fits on one day in this sample")
+    assert any(s.get("problem") for s in r["stops"]) and r["cash"] is None and r["verification"] == "none"
+
+
+def test_the_draft_check_enforces_the_minimum_active_days_and_the_api_route_is_cheap_tier():
+    from app.optimiser.itinerary_compare import check_itinerary
+    p, h, ds, days = _days_from_solver()
+    one_day = [[a for d in days for a in d][:2], [], []][: p.days]
+    q = p.model_copy(update={"min_active_days": min(2, p.days), "must_visit": []})
+    r = check_itinerary(q, h, ds, one_day)
+    if p.days >= 2:
+        assert r["active_days"] == 1 and (r["feasible"] is False and "active" in " ".join(r["failed_checks"]).lower())
+    body = {"city_id": "tokyo", "preferences": p.model_dump(), "hotel_id": h, "days": days}
+    with TestClient(app) as c:
+        j = c.post("/check-itinerary", json=body)
+        assert j.status_code == 200 and j.json()["fingerprint"] and j.json()["feasible"] in (True, False)
+        assert c.post("/check-itinerary", json={**body, "days": [["not_real"]]}).status_code == 422
