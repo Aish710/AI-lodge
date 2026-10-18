@@ -32,12 +32,14 @@ export function hotelVerdict(comp, fmt) {
   if (!comp) return null
   if (!comp.best_by_true_cost) return { kind: 'bad', icon: '✕', headline: 'No hotel can host this trip', detail: 'See each hotel below for the conflict.' }
   const name = (id) => cleanHotelText(comp.results.find((r) => r.hotel_id === id)?.hotel_name ?? id)
+  const n = comp.results?.length ?? 0
+  const scope = `of the ${n} demo hotel${n === 1 ? '' : 's'} compared`
   if (comp.cheapest_by_rate === comp.best_by_true_cost || !comp.cheapest_by_rate) {
-    return { kind: 'good', icon: '✓', headline: 'The cheapest hotel is also the best for this trip', detail: `${name(comp.best_by_true_cost)} has the lowest nightly rate and the lowest true cost.` }
+    return { kind: 'good', icon: '✓', headline: 'Among these demo hotels, the cheapest is also the best overall', detail: `${name(comp.best_by_true_cost)} has the lowest nightly rate and the lowest generalised cost ${scope} (generalised cost includes valued travel time; it is not money you spend). Hotels and rates are demo sample data.` }
   }
   const gap = comp.ranking?.find((r) => r.hotel_id === comp.cheapest_by_rate)?.gap_to_winner_jpy
-  const cheaper = Number.isFinite(gap) && gap > 0 ? `, ${fmt(gap)} cheaper overall` : ''
-  return { kind: 'good', icon: '✓', headline: `Best value: ${name(comp.best_by_true_cost)}${cheaper}`, detail: `Compared with ${name(comp.cheapest_by_rate)}, which has the lowest nightly rate.` }
+  const lower = Number.isFinite(gap) && gap > 0 ? `, ${fmt(gap)} lower than ${name(comp.cheapest_by_rate)}` : ` than ${name(comp.cheapest_by_rate)}`
+  return { kind: 'good', icon: '✓', headline: `Best overall among these demo hotels: ${name(comp.best_by_true_cost)}`, detail: `It has the lowest generalised cost ${scope}${lower}, which has the lowest nightly rate. Generalised cost includes valued travel time, so this is a comparison figure, not money you spend. Hotels and rates are demo sample data.` }
 }
 
 // Which warnings matter most: must-visit problems, then budget, then unknown data, then everything else.

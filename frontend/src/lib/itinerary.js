@@ -61,3 +61,23 @@ export function armRows(result) {
     spend: a.breakdown ? a.breakdown.admissions_jpy + a.breakdown.transport_jpy : null, score: a.score_jpy ?? null,
   }))
 }
+
+/** Drag-and-drop move: take the stop at `from` and insert it at `to` (indices are into the days AS THEY ARE NOW). Returns the same array when nothing would change. Pure. */
+export function moveStop(days, from, to) {
+  if (!days[from.day] || days[from.day][from.index] === undefined || !days[to.day]) return days
+  if (from.day !== to.day && days[to.day].length >= MAX_PER_DAY) return days
+  const out = days.map((d) => [...d])
+  const [id] = out[from.day].splice(from.index, 1)
+  let at = Math.max(to.index, 0)                                  // a slot in the list AS IT WAS before the item was taken out
+  if (from.day === to.day && from.index < at) at -= 1            // taking the item out shifted everything after it up by one
+  at = Math.min(at, out[to.day].length)
+  if (from.day === to.day && at === from.index) return days
+  out[to.day].splice(at, 0, id)
+  return out
+}
+
+/** Plain sentence announced to screen readers after a move. */
+export function moveAnnouncement(name, days, id) {
+  for (let d = 0; d < days.length; d++) { const i = days[d].indexOf(id); if (i >= 0) return `${name} is now day ${d + 1}, position ${i + 1} of ${days[d].length}.` }
+  return `${name} was removed.`
+}

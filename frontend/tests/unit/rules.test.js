@@ -11,11 +11,11 @@ const byId = Object.fromEntries(places.attractions.map((p) => [p.id, p]))
 describe('hotel callout (decision 2): only when the API flag is true', () => {
   it('shows the "not the best value" callout for a real response where the flag is true', () => {
     expect(differs.rate_winner_differs_from_true_winner).toBe(true)
-    expect(hotelCallout(differs)).toEqual({ kind: 'differs', text: 'The cheapest rate is not the best value for this trip.' })
+    expect(hotelCallout(differs)).toEqual({ kind: 'differs', text: 'Among these demo hotels, the cheapest rate is not the best overall for this trip.' })
   })
   it('shows the neutral line for a real response where the flag is false', () => {
     expect(same.rate_winner_differs_from_true_winner).toBe(false)
-    expect(hotelCallout(same)).toEqual({ kind: 'same', text: 'For this trip the cheapest hotel is also the best overall.' })
+    expect(hotelCallout(same)).toEqual({ kind: 'same', text: 'Among these demo hotels, the cheapest is also the best overall for this trip.' })
   })
   it('shows nothing without a winner, and never treats a truthy non-true value as true', () => {
     expect(hotelCallout(null).kind).toBe('none')

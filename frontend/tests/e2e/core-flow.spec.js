@@ -16,10 +16,10 @@ test('example trip -> compare hotels -> itinerary with map, timeline, feasibilit
   await expect(table).toContainText('Rooms')
   await expect(table).toContainText('Travel time × value of time')
   await expect(table).toContainText('Missed preferences')
-  await expect(table).toContainText('True cost')
+  await expect(table).toContainText('Generalised cost')
   await expect(table).toContainText('OPTIMAL')
   // the example's value of time is a demo input; the callout is driven by the API flag (pinned by the backend test)
-  await expect(page.getByTestId('callout-differs')).toContainText('The cheapest rate is not the best value for this trip.')
+  await expect(page.getByTestId('callout-differs')).toContainText('Among these demo hotels, the cheapest rate is not the best overall for this trip.')
   // the slow value-of-time analysis never runs by itself: it starts only from this click
   await expect(page.getByTestId('sensitivity')).toHaveCount(0)
   await page.getByTestId('run-sensitivity').click()

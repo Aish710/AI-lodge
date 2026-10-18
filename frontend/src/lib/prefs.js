@@ -14,6 +14,7 @@ export const DEFAULT_FORM = () => ({
   allowUnknownHours: false,
   maxActivities: '',         // blank = use the pace preset's cap
   maxDailyTravel: '',        // blank = no limit; minutes of ESTIMATED travel per day
+  minActiveDays: '',         // blank = no requirement; otherwise at least this many days must have an activity (a hard rule)
 })
 
 export function budgetInLocal(form, cityOrRate) {
@@ -54,6 +55,8 @@ export function buildPreferences(form, wishlist, cityOrRate) {
   if (act !== '' && act !== null && act !== undefined && !(Number.isInteger(Number(act)) && Number(act) >= 1 && Number(act) <= 8)) errors.push('Maximum activities per day must be a whole number from 1 to 8.')
   const trv = form.maxDailyTravel
   if (trv !== '' && trv !== null && trv !== undefined && !(Number.isInteger(Number(trv)) && Number(trv) >= 20 && Number(trv) <= 720)) errors.push('Maximum estimated travel per day must be a whole number of minutes from 20 to 720.')
+  const mad = form.minActiveDays
+  if (mad !== '' && mad !== null && mad !== undefined && !(Number.isInteger(Number(mad)) && Number(mad) >= 1 && Number(mad) <= days)) errors.push('Minimum active days must be a whole number from 1 to the number of days.')
   const must = Object.keys(wishlist).filter((id) => wishlist[id] === 'must')
   const skip = Object.keys(wishlist).filter((id) => wishlist[id] === 'skip')
   const prefs = {
@@ -65,6 +68,7 @@ export function buildPreferences(form, wishlist, cityOrRate) {
   // Optional limits are sent only when set, so an unset form builds exactly the request it always did.
   if (act !== '' && act !== null && act !== undefined && !errors.length) prefs.max_activities_per_day = Number(act)
   if (trv !== '' && trv !== null && trv !== undefined && !errors.length) prefs.max_daily_travel_minutes = Number(trv)
+  if (mad !== '' && mad !== null && mad !== undefined && !errors.length) prefs.min_active_days = Number(mad)
   return { prefs, errors }
 }
 
@@ -99,7 +103,7 @@ export function formFromDraft(draft, base = DEFAULT_FORM(), localCurrency = 'JPY
 /** After a server-applied repair: bring the form and the wishlist in line with the preferences that were really used, so Recalculate and the next edit start from them. Pure. */
 export function formFromPrefs(form, wishlist, prefs) {
   const f = { ...form, pace: prefs.pace, dayEnd: prefs.day_end, valueOfTime: prefs.value_of_time_per_hour, allowUnknownHours: Boolean(prefs.allow_unknown_hours), strictBudget: Boolean(prefs.strict_budget),
-    maxActivities: prefs.max_activities_per_day ?? '', maxDailyTravel: prefs.max_daily_travel_minutes ?? '' }
+    maxActivities: prefs.max_activities_per_day ?? '', maxDailyTravel: prefs.max_daily_travel_minutes ?? '', minActiveDays: prefs.min_active_days ?? '' }
   const w = { ...wishlist }
   for (const id of Object.keys(w)) if (w[id] === 'must' && !(prefs.must_visit ?? []).includes(id)) w[id] = 'nice'
   for (const id of prefs.must_visit ?? []) w[id] = 'must'

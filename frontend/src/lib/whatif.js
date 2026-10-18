@@ -5,7 +5,7 @@ export const WHATIF_PACES = ['relaxed', 'balanced', 'packed']
 
 export function draftFrom(prefs, hotel) {
   return { budget: prefs.budget ?? '', strict: Boolean(prefs.strict_budget), days: prefs.days, dayEnd: prefs.day_end, pace: prefs.pace,
-    maxActivities: prefs.max_activities_per_day ?? '', maxDailyTravel: prefs.max_daily_travel_minutes ?? '', vot: prefs.value_of_time_per_hour,
+    maxActivities: prefs.max_activities_per_day ?? '', maxDailyTravel: prefs.max_daily_travel_minutes ?? '', minActive: prefs.min_active_days ?? '', vot: prefs.value_of_time_per_hour,
     exclude: [], addMust: [], hotel }
 }
 
@@ -29,6 +29,9 @@ export function buildScenario(base, baseHotel, d) {
   const trv = blank(d.maxDailyTravel) ? null : Number(d.maxDailyTravel)
   if (trv !== null && !(Number.isInteger(trv) && trv >= 20 && trv <= 720)) errors.push('Estimated travel per day must be 20 to 720 minutes.')
   else if (trv !== (base.max_daily_travel_minutes ?? null)) { if (trv === null) delete prefs.max_daily_travel_minutes; else prefs.max_daily_travel_minutes = trv; changes.push(trv === null ? 'no daily travel limit' : `at most ${trv} min estimated travel a day`) }
+  const mad = blank(d.minActive) ? null : Number(d.minActive)
+  if (mad !== null && !(Number.isInteger(mad) && mad >= 1 && mad <= Number(d.days))) errors.push('Minimum active days must be 1 to the number of days.')
+  else if (mad !== (base.min_active_days ?? null)) { if (mad === null) delete prefs.min_active_days; else prefs.min_active_days = mad; changes.push(mad === null ? 'no minimum active days' : `at least ${mad} active days`) }
   if (!(Number(d.vot) >= 0)) errors.push('Value of time must be zero or more.')
   else if (Number(d.vot) !== base.value_of_time_per_hour) { prefs.value_of_time_per_hour = Number(d.vot); changes.push('different value of an hour') }
   if (d.exclude.length) {

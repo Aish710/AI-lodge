@@ -111,7 +111,7 @@ describe('cost panel: unknown prices, budget meter, cash versus true cost', () =
     expect(w.get('[data-testid=figure-true]').text()).toContain('a comparison figure, not money')
     expect(w.get('[data-testid=figure-true]').text()).toContain(formatLocalMoney(o.cost_summary.trip.cash_total + 123456, 'KRW'))
     expect(w.get('[data-testid=two-figures]').text()).toContain('Cash cost')
-    expect(w.get('[data-testid=two-figures]').text()).toContain('True cost')
+    expect(w.get('[data-testid=two-figures]').text()).toContain('Generalised cost')
   })
 })
 

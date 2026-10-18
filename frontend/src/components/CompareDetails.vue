@@ -56,7 +56,7 @@ const displayCost = (id) => comp.value?.display_values?.[id]?.true_cost
                   <div class="small muted">{{ r.breakdown.missed_preferences.count }} × {{ money(r.breakdown.missed_preferences.penalty_per_item_jpy) }}<span v-if="r.breakdown.missed_preferences.names.length">: {{ r.breakdown.missed_preferences.names.join(', ') }}</span></div></template>
                 <template v-else>n/a</template>
               </td></tr>
-            <tr class="fw-bold"><th scope="row">True cost</th>
+            <tr class="fw-bold"><th scope="row">Generalised cost <span class="small fw-normal muted d-block">not money spent</span></th>
               <td v-for="r in results" :key="r.hotel_id" class="num" :class="{ winner: isBest(r.hotel_id) }" :data-testid="`true-cost-${r.hotel_id}`">
                 <template v-if="r.breakdown">{{ money(r.breakdown.true_cost_jpy) }}<div class="small fw-normal muted">≈ {{ displayCost(r.hotel_id) !== undefined ? `${displayCost(r.hotel_id).toFixed(2)} ${comp.display_currency}` : display(r.breakdown.true_cost_jpy) || UNKNOWN }} (sample rate)</div></template>
                 <template v-else>n/a</template>

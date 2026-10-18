@@ -64,3 +64,26 @@ describe('itinerary store actions', () => {
     expect(JSON.parse(f.mock.calls[0][1].body).preferences.must_visit).toEqual(['a'])
   })
 })
+
+import { moveAnnouncement, moveStop } from '../../src/lib/itinerary.js'
+describe('drag-and-drop moves', () => {
+  const d = [['a', 'b', 'c'], ['x'], []]
+  it('moves within a day with the insertion slot semantics and never mutates', () => {
+    expect(moveStop(d, { day: 0, index: 0 }, { day: 0, index: 3 })[0]).toEqual(['b', 'c', 'a'])
+    expect(moveStop(d, { day: 0, index: 2 }, { day: 0, index: 0 })[0]).toEqual(['c', 'a', 'b'])
+    expect(moveStop(d, { day: 0, index: 1 }, { day: 0, index: 1 })).toBe(d)            // dropped where it already is
+    expect(moveStop(d, { day: 0, index: 1 }, { day: 0, index: 2 })).toBe(d)            // the slot right after itself is the same place
+    expect(d).toEqual([['a', 'b', 'c'], ['x'], []])
+  })
+  it('moves across days, onto an empty day, and refuses a full day', () => {
+    expect(moveStop(d, { day: 0, index: 1 }, { day: 2, index: 0 })).toEqual([['a', 'c'], ['x'], ['b']])
+    expect(moveStop(d, { day: 1, index: 0 }, { day: 0, index: 1 })).toEqual([['a', 'x', 'b', 'c'], [], []])
+    const full = [['a'], Array.from({ length: 8 }, (_, i) => 's' + i)]
+    expect(moveStop(full, { day: 0, index: 0 }, { day: 1, index: 0 })).toBe(full)
+  })
+  it('ignores impossible requests and announces the result in words', () => {
+    expect(moveStop(d, { day: 5, index: 0 }, { day: 0, index: 0 })).toBe(d)
+    expect(moveStop(d, { day: 0, index: 9 }, { day: 0, index: 0 })).toBe(d)
+    expect(moveAnnouncement('Alpha', [['x'], ['b', 'a']], 'a')).toBe('Alpha is now day 2, position 2 of 2.')
+  })
+})

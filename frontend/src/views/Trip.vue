@@ -30,6 +30,7 @@ import TradeoffExplorer from '../components/TradeoffExplorer.vue'
 import ItineraryCompare from '../components/ItineraryCompare.vue'
 import WhatIfPanel from '../components/WhatIfPanel.vue'
 import BenefitStrip from '../components/BenefitStrip.vue'
+import ThingsToCheck from '../components/ThingsToCheck.vue'
 import RepairAssistant from '../components/RepairAssistant.vue'
 import DaySelector from '../components/DaySelector.vue'
 import AiMark from '../components/AiMark.vue'
@@ -48,6 +49,8 @@ const result = computed(() => resp.value?.result)
 const hotel = computed(() => store.hotelsById[store.chosenHotel] ?? null)
 const infeasible = computed(() => isInfeasible(resp.value))
 const t = computed(() => result.value?.totals)
+const cash = computed(() => resp.value?.cost_summary?.trip ?? null)
+const activeDays = computed(() => (result.value?.days ?? []).filter((d) => d.stops?.length).length)
 const status = computed(() => planStatus(resp.value))
 const tally = computed(() => checksTally(resp.value?.feasibility_report))
 const cover = computed(() => sightsCovered(t.value?.attractions_scheduled ?? 0, store.places, store.wishlist))
@@ -147,9 +150,9 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
               <div class="row g-3">
                 <div class="col-12 col-lg-8"><div class="row g-3">
                 <div class="col-6"><div class="tile">
-                  <div class="tile-label">Total cost <Hint text="Sights + estimated transport only. Rooms are in the hotel comparison." label="What does total cost include?" /></div>
-                  <div class="tile-value" data-testid="kpi-total">{{ money(t.total_jpy) }}</div>
-                  <div class="tile-sub">{{ formatMoney(t.total_jpy, store.fx).split('(')[1]?.replace(')', '') ?? '' }}</div></div></div>
+                  <div class="tile-label">Estimated spending incl. rooms <Hint text="Modelled cash: admissions with a known price + estimated transport + the demo hotel's rooms at its sample rate. Unknown prices are excluded, not free. Not a quote and not the generalised cost." label="What does estimated spending include?" /></div>
+                  <div class="tile-value" data-testid="kpi-total">{{ money(cash?.cash_total_with_rooms ?? t.total_jpy) }}</div>
+                  <div class="tile-sub" data-testid="kpi-total-parts">sights and transport {{ money(t.total_jpy) }}<template v-if="cash"> + rooms {{ money(cash.rooms) }} ({{ cash.nights }} night{{ cash.nights === 1 ? '' : 's' }})</template></div></div></div>
                 <div class="col-6"><div class="tile">
                   <div class="tile-label">Travel time, all days (estimated) <Hint text="Time moving between places, not time at sights." label="What does travel time mean?" /></div>
                   <div class="tile-value" data-testid="kpi-travel">{{ humanMinutes(t.travel_minutes) }}</div></div></div>
@@ -163,10 +166,11 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
                 <div class="col-12 col-lg-4"><GettingAround /></div>
               </div>
               <p class="mt-2 mb-0 small muted">
-                Admissions {{ money(t.admissions_jpy) }} + transport {{ money(t.transport_jpy) }} <span class="badge-src badge-estimated">estimated</span> · {{ resp.nights_used }} night(s) of rooms are not included · Solver: {{ result.solver_meta.solver_status }}<span v-if="result.solver_meta.solver_status !== 'OPTIMAL'"> (not proven optimal)</span>
-                <span v-if="t.unknown_cost_items.length" style="color: var(--amber)"> · + {{ t.unknown_cost_items.length }} unknown price(s), not included</span>
+                Admissions {{ money(t.admissions_jpy) }} + transport {{ money(t.transport_jpy) }} <span class="badge-src badge-estimated">estimated</span><template v-if="cash"> + rooms {{ money(cash.rooms) }} (fictional hotel, sample rate)</template> · Active days {{ activeDays }} of {{ result.days.length }} · Solver: {{ result.solver_meta.solver_status }}<span v-if="result.solver_meta.solver_status !== 'OPTIMAL'"> (not proven optimal)</span>
               </p>
             </section>
+
+            <ThingsToCheck :days="result.days" />
 
             <BenefitStrip />
 

@@ -16,7 +16,7 @@ export function entryRows(baselines) {
     rooms: e.accommodation_jpy, admissions: e.admissions_jpy, transport: e.transport_jpy, spend: e.known_spend_jpy,
     minutes: e.travel_minutes, timeValue: e.travel_time_value_jpy,
     omitted: e.omitted_optional ?? [], charge: e.omitted_charge_jpy, unknown: e.unknown_price_items ?? [],
-    score: e.score_jpy, sameAs: e.same_hotel_as ?? [],
+    score: e.score_jpy, sameAs: (e.same_hotel_as ?? []).map((k) => ({ cheapest_rate: 'the cheapest-first plan', convenience_first: 'the convenience-first plan', joint: 'the joint plan' }[k] ?? k)),
   }))
 }
 

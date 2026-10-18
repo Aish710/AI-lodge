@@ -54,3 +54,7 @@ export const parseProfile = (text, current, userOverrides, cityId) =>
 /** Read-only contextual question. All plan evidence is rebuilt on the server. */
 export const askCopilot = (preferences, currentResult, fingerprint, text, operation, cityId) =>
   request('POST', '/copilot', { key: 'copilot', timeoutMs: SOLVE_TIMEOUT_MS, body: { city_id: city(cityId), preferences, current_result: currentResult, fingerprint, text, operation } })
+
+/** Live feedback for a DRAFT itinerary: where each stop would happen, the independent validator's verdict and the modelled cash. No optimiser, nothing saved. */
+export const checkItinerary = (preferences, hotelId, days, { cityId } = {}) =>
+  request('POST', '/check-itinerary', { key: 'check-itinerary', timeoutMs: 15000, body: { city_id: city(cityId), preferences, hotel_id: hotelId, days } })

@@ -32,7 +32,7 @@ test('queue lock + remove, apply once, see the diff with warnings; then restore 
   expect(replanCalls).toHaveLength(1)
   expect(replanCalls[0].operations).toHaveLength(2)
   expect(replanCalls[0].confirm_remove_must_visit).toBe(false)
-  await expect(page.getByTestId('diff-table')).toContainText('True cost')
+  await expect(page.getByTestId('diff-table')).toContainText('Generalised cost')
   await expect(page.getByTestId('diff-warnings')).toBeVisible()
   await expect(page.getByTestId('diff-warnings')).toContainText('Not like-for-like')
   await expect(page.getByTestId('diff-true_cost_jpy').getByTestId('not-like-for-like')).toBeVisible()

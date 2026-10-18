@@ -30,7 +30,7 @@ export const store = reactive({
   busy: { compare: false, sensitivity: false, optimise: false, replan: false, parse: false, proposal: false },
   sensitivityError: null, sensitivityCancelled: false, sensitivityStartedAt: 0,
   planFromReplan: false,
-  itin: { days: null, result: null, busy: false, error: null },
+  itin: { days: null, result: null, busy: false, error: null, live: null, liveBusy: false, liveSeq: 0 },
   profile: emptyProfile(),
   repair: { proposal: null, text: '', busy: false, applying: false, error: null, keepHotel: false, confirmed: [] },
   styleAi: { proposal: null, busy: false, error: null },
@@ -138,7 +138,7 @@ export async function loadPlaces() {
 
 /** Abort every request that could still answer for the previous city. */
 function abortAllInFlight() {
-  for (const k of ['places', 'compare', 'compare-sens', 'optimise', 'replan', 'parse', 'parse-replan', 'summary', 'evaluate-itinerary', 'explore', 'parse-repair', 'apply-repair', 'parse-profile']) abortKey(k)
+  for (const k of ['places', 'compare', 'compare-sens', 'optimise', 'replan', 'parse', 'parse-replan', 'summary', 'evaluate-itinerary', 'explore', 'parse-repair', 'apply-repair', 'parse-profile', 'check-itinerary']) abortKey(k)
 }
 
 function clearComputedResults() {
@@ -187,7 +187,7 @@ export async function selectCity(cityId) {
   store.repair = { proposal: null, text: '', busy: false, applying: false, error: null, keepHotel: false, confirmed: [] }
   store.styleAi = { proposal: null, busy: false, error: null }
   store.history = []
-  store.itin = { days: null, result: null, busy: false, error: null }
+  store.itin = { days: null, result: null, busy: false, error: null, live: null, liveBusy: false, liveSeq: 0 }
   store.whatif = { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 }
   store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null }
   store.hotelsById = {}
@@ -406,7 +406,7 @@ function applyExample(kind) {
   store.repair = { proposal: null, text: '', busy: false, applying: false, error: null, keepHotel: false, confirmed: [] }
   store.styleAi = { proposal: null, busy: false, error: null }
   store.history = []
-  store.itin = { days: null, result: null, busy: false, error: null }
+  store.itin = { days: null, result: null, busy: false, error: null, live: null, liveBusy: false, liveSeq: 0 }
   store.whatif = { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 }
   store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null }
 }
@@ -441,7 +441,7 @@ export function resetAll() {
   store.repair = { proposal: null, text: '', busy: false, applying: false, error: null, keepHotel: false, confirmed: [] }
   store.styleAi = { proposal: null, busy: false, error: null }
   store.history = []
-  store.itin = { days: null, result: null, busy: false, error: null }
+  store.itin = { days: null, result: null, busy: false, error: null, live: null, liveBusy: false, liveSeq: 0 }
   store.whatif = { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 }
   store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null }
 }
@@ -659,7 +659,24 @@ export function startItinerary() {
   if (!store.planPrefs || !store.plan) return
   const chosen = Object.keys(store.placesById).filter((id) => store.wishlist[id] !== 'skip' && (store.wishlist[id] === 'must' || store.wishlist[id] === 'nice'))
   const ids = chosen.length ? chosen : store.plan.result.days.flatMap((d) => d.stops.map((s) => s.attraction_id))
-  store.itin = { days: seedDays(ids, store.planPrefs.days), result: null, busy: false, error: null }
+  store.itin = { days: seedDays(ids, store.planPrefs.days), result: null, busy: false, error: null, live: null, liveBusy: false, liveSeq: 0 }
+}
+
+function trimTrailing(days) { const out = days.map((d) => [...d]); while (out.length && !out.at(-1).length) out.pop(); return out }
+
+/** Live feasibility feedback for the draft. Cheap (no optimiser); a newer call or a closed editor makes an older answer stale and it is dropped. */
+export async function checkDraft() {
+  const it = store.itin
+  if (!it.days || !store.planPrefs || !store.chosenHotel) return
+  const days = trimTrailing(it.days)          // empty days in the middle are KEPT: day numbers decide the weekday and so the opening hours
+  if (!days.length) { it.live = null; return }
+  const mine = ++it.liveSeq
+  it.liveBusy = true
+  try {
+    const r = await api.checkItinerary(store.planPrefs, store.chosenHotel, days, { cityId: store.cityId })
+    if (mine === store.itin.liveSeq) it.live = r
+  } catch (e) { if (mine === store.itin.liveSeq && !isAborted(e)) it.live = { error: e instanceof ApiError ? e.message : 'The draft could not be checked.' } }
+  finally { if (mine === store.itin.liveSeq) it.liveBusy = false }
 }
 
 export async function runItineraryCompare() {
@@ -667,7 +684,7 @@ export async function runItineraryCompare() {
   store.itin.busy = true
   store.itin.error = null
   try {
-    store.itin.result = await api.evaluateItinerary(store.planPrefs, store.chosenHotel, store.itin.days.filter((d) => d.length), { cityId: store.cityId })
+    store.itin.result = await api.evaluateItinerary(store.planPrefs, store.chosenHotel, trimTrailing(store.itin.days), { cityId: store.cityId })
   } catch (e) { if (!isAborted(e)) { store.itin.error = e instanceof ApiError ? e : new ApiError({ code: 'unexpected', message: 'Something unexpected went wrong.' }); noteSolverBusy(store.itin.error) } }
   finally { store.itin.busy = false }
 }

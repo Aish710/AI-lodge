@@ -8,9 +8,9 @@ import { formatLocalMoney, WEEKDAYS, WEEKDAY_NAMES } from './format.js'
 export function hotelCallout(comparison) {
   if (!comparison || comparison.best_by_true_cost == null) return { kind: 'none', text: '' }
   if (comparison.rate_winner_differs_from_true_winner === true) {
-    return { kind: 'differs', text: 'The cheapest rate is not the best value for this trip.' }
+    return { kind: 'differs', text: 'Among these demo hotels, the cheapest rate is not the best overall for this trip.' }
   }
-  return { kind: 'same', text: 'For this trip the cheapest hotel is also the best overall.' }
+  return { kind: 'same', text: 'Among these demo hotels, the cheapest is also the best overall for this trip.' }
 }
 
 /** Not-scheduled panel (decision 3): every visitable optional sight that was skipped, as a visible decision. */

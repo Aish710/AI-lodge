@@ -23,7 +23,7 @@ const disabled = computed(() => solverBusy.value || rateLimited.value)
         <label class="hotel-switch-option" :for="`hs-${r.hotel_id}`">
           <span class="hotel-title">{{ ct(r.hotel_name) }}</span>
           <span class="small muted">{{ money(r.nightly_rate_jpy) }}/night</span>
-          <span v-if="r.hotel_id === best" class="pill pill-must">Best value</span>
+          <span v-if="r.hotel_id === best" class="pill pill-must">Best overall</span>
           <span v-if="!r.feasible" class="small" :data-blocked="blocked(r)">{{ blocked(r) ? 'Blocked by missing information' : 'No feasible plan' }}</span>
         </label>
       </template>

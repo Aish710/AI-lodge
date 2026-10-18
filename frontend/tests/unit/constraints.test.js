@@ -22,3 +22,11 @@ describe('optional daily limits', () => {
     expect(buildPreferences({ ...DEFAULT_FORM(), maxActivities: '2.5' }, {}, city).errors.length).toBe(1)
   })
 })
+
+describe('minimum active days', () => {
+  it('is sent only when set and must be between 1 and the number of days', () => {
+    expect('min_active_days' in buildPreferences(DEFAULT_FORM(), {}, city).prefs).toBe(false)
+    expect(buildPreferences({ ...DEFAULT_FORM(), days: 4, minActiveDays: '3' }, {}, city).prefs.min_active_days).toBe(3)
+    for (const bad of ['0', '5', '2.5', 'x']) expect(buildPreferences({ ...DEFAULT_FORM(), days: 4, minActiveDays: bad }, {}, city).errors.length).toBe(1)
+  })
+})

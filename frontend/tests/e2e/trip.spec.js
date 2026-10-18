@@ -34,7 +34,7 @@ for (const city of ['seoul', 'kuala_lumpur']) {
     await expect(page.getByTestId('trip-cash-total')).not.toBeEmpty()
     await expect(page.locator('[data-testid^=day-mix-]').first()).toContainText(/sightseeing|food|shopping/)
     await expect(page.getByTestId('two-figures')).toContainText('Cash cost')
-    await expect(page.getByTestId('two-figures')).toContainText('True cost')
+    await expect(page.getByTestId('two-figures')).toContainText('Generalised cost')
     await expect(page.getByTestId('cost-panel')).not.toContainText(/(?<![A-Z])\$\d/)   // never a bare dollar sign
     expectClean(problems)
   })

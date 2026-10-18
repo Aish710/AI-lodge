@@ -221,6 +221,10 @@ function example(kind) { loadExample(kind); nudge.value = true }
             <input id="f-maxact" class="form-control" type="number" min="1" max="8" placeholder="pace default" v-model="store.form.maxActivities" data-testid="max-activities" />
           </div>
           <div class="col-6 col-md-3">
+            <label class="form-label" for="f-minactive">Use at least this many days <Hint text="A hard rule: that many trip days must have at least one activity, so the plan does not squeeze everything into the first days. Leave blank for no requirement." /></label>
+            <input id="f-minactive" class="form-control" type="number" min="1" :max="store.form.days" placeholder="no requirement" v-model="store.form.minActiveDays" data-testid="min-active-days" />
+          </div>
+          <div class="col-6 col-md-3">
             <label class="form-label" for="f-maxtravel">Max estimated travel per day (min) <Hint text="Estimated from straight-line distances in the sample data, not real routes. Leave blank for no limit." /></label>
             <input id="f-maxtravel" class="form-control" type="number" min="20" max="720" placeholder="no limit" v-model="store.form.maxDailyTravel" data-testid="max-daily-travel" />
           </div>

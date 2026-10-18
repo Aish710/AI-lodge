@@ -68,7 +68,7 @@ export function proposalToOps(proposal, includeIdx = null) {
 
 // ---- diff view model ----
 const LINES = [['admissions_jpy', 'Admissions', 'jpy'], ['transport_jpy', 'Transport (estimated)', 'jpy'], ['rooms_jpy', 'Rooms', 'jpy'],
-  ['time_cost_jpy', 'Travel time × value of time', 'jpy'], ['missed_penalty_jpy', 'Missed preferences', 'jpy'], ['true_cost_jpy', 'True cost', 'jpy'], ['travel_minutes', 'Travel time (h:mm)', 'min']]
+  ['time_cost_jpy', 'Travel time × value of time', 'jpy'], ['missed_penalty_jpy', 'Missed preferences', 'jpy'], ['true_cost_jpy', 'Generalised cost (not money)', 'jpy'], ['travel_minutes', 'Travel time (h:mm)', 'min']]
 
 export const isNotLikeForLike = (w) => /^Not like-for-like/i.test(w)
 

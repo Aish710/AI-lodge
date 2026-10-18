@@ -19,7 +19,7 @@ export function dayStatus(day) {
   if (n('opening_hours_unknown')) parts.push(`${n('opening_hours_unknown')} with unknown opening hours`)
   if (n('price_unknown')) parts.push(`${n('price_unknown')} with an unknown price`)
   if (n('advance_booking_required')) parts.push(`${n('advance_booking_required')} needing advance booking`)
-  return parts.length ? `Check: ${parts.join(', ')}.` : 'No warnings on this day.'
+  return ''     // the flags are shown once per stop and once in "To check before you go"; repeating them per day is noise
 }
 
 export const tags = (s, lockedIds = []) => {

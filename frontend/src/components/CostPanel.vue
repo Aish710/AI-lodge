@@ -57,7 +57,7 @@ const trueCost = computed(() => {
     <dl class="two-figures small mb-0" data-testid="two-figures">
       <div><dt>Cash cost <Hint text="Money you would spend: admissions and estimated transport (and rooms where shown). Sample data, not a quote." label="What is cash cost?" /></dt>
         <dd data-testid="figure-cash">{{ money(cs.trip.cash_total) }} for sights and transport · {{ money(cs.trip.cash_total_with_rooms) }} with rooms</dd></div>
-      <div v-if="trueCost !== null"><dt>True cost <Hint text="Cash cost plus the value of your travel time (at the rate you set) and a charge for optional sights left out. It exists only to compare hotels. It is not money you spend." label="What is true cost?" /></dt>
+      <div v-if="trueCost !== null"><dt>Generalised cost <Hint text="Cash cost plus the value of your travel time (at the rate you set) and a charge for optional sights left out. It exists only to compare plans and hotels. It is not money you spend." label="What is generalised cost?" /></dt>
         <dd data-testid="figure-true">{{ formatCash(trueCost, cur) }} <span class="muted">(a comparison figure, not money)</span></dd></div>
     </dl>
   </section>

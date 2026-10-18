@@ -12,12 +12,13 @@ describe('hotel verdict', () => {
     const v = hotelVerdict(differsTrue, fmt)
     const gap = differsTrue.ranking.find((r) => r.hotel_id === differsTrue.cheapest_by_rate).gap_to_winner_jpy
     expect(v.kind).toBe('good')
-    expect(v.headline).toMatch(/^Best value: /)
-    expect(v.headline).toContain(`${fmt(gap)} cheaper overall`)
+    expect(v.headline).toMatch(/^Best overall among these demo hotels: /)
+    expect(v.detail).toContain(`${fmt(gap)} lower than`)
+    expect(v.detail).toContain('not money you spend')
     expect(v.headline).not.toContain('fictional')
   })
   it('says the cheapest hotel is also the best when they are the same', () => {
-    expect(hotelVerdict(differsFalse, fmt).headline).toBe('The cheapest hotel is also the best for this trip')
+    expect(hotelVerdict(differsFalse, fmt).headline).toBe('Among these demo hotels, the cheapest is also the best overall')
   })
   it('says so plainly when no hotel can host the trip, and returns nothing before a comparison exists', () => {
     expect(hotelVerdict({ ...differsTrue, best_by_true_cost: null }, fmt)).toMatchObject({ kind: 'bad', headline: 'No hotel can host this trip' })
