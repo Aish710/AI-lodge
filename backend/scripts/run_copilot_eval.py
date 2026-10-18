@@ -2,7 +2,8 @@
 
   oracle    scripted intent = the author's expected answer. Measures INTEGRATION only (routing, grounding, no mutation, AI-off behaviour). It is a mock; its intent accuracy is 100% by construction
             and says nothing about any model.
-  keyword   a deterministic keyword classifier. NOT a model. A lower bound that shows the cases are not trivially solved by the oracle and how much a language model would need to add.
+  keyword   a deterministic keyword classifier. NOT a model. Written by the case author AFTER seeing the cases, so it is optimistic and case-aware (not a lower bound, not independent); it only shows that the
+            missing-data and repair-phrased cases are not solved by simple keyword rules.
   live      the real model (one call per AI case, hard cap). NEVER run without approval: `--plan` prints the call count, token envelope and the price formula first; `--live` needs RUN_LIVE_LLM_EVAL=1.
 
 Metrics: intent accuracy (the operation the classifier chose), clarification appropriateness (recall on cases whose right answer is CLARIFY; over-clarification where it is not), routing (the hand-off the
@@ -234,7 +235,7 @@ def summarise(rows):
 
 
 def render(mode, s, rows, extra=""):
-    label = {"oracle": "MOCK ORACLE (integration only: intent accuracy is 100% by construction and says nothing about any model)", "keyword": "KEYWORD BASELINE (deterministic rules, NOT a language model)", "live": "LIVE MODEL"}[mode]
+    label = {"oracle": "MOCK ORACLE (integration only: intent accuracy is 100% by construction and says nothing about any model)", "keyword": "KEYWORD BASELINE (deterministic rules written by the case author AFTER seeing the cases: optimistic and case-aware, NOT a language model, and not an independent or lower-bound measure)", "live": "LIVE MODEL"}[mode]
     L = [f"# Copilot evaluation: {label}", "", f"Generated {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')} by `backend/scripts/run_copilot_eval.py`. Prompt version `{PROMPT_VERSION}`. Cases: `backend/tests/fixtures/copilot_eval_cases.json` "
          f"({s['cases']} cases, {s['ai_cases']} need a classifier, {s['ai_off_cases']} are AI-off quick questions), developer-authored, frozen before any model ran on them, **not independent**. Sample data, fictional hotels. {extra}", "",
          "| Metric | Result |", "|---|---|",
