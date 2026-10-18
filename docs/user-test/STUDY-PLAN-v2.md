@@ -8,7 +8,7 @@
   - **Classic**: open the app with `?builder=classic` (for example `https://<site>/?builder=classic`): arrow buttons and "Move to" only, no dragging, no live feedback.
   - **New**: the normal app: drag between days, live "your draft works / has a problem" feedback, keyboard moves.
   - **Counterbalance:** odd participants do Classic then New, even participants New then Classic. Use a different city and a different set of must-visits for the two halves (say which in `city_a` / `city_b`) so learning does not carry over; swap which city comes first between pairs.
-- **Tasks** (from `TASKS-v2.md`): T1 generate a trip; T2 explain why this hotel; T3 identify which constraints are satisfied; T4 repair an infeasible itinerary; T5 arrange your own itinerary and compare with the optimiser (the two workflows differ here); T6 change a travel style; T7 what-if "2 days only" and go back; T8 name the cheapest and the least-travel alternative; T9 name what is made-up or estimated.
+- **Tasks** (from `TASKS-v2.md`): T1 generate a trip; T2 explain why this hotel; T3 identify which constraints are satisfied; T4 repair an infeasible itinerary; T5 arrange your own itinerary and compare with the optimiser (the two workflows differ here); T6 change a travel style; T7 what-if "2 days only" and go back; T8 name the cheapest and the least-travel alternative; T9 name what is made-up or estimated; T11 first-use understanding of the sample trip; T12 move a sight manually vs by asking the assistant; T13 recover from a change; T14 total modelled cash incl. rooms vs the score; T15 decide what to do about an empty day.
 - Read each task aloud; no hints. Stop a task after 5 minutes and record "not completed".
 
 ## Measures (per task and workflow)
@@ -22,6 +22,11 @@
 | Ability to resolve conflicts (T4) | completed with a valid plan yes/no; used the repair cards, the AI box or neither |
 | Decision confidence | participant, 1 to 5, after each workflow |
 | Perceived usefulness | participant, 1 to 5, after each workflow; one free-text sentence |
+| Editing speed and errors (T12) | stopwatch seconds and error count, manual vs assistant, counterbalanced; `edit_seconds`, `ai_edit_condition` |
+| Error recovery (T13) | recovered unaided yes/no, whether Undo was used (`error_recovered`, `used_undo`) |
+| Cost comprehension (T14) | `cash_total_correct`: right / partly / wrong; the score is not money |
+| AI assistance (T12) | participant 1 to 5 "the assistant helped" (`ai_edit_helpful_1to5`); whether the preview was read before Apply |
+| First-use understanding (T11) | how many of 3 things named unprompted (`first_use_understood_of_3`) |
 | Trust calibration (T9) | how many of the three limits (fictional hotels, estimated travel, unverified prices) the person names |
 
 ## Reporting rules

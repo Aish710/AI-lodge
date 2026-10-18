@@ -141,3 +141,18 @@ def test_study_v2_with_no_rows_says_not_conducted_and_invents_nothing(tmp_path):
     text = (tmp_path / "docs/user-test/study-v2-summary.md").read_text()
     assert "No results yet (N = 0)" in text and "not been conducted" in text
     assert "NOT CONDUCTED" in (repo / "docs/user-test/STUDY-PLAN-v2.md").read_text()
+
+
+def test_study_v2_summary_reports_the_new_measures_from_synthetic_test_rows_only(tmp_path):
+    """Synthetic rows in a temp dir exercise the arithmetic. They are test fixtures, not participants, and are never written to the repository."""
+    import subprocess, sys
+    repo = Path(__file__).resolve().parents[2]
+    (tmp_path / "docs/user-test").mkdir(parents=True)
+    head = (repo / "docs/user-test/study-v2-results.csv").read_text().strip().split(",")
+    rows = [{"participant_id": "T1", "workflow": "x", "task": "12", "completed": "yes", "seconds": "30", "errors": "0", "edit_seconds": "20", "ai_edit_condition": "manual", "error_recovered": "yes", "cash_total_correct": "right"},
+            {"participant_id": "T1", "workflow": "x", "task": "12", "completed": "yes", "seconds": "20", "errors": "1", "edit_seconds": "10", "ai_edit_condition": "assistant", "ai_edit_helpful_1to5": "4"}]
+    with open(tmp_path / "docs/user-test/study-v2-results.csv", "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=head); w.writeheader(); [w.writerow(r) for r in rows]
+    subprocess.run([sys.executable, str(repo / "scripts/summarise_study_v2.py"), "--root", str(tmp_path)], check=True, capture_output=True)
+    text = (tmp_path / "docs/user-test/study-v2-summary.md").read_text()
+    assert "Median edit seconds, manual | 1 | 20.0" in text and "Median edit seconds, assistant | 1 | 10.0" in text and "Recovered from a bad change unaided | 1 of 1" in text

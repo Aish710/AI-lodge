@@ -1,10 +1,10 @@
 # Submission facts (generated)
 
-Generated 2026-10-18 09:11 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
+Generated 2026-10-18 10:22 UTC by `frontend/scripts/make-submission-facts.mjs`. Each line is copied from a generated file (named beside it); anything not available says "not measured". Re-run the full backend suite, frontend tests, evaluation and Lighthouse before release; do not edit by hand.
 
 ## Tests
 
-- Backend full suite: 1155 passed, 0 failed, 0 skipped, 1155 total (pytest), revision b00ae93078c0be91cf931eddad5f881742285c0c + uncommitted changes.  
+- Backend full suite: 1164 passed, 0 failed, 0 skipped, 1164 total (pytest), revision f445be6d5a70d0724b2858f30a5035772f6d7ef1 + uncommitted changes.  
   *Source: backend/tests/results/latest-full.md*
 - Frontend unit and component tests: 400 passed, 0 failed, 400 total (Vitest).  
   *Source: frontend/test-results/vitest.json (npm run test:report)*

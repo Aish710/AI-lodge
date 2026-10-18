@@ -103,6 +103,17 @@ function onTabKey(e, i) {
 }
 const activeTab = computed(() => tabs.value.find((t) => t.id === store.theme) ?? tabs.value[0])
 function example(kind) { loadExample(kind); nudge.value = true }
+// One click: load the city's tested example sights with a balanced value of time, then plan. Same code path as pressing "Plan my trip".
+const sampling = ref(false)
+async function sampleTrip() {
+  if (sampling.value || solverBusy.value || rateLimited.value) return
+  sampling.value = true
+  try {
+    loadExample('valid')
+    store.form.valueOfTime = String(votDefault.value)
+    if (await planMyTrip()) router.push('/trip')
+  } finally { sampling.value = false }
+}
 </script>
 <template>
   <div class="stack">
@@ -125,8 +136,15 @@ function example(kind) { loadExample(kind); nudge.value = true }
       <p v-if="city" class="small mb-0 mt-2"><strong>Using {{ city.display_name }}, {{ city.country }}.</strong> {{ city.sample_fx_label }} Switching city asks first and clears what you have chosen.</p>
     </section>
 
+    <section v-if="!hasPlan" class="card-soft" data-testid="sample-entry" aria-labelledby="sample-h">
+      <h2 id="sample-h" class="h5 mb-1">New here? See it work in one click</h2>
+      <p class="small mb-2">We load a ready-made {{ city?.display_name ?? 'city' }} trip and plan it. You then get a day-by-day itinerary you can drag between days, ask the assistant to change, and check against the independent validator. Nothing is booked and no account is needed.</p>
+      <button type="button" class="btn btn-primary" :disabled="sampling || !store.places" data-testid="sample-trip" @click="sampleTrip">{{ sampling ? 'Planning the sample trip…' : `Try a sample ${city?.display_name ?? ''} trip` }}</button>
+      <span class="small muted ms-2">Or choose your own sights below.</span>
+    </section>
+
     <div class="card-soft d-flex flex-wrap gap-2 align-items-center" data-testid="demo-helpers">
-      <strong class="me-2">Try an example:</strong>
+      <strong class="me-2">Or load a worked example:</strong>
       <button class="btn btn-outline-primary btn-sm" @click="example('valid')" data-testid="load-example" :title="exLabel.title" :aria-describedby="'ex-note'">{{ exLabel.text }}</button>
       <button class="btn btn-outline-secondary btn-sm" @click="example('impossible')" data-testid="load-impossible">Try an impossible {{ city?.display_name ?? 'city' }} trip</button>
       <p id="ex-note" class="small muted mb-0 w-100" data-testid="example-note"><strong>About this example:</strong> this example uses a high value of time to illustrate the hotel trade-off. {{ exTradeoff }} It is not typical: on random trips the cheapest hotel was usually the best. See the <router-link to="/proof#hotel-value">Proof page</router-link>.

@@ -1,6 +1,6 @@
 # Safety mutation testing
 
-Generated 2026-10-18 08:56 UTC by `backend/scripts/run_safety_mutations.py`. Baseline (no mutation): 564 passed, 1 warning in 82.43s (0:01:22).
+Generated 2026-10-18 10:22 UTC by `backend/scripts/run_safety_mutations.py`. Baseline (no mutation): 572 passed, 1 warning in 80.24s (0:01:20).
 
 Each row disables ONE safeguard in a throw-away test process and runs the relevant boundary tests (listed per row in the JSON); the separate full suite checks the application. Nothing in the repository or any configuration is changed, and no weakened safeguard is committed.
 
@@ -29,6 +29,7 @@ Each row disables ONE safeguard in a throw-away test process and runs the releva
 | `style_tension_unchecked`: contradictory style tags silently resolve by order instead of asking | YES | 3: test_cheap_and_convenient_does_not_silently_choose_time_value; test_conflicting_style_priorities_ask_before_inferring_pace[tags0]; test_conflicting_style_priorities_ask_before_inferring_pace[tags1] |
 | `repair_apply_validation_ignored`: apply-repair installs an infeasible or independently rejected result | YES | 3: test_apply_rejects_a_forged_change_that_no_longer_produces_a_feasible_plan; test_apply_rejects_an_independent_validator_failure_even_when_solver_says_feasible; test_an_infeasible_repair_is_never_presented_as_feasible |
 | `copilot_evidence_unverified`: copilot evidence is no longer re-derived from the dataset and schedule before an answer is shown (fail-closed check removed) | YES | 1: test_a_wrong_cost_in_the_evidence_is_rejected_and_nothing_is_shown |
+| `copilot_proposal_unchecked`: a copilot edit proposal (preview request) is no longer checked against the plan, the dataset and the allowed bounds | YES | 1: test_a_forged_proposal_fails_the_evidence_check |
 | `unstated_place_accepted`: a place the model names but the user never wrote is accepted as a must-visit or skip | YES | 1: test_a_guessed_place_is_not_added_and_the_ambiguity_is_reported |
 | `min_active_days_validator_blind`: the independent validator no longer checks the minimum-active-days requirement | YES | 1: test_the_validator_rejects_a_schedule_that_breaks_the_requirement |
 | `min_active_days_not_modelled`: the solver ignores the minimum-active-days requirement (only the validator would notice) | YES | 1: test_an_impossible_requirement_is_a_named_conflict_not_a_silent_relaxation |

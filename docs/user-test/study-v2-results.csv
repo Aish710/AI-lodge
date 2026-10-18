@@ -1,1 +1,1 @@
-participant_id,order,city_a,city_b,workflow,task,completed,seconds,errors,ease_1to5,cost_understanding,conflict_resolved,confidence_1to5,usefulness_1to5,limits_named_of_3,notes,quote_ok
+participant_id,order,city_a,city_b,workflow,task,completed,seconds,errors,ease_1to5,cost_understanding,conflict_resolved,confidence_1to5,usefulness_1to5,limits_named_of_3,notes,quote_ok,edit_seconds,error_recovered,used_undo,ai_edit_condition,ai_edit_helpful_1to5,cash_total_correct,first_use_understood_of_3

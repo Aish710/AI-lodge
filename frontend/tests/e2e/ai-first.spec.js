@@ -29,6 +29,7 @@ test('Your trip: the AI change box is near the top with plan-based example chips
   await planFromExample(page)
   const sent = []
   page.on('request', (r) => { if (r.method() === 'POST') sent.push(r.url()) })
+  await page.getByTestId('more-ai-edit').locator('summary').click()
   await expect(page.getByTestId('replan-chips')).toBeVisible()
   await page.getByTestId('replan-chip-1').click()
   await expect(page.locator('#pr-text')).toHaveValue(/^Skip /)

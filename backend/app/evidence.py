@@ -43,6 +43,32 @@ def _recompute(ds: Dataset, result: SolveResult, nights: int) -> dict:
             "attractions_scheduled": sum(len(d.stops) for d in result.days)}
 
 
+def _proposal_problems(p, result: SolveResult, prefs: Preferences, ds: Dataset) -> list[str]:
+    """A proposal is only a request to PREVIEW a change. It must name real things in this plan and stay inside fixed bounds; it is never applied by the server."""
+    if p is None:
+        return []
+    bad = "proposal does not match this plan"
+    kind = p.get("kind")
+    if kind == "whatif":
+        patch = p.get("patch") or {}
+        if set(patch) - {"maxActivities", "dayEnd", "addMust"}:
+            return [bad]
+        if "maxActivities" in patch and not (isinstance(patch["maxActivities"], int) and 1 <= patch["maxActivities"] <= 8):
+            return [bad]
+        if "addMust" in patch and not all(a in ds.attractions and a not in prefs.skip for a in patch["addMust"]):
+            return [bad]
+        if "dayEnd" in patch and not re.fullmatch(r"\d\d:\d\d", str(patch["dayEnd"])):
+            return [bad]
+        return []
+    if kind == "move":
+        op = p.get("op") or {}
+        scheduled = {s.attraction_id for d in result.days for s in d.stops}
+        if op.get("op") != "move" or op.get("attraction_id") not in scheduled or op.get("day") not in {d.day for d in result.days}:
+            return [bad]
+        return []
+    return [bad]
+
+
 def verify_evidence(out: dict, result: SolveResult, rep: FeasibilityReport, prefs: Preferences, ds: Dataset, nights: int) -> list[str]:
     """Problems found (empty = verified). Pure; raises nothing."""
     problems: list[str] = []
@@ -77,6 +103,7 @@ def verify_evidence(out: dict, result: SolveResult, rep: FeasibilityReport, pref
             problems.append("must-visit names do not match the request")
         if e["kind"] == "dataset" and ref.startswith("attractions.") and val not in names:
             problems.append("a dataset value is not in the data")
+    problems.extend(_proposal_problems(out.get("proposal"), result, prefs, ds))
     explained = {s.replace(",", "") for s in shown}
     for n in re.findall(r"\d[\d,]*", out.get("message", "")):
         if n.replace(",", "") not in explained and n not in SMALL:

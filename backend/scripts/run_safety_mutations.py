@@ -41,6 +41,7 @@ BOUNDARY_TESTS = {
     "copilot_fingerprint_unchecked": ["tests/test_copilot.py"],
     "style_tension_unchecked": ["tests/test_ai_repair.py"],
     "copilot_evidence_unverified": ["tests/test_copilot_eval.py"],
+    "copilot_proposal_unchecked": ["tests/test_copilot_edit_intents.py"],
     "unstated_place_accepted": ["tests/test_unstated_names.py"],
     "min_active_days_validator_blind": ["tests/test_min_active_days.py"],
     "min_active_days_not_modelled": ["tests/test_min_active_days.py"],

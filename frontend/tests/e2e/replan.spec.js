@@ -110,6 +110,7 @@ test('sample mode: both natural-language boxes show the calm message and the man
   await expect(page.getByTestId('plan-trip')).toBeEnabled()
 
   await toItinerary(page)
+  await page.getByTestId('more-ai-edit').locator('summary').click()
   await page.getByLabel(/For example: "move Senso-ji/).fill('drop the market')
   await page.getByTestId('proposal-button').click()
   await expect(page.getByTestId('proposal-unavailable')).toContainText('The AI assistant is unavailable right now.')

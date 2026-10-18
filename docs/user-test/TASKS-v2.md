@@ -16,6 +16,12 @@ Measure per task: **completed unaided (yes/no)**, **time**, **errors or wrong tu
 | 8 | "Which alternative spends least? Which travels least?" | Trade-off comprehension | Whether they separate spending from the score |
 | 9 | End: "What here is made-up or estimated?" | Trust calibration | Hotels fictional, travel estimated, prices unverified: how many did they name? |
 
+| 11 | "You have just opened the app. Start the sample trip and tell me what you see and what you can do here." | First-use understanding (one-click sample, itinerary, drag editing, assistant) | Count how many of 3 the person names unprompted: the day-by-day itinerary, moving sights between days, asking the assistant for a change |
+| 12 | "Move <named sight> to day 3." Once by dragging or Move, once by asking the assistant ("Move <sight> to Day 3"), order counterbalanced | Editing speed and errors, manual vs AI-assisted | Seconds, errors, whether the person looked at the preview/check before applying; "Which was easier, 1 to 5?" |
+| 13 | "Apply a change you do not like, then get back to the plan you had." | Error recovery (Undo, reject, discard preview) | Recovered unaided yes/no; seconds; did they believe the earlier plan was truly restored? |
+| 14 | "What is the total cash this plan is modelled to cost including rooms? Which number on screen is a score rather than money?" | Cost comprehension | Right / partly / wrong against the screen; notes whether they mention that unknown admissions are excluded |
+| 15 | "This plan has a free day. What would you do about it?" (use a plan with empty days) | Empty-day help | Which option they chose (keep, spread, add); did they expect a preview to always work? |
+
 Do not report percentages as findings at this N; report counts and quotes (with permission).
 
 ## Copilot addendum (prepared, not conducted)

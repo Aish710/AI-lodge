@@ -25,6 +25,15 @@ def med(xs):
 for w in sorted({r["workflow"] for r in rows}):
     rs = [r for r in rows if r["workflow"] == w]
     L.append(f"| {w} | {len(rs)} | {sum(r['completed'].lower() in ('yes', 'true', '1') for r in rs)} | {med(r['seconds'] for r in rs)} | {med(r['errors'] for r in rs)} | {med(r['ease_1to5'] for r in rs)} | {med(r['confidence_1to5'] for r in rs)} | {med(r['usefulness_1to5'] for r in rs)} |")
+extra = [r for r in rows if any(r.get(k) for k in ("edit_seconds", "error_recovered", "ai_edit_helpful_1to5", "cash_total_correct", "first_use_understood_of_3"))]
+if extra:
+    L += ["", "| Measure | Rows | Value |", "|---|---|---|",
+          f"| Median edit seconds, manual | {sum(r.get('ai_edit_condition') == 'manual' for r in extra)} | {med(r['edit_seconds'] for r in extra if r.get('ai_edit_condition') == 'manual')} |",
+          f"| Median edit seconds, assistant | {sum(r.get('ai_edit_condition') == 'assistant' for r in extra)} | {med(r['edit_seconds'] for r in extra if r.get('ai_edit_condition') == 'assistant')} |",
+          f"| Recovered from a bad change unaided | {sum(r.get('error_recovered', '').lower() in ('yes', 'true', '1') for r in extra)} of {sum(bool(r.get('error_recovered')) for r in extra)} | |",
+          f"| Cost total understood (right) | {sum(r.get('cash_total_correct', '').lower() == 'right' for r in extra)} of {sum(bool(r.get('cash_total_correct')) for r in extra)} | |",
+          f"| Median assistant helpfulness (1-5) | | {med(r.get('ai_edit_helpful_1to5') for r in extra)} |",
+          f"| Median first-use items named (of 3) | | {med(r.get('first_use_understood_of_3') for r in extra)} |"]
 L += ["", "Report participants who struggled exactly as recorded in `notes`.", ""]
 dst.write_text("\n".join(L), encoding="utf-8")
 print(f"summary of {len(people)} participants written")

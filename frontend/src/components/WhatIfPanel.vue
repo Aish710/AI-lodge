@@ -1,13 +1,14 @@
 <script setup>
 // What if?: change a few settings on a COPY of the current plan, see the real optimiser's answer beside the plan you have, then Apply, Save or Discard.
 // The plan you are looking at is never changed by a preview. All numbers come from the server; this component only subtracts two of them.
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { store, openWhatIf, runWhatIf, discardWhatIf, applyWhatIf, saveWhatIf, solverBusy, rateLimited } from '../store.js'
 import { diffPlans, validationOf, WHATIF_PACES } from '../lib/whatif.js'
 import { formatLocalMoney } from '../lib/format.js'
 import { cleanHotelText as ct } from '../lib/names.js'
 
 const open = ref(false)
+watch(() => store.whatif.draft, (v) => { if (v) open.value = true })   // opened from elsewhere, for example a copilot proposal
 const w = computed(() => store.whatif)
 const d = computed(() => store.whatif.draft)
 const money = (v) => (v === null || v === undefined ? '—' : formatLocalMoney(v, store.city?.currency_code ?? 'JPY'))

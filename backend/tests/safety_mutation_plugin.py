@@ -192,6 +192,12 @@ def _m23():
     m.verify_evidence = lambda *a, **k: []
 
 
+@mutation("copilot_proposal_unchecked", "a copilot edit proposal (preview request) is no longer checked against the plan, the dataset and the allowed bounds")
+def _m_prop():
+    import app.evidence as ev
+    ev._proposal_problems = lambda *a, **k: []
+
+
 @mutation("unstated_place_accepted", "a place the model names but the user never wrote is accepted as a must-visit or skip")
 def _m24():
     import app.llm.extract as ex

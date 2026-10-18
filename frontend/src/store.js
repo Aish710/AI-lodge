@@ -38,7 +38,7 @@ export const store = reactive({
   repair: { proposal: null, text: '', busy: false, applying: false, error: null, keepHotel: false, confirmed: [] },
   styleAi: { proposal: null, busy: false, error: null },
   whatif: { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 },
-  history: [], historySeq: 0, explorer: { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null },
+  moreAiOpen: false, history: [], historySeq: 0, explorer: { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null },
   queue: [], queueError: null, previous: null, lastReplan: null, lastReplanRequest: null, replanError: null, restored: false,
   parseResult: null, parseError: null, proposal: null, proposalError: null,
   explanations: { optimise: null, compare: null, replan: null }, explainError: null, explaining: null,
@@ -619,6 +619,21 @@ export function applyStyleSettings(picked) {
 export function openWhatIf() {
   if (!store.planPrefs) return
   store.whatif = { draft: draftFrom(store.planPrefs, store.chosenHotel), scenario: null, result: null, busy: false, error: null, seq: store.whatif.seq }
+}
+
+/** Turn a copilot proposal into a PREVIEW. Whitelisted keys only; nothing is applied: What-if re-solves and validates, a queued move goes through /replan and its confirmation. Returns where to look. */
+export async function previewProposal(p) {
+  if (!p || !store.planPrefs || solverBusy.value || rateLimited.value) return null
+  if (p.kind === 'move' && p.op?.op === 'move') { queueOp({ op: 'move', attraction_id: p.op.attraction_id, day: Number(p.op.day), start_time: p.op.start_time }); return 'pending' }
+  if (p.kind !== 'whatif') return null
+  openWhatIf()
+  const d = store.whatif.draft, patch = p.patch ?? {}
+  if (Number.isInteger(patch.maxActivities)) d.maxActivities = patch.maxActivities
+  if (typeof patch.dayEnd === 'string') d.dayEnd = patch.dayEnd
+  if (Number.isInteger(patch.minActive)) d.minActive = patch.minActive
+  if (Array.isArray(patch.addMust)) d.addMust = patch.addMust.filter((id) => store.placesById[id])
+  await runWhatIf()
+  return 'whatif'
 }
 
 export async function runWhatIf() {

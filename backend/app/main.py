@@ -1,5 +1,6 @@
 """FastAPI app factory. All hardening (limits, rate tiers, deadlines, circuit breaker, leakage control) is wired here."""
 import logging
+import re
 import time
 from collections import Counter
 from contextlib import asynccontextmanager
@@ -517,6 +518,8 @@ async def copilot_route(req: CopilotRequest, request: Request, client: LLMClient
         intent, note, calls = (Intent(operation=req.operation), None, 0) if req.operation else classify_copilot(req.text, client, get_settings().max_input_chars)
         if intent and intent.attraction_name and intent.attraction_name.casefold() not in req.text.casefold():
             intent = Intent(operation="CLARIFY")  # the model may only COPY a name the person actually wrote
+        if intent and any(n is not None and not re.search(rf"(?<!\d){n}(?!\d)", req.text) for n in (intent.day, intent.target_day)) and not req.operation:
+            intent = Intent(operation="CLARIFY")  # ditto for day numbers
         alternatives = None
         if intent and intent.operation in ("COMPARE_ALTERNATIVES", "ANALYSE_TRADEOFF") and current.status == "feasible":
             with request.app.state.solver_capacity.claim():
@@ -528,7 +531,7 @@ async def copilot_route(req: CopilotRequest, request: Request, client: LLMClient
         problems = verify_evidence(out, current, rep, req.preferences, ds, nights_for(req.preferences)[0])
         if problems:                                    # fail closed: an answer whose evidence does not re-derive is not shown at all
             log.warning("copilot_evidence_rejected", extra={"problems": len(problems)})
-            out.update(message=FAIL_CLOSED, evidence=[], handoff=None, verification="none")
+            out.update(message=FAIL_CLOSED, evidence=[], handoff=None, proposal=None, verification="none")
         out.update(fingerprint=req.fingerprint, city_id=ds.city.id, call_count=calls,
                    mode="llm" if calls else "deterministic", status=("evidence_rejected" if problems else "ok" if intent else "fallback"))
         if not req.operation and intent:

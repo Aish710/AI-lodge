@@ -40,6 +40,8 @@ import { mustVisitRemovals } from '../lib/replan.js'
 import { hotelCallout, isInfeasible } from '../lib/rules.js'
 import { formatLocalMoney, formatMoney, humanMinutes } from '../lib/format.js'
 import { planSummary } from '../lib/planSummary.js'
+import EmptyDayHelp from '../components/EmptyDayHelp.vue'
+import UndoBar from '../components/UndoBar.vue'
 import { money } from '../lib/money.js'
 import { cleanHotelText as ct } from '../lib/names.js'
 
@@ -101,6 +103,7 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
     </div>
     <SettingsSummaryStrip />
     <AiLegend v-if="resp" />
+    <UndoBar v-if="resp" />
 
     <div v-if="!resp && !planning" class="card-soft" data-testid="itinerary-empty">
       <p class="mb-2">No plan yet. Choose your sights on the Plan screen and press "Plan my trip".</p>
@@ -112,8 +115,7 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
 
     <template v-if="resp">
       <HotelSwitch />
-      <TripCopilot />
-      <div v-if="!infeasible" data-testid="copilot-repair" tabindex="-1" class="card-soft"><RepairAssistant /></div>
+      <TripCopilot v-if="infeasible" />
       <div :class="{ dimmed: planning }" :aria-busy="planning" data-testid="trip-body">
         <div class="stack">
           <!-- infeasible is a NORMAL result: conflict panel, never the error component -->
@@ -138,7 +140,6 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
             <div v-if="callout.kind === 'differs'" class="notice notice-good" role="status" data-testid="callout-differs"><span class="glyph" aria-hidden="true">✓</span><span><strong>{{ callout.text }}</strong></span></div>
             <details v-if="comp?.insight" class="small" data-testid="insight-details"><summary>Why?</summary><p class="mb-0 mt-1" data-testid="insight">{{ pretty(comp.insight) }}</p></details>
             <ExplainBlock :summary="summary" :days="result.days" :explanation="store.explanations.optimise" :busy="store.explaining === 'optimise'" :disabled="rateLimited || !!store.explaining" :error="store.explainError" @explain="explain('optimise')" />
-            <ProposedOperations />
             <div class="notice notice-warn" v-if="resp.approximate || comp?.approximate || comp?.partial" role="status" data-testid="approximate">
               <span class="glyph" aria-hidden="true">!</span><span><strong>Approximate.</strong> {{ resp.approximate ? resp.approximate_note : 'The comparison was not fully proven optimal, so a true cost may be higher than the best possible plan.' }}</span>
             </div>
@@ -171,17 +172,6 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
               </p>
             </section>
 
-            <BenefitStrip />
-
-            <div class="row g-3 align-items-start" data-testid="tools-row">
-              <div class="col-12 col-xl-5"><WhatIfPanel /></div>
-              <div class="col-12 col-xl-7"><ItineraryCompare /></div>
-            </div>
-
-            <TradeoffExplorer />
-
-            <CostPanel />
-
             <h2 class="sr-only">Map and day-by-day plan</h2>
             <DaySelector :days="result.days" />
             <div class="row g-3">
@@ -194,6 +184,26 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
                 </template>
               </DayTimeline></div>
             </div>
+
+            <EmptyDayHelp />
+            <TripCopilot />
+            <details class="card-soft" data-testid="more-ai-edit" :open="store.moreAiOpen" @toggle="store.moreAiOpen = $event.target.open">
+              <summary class="fw-semibold">More ways to ask for a change</summary>
+              <p class="small muted mt-2">These do the same kind of thing as the box above, with more detail. Everything is previewed and checked before you apply it.</p>
+              <div data-testid="copilot-repair" tabindex="-1"><RepairAssistant /></div>
+              <ProposedOperations class="mt-3" />
+            </details>
+
+            <BenefitStrip />
+
+            <div class="row g-3 align-items-start" data-testid="tools-row">
+              <div class="col-12 col-xl-5"><WhatIfPanel /></div>
+              <div class="col-12 col-xl-7"><ItineraryCompare /></div>
+            </div>
+
+            <TradeoffExplorer />
+
+            <CostPanel />
 
             <FeasibilityReport :report="resp.feasibility_report" compact />
             <NotScheduledPanel :missed-ids="result.missed_preferences" :places-by-id="store.placesById" :penalty-jpy="penalty" />
