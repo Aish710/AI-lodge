@@ -21,6 +21,7 @@ from app.hardening.limiter import SlidingWindowLimiter
 from app.hardening.llm_scope import LLMBudget, llm_for_request
 from app.hardening.logging_setup import configure_logging
 from app.hardening.middleware import HardeningMiddleware
+from app.evidence import FAIL_CLOSED, structured_evidence, verify_evidence
 from app.fingerprint import stamp, plan_fingerprint
 from app.hardening.disconnect import run_cancellable
 from app.optimiser.cost_summary import summarise_costs
@@ -512,8 +513,14 @@ async def copilot_route(req: CopilotRequest, request: Request, client: LLMClient
                 alternatives = explore(req.preferences, [current.hotel_id], ds,
                                        max_seconds=min(2.0, cfg.optimise_time_limit_seconds), budget_seconds=4.0)
         out = copilot_answer(intent or Intent(operation="CLARIFY"), req.preferences, current, ds, alternatives)
+        rep = build_report(current, ds, req.preferences, current.hotel_id)
+        out["evidence"].extend(structured_evidence(current, rep))
+        problems = verify_evidence(out, current, rep, req.preferences, ds, nights_for(req.preferences)[0])
+        if problems:                                    # fail closed: an answer whose evidence does not re-derive is not shown at all
+            log.warning("copilot_evidence_rejected", extra={"problems": len(problems)})
+            out.update(message=FAIL_CLOSED, evidence=[], handoff=None, verification="none")
         out.update(fingerprint=req.fingerprint, city_id=ds.city.id, call_count=calls,
-                   mode="llm" if calls else "deterministic", status="ok" if intent else "fallback")
+                   mode="llm" if calls else "deterministic", status=("evidence_rejected" if problems else "ok" if intent else "fallback"))
         if not req.operation and intent:
             out["interpretation"] = "AI-selected intent; explanation and evidence constructed by code."
         elif req.operation:
