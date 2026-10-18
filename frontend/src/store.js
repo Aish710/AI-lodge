@@ -2,6 +2,7 @@
 // Everything lives in memory only: nothing is persisted by the browser (decision 10).
 import { pushState, summariseRun } from './lib/tradeoff.js'
 import { seedDays } from './lib/itinerary.js'
+import { buildScenario, draftFrom } from './lib/whatif.js'
 import { reactive, computed } from 'vue'
 import * as api from './api/routes.js'
 import { abortKey, ApiError, isAborted, setCityProvider, setRateLimitHandler, waitForServer } from './api/client.js'
@@ -29,6 +30,7 @@ export const store = reactive({
   sensitivityError: null, sensitivityCancelled: false, sensitivityStartedAt: 0,
   planFromReplan: false,
   itin: { days: null, result: null, busy: false, error: null },
+  whatif: { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 },
   history: [], historySeq: 0, explorer: { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null },
   queue: [], queueError: null, previous: null, lastReplan: null, lastReplanRequest: null, replanError: null, restored: false,
   parseResult: null, parseError: null, proposal: null, proposalError: null,
@@ -77,7 +79,7 @@ export function toggleInterestTheme(id) {
   if (i >= 0) store.interestThemes.splice(i, 1)
   else store.interestThemes.push(id)
 }
-export const solverBusy = computed(() => store.busy.compare || store.busy.optimise || store.busy.replan || store.busy.sensitivity)
+export const solverBusy = computed(() => store.busy.compare || store.busy.optimise || store.busy.replan || store.busy.sensitivity || store.whatif.busy)
 
 // ---- boot: cold-start aware (decision 9) ----
 export async function boot({ ping } = {}) {
@@ -179,6 +181,7 @@ export async function selectCity(cityId) {
   store.placesById = {}
   store.history = []
   store.itin = { days: null, result: null, busy: false, error: null }
+  store.whatif = { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 }
   store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null }
   store.hotelsById = {}
   clearComputedResults()
@@ -394,6 +397,7 @@ function applyExample(kind) {
   store.comparisonError = null
   store.history = []
   store.itin = { days: null, result: null, busy: false, error: null }
+  store.whatif = { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 }
   store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null }
 }
 
@@ -425,6 +429,7 @@ export function resetAll() {
   store.comparisonError = null
   store.history = []
   store.itin = { days: null, result: null, busy: false, error: null }
+  store.whatif = { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 }
   store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null }
 }
 
@@ -484,12 +489,15 @@ export async function applyQueue({ confirmed = false } = {}) {
 /** Remember the current plan (already produced by the server). Nothing is recomputed; restoring is a plain swap. */
 function recordState(label) {
   if (!store.plan || !store.chosenHotel) return
-  const result = store.plan.result
-  const t = store.plan.cost_summary?.totals ?? null
-  const hotelName = store.hotelsById?.[store.chosenHotel]?.name ?? store.chosenHotel
+  recordStateFor(label, store.plan, store.planPrefs, store.chosenHotel, store.planFromReplan, 'accepted')
+}
+function recordStateFor(label, plan, prefs, hotel, fromReplan, kind) {
+  const result = plan.result
+  const t = plan.cost_summary?.trip ?? null
+  const hotelName = store.hotelsById?.[hotel]?.name ?? hotel
   const id = ++store.historySeq
-  store.history = pushState(store.history, { id, label, hotel: store.chosenHotel, hotelName, plan: store.plan, prefs: store.planPrefs, fromReplan: store.planFromReplan,
-    vot: store.planPrefs?.value_of_time_per_hour ?? null, days: result?.days?.length ?? 0, travelMinutes: t?.travel_minutes ?? null, at: Date.now() })
+  store.history = pushState(store.history, { id, label, kind, hotel, hotelName, plan, prefs, fromReplan,
+    vot: prefs?.value_of_time_per_hour ?? null, days: result?.days?.length ?? 0, travelMinutes: t?.travel_minutes ?? null, at: Date.now() })
 }
 
 /** Put back any remembered plan state. A swap of server results already held in memory; no solver call, nothing edited. */
@@ -506,6 +514,49 @@ export function restoreState(id) {
   store.restored = true
   if (store.selectedDay !== 'all' && store.selectedDay > (s.plan.result?.days?.length ?? 0)) store.selectedDay = 'all'
   return true
+}
+
+// ---- What if?: a temporary scenario. The current plan is never touched until Apply; the server optimises and validates the scenario like any other request ----
+export function openWhatIf() {
+  if (!store.planPrefs) return
+  store.whatif = { draft: draftFrom(store.planPrefs, store.chosenHotel), scenario: null, result: null, busy: false, error: null, seq: store.whatif.seq }
+}
+
+export async function runWhatIf() {
+  const w = store.whatif
+  if (!w.draft || !store.planPrefs || solverBusy.value || rateLimited.value) return
+  const sc = buildScenario(store.planPrefs, store.chosenHotel, w.draft)
+  if (sc.errors.length) { w.error = new ApiError({ code: 'invalid_input', message: sc.errors.join(' ') }); return }
+  if (!sc.changes.length) { w.error = new ApiError({ code: 'invalid_input', message: 'Change at least one setting to preview a scenario.' }); return }
+  const mine = ++w.seq
+  w.busy = true; w.error = null; w.result = null; w.scenario = sc
+  try {
+    const resp = await api.optimise(sc.prefs, sc.hotel, { cityId: store.cityId })
+    if (mine !== store.whatif.seq) return                       // a newer request or a closed panel: this answer is stale and is dropped
+    w.result = resp
+  } catch (e) { if (mine === store.whatif.seq && !isAborted(e)) { w.error = e instanceof ApiError ? e : new ApiError({ code: 'unexpected', message: 'Something unexpected went wrong.' }); noteSolverBusy(w.error) } }
+  finally { if (mine === store.whatif.seq) w.busy = false }
+}
+
+export function discardWhatIf() { store.whatif.seq += 1; store.whatif = { draft: null, scenario: null, result: null, busy: false, error: null, seq: store.whatif.seq } }
+
+/** Make the previewed scenario the current plan. The plan it replaces stays in history. */
+export function applyWhatIf() {
+  const w = store.whatif
+  if (!w.result || w.result.result.status !== 'feasible' || !w.scenario) return
+  store.plan = w.result; store.planPrefs = w.scenario.prefs; store.chosenHotel = w.scenario.hotel
+  store.planFromReplan = true; store.planKey = keyOf(w.scenario.prefs, w.scenario.hotel)
+  store.queue = []; store.previous = null; store.lastReplan = null; store.restored = false
+  if (store.selectedDay !== 'all' && store.selectedDay > w.result.result.days.length) store.selectedDay = 'all'
+  recordState('What-if applied')
+  discardWhatIf()
+}
+
+/** Keep the previewed scenario in history as a saved alternative WITHOUT making it the current plan. */
+export function saveWhatIf() {
+  const w = store.whatif
+  if (!w.result || w.result.result.status !== 'feasible' || !w.scenario) return
+  recordStateFor('Saved what-if', w.result, w.scenario.prefs, w.scenario.hotel, true, 'saved')
 }
 
 // ---- Compare with my itinerary: the user's own days vs the optimiser for the SAME sights; the server does all placing, validating and scoring ----

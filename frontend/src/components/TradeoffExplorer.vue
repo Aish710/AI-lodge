@@ -102,6 +102,7 @@ const isNew = computed(() => store.explorer.last && best.value && (best.value !=
       <ul class="list-unstyled small mb-0">
         <li v-for="h in store.history" :key="h.id" class="d-flex flex-wrap align-items-center gap-2 mb-1" :data-testid="'history-' + h.id">
           <span><strong>{{ h.label }}</strong> · {{ hotelOf(h.hotel) }} · {{ money(h.vot) }}/h<span v-if="h.travelMinutes !== null"> · {{ mins(h.travelMinutes) }} est. travel</span><span v-if="h.prefs?.locked?.length"> · {{ h.prefs.locked.length }} locked</span></span>
+          <span v-if="h.kind === 'saved'" class="pill" data-testid="saved-pill">Saved alternative</span>
           <span v-if="h.plan === store.plan" class="pill">Showing now</span>
           <button v-else type="button" class="btn btn-sm btn-outline-secondary" :disabled="busy" :data-testid="'restore-' + h.id" @click="restoreState(h.id)">Show this plan</button>
         </li>

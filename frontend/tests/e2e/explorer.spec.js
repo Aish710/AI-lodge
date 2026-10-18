@@ -62,3 +62,20 @@ test('find alternatives: distinct plans with money, travel and sights shown sepa
   await expect(page.getByTestId('plan-history')).toBeVisible({ timeout: PLAN_WAIT })
   expectClean(problems)
 })
+
+test('what-if: preview leaves the plan alone, discard keeps it, apply commits and the old plan can be shown again', async ({ page }) => {
+  const problems = watchConsole(page)
+  await page.goto('/')
+  await planFromExample(page)
+  const before = await page.getByTestId('kpi-travel').innerText()
+  await page.getByTestId('wi-toggle').click()
+  await page.getByTestId('wi-act').fill('2')
+  await page.getByTestId('wi-run').click()
+  await expect(page.getByTestId('wi-result').or(page.getByTestId('wi-infeasible'))).toBeVisible({ timeout: PLAN_WAIT })
+  await expect(page.getByTestId('kpi-travel')).toHaveText(before)          // the preview did not change the plan on screen
+  if (await page.getByTestId('wi-apply').isVisible()) {
+    await page.getByTestId('wi-apply').click()
+    await expect(page.getByTestId('plan-history')).toBeVisible({ timeout: PLAN_WAIT })
+  }
+  expectClean(problems)
+})

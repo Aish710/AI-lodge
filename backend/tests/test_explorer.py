@@ -53,3 +53,19 @@ def test_locks_and_user_limits_survive_a_compare_rerun():
     assert kept["start"] == first["start"]
     assert max(len(d["stops"]) for d in o["result"]["days"]) <= 3
     assert all(ch["status"] != "fail" for ch in o["feasibility_report"]["checks"])
+
+
+def test_what_if_reads_only_fields_the_optimise_response_carries():
+    import re
+    from test_baselines import prefs_for
+    src = (FRONT / "lib" / "whatif.js").read_text()
+    prefs, hotels = prefs_for("tokyo")
+    with TestClient(app) as c:
+        o = c.post("/optimise", json={"city_id": "tokyo", "preferences": prefs.model_dump(), "hotel_id": hotels[0], "explain": False}).json()
+    for f in set(re.findall(r"\?\.(cash_total_with_rooms|travel_minutes)", src)):
+        assert f in o["cost_summary"]["trip"], f
+    assert {"result", "cost_summary"} <= set(o) and any(st["attraction_id"] for d in o["result"]["days"] for st in d["stops"])
+    # every preference key the scenario builder can set is a real Preferences field
+    from app.schemas import Preferences
+    for k in re.findall(r"prefs\.([a-z_]+) =", src):
+        assert k in Preferences.model_fields, k
