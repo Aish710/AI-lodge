@@ -70,7 +70,7 @@ const unresolved = computed(() => (r.value?.unresolved_names ?? []).filter((u) =
       <span class="small fw-semibold">Try:</span>
       <button v-for="[kind, label, tid] in EXAMPLES" :key="kind" type="button" class="chip example-prompt" :data-testid="tid" @click="fill(kind)" :title="cityExamples[kind]">{{ label }}</button>
     </div>
-    <label class="form-label" for="nl-text">For example: "3 days, about 20,000 yen, I must see Senso-ji, relaxed pace"</label>
+    <label class="form-label" for="nl-text" data-testid="nl-label">For example: "{{ cityExamples?.typical ?? '3 days, relaxed pace, I must see a sight you pick below' }}"</label>
     <textarea id="nl-text" class="form-control" rows="3" v-model="text" :aria-invalid="over" aria-describedby="nl-count"></textarea>
     <div class="d-flex flex-wrap justify-content-between align-items-center mt-2 gap-2">
       <div id="nl-count" class="small" :class="over ? 'text-danger fw-bold' : 'muted'" aria-live="polite" data-testid="nl-count">{{ text.length }} / {{ maxInputChars }} characters<span v-if="over"> — too long: shorten it (nothing is cut off for you)</span></div>

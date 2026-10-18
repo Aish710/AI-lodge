@@ -54,6 +54,16 @@ class _Req(BaseModel):
 
 
 # ---- cheap routes -------------------------------------------------------------------------------------------
+# What this server can do. The page compares this with what it needs, so an OLDER server (started before a feature existed) is reported plainly instead of as "Not found" on one button.
+API_FEATURES = ("check-itinerary", "evaluate-itinerary", "explore", "copilot", "parse-repair", "apply-repair", "parse-profile", "min-active-days", "plan-verification")
+
+
+@router.get("/version")
+def version_route():
+    from app.fingerprint import SOLVER_VERSION
+    return {"api": "fitinerary", "features": list(API_FEATURES), "solver_version": SOLVER_VERSION}
+
+
 @router.get("/health")
 def health(request: Request):
     st = get_settings()  # never echoes the key

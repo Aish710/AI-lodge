@@ -22,7 +22,7 @@ describe('the badge says exactly what was verified', () => {
   it('cited -> every claim cited and checked; plain AI text -> numbers checked; template -> template summary', () => {
     expect(explanationBadge(cited).label).toBe('AI-written, every claim cited and checked')
     expect(explanationBadge({ source: 'llm' }).label).toBe('AI-written, numbers checked')
-    expect(explanationBadge({ source: 'template' }).label).toBe('Template summary')
+    expect(explanationBadge({ source: 'template' }).label).toBe('Code-written summary')
   })
 })
 

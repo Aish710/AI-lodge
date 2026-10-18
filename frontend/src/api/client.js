@@ -29,8 +29,10 @@ export class ApiError extends Error {
 export const isAborted = (e) => e instanceof ApiError && e.code === 'aborted'
 
 /** Turn any failed response into an ApiError. `body` is the parsed JSON, a string, or null. */
-export function normaliseError({ status, body, requestId = null }) {
+export function normaliseError({ status, body, requestId = null, path = '' }) {
   const err = body && typeof body === 'object' ? body.error : null
+  // HTTP 404 means THIS server has no such route: the server was started from older code than this page, or the page points at the wrong server. Say so; do not just print "Not found".
+  if (status === 404 && (err?.code === 'not_found' || typeof body === 'string' || body?.detail === 'Not Found')) return new ApiError({ code: 'server_outdated', status, requestId, message: `The server has no "${path || 'such'}" feature. It is older than this page (or this page points at the wrong server). Restart the backend from the latest code and reload.` })
   if (err && typeof err === 'object' && typeof err.code === 'string') {
     const details = err.details && typeof err.details === 'object' ? err.details : {}
     const retry = status === 429 || err.code === 'solver_busy' ? Number(details.retry_after_seconds) : NaN
@@ -94,7 +96,7 @@ export async function request(method, path, { body, key, timeoutMs = SOLVE_TIMEO
     let parsed = null
     try { parsed = text ? JSON.parse(text) : null } catch { parsed = text }
     if (!res.ok) {
-      const err = normaliseError({ status: res.status, body: parsed, requestId: res.headers?.get?.('x-request-id') ?? null })
+      const err = normaliseError({ status: res.status, body: parsed, requestId: res.headers?.get?.('x-request-id') ?? null, path })
       if (err.code === 'rate_limited' || res.status === 429) rateLimitHandler(err.retryAfter ?? 10)
       throw err
     }

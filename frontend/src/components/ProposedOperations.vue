@@ -23,6 +23,13 @@ function pick({ input, name }) { text.value = text.value.replace(input, name) }
 const added = ref(0)
 function queue() { added.value = include.value.length; queueProposal([...include.value]); text.value = '' }
 function toTray() { const el = document.getElementById('pending-h'); el?.scrollIntoView({ block: 'start' }); el?.setAttribute('tabindex', '-1'); el?.focus({ preventScroll: true }) }
+// The example sentence uses sights of THIS plan's city (never another city's), so a Kuala Lumpur trip never suggests a Tokyo temple.
+const example = computed(() => {
+  const stops = (store.plan?.result?.days ?? []).flatMap((d) => d.stops ?? []).map((s) => store.placesById[s.attraction_id]?.name).filter(Boolean)
+  const any = Object.values(store.placesById ?? {}).map((p) => p.name).filter(Boolean)
+  const pool = stops.length ? stops : any
+  return { a: pool[0] ?? 'a sight', b: pool[1] ?? pool[0] ?? 'another sight' }
+})
 // Example chips are built from THE CURRENT PLAN and only fill the box. Nothing is sent until "Ask the AI".
 const chips = computed(() => {
   const stops = (store.plan?.result?.days ?? []).flatMap((d) => d.stops ?? []).filter((a) => a.attraction_id)
@@ -40,7 +47,7 @@ const chips = computed(() => {
       <span class="small fw-semibold">Try:</span>
       <button v-for="(c, i) in chips" :key="c" type="button" class="chip" :data-testid="`replan-chip-${i}`" @click="text = c">{{ c }}</button>
     </div>
-    <label class="form-label" for="pr-text">For example: "move Senso-ji to the morning of day 2" or "drop Shibuya Sky"</label>
+    <label class="form-label" for="pr-text" data-testid="pr-label">For example: "move {{ example.a }} to the morning of day 2" or "drop {{ example.b }}"</label>
     <textarea id="pr-text" class="form-control" rows="2" v-model="text" :aria-invalid="over" aria-describedby="pr-count"></textarea>
     <div class="d-flex flex-wrap justify-content-between align-items-center mt-2 gap-2">
       <div id="pr-count" class="small" :class="over ? 'text-danger fw-bold' : 'muted'" aria-live="polite">{{ text.length }} / {{ maxInputChars }} characters<span v-if="over"> — too long: shorten it</span></div>

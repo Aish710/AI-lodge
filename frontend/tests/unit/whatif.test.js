@@ -2,7 +2,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { buildScenario, diffPlans, draftFrom } from '../../src/lib/whatif.js'
 import { applyWhatIf, discardWhatIf, openWhatIf, resetAll, restoreState, runWhatIf, saveWhatIf, store } from '../../src/store.js'
 import { res } from './helpers.js'
-import feasible from '../fixtures/optimise-feasible.json'
+import feasibleOld from '../fixtures/optimise-feasible.json'
+// the stored fixture predates the validator's verified/provisional label; a current server always returns it
+const feasible = { ...feasibleOld, feasibility_report: { ...feasibleOld.feasibility_report, verification: 'verified' } }
 
 const base = { days: 3, budget: null, strict_budget: false, pace: 'balanced', interests: [], must_visit: ['a', 'b'], skip: ['z'], day_start: '09:00', day_end: '19:00', value_of_time_per_hour: 1000,
   max_walking_minutes_per_day: 90, start_weekday: 2, allow_unknown_hours: false, nights: null, locked: [{ attraction_id: 'a', day: 1, start_time: '10:00' }] }
@@ -84,5 +86,35 @@ describe('what-if store behaviour', () => {
     const f = vi.fn(); vi.stubGlobal('fetch', f)
     openWhatIf(); await runWhatIf(); expect(f).not.toHaveBeenCalled(); expect(store.whatif.error.message).toMatch(/at least one/)
     store.whatif.draft.days = 99; await runWhatIf(); expect(f).not.toHaveBeenCalled()
+  })
+})
+
+
+describe('what-if validation is never assumed', () => {
+  it('a result without the validator\'s verdict or label is "not checked", cannot be applied, and says why', async () => {
+    const { validationOf } = await import('../../src/lib/whatif.js')
+    const missing = { result: { status: 'feasible' }, feasibility_report: undefined }
+    const noLabel = { result: { status: 'feasible' }, feasibility_report: { overall: 'pass' } }
+    for (const r of [missing, noLabel]) { const v = validationOf(r); expect(v.applicable).toBe(false); expect(v.kind).toBe('unknown'); expect(v.text).toMatch(/Not checked/) }
+    expect(validationOf({ result: { status: 'feasible' }, feasibility_report: { overall: 'pass', verification: 'verified' } })).toMatchObject({ kind: 'good', applicable: true })
+    expect(validationOf({ result: { status: 'feasible' }, feasibility_report: { overall: 'pass_with_warnings', verification: 'conditional' } })).toMatchObject({ kind: 'warn', applicable: true })
+    expect(validationOf({ result: { status: 'feasible' }, feasibility_report: { overall: 'fail', verification: 'none' } }).applicable).toBe(false)
+    expect(validationOf({ result: { status: 'infeasible' } }).applicable).toBe(false)
+  })
+  it('applyWhatIf refuses an unchecked preview and leaves the plan alone', async () => {
+    resetAll(); store.cityId = 'tokyo'; store.chosenHotel = 'h1'; store.hotelsById = { h1: { id: 'h1', name: 'One' } }; store.plan = feasible; store.planPrefs = { ...base, locked: [] }
+    vi.stubGlobal('fetch', vi.fn(async () => res(200, { ...feasibleOld, marker: 'unchecked' })))
+    openWhatIf(); store.whatif.draft.days = 2
+    await runWhatIf(); const cur = store.plan; applyWhatIf()
+    expect(store.plan).toBe(cur); vi.unstubAllGlobals()
+  })
+  it('different coverage is not comparable and lower spending from fewer sights is called that', async () => {
+    const { diffPlans } = await import('../../src/lib/whatif.js')
+    const mk = (stops, cash) => ({ result: { days: [{ day: 1, stops: stops.map((id) => ({ attraction_id: id, start: '10:00' })) }] }, cost_summary: { trip: { cash_total_with_rooms: cash, travel_minutes: 60 } } })
+    const less = diffPlans(mk(['a', 'b'], 1000), mk(['a'], 600))
+    expect(less.comparable).toBe(false); expect(less.lowerBecauseLess).toBe(true)
+    const same = diffPlans(mk(['a', 'b'], 1000), mk(['b', 'a'], 900))
+    expect(same.comparable).toBe(true); expect(same.lowerBecauseLess).toBe(false)
+    expect(diffPlans(mk(['a'], 1), mk([], 0)).empty).toBe(true)
   })
 })

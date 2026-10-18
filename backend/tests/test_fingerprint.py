@@ -35,3 +35,14 @@ def test_the_api_returns_fingerprints_additively_for_optimise_compare_and_replan
         r = c.post("/replan", json={"city_id": "tokyo", "preferences": p.model_dump(), "current_result": o["result"], "operations": [], "explain": False}).json()
     assert o["fingerprint"] == o2["fingerprint"] and o["dataset_version"] == dataset_version("tokyo")
     assert k["fingerprint"] != o["fingerprint"] and "fingerprint" in r
+
+
+def test_version_lists_the_features_the_page_needs_so_an_older_server_can_be_detected():
+    with TestClient(app) as c:
+        j = c.get("/version").json()
+    assert j["api"] == "fitinerary" and {"check-itinerary", "evaluate-itinerary", "explore", "copilot", "apply-repair", "plan-verification"} <= set(j["features"])
+    # every route a feature names really exists on this server
+    import app.main as m
+    paths = {r.path for r in m.router.routes}
+    for f in ("check-itinerary", "evaluate-itinerary", "explore", "copilot", "parse-repair", "apply-repair", "parse-profile"):
+        assert "/" + f in paths, f

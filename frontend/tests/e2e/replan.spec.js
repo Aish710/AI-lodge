@@ -124,8 +124,8 @@ test('explanations are opt-in; in sample mode they are a template summary with t
   await toItinerary(page)
   expect(calls.every((c) => c.explain === false)).toBe(true) // nothing asks for an explanation by itself
   await page.getByTestId('explain-button').first().click()
-  await expect(page.getByTestId('explain-badge')).toHaveText('Template summary')
-  await expect(page.getByTestId('explain-text')).not.toBeEmpty()
+  await expect(page.getByTestId('explain-badge')).toHaveText('Code-written summary')
+  await expect(page.getByTestId('plan-summary')).not.toBeEmpty()          // the main content is now the code-written summary, complete without any AI wording
   await expect(page.getByTestId('explain-warnings')).toBeVisible()
   expect(calls.at(-1).explain).toBe(true)
 })

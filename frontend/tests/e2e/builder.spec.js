@@ -6,9 +6,17 @@ test.beforeEach(async ({ page }) => { await stubTiles(page) })
 
 // A real drag with the mouse, started from the stop's handle (the middle of a stop can be a button or the "Move to" menu, which are not drag handles).
 async function dragStop(page, stop, day) {
-  const a = await stop.locator('.ic-handle').boundingBox(), b = await day.boundingBox()
+  await stop.scrollIntoViewIfNeeded()
+  const a = await stop.locator('.ic-handle').boundingBox()
+  const vh = await page.evaluate(() => window.innerHeight)
   await page.mouse.move(a.x + 4, a.y + 4); await page.mouse.down()
-  await page.mouse.move(a.x + 20, a.y + 20, { steps: 4 }); await page.mouse.move(b.x + b.width / 2, b.y + b.height - 8, { steps: 10 })
+  await page.mouse.move(a.x + 20, a.y + 20, { steps: 4 })
+  let b = await day.boundingBox()
+  for (let i = 0; i < 12 && (b.y + b.height / 2 > vh - 40 || b.y < 40); i++) {       // target off screen: hold the pointer at the window edge so the page scrolls, as a person would
+    await page.mouse.move(a.x + 40, b.y < 40 ? 6 : vh - 6, { steps: 3 }); await page.waitForTimeout(150)
+    b = await day.boundingBox()
+  }
+  await page.mouse.move(b.x + b.width / 2, b.y + Math.min(b.height - 8, 50), { steps: 8 })
   await page.mouse.up()
 }
 

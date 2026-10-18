@@ -157,13 +157,13 @@ describe('proposed operations card (decision 7)', () => {
 describe('explanations (decision 4 and C)', () => {
   it('badge rule: only source "llm" is called AI-written; everything else is a template', () => {
     expect(explanationBadge({ source: 'llm' })).toEqual({ kind: 'llm', label: 'AI-written, numbers checked' })
-    expect(explanationBadge({ source: 'template' })).toEqual({ kind: 'template', label: 'Template summary' })
+    expect(explanationBadge({ source: 'template' })).toEqual({ kind: 'template', label: 'Code-written summary' })
     expect(explanationBadge(null).kind).toBe('template')
   })
   it('always renders the API warnings verbatim, whatever the source, and calls the text supporting', () => {
     for (const source of ['llm', 'template']) {
       const w = mount(ExplainBlock, { props: { explanation: { text: 'Plan summary.', source, warnings: ['Unknown prices: teamLab Planets is excluded.', 'Not like-for-like: x'] } } })
-      expect(w.get('[data-testid=explain-badge]').text()).toBe(source === 'llm' ? 'AI-written, numbers checked' : 'Template summary')
+      expect(w.get('[data-testid=explain-badge]').text()).toBe(source === 'llm' ? 'AI-written, numbers checked' : 'Code-written summary')
       const warn = w.get('[data-testid=explain-warnings]').text()
       expect(warn).toContain('Unknown prices: teamLab Planets is excluded.')
       expect(warn).toContain('Not like-for-like: x')

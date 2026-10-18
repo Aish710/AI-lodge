@@ -3,7 +3,7 @@
 // The plan you are looking at is never changed by a preview. All numbers come from the server; this component only subtracts two of them.
 import { computed, ref } from 'vue'
 import { store, openWhatIf, runWhatIf, discardWhatIf, applyWhatIf, saveWhatIf, solverBusy, rateLimited } from '../store.js'
-import { diffPlans, WHATIF_PACES } from '../lib/whatif.js'
+import { diffPlans, validationOf, WHATIF_PACES } from '../lib/whatif.js'
 import { formatLocalMoney } from '../lib/format.js'
 import { cleanHotelText as ct } from '../lib/names.js'
 
@@ -19,6 +19,7 @@ const stops = computed(() => (store.plan?.result?.days ?? []).flatMap((x) => x.s
 const others = computed(() => Object.keys(store.placesById).filter((id) => !stops.value.includes(id) && store.wishlist[id] !== 'skip'))
 const feasible = computed(() => w.value.result?.result?.status === 'feasible')
 const diff = computed(() => (feasible.value ? diffPlans(store.plan, w.value.result) : null))
+const validation = computed(() => validationOf(w.value.result))
 const busy = computed(() => solverBusy.value || rateLimited.value)
 function toggle() { open.value = !open.value; if (open.value && !store.whatif.draft) openWhatIf(); if (!open.value) discardWhatIf() }
 function pick(list, id, on) { const s = new Set(list); on ? s.add(id) : s.delete(id); return [...s] }
@@ -60,14 +61,15 @@ function pick(list, id, on) { const s = new Set(list); on ? s.add(id) : s.delete
       </div>
 
       <div v-if="feasible && diff" class="mt-3" data-testid="wi-result">
-        <p class="small" role="status" data-testid="wi-validation"><strong>{{ w.result.feasibility_report?.verification === 'conditional' ? 'Provisional: opening hours unverified.' : w.result.feasibility_report?.verification === 'verified' ? 'Validated against the dataset.' : 'Validation status unavailable.' }}</strong> Estimated travel and fictional hotel prices remain assumptions.</p>
+        <p class="mb-2" role="status" :class="{ 'text-danger': validation.kind === 'bad' || validation.kind === 'unknown' }" data-testid="wi-validation"><strong>Validation: {{ validation.text }}</strong> <span class="small muted">Estimated travel and the demo hotel's sample prices remain assumptions.</span></p>
+        <p v-if="diff.empty" class="small text-danger" data-testid="wi-empty">This what-if schedules no sights at all. It is "feasible" only because nothing is asked of it.</p>
         <p class="small muted mb-1">What changes: {{ w.scenario.changes.join(', ') }}.</p>
         <div class="table-responsive"><table class="table table-sm align-middle mb-2" data-testid="wi-table">
           <thead><tr><th></th><th>Current plan</th><th>What-if</th><th>Difference</th></tr></thead>
           <tbody>
             <tr><th scope="row">Hotel</th><td>{{ ct(store.hotelsById[store.chosenHotel]?.name ?? store.chosenHotel) }}</td><td>{{ ct(store.hotelsById[w.scenario.hotel]?.name ?? w.scenario.hotel) }}</td><td>{{ w.scenario.hotel === store.chosenHotel ? 'same' : 'different' }}</td></tr>
-            <tr><th scope="row">Spending incl. rooms (est.)</th><td>{{ money(store.plan.cost_summary?.trip.cash_total_with_rooms) }}</td><td>{{ money(w.result.cost_summary?.trip.cash_total_with_rooms) }}</td><td data-testid="wi-money">{{ signed(diff.money, money) }}</td></tr>
-            <tr><th scope="row">Estimated travel</th><td>{{ mins(store.plan.cost_summary?.trip.travel_minutes) }}</td><td>{{ mins(w.result.cost_summary?.trip.travel_minutes) }}</td><td data-testid="wi-minutes">{{ signed(diff.minutes, mins) }}</td></tr>
+            <tr><th scope="row">Spending incl. rooms (est.)</th><td>{{ money(store.plan.cost_summary?.trip.cash_total_with_rooms) }}</td><td>{{ money(w.result.cost_summary?.trip.cash_total_with_rooms) }}</td><td data-testid="wi-money">{{ diff.comparable ? signed(diff.money, money) : 'not comparable' }}</td></tr>
+            <tr><th scope="row">Estimated travel</th><td>{{ mins(store.plan.cost_summary?.trip.travel_minutes) }}</td><td>{{ mins(w.result.cost_summary?.trip.travel_minutes) }}</td><td data-testid="wi-minutes">{{ diff.comparable ? signed(diff.minutes, mins) : 'not comparable' }}</td></tr>
             <tr><th scope="row">Sights</th><td>{{ stops.length }}</td><td>{{ stops.length + diff.sights }}</td><td>{{ signed(diff.sights, String) }}</td></tr>
           </tbody></table></div>
         <ul class="small mb-2">
@@ -77,9 +79,10 @@ function pick(list, id, on) { const s = new Set(list); on ? s.add(id) : s.delete
           <li v-if="!diff.added.length && !diff.removed.length && !diff.moved.length">The same sights on the same days.</li>
         </ul>
         <p class="small muted" data-testid="wi-fixed">The preview preserves settings not listed above. Check added and removed sights before comparing spending; different coverage is not like-for-like savings.</p>
+        <p v-if="diff.lowerBecauseLess" class="small" data-testid="wi-lower-because-less"><strong>Lower modelled spending here comes from visiting fewer sights, not from planning the same trip more cheaply.</strong> A like-for-like saving needs the same sights.</p>
         <p v-if="diff.note" class="small muted" data-testid="wi-note">{{ diff.note }}</p>
         <div class="d-flex flex-wrap gap-2">
-          <button type="button" class="btn btn-sm btn-primary" :disabled="busy" data-testid="wi-apply" @click="applyWhatIf(); open = false">Apply this what-if</button>
+          <button type="button" class="btn btn-sm btn-primary" :disabled="busy || !validation.applicable" data-testid="wi-apply" @click="applyWhatIf(); open = false">Apply this what-if</button>
           <button type="button" class="btn btn-sm btn-outline-primary" data-testid="wi-save" @click="saveWhatIf">Save as an alternative</button>
         </div>
       </div>

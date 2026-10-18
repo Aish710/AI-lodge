@@ -15,7 +15,7 @@ export function drawerModel(kind, r, { health = null } = {}) {
     if (r.cited) changes.push({ what: `${r.sentences?.length ?? 0} sentence(s) kept, each citing the facts it rests on${r.dropped ? `; ${r.dropped} dropped` : ''}`, why: 'Code checked each sentence on its own: the fact ids exist, every number is in the cited facts, every name is in the facts, no uncited sentence is shown.' })
     if (r.reason) changes.push({ what: 'The AI text was not used', why: r.reason })
     const rej = r.grounding?.rejected_tokens ?? []
-    if (rej.length) changes.push({ what: `Code rejected ${rej.length} item(s) in the AI text: ${rej.join(', ')}`, why: 'They did not match the computed facts, so a template summary was shown instead.' })
+    if (rej.length) changes.push({ what: `Code rejected ${rej.length} item(s) in the AI text: ${rej.join(', ')}`, why: 'They did not match the computed facts, so the code-written summary is shown instead.' })
     if (r.warnings?.length) changes.push({ what: `Code added ${r.warnings.length} warning(s) word for word`, why: 'Warnings come from the planner, never from the AI.' })
   } else {
     for (const u of r.unresolved_names ?? []) changes.push({ what: `"${u.input}" was dropped`, why: `Not a place in this city's data, so it cannot be scheduled${u.suggestions?.length ? `; offered: ${u.suggestions.map((s) => s.name).join(', ')}` : ''}.` })
@@ -27,8 +27,8 @@ export function drawerModel(kind, r, { health = null } = {}) {
     if (kind === 'proposal' && r.requires_confirmation) changes.push({ what: 'A must-visit removal is flagged', why: 'Only your confirmation can allow it; the AI cannot set it.' })
   }
   return {
-    calls, llm,
-    source: kind === 'explain' ? (llm ? 'AI-written, then checked by code' : 'Template summary written by code') : (llm ? 'Read by the AI, then checked by code' : 'AI off: nothing was sent to a model'),
+    calls, llm, attempted: calls > 0,
+    source: kind === 'explain' ? (llm ? 'AI-written, then checked by code' : calls > 0 ? 'The AI was asked, but its wording was not used; the summary is written by code' : 'Summary written by code; no AI wording') : (llm ? 'Read by the AI, then checked by code' : 'AI off: nothing was sent to a model'),
     promptVersion: kind === 'explain' ? null : (r.prompt_version || null),
     model: llm ? (health?.llm_model ?? null) : null, host: llm ? (health?.llm_endpoint ?? null) : null,
     raw: kind === 'explain' ? null : (r.extracted_json ?? null),

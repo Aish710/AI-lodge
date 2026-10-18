@@ -14,7 +14,7 @@ const rawText = computed(() => (m.value?.raw ? JSON.stringify(m.value.raw, null,
   <details v-if="m" class="ai-drawer small" :data-testid="`ai-drawer-${kind}`" @toggle="open = $event.target.open">
     <summary class="fw-semibold">What the AI did</summary>
     <div v-if="open" class="mt-2 stack">
-      <p class="mb-0" data-testid="drawer-source"><AiMark :kind="m.llm ? 'ai' : 'calc'" :label="m.llm ? 'AI' : 'No AI call'" /> {{ m.source }}. AI calls: <strong data-testid="drawer-calls">{{ m.calls }}</strong>.
+      <p class="mb-0" data-testid="drawer-source"><AiMark :kind="m.llm ? 'ai' : 'calc'" :label="m.llm ? 'AI wording accepted' : m.attempted ? 'AI tried, not used' : 'No AI call'" /> {{ m.source }}. AI calls: <strong data-testid="drawer-calls">{{ m.calls }}</strong>.
         <template v-if="m.model"> Model: <strong>{{ m.model }}</strong><template v-if="m.host"> via {{ m.host }}</template>.</template>
         <template v-if="m.promptVersion"> Prompt version {{ m.promptVersion }}.</template></p>
       <div v-if="rawText" class="row g-2">

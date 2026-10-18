@@ -30,7 +30,6 @@ import TradeoffExplorer from '../components/TradeoffExplorer.vue'
 import ItineraryCompare from '../components/ItineraryCompare.vue'
 import WhatIfPanel from '../components/WhatIfPanel.vue'
 import BenefitStrip from '../components/BenefitStrip.vue'
-import ThingsToCheck from '../components/ThingsToCheck.vue'
 import RepairAssistant from '../components/RepairAssistant.vue'
 import DaySelector from '../components/DaySelector.vue'
 import AiMark from '../components/AiMark.vue'
@@ -40,6 +39,7 @@ import { store, runOptimise, switchHotel, applyAlternative, rateLimited, solverB
 import { mustVisitRemovals } from '../lib/replan.js'
 import { hotelCallout, isInfeasible } from '../lib/rules.js'
 import { formatLocalMoney, formatMoney, humanMinutes } from '../lib/format.js'
+import { planSummary } from '../lib/planSummary.js'
 import { money } from '../lib/money.js'
 import { cleanHotelText as ct } from '../lib/names.js'
 
@@ -50,6 +50,7 @@ const hotel = computed(() => store.hotelsById[store.chosenHotel] ?? null)
 const infeasible = computed(() => isInfeasible(resp.value))
 const t = computed(() => result.value?.totals)
 const cash = computed(() => resp.value?.cost_summary?.trip ?? null)
+const summary = computed(() => planSummary(resp.value, { money, mins: humanMinutes, names: Object.fromEntries(Object.entries(store.placesById).map(([k, v]) => [k, v.name])), hotelName: hotel.value?.name ?? '', wanted: cover.value.wanted }))
 const activeDays = computed(() => (result.value?.days ?? []).filter((d) => d.stops?.length).length)
 const status = computed(() => planStatus(resp.value))
 const tally = computed(() => checksTally(resp.value?.feasibility_report))
@@ -136,7 +137,7 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
             </section>
             <div v-if="callout.kind === 'differs'" class="notice notice-good" role="status" data-testid="callout-differs"><span class="glyph" aria-hidden="true">✓</span><span><strong>{{ callout.text }}</strong></span></div>
             <details v-if="comp?.insight" class="small" data-testid="insight-details"><summary>Why?</summary><p class="mb-0 mt-1" data-testid="insight">{{ pretty(comp.insight) }}</p></details>
-            <ExplainBlock :explanation="store.explanations.optimise" :busy="store.explaining === 'optimise'" :disabled="rateLimited || !!store.explaining" :error="store.explainError" @explain="explain('optimise')" />
+            <ExplainBlock :summary="summary" :days="result.days" :explanation="store.explanations.optimise" :busy="store.explaining === 'optimise'" :disabled="rateLimited || !!store.explaining" :error="store.explainError" @explain="explain('optimise')" />
             <ProposedOperations />
             <div class="notice notice-warn" v-if="resp.approximate || comp?.approximate || comp?.partial" role="status" data-testid="approximate">
               <span class="glyph" aria-hidden="true">!</span><span><strong>Approximate.</strong> {{ resp.approximate ? resp.approximate_note : 'The comparison was not fully proven optimal, so a true cost may be higher than the best possible plan.' }}</span>
@@ -150,7 +151,7 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
               <div class="row g-3">
                 <div class="col-12 col-lg-8"><div class="row g-3">
                 <div class="col-6"><div class="tile">
-                  <div class="tile-label">Estimated spending incl. rooms <Hint text="Modelled cash: admissions with a known price + estimated transport + the demo hotel's rooms at its sample rate. Unknown prices are excluded, not free. Not a quote and not the generalised cost." label="What does estimated spending include?" /></div>
+                  <div class="tile-label">Estimated spending incl. rooms <Hint text="Modelled cash: admissions with a known price + estimated transport + the demo hotel's rooms at its sample rate. Unknown prices are excluded, not free. Not a quote and not the generalised cost. A budget you set covers sights and transport only, not rooms." label="What does estimated spending include?" /></div>
                   <div class="tile-value" data-testid="kpi-total">{{ money(cash?.cash_total_with_rooms ?? t.total_jpy) }}</div>
                   <div class="tile-sub" data-testid="kpi-total-parts">sights and transport {{ money(t.total_jpy) }}<template v-if="cash"> + rooms {{ money(cash.rooms) }} ({{ cash.nights }} night{{ cash.nights === 1 ? '' : 's' }})</template></div></div></div>
                 <div class="col-6"><div class="tile">
@@ -170,13 +171,11 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
               </p>
             </section>
 
-            <ThingsToCheck :days="result.days" />
-
             <BenefitStrip />
 
             <div class="row g-3 align-items-start" data-testid="tools-row">
-              <div class="col-12 col-xl-6"><WhatIfPanel /></div>
-              <div class="col-12 col-xl-6"><ItineraryCompare /></div>
+              <div class="col-12 col-xl-5"><WhatIfPanel /></div>
+              <div class="col-12 col-xl-7"><ItineraryCompare /></div>
             </div>
 
             <TradeoffExplorer />

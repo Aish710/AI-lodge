@@ -58,3 +58,6 @@ export const askCopilot = (preferences, currentResult, fingerprint, text, operat
 /** Live feedback for a DRAFT itinerary: where each stop would happen, the independent validator's verdict and the modelled cash. No optimiser, nothing saved. */
 export const checkItinerary = (preferences, hotelId, days, { cityId } = {}) =>
   request('POST', '/check-itinerary', { key: 'check-itinerary', timeoutMs: 15000, body: { city_id: city(cityId), preferences, hotel_id: hotelId, days } })
+
+/** What this server can do (older servers answer 404: the page then says so). */
+export const getVersion = () => request('GET', '/version', { key: 'version', timeoutMs: 8000 })

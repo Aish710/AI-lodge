@@ -35,7 +35,7 @@ const priceText = (s) => formatPrice(s.cost_status === 'unknown' ? null : s.cost
       </header>
       <p v-if="!d.stops.length" class="mb-0" data-testid="free-day">
         <strong>Day {{ d.day }} has no activities.</strong>
-        <span class="muted"> The planner minimises true cost, and every day out adds a trip from and back to the hotel (travel time is valued at {{ votPerHour === null ? 'your value of time' : `${money(votPerHour)} an hour` }}), so a plan that uses fewer days can cost less. To use this day anyway, mark a sight as "Must visit" or lower your value of time.</span></p>
+        <span class="muted"> The planner minimises generalised cost, and every day out adds a trip from and back to the hotel (travel time is valued at {{ votPerHour === null ? 'your value of time' : `${money(votPerHour)} an hour` }}), so a plan that uses fewer days can cost less. To use this day anyway, mark a sight as "Must visit" or lower your value of time.</span></p>
       <template v-else>
         <div class="hotel-card"><span aria-hidden="true">🏨</span> Leave {{ hotelName }} at {{ d.hotel_departure }}</div>
         <template v-for="(s, i) in d.stops" :key="s.attraction_id">

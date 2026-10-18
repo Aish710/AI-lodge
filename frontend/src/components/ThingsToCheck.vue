@@ -5,7 +5,7 @@ import { computed } from 'vue'
 import { store } from '../store.js'
 import { cleanHotelText as ct } from '../lib/names.js'
 
-const props = defineProps({ days: { type: Array, required: true } })
+const props = defineProps({ days: { type: Array, required: true }, embedded: Boolean })
 const name = (id) => ct(store.placesById[id]?.name ?? id)
 const groups = computed(() => {
   const by = { hours: [], price: [], booking: [] }
@@ -23,7 +23,7 @@ const groups = computed(() => {
 })
 </script>
 <template>
-  <section v-if="groups.length" class="small border rounded p-2 bg-white" data-testid="things-to-check" aria-labelledby="ttc-h">
+  <section v-if="groups.length" class="small" :class="embedded ? '' : 'border rounded p-2 bg-white'" data-testid="things-to-check" aria-labelledby="ttc-h">
     <h2 id="ttc-h" class="h6 mb-1">To check before you go</h2>
     <ul class="mb-1 ps-3">
       <li v-for="g in groups" :key="g.key" :data-testid="'check-' + g.key"><strong>{{ g.label }}:</strong> {{ g.ids.map(name).join(', ') }} <span class="muted">({{ g.text }})</span></li>

@@ -62,7 +62,20 @@ export function diffPlans(before, after) {
   const ta = trip(before), tb = trip(after)
   const d = (x, y) => (x === null || y === null || x === undefined || y === undefined ? null : y - x)
   const sameSights = !added.length && !removed.length
-  return { added, removed, moved, sameSights,
-    money: d(ta?.cash_total_with_rooms, tb?.cash_total_with_rooms), minutes: d(ta?.travel_minutes, tb?.travel_minutes), sights: Object.keys(b).length - Object.keys(a).length,
-    note: sameSights ? null : 'The two plans visit different sights, so a difference in travel time or spending is not a like-for-like saving.' }
+  const money = d(ta?.cash_total_with_rooms, tb?.cash_total_with_rooms), minutes = d(ta?.travel_minutes, tb?.travel_minutes)
+  const lowerBecauseLess = !sameSights && removed.length > added.length && money !== null && money < 0
+  return { added, removed, moved, sameSights, comparable: sameSights, money, minutes, sights: Object.keys(b).length - Object.keys(a).length, empty: Object.keys(b).length === 0,
+    note: sameSights ? null : 'The two plans visit different sights, so a difference in travel time or spending is not a like-for-like saving.',
+    lowerBecauseLess }
+}
+
+/** The validator's verdict on a what-if result, in the words the panel shows. A missing verdict is NEVER treated as a pass. */
+export function validationOf(resp) {
+  const rep = resp?.feasibility_report
+  if (resp?.result?.status !== 'feasible') return { kind: 'bad', applicable: false, text: 'Not feasible: the planner found no plan for this what-if.' }
+  if (!rep || rep.overall === undefined) return { kind: 'unknown', applicable: false, text: 'Not checked: the server did not return the validator\'s verdict (it may be older than this page). Nothing is claimed about this preview.' }
+  if (rep.overall === 'fail') return { kind: 'bad', applicable: false, text: 'The independent validator found a problem with this preview.' }
+  if (rep.verification === 'conditional') return { kind: 'warn', applicable: true, text: 'Provisional: feasible only if the opening hours marked "unverified" are confirmed.' }
+  if (rep.verification === 'verified') return { kind: 'good', applicable: true, text: 'Validated: the independent validator passed every rule against the sample data.' }
+  return { kind: 'unknown', applicable: false, text: 'Not checked: the validator\'s verdict is missing the verified/provisional label (the server may be older than this page).' }
 }

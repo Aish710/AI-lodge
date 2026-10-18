@@ -70,7 +70,7 @@ const dayTime = (day, start) => `day ${day}, ${start}`
     </div>
     <p class="small mb-3" data-testid="diff-disruption">
       Disruption: <strong>{{ diff.disruption_count }}</strong> activities moved without you asking, at {{ money(diff.disruption_jpy_per_move) }} per move = {{ money(diff.disruption_cost_jpy) }}
-      (informational, not part of true cost). A shift of {{ diff.move_threshold_minutes }} minutes or less does not count.
+      (informational, not part of the generalised cost). A shift of {{ diff.move_threshold_minutes }} minutes or less does not count.
     </p>
     <FeasibilityReport :report="result.feasibility_report" />
   </section>

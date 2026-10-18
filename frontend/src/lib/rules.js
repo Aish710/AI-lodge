@@ -105,7 +105,7 @@ export function explanationBadge(explanation) {
   if (explanation?.source === 'llm' && explanation.cited) return { kind: 'llm', label: 'AI-written, every claim cited and checked' }
   return explanation?.source === 'llm'
     ? { kind: 'llm', label: 'AI-written, numbers checked' }
-    : { kind: 'template', label: 'Template summary' }
+    : { kind: 'template', label: 'Code-written summary' }
 }
 
 /**

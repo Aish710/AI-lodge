@@ -50,6 +50,10 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload))
     <div class="stack mb-3">
       <div class="d-flex flex-wrap gap-2 align-items-center mode-slot"><CityChip /><ModeIndicator /></div>
       <ServerStatus />
+      <div v-if="store.server === 'ready' && store.missingFeatures.length" class="notice notice-warn" role="alert" data-testid="server-outdated">
+        <span class="glyph" aria-hidden="true">!</span>
+        <span><strong>The server is older than this page.</strong> It is missing: {{ store.missingFeatures.join(', ') }}. Restart the backend from the latest code and reload. Until then some tools (such as the itinerary builder's live check) will not work, and a result that lacks the validator's verdict is shown as unchecked.</span>
+      </div>
       <RateLimitNotice />
     </div>
     <router-view v-if="store.server === 'ready'" />

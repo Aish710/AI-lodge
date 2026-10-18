@@ -43,8 +43,10 @@ const over = ref(null)       // {day, index}   index = the slot the item would t
 function onStart(di, i, e) { drag.value = { day: di, index: i, id: days.value[di][i] }; e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', days.value[di][i]) }
 function onEnd() { drag.value = null; over.value = null }
 function slot(e, di, i) { const r = e.currentTarget.getBoundingClientRect(); return { day: di, index: e.clientY - r.top > r.height / 2 ? i + 1 : i } }
-function onOverItem(e, di, i) { if (!drag.value) return; e.preventDefault(); e.stopPropagation(); over.value = slot(e, di, i); e.dataTransfer.dropEffect = 'move' }
-function onOverDay(e, di) { if (!drag.value) return; e.preventDefault(); if (!over.value || over.value.day !== di) over.value = { day: di, index: days.value[di].length } }
+// While a stop is dragged, scroll the page when the pointer nears the top or bottom edge, so a day that is below (or above) the visible area can still be reached.
+function autoscroll(e) { const m = 70, y = e.clientY, h = window.innerHeight; if (y > h - m) window.scrollBy(0, Math.ceil((y - (h - m)) / 3)); else if (y < m) window.scrollBy(0, -Math.ceil((m - y) / 3)) }
+function onOverItem(e, di, i) { if (!drag.value) return; autoscroll(e); e.preventDefault(); e.stopPropagation(); over.value = slot(e, di, i); e.dataTransfer.dropEffect = 'move' }
+function onOverDay(e, di) { if (!drag.value) return; autoscroll(e); e.preventDefault(); if (!over.value || over.value.day !== di) over.value = { day: di, index: days.value[di].length } }
 function onDrop(e, di) {
   if (!drag.value) return
   e.preventDefault()
@@ -66,7 +68,8 @@ async function keyMove(next, id) { edit(next, id); await nextTick(); document.qu
       <p class="visually-hidden" role="status" aria-live="polite" data-testid="ic-announce">{{ announce }}</p>
       <div v-if="!classic" class="small mb-2" :class="live?.feasible ? 'text-success' : ''" aria-live="polite" data-testid="ic-live">
         <template v-if="store.itin.liveBusy && !live">Checking your draft…</template>
-        <template v-else-if="live?.error">{{ live.error }}</template>
+        <template v-else-if="live?.error"><strong class="text-danger">Your draft could not be validated.</strong> {{ live.error }} Nothing is claimed about it until it is checked.
+          <button type="button" class="btn btn-sm btn-outline-secondary ms-1" data-testid="ic-recheck" @click="checkDraft">Check again</button></template>
         <template v-else-if="live">
           <strong>{{ live.feasible ? 'Your draft works' : 'Your draft has a problem' }}</strong>
           <template v-if="live.feasible"> · {{ live.active_days }} active day{{ live.active_days === 1 ? '' : 's' }} · estimated spending incl. rooms {{ money(live.cash?.cash_total_with_rooms) }} · estimated travel {{ mins(live.cash?.travel_minutes) }}<span v-if="live.verification === 'conditional'"> · provisional: some opening hours are unverified</span></template>
@@ -75,7 +78,7 @@ async function keyMove(next, id) { edit(next, id); await nextTick(); document.qu
         <span v-if="store.itin.liveBusy && live" class="muted"> (updating…)</span>
       </div>
       <div class="row g-3">
-        <div v-for="(d, di) in days" :key="di" class="col-12 col-md-6" :data-testid="'ic-day-' + (di + 1)">
+        <div v-for="(d, di) in days" :key="di" class="col-12 col-md-6 col-xl-4" :data-testid="'ic-day-' + (di + 1)">
           <div class="border rounded p-2 h-100" :class="{ 'ic-over': over && over.day === di && drag }" @dragover="!classic && onOverDay($event, di)" @drop="!classic && onDrop($event, di)" @dragleave.self="over = null">
             <h3 class="h6">Day {{ di + 1 }} <span class="small muted fw-normal">{{ d.length }} stop{{ d.length === 1 ? '' : 's' }}</span></h3>
             <p v-if="!d.length" class="small muted mb-1" data-testid="ic-empty-day">Nothing planned. Drop a sight here.</p>

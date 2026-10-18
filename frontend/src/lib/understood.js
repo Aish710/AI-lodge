@@ -2,10 +2,11 @@
 import { formatLocalMoney, WEEKDAY_NAMES, WEEKDAYS } from './format.js'
 
 /** Which form control changes each assumed default (ids in Plan.vue). */
-const FIELD_OF_DEFAULT = [['budget', 'f-budget'], ['value of time', 'f-vot'], ['pace', 'f-pace'], ['day start', 'f-start'], ['day end', 'f-end'], ['max walking', 'f-start']]
+const FIELD_OF_DEFAULT = [['budget', 'f-budget'], ['value of time', 'f-vot'], ['pace', 'f-pace'], ['day start', 'f-start'], ['day end', 'f-end']]
 
 export function assumedList(defaults = []) {
-  return defaults.map((text) => ({ text, field: FIELD_OF_DEFAULT.find(([k]) => text.toLowerCase().startsWith(k))?.[1] ?? null }))
+  // a walking limit is not something the planner enforces, so it is never listed as a setting the AI "assumed"
+  return defaults.filter((text) => !/^max walking/i.test(text)).map((text) => ({ text, field: FIELD_OF_DEFAULT.find(([k]) => text.toLowerCase().startsWith(k))?.[1] ?? null }))
 }
 
 const defaulted = (defaults, key) => defaults.some((d) => d.toLowerCase().startsWith(key))

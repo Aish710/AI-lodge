@@ -175,7 +175,7 @@ describe('Explain this plan', () => {
     expect(w.get('[data-testid=explain-badge]').text()).toBe('AI-written, numbers checked')
     expect(w.get('[data-testid=explain-warnings]').text()).toContain('Unknown price: X')
     expect(w.text()).toContain('How was this checked?')
-    expect(mount(ExplainBlock, { props: { explanation: { source: 'template', text: 't', warnings: [] } } }).get('[data-testid=explain-badge]').text()).toBe('Template summary')
+    expect(mount(ExplainBlock, { props: { explanation: { source: 'template', text: 't', warnings: [] } } }).get('[data-testid=explain-badge]').text()).toBe('Code-written summary')
   })
 })
 

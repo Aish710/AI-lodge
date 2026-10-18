@@ -49,7 +49,7 @@ const votPresets = computed(() => [
 const examplesForCity = computed(() => currentCityExamples.value)
 const exLabel = computed(() => exampleLabel(examplesForCity.value.valid, city.value?.currency_code ?? 'JPY'))
 const exTradeoff = computed(() => examplesForCity.value.valid.expect.rate_winner_differs_from_true_winner
-  ? 'For this city, the pre-tested API result flips the hotel winner: the lowest nightly rate is not the best true cost.'
+  ? 'For this city, the pre-tested API result flips the hotel winner: the lowest nightly rate is not the best generalised cost.'
   : 'For this city, the pre-tested API result does not flip the hotel winner; it is still useful for trying the flow.')
 const money = (v) => formatLocalMoney(v, city.value?.currency_code ?? 'JPY')
 
@@ -206,7 +206,7 @@ function example(kind) { loadExample(kind); nudge.value = true }
           <div class="col-6 col-md-3"><label class="form-label" for="f-start">Day starts</label><input id="f-start" class="form-control" type="time" v-model="store.form.dayStart" /></div>
           <div class="col-6 col-md-3"><label class="form-label" for="f-end">Day ends</label><input id="f-end" class="form-control" type="time" v-model="store.form.dayEnd" /></div>
           <div class="col-12 col-md-6">
-            <label class="form-label" for="f-vot">Value of an hour of your time <Hint text="Travel time is priced at this rate when hotels are compared by true cost." /> <strong data-testid="vot-value">{{ money(vot) }} / hour</strong></label>
+            <label class="form-label" for="f-vot">Value of an hour of your time <Hint text="Travel time is priced at this rate in the generalised cost used to compare plans and hotels (it is not money you pay)." /> <strong data-testid="vot-value">{{ money(vot) }} / hour</strong></label>
             <input id="f-vot" class="form-range" type="range" min="0" :max="city?.currency_code === 'KRW' ? 100000 : city?.currency_code === 'JPY' ? 5000 : 300" :step="city?.currency_code === 'KRW' ? 1000 : 1" v-model.number="store.form.valueOfTime" />
           </div>
           <div class="col-12 col-md-6" data-testid="vot-presets">
