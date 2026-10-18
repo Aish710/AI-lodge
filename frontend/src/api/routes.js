@@ -38,3 +38,15 @@ export const explore = (preferences, hotelIds, { cityId } = {}) =>
 /** Your itinerary vs the optimiser for the same sights (and a full plan). `days` = arrays of attraction ids in the user's order. */
 export const evaluateItinerary = (preferences, hotelId, days, { cityId } = {}) =>
   request('POST', '/evaluate-itinerary', { key: 'evaluate-itinerary', timeoutMs: SOLVE_TIMEOUT_MS, body: { city_id: city(cityId), preferences, hotel_id: hotelId, days } })
+
+/** AI-assisted repair: free text -> a PROPOSAL (nothing applied) that the server has tried on a copy. `keepHotel` is the person's own lock. */
+export const parseRepair = (text, preferences, hotelId, keepHotel, cityId) =>
+  request('POST', '/parse-repair', { key: 'parse-repair', timeoutMs: SOLVE_TIMEOUT_MS, body: { city_id: city(cityId), text, preferences, hotel_id: hotelId, keep_hotel: keepHotel === true } })
+
+/** Apply a confirmed repair. The server re-checks everything against the current plan; `confirmedIds` are the person's own ticks. */
+export const applyRepair = (preferences, hotelId, keepHotel, baseFingerprint, actions, confirmedIds, cityId) =>
+  request('POST', '/apply-repair', { key: 'apply-repair', timeoutMs: SOLVE_TIMEOUT_MS, body: { city_id: city(cityId), preferences, hotel_id: hotelId, keep_hotel: keepHotel === true, base_fingerprint: baseFingerprint, actions, confirmed_ids: confirmedIds } })
+
+/** AI-interpreted travel style: free text -> proposed settings (explicit or inferred). Nothing applied or solved. */
+export const parseProfile = (text, current, userOverrides, cityId) =>
+  request('POST', '/parse-profile', { key: 'parse-profile', timeoutMs: SOLVE_TIMEOUT_MS, body: { city_id: city(cityId), text, current, user_overrides: userOverrides } })

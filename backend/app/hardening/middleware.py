@@ -13,8 +13,8 @@ from app.hardening.limiter import SlidingWindowLimiter, client_ip
 log = logging.getLogger("app.access")
 
 CHEAP = {"/health", "/data/summary", "/data/places", "/data/cities"}
-EXPENSIVE = {"/parse", "/parse-replan"}
-STANDARD = {"/optimise", "/compare-hotels", "/replan", "/evaluate-itinerary", "/explore"}
+EXPENSIVE = {"/parse", "/parse-replan", "/parse-repair", "/parse-profile"}
+STANDARD = {"/optimise", "/compare-hotels", "/replan", "/evaluate-itinerary", "/explore", "/apply-repair"}
 EXPLAIN_ROUTES = {"/optimise", "/compare-hotels", "/replan"}
 KNOWN = CHEAP | EXPENSIVE | STANDARD
 

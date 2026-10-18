@@ -16,6 +16,7 @@ import { PITCH } from '../brand.js'
 import { store, chooseProfile, noteProfileEdits, resetProfileOverrides, highlightThemes, toggleInterestTheme, currentPrefs, currentCityExamples, loadExample, requestCitySwitch, resetAll, planMyTrip, rateLimited, rateLimitSeconds, solverBusy, stateOf, setWish, loadPlaces } from '../store.js'
 import { nightsUsed, budgetInJpy } from '../lib/prefs.js'
 import { PROFILES, effective, profileName } from '../lib/profiles.js'
+import StyleAssistant from '../components/StyleAssistant.vue'
 import { formatLocalMoney, WEEKDAY_NAMES, WEEKDAYS } from '../lib/format.js'
 import { budgetSanityHint } from '../lib/tripSummary.js'
 import { roughPreview } from '../lib/preview.js'
@@ -191,11 +192,12 @@ function example(kind) { loadExample(kind); nudge.value = true }
           <button v-for="p in PROFILES" :key="p.id" type="button" class="btn btn-sm" :class="store.profile.id === p.id ? 'btn-primary' : 'btn-outline-primary'" :aria-pressed="store.profile.id === p.id" :data-testid="'profile-' + p.id" :title="p.blurb" @click="chooseProfile(p.id)">{{ p.label }}</button>
         </div>
         <p class="small muted mt-1 mb-1">A style only proposes values for pace, activities a day, estimated travel a day and the value of an hour. Change any of them yourself and your value is kept. It never changes your must-visits.</p>
-        <div v-if="store.profile.id" class="small" data-testid="profile-effective">
-          <strong data-testid="profile-name">{{ profileName(store.profile) }}</strong>
-          <ul class="mb-1 ps-3"><li v-for="r in effectiveRows" :key="r.field" :data-testid="'eff-' + r.field">{{ r.label }}: <strong>{{ r.value }}</strong> <span class="pill">{{ r.source === 'you' ? 'set by you' : r.source === 'profile' ? 'from the style' : 'default' }}</span></li></ul>
+        <div v-if="store.profile.id || Object.keys(store.profile.ai ?? {}).length" class="small" data-testid="profile-effective">
+          <strong data-testid="profile-name">{{ store.profile.id ? profileName(store.profile) : 'Your settings' }}</strong>
+          <ul class="mb-1 ps-3"><li v-for="r in effectiveRows" :key="r.field" :data-testid="'eff-' + r.field">{{ r.label }}: <strong>{{ r.value }}</strong> <span class="pill">{{ { 'you': 'set by you', 'profile': 'from the style', 'ai-explicit': 'you said it (AI read it)', 'ai-inferred': 'suggested by the AI, you confirmed' }[r.source] ?? 'default' }}</span></li></ul>
           <button v-if="Object.keys(store.profile.user).length" type="button" class="btn btn-sm btn-link p-0" data-testid="profile-reset" @click="resetProfileOverrides">Go back to the style's own values</button>
         </div>
+        <StyleAssistant />
       </section>
 
       <details class="mt-3" data-testid="advanced">

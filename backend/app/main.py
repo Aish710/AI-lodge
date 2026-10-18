@@ -29,6 +29,9 @@ from app.llm.client import LLMClient
 from app.llm.explain import OptimiseView, explain
 from app.llm.extract import extract_preferences
 from app.llm.parse_replan import parse_replan
+from app.llm.profile import parse_profile
+from app.llm.repair import parse_repair
+from app.repair import CONFIRMED, RepairAction, RepairError, apply_actions, base_fingerprint
 from app.llm.sanitize import EmptyInput, InputTooLong
 from app.optimiser.alternatives import explore
 from app.optimiser.hotel_compare import ComparisonInputError, compare_hotels
@@ -255,23 +258,26 @@ async def optimise_route(req: OptimiseRequest, request: Request, client: LLMClie
     return await run_cancellable(request, lambda: _optimise_work(req, request, client, ds, cfg))
 
 
+def _optimise_core(p: Preferences, hotel_id: str, ds, cfg):
+    """The ONE place a request becomes a plan response: /optimise and an applied repair both come through here (caller holds the solver slot)."""
+    if hotel_id not in ds.hotels:
+        raise ApiError(422, "unknown_hotel", f"Unknown hotel id '{hotel_id[:64]}'.")
+    spec = ObjectiveSpec("true_cost", p.value_of_time_per_hour, missed_preference_penalty(ds))
+    res = solve(p, hotel_id, ds, objective=spec, max_seconds=cfg.optimise_time_limit_seconds, alternatives_budget=cfg.alternatives_budget_seconds)
+    rep = build_report(res, ds, p, hotel_id)  # a failing report is returned as-is, never hidden
+    nights, src = nights_for(p)
+    approximate = res.status == "feasible" and res.solver_meta.solver_status != "OPTIMAL"
+    out = {"city_id": ds.city.id, "result": res.model_dump(), "feasibility_report": rep.model_dump(), "approximate": approximate, "nights_used": nights, "nights_source": src}
+    out["cost_summary"] = summarise_costs(res, ds, hotel_id, nights)
+    stamp(out, p, hotel_id, ds)
+    if approximate:
+        out["approximate_note"] = "The solver stopped at its time limit without proving optimality: this plan is good but may not be the best."
+    return res, rep, out, approximate, nights
+
+
 def _optimise_work(req: OptimiseRequest, request: Request, client, ds, cfg):
     with request.app.state.solver_capacity.claim():
-        if req.hotel_id not in ds.hotels:
-            raise ApiError(422, "unknown_hotel", f"Unknown hotel id '{req.hotel_id[:64]}'.")
-        p = req.preferences
-        spec = ObjectiveSpec("true_cost", p.value_of_time_per_hour, missed_preference_penalty(ds))
-        res = solve(p, req.hotel_id, ds, objective=spec, max_seconds=cfg.optimise_time_limit_seconds,
-                    alternatives_budget=cfg.alternatives_budget_seconds)
-        rep = build_report(res, ds, p, req.hotel_id)  # a failing report is returned as-is, never hidden
-        nights, src = nights_for(p)
-        approximate = res.status == "feasible" and res.solver_meta.solver_status != "OPTIMAL"
-        out = {"city_id": ds.city.id, "result": res.model_dump(), "feasibility_report": rep.model_dump(), "approximate": approximate,
-               "nights_used": nights, "nights_source": src}
-        out["cost_summary"] = summarise_costs(res, ds, req.hotel_id, nights)
-        stamp(out, p, req.hotel_id, ds)
-        if approximate:
-            out["approximate_note"] = "The solver stopped at its time limit without proving optimality: this plan is good but may not be the best."
+        res, rep, out, approximate, nights = _optimise_core(req.preferences, req.hotel_id, ds, cfg)
     if req.explain:
         out["explanation"] = explain(OptimiseView(res, rep, req.hotel_id, approximate, nights), ds, *_explain_args(client, request, res.status == "feasible" and rep.overall != "fail"),
                                      request.app.state.datasets).model_dump()
@@ -350,6 +356,81 @@ def parse_route(req: ParseRequest, request: Request, client: LLMClient | None = 
                             all_datasets=request.app.state.datasets,
                             unavailable_note=request.state.llm_note)
     return {**r.model_dump(), "city_id": req.city_id}
+
+
+class ParseRepairRequest(_Req):
+    city_id: str = Field(default=DEFAULT_CITY_ID, max_length=32)
+    text: str = Field(max_length=10_000)
+    preferences: Preferences
+    hotel_id: str = Field(max_length=64)
+    keep_hotel: bool = False          # the PERSON's lock, set by the client from their own control; the model can only make a request more cautious
+
+
+@router.post("/parse-repair")
+def parse_repair_route(req: ParseRepairRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
+    """Free text -> a PROPOSED repair, tried on a copy by the normal optimiser and validator. Nothing is applied; /apply-repair needs the person's confirmation."""
+    ds, cfg = _dataset(request, req.city_id), request.app.state.hconf
+    _check_city_ids(request, ds, hotels=[req.hotel_id], prefs=req.preferences)
+    if req.hotel_id not in ds.hotels:
+        raise ApiError(422, "unknown_hotel", "Unknown hotel id.")
+    out = parse_repair(req.text, req.preferences, req.hotel_id, req.keep_hotel, ds, client, unavailable_note=request.state.llm_note,
+                       solve_seconds=cfg.optimise_time_limit_seconds, solve_slot=request.app.state.solver_capacity.claim).model_dump()
+    return {**out, "city_id": ds.city.id}
+
+
+class ApplyRepairRequest(_Req):
+    city_id: str = Field(default=DEFAULT_CITY_ID, max_length=32)
+    preferences: Preferences
+    hotel_id: str = Field(max_length=64)
+    keep_hotel: bool = False
+    base_fingerprint: str = Field(max_length=32)
+    actions: list[RepairAction] = Field(min_length=1, max_length=8)
+    confirmed_ids: list[str] = Field(default=[], max_length=8)    # set only by the person's own ticks in the confirmation step
+
+
+@router.post("/apply-repair")
+async def apply_repair_route(req: ApplyRepairRequest, request: Request):
+    """Apply a confirmed repair. Everything is re-checked NOW: the plan must be the one the proposal was made for, every action must still match its expected previous value, the allowlist and
+    the hotel lock are enforced, and each action that gives something up must be individually confirmed. The result comes from the normal optimiser and the independent validator."""
+    ds, cfg = _dataset(request, req.city_id), request.app.state.hconf
+    _check_city_ids(request, ds, hotels=[req.hotel_id], prefs=req.preferences)
+    reject_foreign_ids(ds, request.app.state.datasets,
+                       hotels=[a.proposed for a in req.actions if a.action == "switch_hotel" and isinstance(a.proposed, str)],
+                       attractions=[a.target for a in req.actions if a.action in ("remove_optional", "promote_to_must", "demote_must_visit")])
+    if req.hotel_id not in ds.hotels:
+        raise ApiError(422, "unknown_hotel", "Unknown hotel id.")
+    if req.base_fingerprint != base_fingerprint(req.preferences, req.hotel_id, req.keep_hotel, ds):
+        raise ApiError(409, "stale_proposal", "The plan changed since this proposal was made. Ask again for a fresh proposal.")
+    missing = [a.id for a in req.actions if a.action in CONFIRMED and a.id not in req.confirmed_ids]
+    if missing:
+        raise ApiError(422, "confirmation_required", "Each change that gives something up or touches a hard rule must be confirmed individually.", [{"action_id": i} for i in missing])
+
+    def work():
+        try:
+            p, h, keep = apply_actions(req.preferences, req.hotel_id, req.keep_hotel, req.actions, ds)
+        except RepairError as e:
+            raise ApiError(e.status, e.code, e.message)
+        with request.app.state.solver_capacity.claim():
+            _, _, out, _, _ = _optimise_core(p, h, ds, cfg)
+        out.update(new_preferences=p.model_dump(), hotel_id=h, keep_hotel=keep, applied=[a.model_dump() for a in req.actions])
+        return out
+    return await run_cancellable(request, work)
+
+
+class ParseProfileRequest(_Req):
+    city_id: str = Field(default=DEFAULT_CITY_ID, max_length=32)
+    text: str = Field(max_length=10_000)
+    current: dict = Field(default={}, max_length=12)          # the form's current pace / maxActivities / maxDailyTravel / valueOfTime / budget (display and "kept yours" only)
+    user_overrides: list[str] = Field(default=[], max_length=8)
+
+
+@router.post("/parse-profile")
+def parse_profile_route(req: ParseProfileRequest, request: Request, client: LLMClient | None = Depends(llm_for_request)):
+    """Free text -> PROPOSED travel-style settings, each labelled explicit or inferred. Nothing is applied or solved."""
+    ds = _dataset(request, req.city_id)
+    cur = {k: v for k, v in req.current.items() if k in ("pace", "maxActivities", "maxDailyTravel", "valueOfTime", "budget") and isinstance(v, (str, int, bool, type(None)))}
+    out = parse_profile(req.text, cur, [u for u in req.user_overrides if u in ("pace", "maxActivities", "maxDailyTravel", "valueOfTime", "budget")], ds, client, unavailable_note=request.state.llm_note).model_dump()
+    return {**out, "city_id": ds.city.id}
 
 
 class ParseReplanRequest(_Req):

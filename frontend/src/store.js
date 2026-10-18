@@ -3,13 +3,13 @@
 import { pushState, summariseRun } from './lib/tradeoff.js'
 import { seedDays } from './lib/itinerary.js'
 import { buildScenario, draftFrom } from './lib/whatif.js'
-import { applyProfile, clearOverrides, emptyProfile, syncOverrides } from './lib/profiles.js'
+import { applyAiSettings, applyProfile, clearOverrides, emptyProfile, syncOverrides } from './lib/profiles.js'
 import { reactive, computed } from 'vue'
 import * as api from './api/routes.js'
 import { abortKey, ApiError, isAborted, setCityProvider, setRateLimitHandler, waitForServer } from './api/client.js'
 import { cleanHotelText, clearedOnCitySwitch } from './lib/names.js'
 import { setSupportedCurrencies } from './lib/format.js'
-import { applyPatch, buildPreferences, DEFAULT_FORM, formFromDraft } from './lib/prefs.js'
+import { applyPatch, buildPreferences, DEFAULT_FORM, formFromDraft, formFromPrefs } from './lib/prefs.js'
 import { addOp, buildReplanArgs, proposalToOps, removeOpAt } from './lib/replan.js'
 import limits from './lib/limits.json'
 import examples from './lib/examples.json'
@@ -32,6 +32,8 @@ export const store = reactive({
   planFromReplan: false,
   itin: { days: null, result: null, busy: false, error: null },
   profile: emptyProfile(),
+  repair: { proposal: null, text: '', busy: false, applying: false, error: null, keepHotel: false, confirmed: [] },
+  styleAi: { proposal: null, busy: false, error: null },
   whatif: { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 },
   history: [], historySeq: 0, explorer: { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null },
   queue: [], queueError: null, previous: null, lastReplan: null, lastReplanRequest: null, replanError: null, restored: false,
@@ -136,7 +138,7 @@ export async function loadPlaces() {
 
 /** Abort every request that could still answer for the previous city. */
 function abortAllInFlight() {
-  for (const k of ['places', 'compare', 'compare-sens', 'optimise', 'replan', 'parse', 'parse-replan', 'summary', 'evaluate-itinerary', 'explore']) abortKey(k)
+  for (const k of ['places', 'compare', 'compare-sens', 'optimise', 'replan', 'parse', 'parse-replan', 'summary', 'evaluate-itinerary', 'explore', 'parse-repair', 'apply-repair', 'parse-profile']) abortKey(k)
 }
 
 function clearComputedResults() {
@@ -182,6 +184,8 @@ export async function selectCity(cityId) {
   store.parsedInterests = []
   store.placesById = {}
   store.profile = emptyProfile()
+  store.repair = { proposal: null, text: '', busy: false, applying: false, error: null, keepHotel: false, confirmed: [] }
+  store.styleAi = { proposal: null, busy: false, error: null }
   store.history = []
   store.itin = { days: null, result: null, busy: false, error: null }
   store.whatif = { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 }
@@ -399,6 +403,8 @@ function applyExample(kind) {
   store.planError = null
   store.comparisonError = null
   store.profile = emptyProfile()
+  store.repair = { proposal: null, text: '', busy: false, applying: false, error: null, keepHotel: false, confirmed: [] }
+  store.styleAi = { proposal: null, busy: false, error: null }
   store.history = []
   store.itin = { days: null, result: null, busy: false, error: null }
   store.whatif = { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 }
@@ -432,6 +438,8 @@ export function resetAll() {
   store.planError = null
   store.comparisonError = null
   store.profile = emptyProfile()
+  store.repair = { proposal: null, text: '', busy: false, applying: false, error: null, keepHotel: false, confirmed: [] }
+  store.styleAi = { proposal: null, busy: false, error: null }
   store.history = []
   store.itin = { days: null, result: null, busy: false, error: null }
   store.whatif = { draft: null, scenario: null, result: null, busy: false, error: null, seq: 0 }
@@ -532,6 +540,75 @@ export function resetProfileOverrides() {
   const id = store.profile.id
   store.profile = clearOverrides(store.profile)
   if (id) chooseProfile(id)
+}
+
+// ---- AI-assisted repair: text -> proposal (tried on a copy by the server) -> the person confirms -> server re-checks, optimises and validates ----
+export async function runRepair(text) {
+  const r = store.repair
+  if (!store.plan || !store.planPrefs || aiUserOff() || solverBusy.value || rateLimited.value) return
+  if (text.length > maxInputChars) { r.error = new ApiError({ code: 'input_too_long', message: `That is ${text.length} characters; the limit is ${maxInputChars}. Please shorten it.` }); return }
+  r.busy = true; r.error = null; r.text = text; r.confirmed = []
+  try { r.proposal = await api.parseRepair(text, store.planPrefs, store.chosenHotel, r.keepHotel, store.cityId) }
+  catch (e) { if (!isAborted(e)) { r.error = e instanceof ApiError ? e : new ApiError({ code: 'unexpected', message: 'Something unexpected went wrong.' }); noteSolverBusy(r.error) } }
+  finally { r.busy = false }
+}
+export function cancelRepair() { store.repair.proposal = null; store.repair.error = null; store.repair.confirmed = [] }
+export function toggleRepairConfirm(id, on) { const s = new Set(store.repair.confirmed); on ? s.add(id) : s.delete(id); store.repair.confirmed = [...s] }
+/** Can the proposal be applied now? Every action that gives something up needs its own tick, and the server must have found a plan with the changes. */
+export function repairApplicable(p, confirmed) {
+  if (!p || p.status !== 'ok' || !(p.actions ?? []).length) return false
+  if (!['verified', 'conditional'].includes(p.verification?.state)) return false
+  return p.actions.filter((a) => a.requires_confirmation).every((a) => confirmed.includes(a.id))
+}
+export async function applyRepair() {
+  const r = store.repair, p = r.proposal
+  if (!repairApplicable(p, r.confirmed) || solverBusy.value || rateLimited.value) return
+  r.applying = true; r.error = null
+  try {
+    const resp = await api.applyRepair(store.planPrefs, store.chosenHotel, r.keepHotel, p.base_fingerprint, p.actions, r.confirmed, store.cityId)
+    const prefs = resp.new_preferences
+    store.plan = resp
+    store.planPrefs = prefs
+    store.chosenHotel = resp.hotel_id
+    store.planFromReplan = true
+    store.planKey = keyOf(prefs, resp.hotel_id)
+    const synced = formFromPrefs(store.form, store.wishlist, prefs)
+    store.form = synced.form; store.wishlist = synced.wishlist
+    store.queue = []; store.previous = null; store.lastReplan = null; store.restored = false
+    if (store.selectedDay !== 'all' && store.selectedDay > (resp.result?.days?.length ?? 0)) store.selectedDay = 'all'
+    recordState('AI repair')
+    r.proposal = null; r.confirmed = []; r.text = ''
+  } catch (e) {
+    if (!isAborted(e)) {
+      r.error = e instanceof ApiError ? e : new ApiError({ code: 'unexpected', message: 'Something unexpected went wrong.' })
+      if (r.error.code === 'stale_proposal') r.proposal = null      // the plan moved on: the old proposal is gone; ask again
+      noteSolverBusy(r.error)
+    }
+  } finally { r.applying = false }
+}
+
+// ---- AI-interpreted travel style: text -> preview of settings (explicit / inferred) -> the person ticks -> form values change; the plan is re-optimised only when they press Plan ----
+export async function runStyleText(text) {
+  const s = store.styleAi
+  if (aiUserOff()) return
+  if (text.length > maxInputChars) { s.error = new ApiError({ code: 'input_too_long', message: `That is ${text.length} characters; the limit is ${maxInputChars}. Please shorten it.` }); return }
+  s.busy = true; s.error = null
+  try {
+    const f = store.form
+    s.proposal = await api.parseProfile(text, { pace: f.pace, maxActivities: f.maxActivities === '' ? null : Number(f.maxActivities), maxDailyTravel: f.maxDailyTravel === '' ? null : Number(f.maxDailyTravel), valueOfTime: Number(f.valueOfTime) },
+      Object.keys(store.profile.user), store.cityId)
+  } catch (e) { if (!isAborted(e)) s.error = e instanceof ApiError ? e : new ApiError({ code: 'unexpected', message: 'Something unexpected went wrong.' }) } finally { s.busy = false }
+}
+export function discardStyleProposal() { store.styleAi.proposal = null; store.styleAi.error = null }
+export function applyStyleSettings(picked) {
+  const p = store.styleAi.proposal
+  if (!p) return
+  const r = applyAiSettings(store.form, store.profile, p.settings, picked)
+  store.form = r.form
+  store.profile = r.state
+  if (r.extra.budget !== null) { store.form.budgetAmount = String(r.extra.budget); store.form.budgetCurrency = store.city?.currency_code ?? store.form.budgetCurrency }
+  for (const id of r.extra.mustVisit) store.wishlist[id] = 'must'
+  store.styleAi.proposal = null
 }
 
 // ---- What if?: a temporary scenario. The current plan is never touched until Apply; the server optimises and validates the scenario like any other request ----

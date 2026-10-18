@@ -6,7 +6,7 @@ export const PROFILES = data.profiles
 export const FIELDS = ['pace', 'maxActivities', 'maxDailyTravel', 'valueOfTime']
 export const FIELD_LABEL = { pace: 'Pace', maxActivities: 'Activities a day', maxDailyTravel: 'Estimated travel a day (min)', valueOfTime: 'Value of an hour' }
 
-export const emptyProfile = () => ({ id: null, applied: {}, user: {} })
+export const emptyProfile = () => ({ id: null, applied: {}, user: {}, ai: {} })
 const same = (a, b) => String(a) === String(b)
 
 /** The values a profile proposes for this city. */
@@ -24,7 +24,7 @@ export function applyProfile(form, state, profileId, cityDefaultVot) {
     if (state.user[k]) continue
     f[k] = want[k]; applied[k] = want[k]
   }
-  return { form: f, state: { id: profileId, applied: { ...applied }, user: { ...state.user } } }
+  return { form: f, state: { id: profileId, applied: { ...applied }, user: { ...state.user }, ai: Object.fromEntries(Object.entries(state.ai ?? {}).filter(([k]) => state.user[k])) } }
 }
 
 /** Notice edits made after a profile was applied: a field that no longer equals what the profile set is now the user's own. */
@@ -47,5 +47,22 @@ export function effective(form, state, cityDefaultVot) {
   const prof = PROFILES.find((x) => x.id === state.id)
   const want = prof ? proposed(prof, cityDefaultVot) : {}
   return FIELDS.map((k) => ({ field: k, label: FIELD_LABEL[k], value: form[k] === '' ? (k === 'maxActivities' ? 'pace decides' : 'no limit') : form[k],
-    source: state.user[k] ? 'you' : k in state.applied ? 'profile' : 'default', profileWould: want[k] }))
+    source: state.ai?.[k] === 'explicit' ? 'ai-explicit' : state.user[k] ? 'you' : state.ai?.[k] ? `ai-${state.ai[k]}` : k in state.applied ? 'profile' : 'default', profileWould: want[k] }))
+}
+
+/**
+ * Apply the settings the person ticked from an AI style proposal. Only the four profile fields change the profile state; each is recorded as "explicit" (they wrote it) or "inferred"
+ * (the program's documented mapping), and as applied, so it is not later mistaken for a manual edit. A value they set themselves ("kept yours") is never in `picked` unless they tick it.
+ * Budget and must-visit settings are returned for the caller to apply to the form and wishlist. Pure: returns new copies.
+ */
+export function applyAiSettings(form, state, settings, picked) {
+  const f = { ...form }, ai = { ...(state.ai ?? {}) }, applied = { ...state.applied }, user = { ...state.user }
+  const extra = { budget: null, mustVisit: [] }
+  for (const s of settings) {
+    if (!picked.includes(s.field + (s.target ?? ''))) continue
+    if (FIELDS.includes(s.field)) { f[s.field] = s.proposed; ai[s.field] = s.source; applied[s.field] = s.proposed; if (s.source === 'explicit') user[s.field] = true; else delete user[s.field] }
+    else if (s.field === 'budget') extra.budget = s.proposed
+    else if (s.field === 'must_visit') extra.mustVisit.push(s.target)
+  }
+  return { form: f, state: { ...state, applied, user, ai }, extra }
 }

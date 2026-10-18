@@ -95,6 +95,64 @@ def _m11():
     fr.build_report = gate
 
 
+@mutation("repair_expected_previous_unchecked", "an applied repair no longer checks that each action's expected previous value still holds (stale / time-of-check-time-of-use)")
+def _m12():
+    import app.repair as r
+
+    class Anything:
+        def __eq__(self, other):
+            return True
+
+        def __ne__(self, other):
+            return False
+    r.current_value = lambda *a, **k: Anything()
+
+
+@mutation("repair_hotel_lock_ignored", "a repair may switch a hotel the person asked to keep")
+def _m13():
+    import app.repair as r
+    orig = r._check
+    r._check = lambda a, p, h, keep, ds: orig(a, p, h, False, ds)
+
+
+@mutation("repair_confirmation_not_required", "apply-repair no longer demands the person's individual confirmation for hard-constraint actions")
+def _m14():
+    import app.main as m
+    m.CONFIRMED = frozenset()
+
+
+@mutation("repair_flags_not_derived", "confirmation and hard-constraint flags are no longer derived from the action (a forged or model-set flag would be trusted)")
+def _m15():
+    import app.repair as r
+    r.CONFIRMED = frozenset()
+    r.HARD = frozenset()
+
+
+@mutation("repair_stale_fingerprint_unchecked", "an applied repair is no longer tied to the plan it was proposed for")
+def _m16():
+    import app.main as m
+    import app.repair as r
+    from types import SimpleNamespace
+    m.base_fingerprint = lambda *a, **k: "ANY"
+    orig = m.ApplyRepairRequest.model_validate
+    # every proposal made while this mutation is active carries the same constant, so the check always passes
+    r.base_fingerprint = lambda *a, **k: "ANY"
+    import app.llm.repair as lr
+    lr.base_fingerprint = lambda *a, **k: "ANY"
+
+
+@mutation("style_numbers_not_grounded", "a number the model puts in a travel-style tag is accepted even if the user never wrote it")
+def _m17():
+    import app.llm.profile as pr
+    pr._digits = lambda text: set(range(0, 100000))
+
+
+@mutation("repair_reason_unfiltered", "the model's free-text reason (possible fabricated saving) is shown as written")
+def _m18():
+    import app.llm.repair as lr
+    lr._clean_reason = lambda reason: reason
+
+
 def pytest_configure(config):
     name = os.environ.get("SAFETY_MUTATION")
     if not name:

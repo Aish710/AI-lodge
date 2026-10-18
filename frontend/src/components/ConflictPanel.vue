@@ -49,6 +49,7 @@ const name = (id) => props.placesById[id]?.name ?? id
         </template>
         <p v-else class="mb-0" data-testid="no-repair">No verified repair was found, even trying pairs of changes within a fixed limit. Under the sample data and planning assumptions as entered there is no plan to confirm; try changing the inputs yourself.</p>
       </div>
+      <slot name="assistant" />
       <details class="mt-3 small" data-testid="technical-details">
         <summary>Technical details</summary>
         <ul class="mb-0 mt-1" data-testid="conflict-list">

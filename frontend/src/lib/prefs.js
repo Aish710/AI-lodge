@@ -95,3 +95,15 @@ export function formFromDraft(draft, base = DEFAULT_FORM(), localCurrency = 'JPY
   for (const id of draft.skip ?? []) wishlist[id] = 'skip'
   return { form, wishlist }
 }
+
+/** After a server-applied repair: bring the form and the wishlist in line with the preferences that were really used, so Recalculate and the next edit start from them. Pure. */
+export function formFromPrefs(form, wishlist, prefs) {
+  const f = { ...form, pace: prefs.pace, dayEnd: prefs.day_end, valueOfTime: prefs.value_of_time_per_hour, allowUnknownHours: Boolean(prefs.allow_unknown_hours), strictBudget: Boolean(prefs.strict_budget),
+    maxActivities: prefs.max_activities_per_day ?? '', maxDailyTravel: prefs.max_daily_travel_minutes ?? '' }
+  const w = { ...wishlist }
+  for (const id of Object.keys(w)) if (w[id] === 'must' && !(prefs.must_visit ?? []).includes(id)) w[id] = 'nice'
+  for (const id of prefs.must_visit ?? []) w[id] = 'must'
+  for (const id of Object.keys(w)) if (w[id] === 'skip' && !(prefs.skip ?? []).includes(id)) w[id] = 'nice'
+  for (const id of prefs.skip ?? []) w[id] = 'skip'
+  return { form: f, wishlist: w }
+}

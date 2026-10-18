@@ -29,6 +29,7 @@ import TradeoffExplorer from '../components/TradeoffExplorer.vue'
 import ItineraryCompare from '../components/ItineraryCompare.vue'
 import WhatIfPanel from '../components/WhatIfPanel.vue'
 import BenefitStrip from '../components/BenefitStrip.vue'
+import RepairAssistant from '../components/RepairAssistant.vue'
 import DaySelector from '../components/DaySelector.vue'
 import AiMark from '../components/AiMark.vue'
 import AiLegend from '../components/AiLegend.vue'
@@ -111,7 +112,9 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
           <!-- infeasible is a NORMAL result: conflict panel, never the error component -->
           <template v-if="infeasible">
             <StatusChip v-bind="status" />
-            <ConflictPanel :result="result" :prefs="store.planPrefs" :places-by-id="store.placesById" :busy="store.busy.optimise" :disabled="rateLimited || solverBusy" @apply="applyAlternative" />
+            <ConflictPanel :result="result" :prefs="store.planPrefs" :places-by-id="store.placesById" :busy="store.busy.optimise" :disabled="rateLimited || solverBusy" @apply="applyAlternative">
+              <template #assistant><RepairAssistant /></template>
+            </ConflictPanel>
             <FeasibilityReport :report="resp.feasibility_report" />
           </template>
 
@@ -164,9 +167,10 @@ const activeStop = ref(null)   // card <-> pin link: hovering or focusing one hi
 
             <BenefitStrip />
 
-            <WhatIfPanel />
-
-            <ItineraryCompare />
+            <div class="row g-3 align-items-start" data-testid="tools-row">
+              <div class="col-12 col-xl-6"><WhatIfPanel /></div>
+              <div class="col-12 col-xl-6"><ItineraryCompare /></div>
+            </div>
 
             <TradeoffExplorer />
 

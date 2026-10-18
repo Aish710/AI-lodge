@@ -20,7 +20,7 @@ import safety_mutation_plugin as plugin  # noqa: E402
 OUT = ROOT.parent / "docs" / "safety"
 TESTS = ["tests/test_safety_invariants.py", "tests/test_llm_api_safety.py", "tests/test_llm_explain.py", "tests/test_cited_explanations.py", "tests/test_redteam.py",
          "tests/test_unsupported_claims.py", "tests/test_replan.py", "tests/test_city_isolation.py", "tests/test_llm_input.py", "tests/test_solver.py", "tests/test_conflict_resolver.py",
-         "tests/test_llm_per_city.py"]
+         "tests/test_llm_per_city.py", "tests/test_ai_repair.py", "tests/test_safety_invariants_ai.py"]
 
 
 def run(name: str | None):
