@@ -1,6 +1,7 @@
 // App state: a plain reactive module (no Pinia: the state is small and this keeps dependencies minimal).
 // Everything lives in memory only: nothing is persisted by the browser (decision 10).
 import { pushState, summariseRun } from './lib/tradeoff.js'
+import { seedDays } from './lib/itinerary.js'
 import { reactive, computed } from 'vue'
 import * as api from './api/routes.js'
 import { abortKey, ApiError, isAborted, setCityProvider, setRateLimitHandler, waitForServer } from './api/client.js'
@@ -27,6 +28,7 @@ export const store = reactive({
   busy: { compare: false, sensitivity: false, optimise: false, replan: false, parse: false, proposal: false },
   sensitivityError: null, sensitivityCancelled: false, sensitivityStartedAt: 0,
   planFromReplan: false,
+  itin: { days: null, result: null, busy: false, error: null },
   history: [], historySeq: 0, explorer: { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null },
   queue: [], queueError: null, previous: null, lastReplan: null, lastReplanRequest: null, replanError: null, restored: false,
   parseResult: null, parseError: null, proposal: null, proposalError: null,
@@ -130,7 +132,7 @@ export async function loadPlaces() {
 
 /** Abort every request that could still answer for the previous city. */
 function abortAllInFlight() {
-  for (const k of ['places', 'compare', 'compare-sens', 'optimise', 'replan', 'parse', 'parse-replan', 'summary']) abortKey(k)
+  for (const k of ['places', 'compare', 'compare-sens', 'optimise', 'replan', 'parse', 'parse-replan', 'summary', 'evaluate-itinerary']) abortKey(k)
 }
 
 function clearComputedResults() {
@@ -176,6 +178,7 @@ export async function selectCity(cityId) {
   store.parsedInterests = []
   store.placesById = {}
   store.history = []
+  store.itin = { days: null, result: null, busy: false, error: null }
   store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null }
   store.hotelsById = {}
   clearComputedResults()
@@ -390,6 +393,7 @@ function applyExample(kind) {
   store.planError = null
   store.comparisonError = null
   store.history = []
+  store.itin = { days: null, result: null, busy: false, error: null }
   store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null }
 }
 
@@ -499,6 +503,44 @@ export function restoreState(id) {
   store.restored = true
   if (store.selectedDay !== 'all' && store.selectedDay > (s.plan.result?.days?.length ?? 0)) store.selectedDay = 'all'
   return true
+}
+
+// ---- Compare with my itinerary: the user's own days vs the optimiser for the SAME sights; the server does all placing, validating and scoring ----
+export function startItinerary() {
+  if (!store.planPrefs || !store.plan) return
+  const chosen = Object.keys(store.placesById).filter((id) => store.wishlist[id] !== 'skip' && (store.wishlist[id] === 'must' || store.wishlist[id] === 'nice'))
+  const ids = chosen.length ? chosen : store.plan.result.days.flatMap((d) => d.stops.map((s) => s.attraction_id))
+  store.itin = { days: seedDays(ids, store.planPrefs.days), result: null, busy: false, error: null }
+}
+
+export async function runItineraryCompare() {
+  if (solverBusy.value || rateLimited.value || !store.itin.days || !store.planPrefs) return
+  store.itin.busy = true
+  store.itin.error = null
+  try {
+    store.itin.result = await api.evaluateItinerary(store.planPrefs, store.chosenHotel, store.itin.days.filter((d) => d.length), { cityId: store.cityId })
+  } catch (e) { if (!isAborted(e)) { store.itin.error = e instanceof ApiError ? e : new ApiError({ code: 'unexpected', message: 'Something unexpected went wrong.' }); noteSolverBusy(store.itin.error) } }
+  finally { store.itin.busy = false }
+}
+
+/** Use an optimised plan: a real /optimise for exactly the user's sights ('same') or with optional sights allowed to drop ('full'). The previous plan stays in history. */
+export async function adoptItineraryArm(kind) {
+  if (solverBusy.value || rateLimited.value || !store.itin.result) return
+  const target = store.itin.result.target_sights
+  const base = store.planPrefs
+  const prefs = { ...base, skip: Object.keys(store.placesById).filter((id) => !target.includes(id)), must_visit: kind === 'same' ? target : base.must_visit }
+  store.busy.optimise = true
+  store.planError = null
+  try {
+    const resp = await api.optimise(prefs, store.chosenHotel, { cityId: store.cityId })
+    store.plan = resp
+    store.planPrefs = prefs
+    store.planFromReplan = true
+    store.planKey = keyOf(prefs, store.chosenHotel)
+    store.queue = []; store.previous = null; store.lastReplan = null; store.restored = false
+    if (store.selectedDay !== 'all' && store.selectedDay > resp.result.days.length) store.selectedDay = 'all'
+    recordState(kind === 'same' ? 'Optimised, same sights' : 'Optimised, full plan')
+  } catch (e) { fail('planError', e); noteSolverBusy(store.planError) } finally { store.busy.optimise = false }
 }
 
 // ---- Trip Trade-off Explorer: real optimiser reruns at another value of time; locks and explicit preferences are carried over ----

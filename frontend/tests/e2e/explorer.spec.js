@@ -33,3 +33,20 @@ test('the daily limits are sent only when set, and a limit the planner can respe
   await expect(page.getByTestId('timeline')).toBeVisible()
   await expect(page.getByTestId('kpi-checks')).toContainText('of')
 })
+
+test('arrange my own itinerary, compare it with the optimiser, and adopt the optimised plan with the old one kept', async ({ page }) => {
+  const problems = watchConsole(page)
+  await page.goto('/')
+  await planFromExample(page)
+  await page.getByTestId('ic-toggle').click()
+  await expect(page.getByTestId('ic-day-1')).toBeVisible()
+  await page.getByTestId('ic-compare').click()
+  await expect(page.getByTestId('ic-table')).toBeVisible({ timeout: PLAN_WAIT })
+  for (const k of ['yours', 'same_sights', 'full_plan']) await expect(page.getByTestId(`ic-row-${k}`)).toBeVisible()
+  await expect(page.getByTestId('ic-verdict')).not.toBeEmpty()
+  if (await page.getByTestId('ic-use-same').isEnabled()) {
+    await page.getByTestId('ic-use-same').click()
+    await expect(page.getByTestId('plan-history')).toBeVisible({ timeout: PLAN_WAIT })
+  }
+  expectClean(problems)
+})

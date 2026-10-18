@@ -83,3 +83,18 @@ def test_the_api_route_returns_the_arms_a_verdict_and_a_fingerprint_and_rejects_
         assert [a["key"] for a in j["arms"]] == ["yours", "same_sights", "full_plan"] and j["fingerprint"] and j["verdict"]["text"]
         assert c.post("/evaluate-itinerary", json={**body, "days": [["definitely_not_an_attraction"]]}).status_code == 422
         assert c.post("/evaluate-itinerary", json={**body, "extra": 1}).status_code == 422
+
+
+def test_every_field_the_interface_reads_is_in_the_response():
+    import re
+    from pathlib import Path
+    src = (Path(__file__).resolve().parents[2] / "frontend" / "src" / "lib" / "itinerary.js").read_text()
+    p, h, ds, days = _days_from_solver()
+    r = evaluate_itinerary(p, h, ds, days, max_seconds=10)
+    arm = r["arms"][0]
+    for f in set(re.findall(r"\ba\.([a-z_]+)", src)):
+        assert f in arm, f
+    for f in ("admissions_jpy", "transport_jpy"):
+        assert f in arm["breakdown"]
+    assert {"verdict", "target_sights", "full_plan", "same_sights"} <= set(r)
+    assert {"sights_left_out", "different_sights"} <= set(r["full_plan"])
