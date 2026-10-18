@@ -35,7 +35,7 @@ def test_the_facts_have_stable_ids_and_the_prompt_asks_for_cited_json():
     f = build_facts(replan_result(), DS)
     assert [i for i, _ in f.numbered()][:3] == ["F1", "F2", "F3"] and f.numbered() == build_facts(replan_result(), DS).numbered()
     assert f.prompt_block().startswith("<facts>\nF1: Kind:") and "F5: True cost" in f.prompt_block()
-    assert '"fact_ids"' in EXPLAIN_SYSTEM and "F1, F2" in EXPLAIN_SYSTEM and PROMPT_VERSION == "3"
+    assert '"fact_ids"' in EXPLAIN_SYSTEM and "F1, F2" in EXPLAIN_SYSTEM and PROMPT_VERSION == "4"
 
 
 def test_valid_cited_output_is_shown_with_its_citations_and_the_warnings_added_by_code():

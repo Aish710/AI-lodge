@@ -1,6 +1,6 @@
 # Itinerary-planning value, separate from hotel choice (sample data)
 
-Generated 2026-10-18 03:05 UTC by `backend/scripts/run_itinerary_study.py`. Code version: 379a95f. **Seeded synthetic trips on SAMPLE data, estimated straight-line travel times, the trip's own (fictional) hotel fixed; not user-tested; each city reported separately, never pooled.**
+Generated 2026-10-18 04:43 UTC by `backend/scripts/run_itinerary_study.py`. Code version: d28a563 + uncommitted changes. **Seeded synthetic trips on SAMPLE data, estimated straight-line travel times, the trip's own (fictional) hotel fixed; not user-tested; each city reported separately, never pooled.**
 
 Every arm uses the same data, constraints, travel matrix and scoring. *Feasible* means every must-visit is placed and the independent validator reports no failed check. *Optional coverage* is the share of the requested optional sights an arm placed. *Known spend* is admissions plus estimated transport; the *score* is the optimisation score (spending + monetised travel time + a charge per optional sight left out) and **is not money spent**. Denominators are all trips; trips where an arm has no plan are counted, not dropped.
 
@@ -22,7 +22,7 @@ Trips where all three arms are feasible: 40. Trips where the optimiser has no pl
 **Optimiser vs nearest feasible, full plans** (score gain, N=40): better in 33, equal in 7, worse in 0; median gain 1001.5.
 **Matched routing vs nearest feasible** (optimiser forced to the same sights; 46 of 46 feasible baseline plans): estimated travel minutes saved better/equal/worse = 31/15/0 (median 4.0, max 94); score gain better/equal/worse = 39/7/0.
 
-Optimiser runtime per trip (s): median 0.05, max 1.62 (machine-dependent).
+Optimiser runtime per trip (s): median 0.04, max 1.59 (machine-dependent).
 
 ## Singapore
 

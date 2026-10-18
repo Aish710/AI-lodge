@@ -1,6 +1,6 @@
 # Do travel profiles change plans? (sample data)
 
-Generated 2026-10-18 03:25 UTC by `backend/scripts/run_profile_evaluation.py`. Code version: 719e4ab + uncommitted changes. **Seeded synthetic trips on SAMPLE data with estimated travel times, the trip's own (fictional) hotel; not user-tested; per city, never pooled.**
+Generated 2026-10-18 04:44 UTC by `backend/scripts/run_profile_evaluation.py`. Code version: d28a563 + uncommitted changes. **Seeded synthetic trips on SAMPLE data with estimated travel times, the trip's own (fictional) hotel; not user-tested; per city, never pooled.**
 
 Each profile (`frontend/src/lib/profiles.json`) is applied to a trip that is feasible with no profile and re-solved by the shipped optimiser. *Same plan* means identical days, stops and start times. *Infeasible* means the profile's limits cannot be met for that trip (reported, not hidden). Differences are profile minus no-profile (negative = less).
 
