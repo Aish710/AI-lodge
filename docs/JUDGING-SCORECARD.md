@@ -43,7 +43,7 @@ Where to look in the app: **Proof** (`/proof`) shows the measured results, harde
 | **Measured results (generated, with N and caveats):** the sentences below are copied by the script from the claims file (Generated 2026-10-18 08:38 UTC by `backend/scripts/run_evaluation.py` (full mode, seed 20261013, 60 trips). Code version: e1c1826 + uncommitted changes (this hash does not identify the exact code). Each sentence is produced from the measured numbers in `docs/eval-results.json`; paste whole sentences, keeping the N and the caveat. If you re-run the evaluation, regenerate this file and re-paste: do not edit numbers by hand. No sentence claims statistical significance.). They come from seeded synthetic trips on the Tokyo sample pack, not from users. | `docs/README-claims.md`, `docs/eval-results.md`; `backend/scripts/run_evaluation.py` |
 | **City packs and scale-out:** 4 packs (kuala_lumpur, seoul, singapore, tokyo); adding a city is documented step by step. | `docs/CITIES.md`; `backend/tests/test_city_packs.py`; `docs/city-eval-results.md` (Singapore and Seoul, smaller samples, reported separately) |
 | **User test:** **Not run.** The kit exists (`docs/user-test/PROTOCOL.md`, an empty `results.csv`, `scripts/summarise_user_test.py`); the Proof page says "Not run yet". | `docs/user-test/` |
-| **Tests behind all of it:** backend suite 1153 passed, 2 failed of 1155 (revision e1c1826ae3c5a478e0b817a44ab86e12f4e11662 + uncommitted changes.). | `backend/tests/results/latest-full.md` |
+| **Tests behind all of it:** backend suite 1154 passed, 1 failed of 1155 (revision 406469364eea06ccb4d914b6c5368076968f0acf + uncommitted changes.). | `backend/tests/results/latest-full.md` |
 
 Generated claim sentences:
 
