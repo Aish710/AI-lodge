@@ -46,6 +46,7 @@ class ExplainFacts:
     warnings: list[str]
     template: str
     values: list = field(default_factory=list)
+    roles: list = field(default_factory=list)       # (Decimal amount, frozenset of words one of which a sentence must use with it, what it is)
 
     def numbered(self) -> list[tuple[str, str]]:
         """Stable ids F1, F2, ... in the order of the facts."""
@@ -68,6 +69,30 @@ class OptimiseView:
     nights: int
 
 
+ROOM_WORDS = frozenset({"room", "rooms", "accommodation", "lodging", "hotel", "stay"})
+CASH_WORDS = frozenset({"spending", "cash", "modelled", "modeled", "altogether", "overall"})
+SIGHT_WORDS = frozenset({"sights", "admissions", "attractions", "transport", "fares", "tickets"})
+
+
+def _cash_facts(v: "OptimiseView", ds: Dataset, _jpy) -> tuple[list[str], list]:
+    """Rooms and the modelled cash total as FACTS (computed by code from the schedule and the hotel's sample rate), each with the words that make a sentence about it meaningful.
+    A correct number used for the wrong thing (the cash total called the room cost) is then rejected, not just a number that is absent."""
+    from decimal import Decimal
+
+    from app.optimiser.cost_summary import summarise_costs
+    cs = summarise_costs(v.result, ds, v.hotel_id, v.nights)
+    if cs is None:
+        return [], []
+    t = cs["trip"]
+    unknown = t["unknown_price_count"]
+    lines = [f"Rooms: {_jpy(t['rooms'])} ({_jpy(t['nightly_rate'])} x {t['nights']} nights; demo hotel at its sample rate, not a quote)",
+             f"Modelled cash total including rooms: {_jpy(t['cash_total_with_rooms'])} (sights and transport {_jpy(t['cash_total'])} + rooms {_jpy(t['rooms'])}); "
+             + (f"{unknown} admission price(s) are unknown and are excluded, not free" if unknown else "every admission price is known")]
+    roles = [(Decimal(t["rooms"]), ROOM_WORDS, "the rooms cost"), (Decimal(t["cash_total_with_rooms"]), CASH_WORDS, "the modelled total spending including rooms"),
+             (Decimal(t["cash_total"]), SIGHT_WORDS, "the cost of sights and transport")]
+    return lines, roles
+
+
 def _optimise_facts(v: OptimiseView, ds: Dataset) -> ExplainFacts:
     _jpy, _signed, _sgd = _fmt(ds)
     r, rep = v.result, v.report
@@ -75,6 +100,7 @@ def _optimise_facts(v: OptimiseView, ds: Dataset) -> ExplainFacts:
     lines = ["Kind: single-hotel itinerary", f"Hotel: {h.name}, rate {_jpy(h.nightly_rate)} per night, nights used {v.nights}",
              f"Outcome: {r.status}", f"Validator verdict: {rep.overall.replace('_', ' ')}" + (" (approximate: solver not proven optimal)" if v.approximate else "")]
     ids: set[str] = set()
+    roles: list = []
     if r.status == "feasible":
         t = r.totals
         lines += [f"Totals: admissions {_jpy(t.admissions_jpy)}, estimated transport {_jpy(t.transport_jpy)}, total {_jpy(t.total_jpy)} ({_sgd(t.total_jpy)}), travel {t.travel_minutes} min ({_hm(t.travel_minutes)})",
@@ -83,6 +109,8 @@ def _optimise_facts(v: OptimiseView, ds: Dataset) -> ExplainFacts:
             if d.stops:
                 lines.append(f"Day {d.day}: " + ", ".join(f"{ds.attractions[s.attraction_id].name} at {s.start}" for s in d.stops))
                 ids |= {s.attraction_id for s in d.stops}
+        cash_lines, roles = _cash_facts(v, ds, _jpy)
+        lines += cash_lines
         template = (f"Plan for {h.name}: {t.attractions_scheduled} activities over {len(r.days)} days; admissions {_jpy(t.admissions_jpy)} plus estimated transport "
                     f"{_jpy(t.transport_jpy)} (total {_jpy(t.total_jpy)}); travel {t.travel_minutes} min. Validator verdict: {rep.overall.replace('_', ' ')}.")
     else:
@@ -90,7 +118,7 @@ def _optimise_facts(v: OptimiseView, ds: Dataset) -> ExplainFacts:
         ids |= {a for c in r.conflicts for a in c.attraction_ids}
         template = "No feasible plan: " + " ".join(c.message for c in r.conflicts)
     warnings = list(rep.data_quality_warnings) if r.status == "feasible" else [c.message for c in r.conflicts]
-    return ExplainFacts("optimise", lines, ids, {v.hotel_id}, warnings, template)
+    return ExplainFacts("optimise", lines, ids, {v.hotel_id}, warnings, template, roles=roles if r.status == "feasible" else [])
 
 
 def build_facts(result, ds: Dataset) -> ExplainFacts:
@@ -239,6 +267,24 @@ def _cited_json(text: str):
     return s
 
 
+def role_mismatch(text: str, facts: ExplainFacts) -> str | None:
+    """A number that equals one of the money facts must be used with a word that says what it is. Returns the first offending amount, or None. Pure and deterministic.
+    "Rooms cost 495" is wrong even though 495 is a real figure: it is the modelled TOTAL including rooms."""
+    from decimal import Decimal
+
+    from app.llm.grounding import extract_tokens
+    if not facts.roles:
+        return None
+    words = set(re.findall(r"[a-z]+", text.lower()))
+    present = {v for _, k, v in extract_tokens(text).raw if k == "num"}
+    for amount, need, what in facts.roles:
+        if Decimal(amount) in present and not (words & need):
+            # the same figure may legitimately be another fact's amount (equal values): accept if ANY role that owns it is satisfied
+            if not any(Decimal(a) == Decimal(amount) and (words & n) for a, n, _ in facts.roles):
+                return f"{amount} is {what}"
+    return None
+
+
 def _cited_explanation(raw: list, facts: ExplainFacts, ds: Dataset, all_datasets, tmpl: Explanation) -> Explanation:
     """Validate each sentence on its own. A sentence is dropped unless: it cites at least one fact id, every id exists, every number and time in it is in the CITED facts,
     every place and hotel name in it is in the facts, it holds no leak and no claim the data cannot support. Fewer than 2 surviving sentences -> the template.
@@ -265,6 +311,8 @@ def _cited_explanation(raw: list, facts: ExplainFacts, ds: Dataset, all_datasets
             checked += g.checked
             if not g.ok:
                 why = "not supported by the cited facts (" + ", ".join(g.rejected_tokens[:3]) + ")"
+            elif (wrong := role_mismatch(text, facts)):
+                why = f"a number used for the wrong item ({wrong})"
             elif forbidden(text, system, secret, phones=False):
                 why = "internal text"
             elif unsupported_claims(text, facts.allowed_text()):

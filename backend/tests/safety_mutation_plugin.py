@@ -223,6 +223,19 @@ def _m26():
     m.solve = ignore
 
 
+@mutation("explain_role_check_off", "a correct number may be used for the wrong item in an explanation (room cost vs modelled total)")
+def _m27():
+    import app.llm.explain as e
+    e.role_mismatch = lambda *a, **k: None
+
+
+@mutation("grounding_skips_currency_glued_numbers", "an amount glued to a currency code (RM999, SGD999) is not extracted, so it is never checked against the facts")
+def _m28():
+    import re
+    import app.llm.grounding as g
+    g._NUM = re.compile(r"(?<![\w.])(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(\s?[kK]\b)?(\s?%)?")
+
+
 def pytest_configure(config):
     name = os.environ.get("SAFETY_MUTATION")
     if not name:

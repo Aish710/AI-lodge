@@ -15,7 +15,9 @@ _TIME = re.compile(r"(?<![\d:])([01]?\d|2[0-3]):([0-5]\d)(?![\d:])")
 # A duration the facts print as "158 min (2:38)": its parts may be written as "2 hours 38 minutes". Only this parenthesised form is split, so a clock time
 # such as 09:30 does not make a bare 30 acceptable.
 _DURATION = re.compile(r"\bmin\s*\((\d{1,3}):([0-5]\d)\)")
-_NUM = re.compile(r"(?<![\w.])(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(\s?[kK]\b)?(\s?%)?")
+# A number glued to letters ("RM999", "SGD999", "KRW999") used to be skipped by the lookbehind and so was never checked against the facts: a fabricated amount in the city's own
+# currency format passed. Only digits, dots and commas are excluded before the number now, so "RM1,234.50" is read as 1,234.50 and "RM999" as 999.
+_NUM = re.compile(r"(?<![\d.,])(\d{1,3}(?:,\d{3})+|\d+)(\.\d+)?(\s?[kK]\b)?(\s?%)?")
 
 _ONES = {w: i for i, w in enumerate(
     "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty".split())}

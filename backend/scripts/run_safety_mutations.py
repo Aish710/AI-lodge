@@ -44,6 +44,8 @@ BOUNDARY_TESTS = {
     "unstated_place_accepted": ["tests/test_unstated_names.py"],
     "min_active_days_validator_blind": ["tests/test_min_active_days.py"],
     "min_active_days_not_modelled": ["tests/test_min_active_days.py"],
+    "explain_role_check_off": ["tests/test_explain_cash_grounding.py"],
+    "grounding_skips_currency_glued_numbers": ["tests/test_explain_cash_grounding.py"],
 }
 for _name in plugin.MUTATIONS:
     if _name.startswith(("repair_", "style_numbers")):
