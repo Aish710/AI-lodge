@@ -29,7 +29,7 @@ export const store = reactive({
   sensitivityError: null, sensitivityCancelled: false, sensitivityStartedAt: 0,
   planFromReplan: false,
   itin: { days: null, result: null, busy: false, error: null },
-  history: [], historySeq: 0, explorer: { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null },
+  history: [], historySeq: 0, explorer: { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null },
   queue: [], queueError: null, previous: null, lastReplan: null, lastReplanRequest: null, replanError: null, restored: false,
   parseResult: null, parseError: null, proposal: null, proposalError: null,
   explanations: { optimise: null, compare: null, replan: null }, explainError: null, explaining: null,
@@ -132,7 +132,7 @@ export async function loadPlaces() {
 
 /** Abort every request that could still answer for the previous city. */
 function abortAllInFlight() {
-  for (const k of ['places', 'compare', 'compare-sens', 'optimise', 'replan', 'parse', 'parse-replan', 'summary', 'evaluate-itinerary']) abortKey(k)
+  for (const k of ['places', 'compare', 'compare-sens', 'optimise', 'replan', 'parse', 'parse-replan', 'summary', 'evaluate-itinerary', 'explore']) abortKey(k)
 }
 
 function clearComputedResults() {
@@ -179,7 +179,7 @@ export async function selectCity(cityId) {
   store.placesById = {}
   store.history = []
   store.itin = { days: null, result: null, busy: false, error: null }
-  store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null }
+  store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null }
   store.hotelsById = {}
   clearComputedResults()
   await loadPlaces()
@@ -394,7 +394,7 @@ function applyExample(kind) {
   store.comparisonError = null
   store.history = []
   store.itin = { days: null, result: null, busy: false, error: null }
-  store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null }
+  store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null }
 }
 
 export function resetAll() {
@@ -423,6 +423,9 @@ export function resetAll() {
   store.planKey = null
   store.planError = null
   store.comparisonError = null
+  store.history = []
+  store.itin = { days: null, result: null, busy: false, error: null }
+  store.explorer = { vot: null, runs: [], busy: false, error: null, keepHotel: false, last: null, alts: null, altsBusy: false, altsError: null }
 }
 
 
@@ -564,6 +567,37 @@ export async function runExplorer(vot) {
   } catch (e) { fail2(e) } finally { store.explorer.busy = false }
 }
 function fail2(e) { if (!isAborted(e)) { store.explorer.error = e instanceof ApiError ? e : new ApiError({ code: 'unexpected', message: 'Something unexpected went wrong.' }); noteSolverBusy(store.explorer.error) } }
+
+/** Budget/time alternatives: explicit click only. A bounded set of real optimiser plans, dominance-filtered on the server. */
+export async function runAlternatives() {
+  if (solverBusy.value || rateLimited.value || !store.planPrefs) return
+  const ids = store.comparison?.results?.map((r) => r.hotel_id) ?? hotelsToCompare()
+  store.explorer.altsBusy = true
+  store.explorer.altsError = null
+  try {
+    store.explorer.alts = await api.explore(store.planPrefs, ids, { cityId: store.cityId })
+  } catch (e) { if (!isAborted(e)) { store.explorer.altsError = e instanceof ApiError ? e : new ApiError({ code: 'unexpected', message: 'Something unexpected went wrong.' }); noteSolverBusy(store.explorer.altsError) } }
+  finally { store.explorer.altsBusy = false }
+}
+
+/** Use one alternative: a real /optimise for that hotel at the value of time that generated it. Your own setting is not changed; the earlier plan stays in history. */
+export async function adoptAlternative(alt) {
+  if (solverBusy.value || rateLimited.value || !store.planPrefs) return
+  const prefs = { ...store.planPrefs, value_of_time_per_hour: alt.generated_at_value_of_time }
+  store.busy.optimise = true
+  store.planError = null
+  try {
+    const resp = await api.optimise(prefs, alt.hotel_id, { cityId: store.cityId })
+    store.plan = resp
+    store.planPrefs = prefs
+    store.chosenHotel = alt.hotel_id
+    store.planFromReplan = true
+    store.planKey = keyOf(prefs, alt.hotel_id)
+    store.queue = []; store.previous = null; store.lastReplan = null; store.restored = false
+    if (store.selectedDay !== 'all' && store.selectedDay > resp.result.days.length) store.selectedDay = 'all'
+    recordState(`Alternative: ${alt.roles[0].toLowerCase()}`)
+  } catch (e) { fail('planError', e); noteSolverBusy(store.planError) } finally { store.busy.optimise = false }
+}
 
 /** Adopt a plan from the explorer: a real /optimise at the explored value of time, for the chosen hotel (or the user's kept hotel). */
 export async function adoptExplorerPlan(hotelId) {

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { entryRows, pushState, votOptions, whyHotel } from '../../src/lib/tradeoff.js'
-import { adoptExplorerPlan, explorerPrefs, resetAll, restoreState, runExplorer, runOptimise, store } from '../../src/store.js'
+import { adoptAlternative, adoptExplorerPlan, explorerPrefs, resetAll, restoreState, runAlternatives, runExplorer, runOptimise, store } from '../../src/store.js'
 import { res } from './helpers.js'
 import feasible from '../fixtures/optimise-feasible.json'
 
@@ -84,5 +84,26 @@ describe('explorer store actions', () => {
     expect(body.preferences.value_of_time_per_hour).toBe(3000)
     expect(store.planFromReplan).toBe(true)
     expect(store.form.valueOfTime).toBe(3000)
+  })
+})
+
+describe('alternatives', () => {
+  beforeEach(() => { resetAll(); store.cityId = 'tokyo'; store.chosenHotel = 'h1'; store.hotelsById = { h1: { id: 'h1', name: 'One' }, h2: { id: 'h2', name: 'Two' } }
+    store.planPrefs = { days: 2, must_visit: [], skip: [], locked: [], value_of_time_per_hour: 1000 } })
+  afterEach(() => vi.unstubAllGlobals())
+  it('asks the server with the current plan preferences and stores exactly what comes back', async () => {
+    const body = { alternatives: [{ key: 'lowest_money', roles: ['Lowest spending'], hotel_id: 'h2', generated_at_value_of_time: 8000, factor: 8, money: 1, minutes: 2, coverage: 0, score_at_your_value_of_time: 3, fingerprint: 'f' }], method: 'm' }
+    const f = vi.fn(async () => res(200, body)); vi.stubGlobal('fetch', f)
+    await runAlternatives()
+    expect(JSON.parse(f.mock.calls[0][1].body).preferences).toEqual(store.planPrefs)
+    expect(store.explorer.alts.alternatives[0].key).toBe('lowest_money')
+  })
+  it('using one runs the real optimiser at the value of time that generated it, leaves the form setting alone and keeps history', async () => {
+    store.plan = feasible; store.form.valueOfTime = 1000
+    const f = vi.fn(async () => res(200, feasible)); vi.stubGlobal('fetch', f)
+    await adoptAlternative({ hotel_id: 'h2', generated_at_value_of_time: 8000, roles: ['Lowest spending'] })
+    const b = JSON.parse(f.mock.calls[0][1].body)
+    expect(b.hotel_id).toBe('h2'); expect(b.preferences.value_of_time_per_hour).toBe(8000)
+    expect(store.form.valueOfTime).toBe(1000); expect(store.history.length).toBe(1); expect(store.chosenHotel).toBe('h2')
   })
 })

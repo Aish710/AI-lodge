@@ -31,6 +31,10 @@ export const parseText = (text, startWeekday = null, cityId) =>
 export const parseReplanText = (text, preferences, currentResult, cityId) =>
   request('POST', '/parse-replan', { key: 'parse-replan', timeoutMs: SOLVE_TIMEOUT_MS, body: { city_id: city(cityId), text, preferences, current_result: currentResult } })
 
+/** Bounded budget/time alternatives (real optimiser runs, dominance-filtered). */
+export const explore = (preferences, hotelIds, { cityId } = {}) =>
+  request('POST', '/explore', { key: 'explore', timeoutMs: SOLVE_TIMEOUT_MS, body: { city_id: city(cityId), preferences, hotel_ids: hotelIds } })
+
 /** Your itinerary vs the optimiser for the same sights (and a full plan). `days` = arrays of attraction ids in the user's order. */
 export const evaluateItinerary = (preferences, hotelId, days, { cityId } = {}) =>
   request('POST', '/evaluate-itinerary', { key: 'evaluate-itinerary', timeoutMs: SOLVE_TIMEOUT_MS, body: { city_id: city(cityId), preferences, hotel_id: hotelId, days } })

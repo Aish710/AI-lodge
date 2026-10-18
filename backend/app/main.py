@@ -30,6 +30,7 @@ from app.llm.explain import OptimiseView, explain
 from app.llm.extract import extract_preferences
 from app.llm.parse_replan import parse_replan
 from app.llm.sanitize import EmptyInput, InputTooLong
+from app.optimiser.alternatives import explore
 from app.optimiser.hotel_compare import ComparisonInputError, compare_hotels
 from app.optimiser.itinerary_compare import ItineraryInputError, evaluate_itinerary
 from app.optimiser.replan import Operation, ReplanError, replan
@@ -300,6 +301,28 @@ async def evaluate_itinerary_route(req: EvaluateItineraryRequest, request: Reque
                 raise ApiError(422, e.code, e.message)
         out["city_id"] = ds.city.id
         return stamp(out, req.preferences, req.hotel_id, ds)
+    return await run_cancellable(request, work)
+
+
+class ExploreRequest(_Req):
+    city_id: str = Field(default=DEFAULT_CITY_ID, max_length=32)
+    preferences: Preferences
+    hotel_ids: list[str] = Field(min_length=1, max_length=3)
+
+
+@router.post("/explore")
+async def explore_route(req: ExploreRequest, request: Request):
+    """Bounded budget/time alternatives (real optimiser runs, dominance-filtered). Stateless; no model."""
+    ds, cfg = _dataset(request, req.city_id), request.app.state.hconf
+    _check_city_ids(request, ds, hotels=req.hotel_ids, prefs=req.preferences)
+    if any(h not in ds.hotels for h in req.hotel_ids):
+        raise ApiError(422, "unknown_hotel", "Unknown hotel id.")
+
+    def work():
+        with request.app.state.solver_capacity.claim():
+            out = explore(req.preferences, list(dict.fromkeys(req.hotel_ids)), ds, max_seconds=cfg.optimise_time_limit_seconds)
+        out["city_id"] = ds.city.id
+        return stamp(out, req.preferences, req.hotel_ids, ds)
     return await run_cancellable(request, work)
 
 

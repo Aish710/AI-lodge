@@ -2,7 +2,7 @@
 // Trip Trade-off Explorer. Every figure is from a real /compare-hotels (or /optimise) run on the planner; this component only displays and asks.
 // Rooms, admissions and estimated transport are money. Travel time is shown in minutes AND as money at the chosen value of time. The score is not spending.
 import { computed } from 'vue'
-import { store, runExplorer, adoptExplorerPlan, restoreState, solverBusy, rateLimited } from '../store.js'
+import { store, runExplorer, runAlternatives, adoptAlternative, adoptExplorerPlan, restoreState, solverBusy, rateLimited } from '../store.js'
 import { votOptions, entryRows, whyHotel } from '../lib/tradeoff.js'
 import { formatLocalMoney } from '../lib/format.js'
 import { cleanHotelText as ct } from '../lib/names.js'
@@ -64,6 +64,32 @@ const isNew = computed(() => store.explorer.last && best.value && (best.value !=
         Use {{ store.explorer.keepHotel ? hotelOf(store.chosenHotel) : hotelOf(best) }} at {{ money(exploredVot) }}/h
       </button>
       <span v-if="!isNew" class="small muted">This is the plan you already have.</span>
+    </div>
+
+    <div class="mt-3" data-testid="alternatives">
+      <h3 class="h6 mb-1">Alternatives that trade money, travel and sights <span class="muted fw-normal">(a bounded search)</span></h3>
+      <button type="button" class="btn btn-sm btn-outline-primary" :disabled="busy || store.explorer.altsBusy" data-testid="find-alternatives" @click="runAlternatives">{{ store.explorer.altsBusy ? 'Checking plans…' : 'Find alternatives' }}</button>
+      <div v-if="store.explorer.altsError" class="notice notice-warn mt-2" role="alert"><span class="glyph" aria-hidden="true">!</span><span>{{ store.explorer.altsError.message }}</span></div>
+      <template v-if="store.explorer.alts">
+        <p v-if="!store.explorer.alts.alternatives.length" class="small mt-2" data-testid="no-alternatives">No feasible alternative was found for these settings.</p>
+        <div class="row g-2 mt-1">
+          <div v-for="a in store.explorer.alts.alternatives" :key="a.key" class="col-12 col-md-6" :data-testid="'alt-' + a.key">
+            <div class="border rounded p-2 h-100">
+              <div class="fw-semibold">{{ a.roles.join(' · ') }}<span v-if="a.fingerprint && a.fingerprint === store.plan?.fingerprint" class="pill ms-2">Your current plan</span></div>
+              <div class="small">{{ hotelOf(a.hotel_id) }}</div>
+              <ul class="small mb-1 ps-3">
+                <li>Spending (rooms + admissions + transport est.): <strong>{{ money(a.money) }}</strong></li>
+                <li>Estimated travel: <strong>{{ mins(a.minutes) }}</strong></li>
+                <li>Optional sights included: <strong>{{ a.coverage }}</strong></li>
+                <li class="muted">Score at your value of time: {{ money(a.score_at_your_value_of_time) }} (not what you pay)</li>
+              </ul>
+              <button type="button" class="btn btn-sm btn-outline-primary" :disabled="busy" :data-testid="'use-alt-' + a.key" @click="adoptAlternative(a)">Use this plan</button>
+              <span v-if="a.factor !== 1" class="small muted ms-2">plans time at {{ money(a.generated_at_value_of_time) }}/h</span>
+            </div>
+          </div>
+        </div>
+        <p class="small muted mt-2 mb-0" data-testid="alt-method">{{ store.explorer.alts.method }}</p>
+      </template>
     </div>
 
     <div v-if="store.explorer.runs.length > 1" class="mt-3" data-testid="explorer-runs">

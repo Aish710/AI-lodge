@@ -50,3 +50,15 @@ test('arrange my own itinerary, compare it with the optimiser, and adopt the opt
   }
   expectClean(problems)
 })
+
+test('find alternatives: distinct plans with money, travel and sights shown separately, an honest method note, and one can be used', async ({ page }) => {
+  const problems = watchConsole(page)
+  await page.goto('/')
+  await planFromExample(page)
+  await page.getByTestId('find-alternatives').click()
+  await expect(page.getByTestId('alt-method')).toContainText('not a complete Pareto frontier', { timeout: PLAN_WAIT })
+  await expect(page.getByTestId('alt-lowest_money')).toContainText('Spending')
+  await page.getByTestId('use-alt-best_score').click()
+  await expect(page.getByTestId('plan-history')).toBeVisible({ timeout: PLAN_WAIT })
+  expectClean(problems)
+})
