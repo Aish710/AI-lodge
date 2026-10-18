@@ -14,7 +14,7 @@ log = logging.getLogger("app.access")
 
 CHEAP = {"/health", "/data/summary", "/data/places", "/data/cities"}
 EXPENSIVE = {"/parse", "/parse-replan"}
-STANDARD = {"/optimise", "/compare-hotels", "/replan"}
+STANDARD = {"/optimise", "/compare-hotels", "/replan", "/evaluate-itinerary"}
 EXPLAIN_ROUTES = {"/optimise", "/compare-hotels", "/replan"}
 KNOWN = CHEAP | EXPENSIVE | STANDARD
 

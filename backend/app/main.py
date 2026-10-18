@@ -21,6 +21,7 @@ from app.hardening.limiter import SlidingWindowLimiter
 from app.hardening.llm_scope import LLMBudget, llm_for_request
 from app.hardening.logging_setup import configure_logging
 from app.hardening.middleware import HardeningMiddleware
+from app.fingerprint import stamp
 from app.hardening.disconnect import run_cancellable
 from app.optimiser.cost_summary import summarise_costs
 from app.hardening.solver_capacity import SolverCapacity
@@ -30,6 +31,7 @@ from app.llm.extract import extract_preferences
 from app.llm.parse_replan import parse_replan
 from app.llm.sanitize import EmptyInput, InputTooLong
 from app.optimiser.hotel_compare import ComparisonInputError, compare_hotels
+from app.optimiser.itinerary_compare import ItineraryInputError, evaluate_itinerary
 from app.optimiser.replan import Operation, ReplanError, replan
 from app.optimiser.solver import ObjectiveSpec, solve
 from app.schemas import Preferences, SolveResult, nights_for
@@ -190,6 +192,7 @@ def _compare_work(req: CompareRequest, request: Request, client, ds, cfg):
         for r in comp.results if r.breakdown
     }
     out["city_id"] = ds.city.id
+    stamp(out, req.preferences, req.hotel_ids, ds)
     out["city"] = _city_payload(ds)
     out["display_currency"] = ds.city.display_currency_code
     out["display_fx_label"] = ds.city.sample_fx_label
@@ -230,6 +233,7 @@ def _replan_work(req: ReplanRequest, request: Request, client, ds, cfg):
     out = result.model_dump()
     out["city_id"] = ds.city.id
     out["cost_summary"] = summarise_costs(result.schedule, ds, result.hotel_id, result.nights_used)
+    stamp(out, result.new_preferences, result.hotel_id, ds)
     if req.explain:  # built from the result just computed here, never from client-supplied results
         out["explanation"] = explain(result, ds, client, request.state.llm_note, request.app.state.datasets).model_dump()
     return out
@@ -264,11 +268,39 @@ def _optimise_work(req: OptimiseRequest, request: Request, client, ds, cfg):
         out = {"city_id": ds.city.id, "result": res.model_dump(), "feasibility_report": rep.model_dump(), "approximate": approximate,
                "nights_used": nights, "nights_source": src}
         out["cost_summary"] = summarise_costs(res, ds, req.hotel_id, nights)
+        stamp(out, p, req.hotel_id, ds)
         if approximate:
             out["approximate_note"] = "The solver stopped at its time limit without proving optimality: this plan is good but may not be the best."
     if req.explain:
         out["explanation"] = explain(OptimiseView(res, rep, req.hotel_id, approximate, nights), ds, client, request.state.llm_note, request.app.state.datasets).model_dump()
     return out
+
+
+class EvaluateItineraryRequest(_Req):
+    city_id: str = Field(default=DEFAULT_CITY_ID, max_length=32)
+    preferences: Preferences
+    hotel_id: str = Field(max_length=64)
+    days: list[list[str]] = Field(max_length=7)      # the user's own days: attraction ids in visiting order
+
+
+@router.post("/evaluate-itinerary")
+async def evaluate_itinerary_route(req: EvaluateItineraryRequest, request: Request):
+    """Your itinerary vs the optimiser for the SAME sights (and vs a full plan that may leave optional sights out). Stateless; no model."""
+    ds, cfg = _dataset(request, req.city_id), request.app.state.hconf
+    _check_city_ids(request, ds, hotels=[req.hotel_id], prefs=req.preferences)
+    if any(len(d) > 8 or any(len(a) > 64 for a in d) for d in req.days):
+        raise ApiError(422, "invalid_itinerary", "Each day can hold at most 8 attractions.")
+    _check_city_ids(request, ds, prefs=req.preferences.model_copy(update={"must_visit": [a for d in req.days for a in d], "skip": [], "locked": []}))
+
+    def work():
+        with request.app.state.solver_capacity.claim():
+            try:
+                out = evaluate_itinerary(req.preferences, req.hotel_id, ds, req.days, max_seconds=cfg.optimise_time_limit_seconds)
+            except ItineraryInputError as e:
+                raise ApiError(422, e.code, e.message)
+        out["city_id"] = ds.city.id
+        return stamp(out, req.preferences, req.hotel_id, ds)
+    return await run_cancellable(request, work)
 
 
 # ---- expensive (LLM) routes -----------------------------------------------------------------------------------------
