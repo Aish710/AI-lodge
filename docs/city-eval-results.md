@@ -1,6 +1,6 @@
 # Multi-city evaluation
 
-Generated 2026-10-18 04:39 UTC by `backend/scripts/run_city_evaluation.py`. Code version: a42c455.
+Generated 2026-10-18 04:40 UTC by `backend/scripts/run_city_evaluation.py`. Code version: fec52b3.
 
 Singapore and Seoul use smaller seeded samples than Tokyo. They are reported separately and are not pooled into headline claims.
 All city data is sample data; hotels are fictional; travel times, prices and hours must be verified before real use.
