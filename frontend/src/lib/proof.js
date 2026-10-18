@@ -56,7 +56,7 @@ export function readThisFirst(metrics, n) {
   const pl = metrics.placement
   if (pl.solver.placed < Math.min(pl.naive.placed, pl.nn.placed)) notes.push(`The optimiser schedules fewer sights than the baselines (${pl.solver.placed} vs ${pl.naive.placed} and ${pl.nn.placed} of ${pl.requested} requested) because it skips optional sights that cost more than they are worth.`)
   const v = metrics.hotel_value.vots?.['1000']
-  if (v && v.n_eligible && v.cheapest_by_rate_not_best / v.n_eligible < THRESHOLDS.rareEffectShare) notes.push(`The hotel finding is weak on random trips: at the default value of time the lowest-rate hotel was not the best by true cost in only ${v.cheapest_by_rate_not_best} of ${v.n_eligible} trips.`)
+  if (v && v.n_eligible && v.cheapest_by_rate_not_best / v.n_eligible < THRESHOLDS.rareEffectShare) notes.push(`The hotel finding is weak on random trips: at the default value of time the lowest-rate hotel was not the best by generalised cost in only ${v.cheapest_by_rate_not_best} of ${v.n_eligible} trips.`)
   const au = metrics.must_visit.infeasible_audit
   if (Object.keys(au.by_code).length === 1) notes.push(`The audit of infeasibility reports covers only one kind of conflict (${Object.keys(au.by_code)[0].replace(/_/g, ' ')}) in these ${n} trips.`)
   return notes

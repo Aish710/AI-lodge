@@ -5,8 +5,10 @@ import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { attachBaseLayer } from '../lib/tiles.js'
-import { stateOf } from '../store.js'
+import { stateOf, setWish } from '../store.js'
 import { themeIcon, themeLabel } from '../lib/themes.js'
+import { iconSvg } from '../lib/icons.js'
+import Icon from './Icon.vue'
 
 const props = defineProps({ places: { type: Array, default: () => [] }, wishlist: { type: Object, default: () => ({}) }, center: { type: Array, default: () => [0, 0] } })
 const el = ref(null)
@@ -36,8 +38,14 @@ function draw() {
     const kind = state === 'must' ? 'must' : 'nice'
     const label = `${p.name}, ${p.area}, ${themeLabel(p)}: ${kind === 'must' ? 'must visit' : 'include if it fits'}`
     pts.push([p.lat, p.lon])
-    const m = L.marker([p.lat, p.lon], { icon: icon(kind, themeIcon(p)), title: label, alt: label, keyboard: true })
-      .bindPopup(popup([p.name, `${themeLabel(p)} · ${p.area} · ${kind === 'must' ? 'Must visit' : 'Include if it fits'}`])).addTo(layer)
+    const content = popup([p.name, `${themeLabel(p)} · ${p.area} · ${kind === 'must' ? 'Must visit' : 'Include if it fits'}`])
+    const choice = document.createElement('button')
+    choice.type = 'button'; choice.className = 'btn btn-sm btn-outline-primary mt-2'
+    choice.textContent = kind === 'must' ? 'Include if it fits' : 'Mark as must visit'
+    choice.addEventListener('click', () => setWish(p.id, kind === 'must' ? 'nice' : 'must'))
+    content.appendChild(choice)
+    const m = L.marker([p.lat, p.lon], { icon: icon(kind, iconSvg(themeIcon(p), 16)), title: label, alt: label, keyboard: true })
+      .bindPopup(content).addTo(layer)
     m.getElement()?.setAttribute('aria-label', label)   // the marker is already on the map, so its element exists now ('add' has already fired)
     m.on('add', () => m.getElement()?.setAttribute('aria-label', label))
     m.on('keydown', (e) => { if (e.originalEvent?.key === 'Enter' || e.originalEvent?.key === ' ') { e.originalEvent.preventDefault(); m.openPopup() } })
@@ -55,7 +63,10 @@ onMounted(() => {
   base = attachBaseLayer(map, { onUnavailable: () => { tilesOff.value = true } })
   layer = L.layerGroup().addTo(map)
   draw()
-  ro = new ResizeObserver(() => { map?.invalidateSize() })
+  ro = new ResizeObserver(() => {
+    if (!el.value?.clientWidth || !el.value?.clientHeight) return
+    map?.invalidateSize(); fitted = ''; draw()
+  })
   ro.observe(el.value)
 })
 watch(() => [props.places, props.center, JSON.stringify(props.wishlist)], draw, { deep: true })
@@ -66,8 +77,8 @@ onBeforeUnmount(() => { base?.dispose(); ro?.disconnect(); map?.remove(); map = 
     <div ref="el" class="map-wrap" :class="{ 'map-plain': tilesOff }" role="region" aria-label="Map of the sights you are considering. The list beside it has the same information and the same choices." data-testid="sights-map"></div>
     <p v-if="tilesOff" class="small muted mt-1 mb-0" role="status" data-testid="tiles-unavailable">Map tiles unavailable. The pins are still in the right places, and the list next to the map has the same information.</p>
     <p class="small muted mt-1 mb-0" data-testid="sights-map-legend">
-      <span class="pin pin-must d-inline-flex" style="width:18px;height:18px;font-size:.65rem" aria-hidden="true">🏛️</span> Square = Must visit ·
-      <span class="pin pin-nice d-inline-flex" style="width:18px;height:18px;font-size:.65rem" aria-hidden="true">🏛️</span> Circle = Include if it fits · the icon is the theme · "Not interested" sights have no pin
+      <span class="pin pin-must d-inline-flex" style="width:18px;height:18px;font-size:.65rem" aria-hidden="true"><Icon name="temple" :size="12" /></span> Square = Must visit ·
+      <span class="pin pin-nice d-inline-flex" style="width:18px;height:18px;font-size:.65rem" aria-hidden="true"><Icon name="temple" :size="12" /></span> Circle = Include if it fits · the icon is the theme · "Not interested" sights have no pin
     </p>
   </div>
 </template>

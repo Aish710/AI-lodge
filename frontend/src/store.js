@@ -45,7 +45,7 @@ export const store = reactive({
   rateLimitUntil: 0, now: Date.now(),
   theme: 'all',                  // the chosen theme tab on the Plan screen (UI only)
   interestThemes: [], parsedInterests: [],   // interests that only HIGHLIGHT sights (UI only; the planner uses Must / Include / Skip)
-  selectedDay: 'all',            // the day chip on Your trip: 'all' or a day number (UI only)
+  selectedDay: 1,            // the day chip on Your trip: 'all' or a day number (UI only)
   stage: null,                   // 'comparing' | 'planning' while the Plan-my-trip chain or a hotel switch runs
   comparisonPrefs: null, pendingHotel: null, solverBusyUntil: 0,
   aiOff: false,                  // the USER switched the AI off for this session (memory only): nothing is sent to a model; the form works the same
@@ -167,7 +167,7 @@ function clearComputedResults() {
   store.sensitivityCancelled = false
   store.planFromReplan = false
   store.stage = null
-  store.selectedDay = 'all'
+  store.selectedDay = 1
   store.comparisonPrefs = null
   store.pendingHotel = null
   store.solverBusyUntil = 0
@@ -276,7 +276,7 @@ export async function runOptimise(hotelId = store.chosenHotel) {
     store.planPrefs = prefs
     store.chosenHotel = hotelId           // the hotel and the plan change together; a failed request leaves both as they were
     store.planKey = keyOf(prefs, hotelId)
-    if (store.selectedDay !== 'all' && store.selectedDay > resp.result.days.length) store.selectedDay = 'all'
+    if (store.selectedDay !== 'all' && store.selectedDay > resp.result.days.length) store.selectedDay = 1
     store.planFromReplan = false
     resetReplanState()
     recordState('Planned')
@@ -421,7 +421,7 @@ export function resetAll() {
   store.theme = 'all'
   store.interestThemes = []
   store.parsedInterests = []
-  store.selectedDay = 'all'
+  store.selectedDay = 1
   store.stage = null
   store.comparisonPrefs = null
   store.pendingHotel = null
@@ -529,7 +529,7 @@ export function restoreState(id) {
   store.lastReplan = null
   store.queue = []
   store.restored = true
-  if (store.selectedDay !== 'all' && store.selectedDay > (s.plan.result?.days?.length ?? 0)) store.selectedDay = 'all'
+  if (store.selectedDay !== 'all' && store.selectedDay > (s.plan.result?.days?.length ?? 0)) store.selectedDay = 1
   return true
 }
 
@@ -579,7 +579,7 @@ export async function applyRepair() {
     const synced = formFromPrefs(store.form, store.wishlist, prefs)
     store.form = synced.form; store.wishlist = synced.wishlist
     store.queue = []; store.previous = null; store.lastReplan = null; store.restored = false
-    if (store.selectedDay !== 'all' && store.selectedDay > (resp.result?.days?.length ?? 0)) store.selectedDay = 'all'
+    if (store.selectedDay !== 'all' && store.selectedDay > (resp.result?.days?.length ?? 0)) store.selectedDay = 1
     recordState('AI repair')
     r.proposal = null; r.confirmed = []; r.text = ''
   } catch (e) {
@@ -661,7 +661,7 @@ export function applyWhatIf() {
   store.plan = w.result; store.planPrefs = w.scenario.prefs; store.chosenHotel = w.scenario.hotel
   store.planFromReplan = true; store.planKey = keyOf(w.scenario.prefs, w.scenario.hotel)
   store.queue = []; store.previous = null; store.lastReplan = null; store.restored = false
-  if (store.selectedDay !== 'all' && store.selectedDay > w.result.result.days.length) store.selectedDay = 'all'
+  if (store.selectedDay !== 'all' && store.selectedDay > w.result.result.days.length) store.selectedDay = 1
   recordState('What-if applied')
   discardWhatIf()
 }
@@ -723,7 +723,7 @@ export async function adoptItineraryArm(kind) {
     store.planFromReplan = true
     store.planKey = keyOf(prefs, store.chosenHotel)
     store.queue = []; store.previous = null; store.lastReplan = null; store.restored = false
-    if (store.selectedDay !== 'all' && store.selectedDay > resp.result.days.length) store.selectedDay = 'all'
+    if (store.selectedDay !== 'all' && store.selectedDay > resp.result.days.length) store.selectedDay = 1
     recordState(kind === 'same' ? 'Optimised, same sights' : 'Optimised, full plan')
   } catch (e) { fail('planError', e); noteSolverBusy(store.planError) } finally { store.busy.optimise = false }
 }
@@ -776,7 +776,7 @@ export async function adoptAlternative(alt) {
     store.planFromReplan = true
     store.planKey = keyOf(prefs, alt.hotel_id)
     store.queue = []; store.previous = null; store.lastReplan = null; store.restored = false
-    if (store.selectedDay !== 'all' && store.selectedDay > resp.result.days.length) store.selectedDay = 'all'
+    if (store.selectedDay !== 'all' && store.selectedDay > resp.result.days.length) store.selectedDay = 1
     recordState(`Alternative: ${alt.roles[0].toLowerCase()}`)
   } catch (e) { fail('planError', e); noteSolverBusy(store.planError) } finally { store.busy.optimise = false }
 }
@@ -797,7 +797,7 @@ export async function adoptExplorerPlan(hotelId) {
     store.planFromReplan = store.planFromReplan || (prefs.locked?.length ?? 0) > 0   // keeps ensurePlan from re-running without the locks
     store.planKey = keyOf(prefs, target)
     store.queue = []; store.previous = null; store.lastReplan = null; store.restored = false
-    if (store.selectedDay !== 'all' && store.selectedDay > resp.result.days.length) store.selectedDay = 'all'
+    if (store.selectedDay !== 'all' && store.selectedDay > resp.result.days.length) store.selectedDay = 1
     if (store.explorer.last) { store.comparison = store.explorer.last; store.comparisonPrefs = prefs; store.comparisonKey = keyOf(prefs, store.hotelIds) }
     recordState('Explorer')
   } catch (e) { fail('planError', e); noteSolverBusy(store.planError) } finally { store.busy.optimise = false }

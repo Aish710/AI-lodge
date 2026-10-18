@@ -1,5 +1,6 @@
 <script setup>
-// "Compare hotels": the full true-cost breakdown for the compared hotels, one column per hotel. Expandable; the verdict above it is always visible.
+// "Compare hotels": the full generalised-cost breakdown for the compared hotels, one column per hotel. Expandable; the verdict above it is always visible.
+import { costTerms } from '../lib/costTerms.js'
 import { computed } from 'vue'
 import SourceBadge from './SourceBadge.vue'
 import ExplainBlock from './ExplainBlock.vue'
@@ -12,7 +13,7 @@ import { categoryOf } from '../lib/conflicts.js'
 const comp = computed(() => store.comparison)
 const money = (v) => formatLocalMoney(v, store.city?.currency_code ?? 'JPY')
 const display = (v) => formatDisplayMoney(v, store.city)
-const pretty = (t) => ct(Object.entries(store.hotelsById).reduce((acc, [id, h]) => acc.split(id).join(h.name), t))
+const pretty = (t) => costTerms(ct(Object.entries(store.hotelsById).reduce((acc, [id, h]) => acc.split(id).join(h.name), t)))
 const results = computed(() => comp.value?.results ?? [])
 const warnings = computed(() => topWarnings((comp.value?.warnings ?? []).map(pretty)))
 const rank = (id) => comp.value?.ranking.find((r) => r.hotel_id === id)
@@ -21,17 +22,17 @@ const displayCost = (id) => comp.value?.display_values?.[id]?.true_cost
 </script>
 <template>
   <details v-if="comp" class="card-soft compare-details" data-testid="compare-details">
-    <summary class="fw-semibold">Compare hotels: the full true-cost breakdown</summary>
+    <summary class="fw-semibold">Compare hotels: the full generalised-cost breakdown</summary>
     <div class="stack mt-3">
       <div class="table-responsive">
         <table class="table table-honest align-middle mb-0" data-testid="comparison-table">
-          <caption class="text-start">True-cost calculation, line by line. Nights used: {{ comp.nights_used }} ({{ comp.nights_source }}). Value of time: {{ money(comp.value_of_time_per_hour) }}/hour. {{ comp.display_fx_label || comp.fx_label }}</caption>
+          <caption class="text-start">Generalised-cost calculation, line by line. Nights used: {{ comp.nights_used }} ({{ comp.nights_source }}). Value of time: {{ money(comp.value_of_time_per_hour) }}/hour. {{ comp.display_fx_label || comp.fx_label }}</caption>
           <thead>
             <tr><th scope="col">Line</th>
               <th v-for="r in results" :key="r.hotel_id" scope="col" class="num" :class="{ winner: isBest(r.hotel_id) }">
                 {{ ct(r.hotel_name) }}
                 <div class="fw-normal small">
-                  <span v-if="isBest(r.hotel_id)" class="pill pill-must">Best overall</span>
+                  <span v-if="isBest(r.hotel_id)" class="pill pill-must">Lowest modelled score</span>
                   <span v-if="comp.cheapest_by_rate === r.hotel_id" class="pill">Cheapest rate</span>
                 </div>
               </th></tr>

@@ -1,3 +1,4 @@
+import { tripSection, setupSection, disclose, allDays, mapView, timelineView } from './helpers.js'
 // Serves the production build with the REAL generated _headers and _redirects (what a static host would apply) and checks that the
 // Content-Security-Policy does not break the app: no violations, the map and the flow still work.
 import { createServer } from 'node:http'
@@ -52,6 +53,7 @@ test('the generated CSP allows only self, the tile server and the API, and the a
   page.on('pageerror', (e) => problems.push(e.message))
   await stubTiles(page)
   await page.goto(base + '/')
+  await disclose(page, 'worked-examples')
   await page.getByTestId('load-impossible').click()
   await page.getByTestId('plan-trip').click()                  // SPA route reached through the app
   await expect(page.getByTestId('conflict-panel')).toBeVisible()

@@ -1,3 +1,4 @@
+import { tripSection, setupSection, disclose, allDays, mapView, timelineView } from './helpers.js'
 import { expect, test } from '@playwright/test'
 import { expectClean, planFromExample, stubTiles, watchConsole } from './helpers.js'
 
@@ -34,10 +35,12 @@ test('the Plan screen shows the essentials first and keeps the rarely used optio
   expectClean(problems)
 })
 
-test('verdict first: hotels open with one headline, the itinerary with four tiles and a status chip, and the AI step shows only when used', async ({ page }) => {
+test('hotel verdict and shared trip metrics are readable, with diagnostics in Details & Evidence', async ({ page }) => {
   const problems = watchConsole(page)
   await page.goto('/')
   await planFromExample(page)
+  await allDays(page)
+  await tripSection(page, 'costs')
   const verdict = page.getByTestId('verdict')
   await expect(verdict).toBeVisible()
   await expect(verdict).toContainText('Best overall among these demo hotels:')
@@ -49,11 +52,12 @@ test('verdict first: hotels open with one headline, the itinerary with four tile
   await expect(chips).not.toContainText('AI')
   const band = page.getByTestId('totals')
   await expect(band).toBeVisible()
-  for (const label of ['Estimated spending', 'Travel time', 'Sights covered', 'Checks passed']) await expect(band).toContainText(label)
+  for (const label of ['Modelled cash incl. rooms', 'Estimated travel', 'Attractions scheduled', 'Active days']) await expect(band).toContainText(label)
   await expect(band.getByTestId('kpi-sights')).toHaveText(/^\d+ of \d+$/)
-  await expect(band.getByTestId('kpi-checks')).toHaveText(/^\d+ of \d+$/)
+  await tripSection(page, 'details')
+  await expect(page.getByTestId('kpi-checks')).toContainText(/\d+ of \d+ checks passed/)
   await expect(band.getByTestId('status-chip')).toContainText(/Feasible/)
-  await expect(band.getByTestId('how-made')).not.toContainText('AI')
+  await expect(band).not.toContainText('AI')
   expectClean(problems)
 })
 

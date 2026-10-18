@@ -16,7 +16,9 @@ export function themeOf(place) {
 }
 export const themeInfo = (id) => BY_ID[id] ?? { id, label: id, icon: '•', short: '?' }
 export const themeLabel = (placeOrId) => themeInfo(typeof placeOrId === 'string' ? placeOrId : themeOf(placeOrId)).label
-export const themeIcon = (placeOrId) => themeInfo(typeof placeOrId === 'string' ? placeOrId : themeOf(placeOrId)).icon
+const ICON_BY_THEME = { sightseeing: 'temple', shopping: 'bag', food: 'bowl', all: 'map' }
+/** Name of the inline SVG icon (components/Icon.vue, lib/icons.js) for a theme id or a place. */
+export const themeIcon = (placeOrId) => ICON_BY_THEME[typeof placeOrId === 'string' ? placeOrId : themeOf(placeOrId)] ?? 'pin'
 
 /** { sightseeing: n, shopping: n, food: n } for a list of places. */
 export function countByTheme(places) {

@@ -6,6 +6,7 @@ import SourceBadge from './SourceBadge.vue'
 import { formatPrice, formatHours1, humanMinutes, titleCase, UNKNOWN, WEEKDAY_NAMES, weekdayOfDay } from '../lib/format.js'
 import { hoursWarnings } from '../lib/rules.js'
 import { themeIcon, themeLabel } from '../lib/themes.js'
+import Icon from './Icon.vue'
 
 const props = defineProps({
   place: { type: Object, required: true }, state: { type: String, default: 'nice' },
@@ -20,7 +21,7 @@ const hoursByDay = computed(() => Array.from({ length: props.days }, (_, i) => {
   const wd = weekdayOfDay(props.startWeekday, i + 1)
   return { day: i + 1, name: WEEKDAY_NAMES[wd].slice(0, 3), text: formatHours1(props.place.opening_hours?.[wd]) }
 }))
-const choices = [['must', 'Must visit'], ['nice', 'Include if it fits'], ['skip', 'Not interested']]
+const choices = [['must', 'Must go'], ['nice', 'Maybe'], ['skip', 'Nah']]
 const gid = computed(() => `wish-${props.place.id}`)
 </script>
 <template>
@@ -60,7 +61,7 @@ const gid = computed(() => `wish-${props.place.id}`)
       </dl>
     </details>
     <div class="d-flex flex-wrap gap-1">
-      <span class="pill" data-testid="theme-tag"><span aria-hidden="true">{{ themeIcon(place) }}</span> {{ themeLabel(place) }}</span>
+      <span class="pill" data-testid="theme-tag"><Icon :name="themeIcon(place)" :size="14" /> {{ themeLabel(place) }}</span>
       <span v-if="highlight" class="pill pill-must" data-testid="interest-tag">Matches your interests</span>
       <span v-if="place.advance_booking_required" class="pill">Booking required</span>
     </div>

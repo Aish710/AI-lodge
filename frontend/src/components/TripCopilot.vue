@@ -1,9 +1,10 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, inject, nextTick } from 'vue'
 import { askCopilot } from '../api/routes.js'
 import { store, solverBusy, rateLimited, maxInputChars, previewProposal } from '../store.js'
 
 const text = ref(''), reply = ref(null), error = ref(''), busy = ref(false)
+const revealSection = inject('revealTripSection', async () => {})
 let generation = 0
 // Invalidate in-flight responses even when a newly solved plan has identical inputs.
 watch(() => [store.plan, store.planPrefs, store.cityId, store.chosenHotel], () => { generation++; reply.value = null; error.value = ''; busy.value = false }, { deep: true })
@@ -18,6 +19,8 @@ const placeholder = "Try: Make Day 2 less crowded. Move a sight to Day 3. Why wa
 async function preview() {
   const where = await previewProposal(reply.value.proposal)
   const id = where === 'pending' ? 'pending-tray' : where === 'whatif' ? 'whatif' : null
+  if (id) await revealSection(id)
+  await nextTick()
   const t = id && document.querySelector(`[data-testid="${id}"]`)
   t?.scrollIntoView({ behavior: 'smooth', block: 'start' }); t?.focus?.({ preventScroll: true })
 }
@@ -33,8 +36,10 @@ async function ask(operation = null) {
     if (token === generation) error.value = 'The question could not be checked. Your plan is unchanged. Try a quick question or use the controls below.'
   } finally { if (token === generation) busy.value = false }
 }
-function go() {
+async function go() {
   if (reply.value.handoff === 'repair') store.moreAiOpen = true
+  await revealSection(targets[reply.value.handoff]?.[0])
+  await nextTick()
   const target = document.querySelector(`[data-testid="${targets[reply.value.handoff]?.[0]}"]`)
   target?.scrollIntoView({ behavior: 'smooth', block: 'start' }); target?.focus({ preventScroll: true })
 }
@@ -42,7 +47,7 @@ const shown = value => Array.isArray(value) ? value.join(', ') || 'None listed' 
 </script>
 <template>
   <section class="card-soft" data-testid="trip-copilot" aria-labelledby="copilot-h">
-    <h2 id="copilot-h" class="h5">Understand your trip</h2>
+    <h2 id="copilot-h" class="h5">Ask Fitinerary AI</h2>
     <p class="small muted">Ask about this plan. Ask a question, or ask for a change such as "Make Day 2 less crowded". Changes are only previewed here; you decide whether to apply them.</p>
     <div class="d-flex flex-wrap gap-2 mb-2" aria-label="Quick questions">
       <button v-for="[label, operation] in questions" :key="label" class="btn btn-sm btn-outline-primary" :disabled="disabled" @click="ask(operation)">{{ label }}</button>

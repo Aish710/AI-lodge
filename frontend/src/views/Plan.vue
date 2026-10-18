@@ -1,7 +1,7 @@
 <script setup>
 // Screen 1 of 2: choose everything, see it form (map + rough preview), then ONE action. Nothing here calls the solver or the AI except
-// "Plan my trip" (an explicit click) and "Ask the AI" in the Describe box (an explicit click).
-import { computed, ref, watch } from 'vue'
+// "Make it happen!" (an explicit click) and "Ask the AI" in the Describe box (an explicit click).
+import { computed, ref, watch, provide, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import NlParsePanel from '../components/NlParsePanel.vue'
 import AttractionCard from '../components/AttractionCard.vue'
@@ -12,7 +12,6 @@ import ErrorPanel from '../components/ErrorPanel.vue'
 import Hint from '../components/Hint.vue'
 import Skeleton from '../components/Skeleton.vue'
 import { exampleLabel, hoursWarnings } from '../lib/rules.js'
-import { PITCH } from '../brand.js'
 import { store, chooseProfile, noteProfileEdits, resetProfileOverrides, highlightThemes, toggleInterestTheme, currentPrefs, currentCityExamples, loadExample, requestCitySwitch, resetAll, planMyTrip, rateLimited, rateLimitSeconds, solverBusy, stateOf, setWish, loadPlaces } from '../store.js'
 import { nightsUsed, budgetInJpy } from '../lib/prefs.js'
 import { PROFILES, effective, profileName } from '../lib/profiles.js'
@@ -20,7 +19,8 @@ import StyleAssistant from '../components/StyleAssistant.vue'
 import { formatLocalMoney, WEEKDAY_NAMES, WEEKDAYS } from '../lib/format.js'
 import { budgetSanityHint } from '../lib/tripSummary.js'
 import { roughPreview } from '../lib/preview.js'
-import { THEMES, countByTheme, isLimited, mixText, themeOf } from '../lib/themes.js'
+import { THEMES, countByTheme, isLimited, mixText, themeIcon, themeOf } from '../lib/themes.js'
+import Icon from '../components/Icon.vue'
 
 const router = useRouter()
 const errors = computed(() => currentPrefs().errors)
@@ -85,10 +85,18 @@ const nudge = ref(false)
 
 // ---- themes: tabs, counts, interests highlight (UI only; the planner uses Must / Include / Skip) ----
 const themeCounts = computed(() => countByTheme(store.places))
-const tabs = computed(() => [{ id: 'all', label: 'All', icon: '🗺️', count: (store.places ?? []).length, limited: false },
+const tabs = computed(() => [{ id: 'all', label: 'All', count: (store.places ?? []).length, limited: false },
   ...THEMES.map((t) => ({ ...t, count: themeCounts.value[t.id], limited: isLimited(themeCounts.value[t.id]) }))])
+const search = ref('')
+const setupStep = ref('essentials')
+async function goSetup(step) {
+  setupStep.value = step
+  await nextTick()
+  document.getElementById(step === 'sights' ? 'sights-h' : 'essentials-h')?.focus({ preventScroll: true })
+}
+provide('revealSetupSection', goSetup)
 const visiblePlaces = computed(() => {
-  const list = (store.places ?? []).filter((p) => store.theme === 'all' || themeOf(p) === store.theme)
+  const list = (store.places ?? []).filter((p) => (store.theme === 'all' || themeOf(p) === store.theme) && `${p.name} ${p.area}`.toLowerCase().includes(search.value.trim().toLowerCase()))
   const hi = highlightThemes.value
   return hi.size ? [...list].sort((a, b) => Number(hi.has(themeOf(b))) - Number(hi.has(themeOf(a)))) : list   // stable: highlighted sights first
 })
@@ -101,9 +109,8 @@ function onTabKey(e, i) {
   store.theme = tabs.value[to].id
   document.getElementById(`tab-${tabs.value[to].id}`)?.focus()
 }
-const activeTab = computed(() => tabs.value.find((t) => t.id === store.theme) ?? tabs.value[0])
 function example(kind) { loadExample(kind); nudge.value = true }
-// One click: load the city's tested example sights with a balanced value of time, then plan. Same code path as pressing "Plan my trip".
+// One click: load the city's tested example sights with a balanced value of time, then plan. Same code path as pressing "Make it happen!".
 const sampling = ref(false)
 async function sampleTrip() {
   if (sampling.value || solverBusy.value || rateLimited.value) return
@@ -116,16 +123,18 @@ async function sampleTrip() {
 }
 </script>
 <template>
-  <div class="stack">
-    <div>
-      <h1>Plan your trip</h1>
-      <p class="fw-semibold mb-1" data-testid="pitch">{{ PITCH }}</p>
-      <p class="muted mb-0">Choose the essentials and the sights you care about. One button then compares the hotels and plans your days. <Hint text="A hotel that looks cheap can cost more once travel time and fares are counted." /></p>
-    </div>
+  <div class="stack plan-workspace">
+    <header class="plan-hero">
+      <p class="eyebrow">A little less planning. A lot more exploring.</p>
+      <h1>A city break that fits you.</h1>
+      <p class="fw-semibold mb-1" data-testid="pitch">Choose a hotel and a day-by-day itinerary together, around the places you want to see.</p>
+      <p class="muted mb-0">Choose a city, set your pace, and pick your must-visits. We’ll check what fits. No account or booking required.</p>
+    </header>
 
-    <NlParsePanel />
 
-    <section class="card-soft" aria-labelledby="city-h">
+
+    <details class="card-soft optional-ai" open data-title="welcome_to_tokyo.exe" data-tone="cyan" data-testid="setup-ai"><summary><span class="small">Optional AI assistant: show or hide</span></summary><NlParsePanel class="mt-3" /></details>
+    <section class="card-soft" aria-labelledby="city-h" data-title="city_picker.exe" data-tone="pink">
       <h2 id="city-h" class="h6">City <span class="muted fw-normal small">(sample data: verify before real travel)</span></h2>
       <div class="city-chip-row" role="group" aria-label="Choose a city">
         <template v-if="!store.cities.length"><span v-for="n in 4" :key="`sk${n}`" class="city-pick skeleton" style="width:8rem" aria-hidden="true">&nbsp;</span></template>
@@ -136,24 +145,19 @@ async function sampleTrip() {
       <p v-if="city" class="small mb-0 mt-2"><strong>Using {{ city.display_name }}, {{ city.country }}.</strong> {{ city.sample_fx_label }} Switching city asks first and clears what you have chosen.</p>
     </section>
 
-    <section v-if="!hasPlan" class="card-soft" data-testid="sample-entry" aria-labelledby="sample-h">
-      <h2 id="sample-h" class="h5 mb-1">New here? See it work in one click</h2>
-      <p class="small mb-2">We load a ready-made {{ city?.display_name ?? 'city' }} trip and plan it. You then get a day-by-day itinerary you can drag between days, ask the assistant to change, and check against the independent validator. Nothing is booked and no account is needed.</p>
-      <button type="button" class="btn btn-primary" :disabled="sampling || !store.places" data-testid="sample-trip" @click="sampleTrip">{{ sampling ? 'Planning the sample trip…' : `Try a sample ${city?.display_name ?? ''} trip` }}</button>
+    <section v-if="!hasPlan" class="sample-entry" data-testid="sample-entry" aria-labelledby="sample-h">
+      <h2 id="sample-h" class="h6 mb-1">New here? See it work in one click</h2>
+      <p class="small mb-2">Explore a ready-made {{ city?.display_name ?? 'city' }} itinerary with sample hotels and estimated costs.</p>
+      <button type="button" class="btn btn-outline-primary" :disabled="sampling || !store.places" data-testid="sample-trip" @click="sampleTrip">{{ sampling ? 'Planning the sample trip…' : `Try a sample ${city?.display_name ?? ''} trip` }}</button>
       <span class="small muted ms-2">Or choose your own sights below.</span>
     </section>
 
-    <div class="card-soft d-flex flex-wrap gap-2 align-items-center" data-testid="demo-helpers">
-      <strong class="me-2">Or load a worked example:</strong>
-      <button class="btn btn-outline-primary btn-sm" @click="example('valid')" data-testid="load-example" :title="exLabel.title" :aria-describedby="'ex-note'">{{ exLabel.text }}</button>
-      <button class="btn btn-outline-secondary btn-sm" @click="example('impossible')" data-testid="load-impossible">Try an impossible {{ city?.display_name ?? 'city' }} trip</button>
-      <p id="ex-note" class="small muted mb-0 w-100" data-testid="example-note"><strong>About this example:</strong> this example uses a high value of time to illustrate the hotel trade-off. {{ exTradeoff }} It is not typical: on random trips the cheapest hotel was usually the best. See the <router-link to="/proof#hotel-value">Proof page</router-link>.
-        <span v-if="nudge" role="status" data-testid="example-loaded"> The example is loaded below: check it, then press <strong>Plan my trip</strong>.</span></p>
-    </div>
 
 
-    <form class="card-soft" @submit.prevent="plan" novalidate aria-label="Trip essentials">
-      <h2 class="h5">Essentials</h2>
+
+    <nav class="setup-steps" aria-label="Trip setup"><button type="button" :aria-current="setupStep === 'essentials' ? 'step' : undefined" @click="goSetup('essentials')" data-testid="setup-essentials">1 · Trip essentials</button><button type="button" :aria-current="setupStep === 'sights' ? 'step' : undefined" @click="goSetup('sights')" data-testid="setup-sights">2 · Choose your sights</button></nav>
+    <form v-show="setupStep === 'essentials'" class="card-soft" data-title="essentials.exe" data-tone="lilac" @submit.prevent="plan" novalidate aria-label="Trip essentials">
+      <h2 id="essentials-h" tabindex="-1" class="h5">Essentials</h2>
       <div class="row g-3">
         <div class="col-6 col-md-3">
           <label class="form-label" for="f-days">Days</label>
@@ -191,20 +195,7 @@ async function sampleTrip() {
         </div>
       </div>
 
-      <div v-if="blockedMusts.length" class="notice notice-warn mt-3" role="status" data-testid="unknown-hours-warning">
-        <span class="glyph" aria-hidden="true">!</span>
-        <div>
-          <strong>{{ blockedMusts.map((p) => p.name).join(', ') }}: opening hours unknown in the sample data.</strong>
-          Strict mode (the default) never assumes a place is open, so a trip that must include {{ blockedMusts.length === 1 ? 'it' : 'them' }} cannot be confirmed.
-          <div class="mt-1 d-flex flex-wrap gap-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary" data-testid="plan-provisionally" @click="store.form.allowUnknownHours = true">Plan provisionally</button>
-            <span class="small align-self-center">Provisional: {{ blockedMusts.length === 1 ? 'it is' : 'they are' }} scheduled and labelled "Opening hours unverified"; the plan holds only if open, and you must check before travelling. Or keep strict and change your must-visits.</span>
-          </div>
-        </div>
-      </div>
-      <p v-else-if="store.form.allowUnknownHours" class="small mt-3 mb-0" data-testid="provisional-on"><span aria-hidden="true">!</span> Provisional planning is on: sights with unknown opening hours will be scheduled and labelled "Opening hours unverified". <button type="button" class="btn btn-sm btn-link p-0" data-testid="back-to-strict" @click="store.form.allowUnknownHours = false">Back to strict</button></p>
-
-      <section class="mt-3" data-testid="profiles" aria-labelledby="prof-h">
+      <details class="mt-3" data-testid="profiles"><summary class="fw-semibold">Travel style & AI preferences <span class="muted fw-normal">(optional)</span></summary><section class="mt-3" aria-labelledby="prof-h">
         <h3 id="prof-h" class="h6 mb-1">Travel style <span class="muted fw-normal">(optional)</span></h3>
         <div class="d-flex flex-wrap gap-2" role="group" aria-label="Travel style">
           <button v-for="p in PROFILES" :key="p.id" type="button" class="btn btn-sm" :class="store.profile.id === p.id ? 'btn-primary' : 'btn-outline-primary'" :aria-pressed="store.profile.id === p.id" :data-testid="'profile-' + p.id" :title="p.blurb" @click="chooseProfile(p.id)">{{ p.label }}</button>
@@ -216,7 +207,7 @@ async function sampleTrip() {
           <button v-if="Object.keys(store.profile.user).length" type="button" class="btn btn-sm btn-link p-0" data-testid="profile-reset" @click="resetProfileOverrides">Go back to the style's own values</button>
         </div>
         <StyleAssistant />
-      </section>
+      </section></details>
 
       <details class="mt-3" data-testid="advanced">
         <summary class="fw-semibold">Advanced options</summary>
@@ -267,12 +258,27 @@ async function sampleTrip() {
         <span class="glyph" aria-hidden="true">!</span><ul class="mb-0 ps-3"><li v-for="e in errors" :key="e">{{ e }}</li></ul>
       </div>
       <p class="small muted mb-0 mt-2" data-testid="state-retention-note">Your choices are kept while you move between steps. They are not saved if you refresh or close this page.</p>
+      <button type="button" class="btn btn-outline-primary mt-3" @click="goSetup('sights')" data-testid="choose-sights">Continue to sights →</button>
     </form>
+      <div v-if="blockedMusts.length" class="notice notice-warn mt-3" role="status" data-testid="unknown-hours-warning">
+        <span class="glyph" aria-hidden="true">!</span>
+        <div>
+          <strong>{{ blockedMusts.map((p) => p.name).join(', ') }}: opening hours unknown in the sample data.</strong>
+          Strict mode (the default) never assumes a place is open, so a trip that must include {{ blockedMusts.length === 1 ? 'it' : 'them' }} cannot be confirmed.
+          <div class="mt-1 d-flex flex-wrap gap-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-testid="plan-provisionally" @click="store.form.allowUnknownHours = true">Plan provisionally</button>
+            <span class="small align-self-center">Provisional: {{ blockedMusts.length === 1 ? 'it is' : 'they are' }} scheduled and labelled "Opening hours unverified"; the plan holds only if open, and you must check before travelling. Or keep strict and change your must-visits.</span>
+          </div>
+        </div>
+      </div>
+      <p v-else-if="store.form.allowUnknownHours" class="small mt-3 mb-0" data-testid="provisional-on"><span aria-hidden="true">!</span> Provisional planning is on: sights with unknown opening hours will be scheduled and labelled "Opening hours unverified". <button type="button" class="btn btn-sm btn-link p-0" data-testid="back-to-strict" @click="store.form.allowUnknownHours = false">Back to strict</button></p>
 
-    <section aria-labelledby="sights-h" data-testid="sights-section">
+
+
+    <section v-show="setupStep === 'sights'" aria-labelledby="sights-h" data-testid="sights-section">
       <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-2">
         <div>
-          <h2 id="sights-h" class="h5 mb-0">Sights</h2>
+          <h2 id="sights-h" tabindex="-1" class="h4 mb-0">What would you love to see?</h2>
           <p class="small muted mb-0">Mark must-sees; leave the rest as "Include if it fits" (left out if it adds too much travel) or choose "Not interested". <Hint text="Optional sights may still be left out of the plan if they would cost more than they are worth; you will see which ones and why." /></p>
         </div>
       </div>
@@ -281,31 +287,33 @@ async function sampleTrip() {
       <template v-else-if="!store.places"><div class="sight-grid"><Skeleton v-for="n in 6" :key="n" :lines="4" /></div></template>
       <div v-else class="plan-columns">
         <div>
-          <div class="interest-row mb-2" role="group" aria-label="Interests (highlight only)" data-testid="interests">
+          <details class="mb-3"><summary class="small">Highlight your interests (optional)</summary><div class="interest-row mb-2" role="group" aria-label="Interests (highlight only)" data-testid="interests">
             <span class="small fw-semibold me-1">Most interested in:</span>
             <button v-for="t in THEMES" :key="t.id" type="button" class="interest-chip" :aria-pressed="store.interestThemes.includes(t.id)" :data-testid="`interest-${t.id}`" @click="toggleInterestTheme(t.id)">
-              <span aria-hidden="true">{{ t.icon }}</span> {{ t.label }}
+              <Icon :name="themeIcon(t.id)" :size="16" /> {{ t.label }}
             </button>
             <span class="small muted" data-testid="interest-hint">This only highlights. The planner uses your Must / Include / Skip choices.</span>
           </div>
+          </details>
+          <label for="sight-search" class="form-label">Search attractions</label><input id="sight-search" class="form-control mb-3" type="search" v-model="search" placeholder="Search by name or neighbourhood" data-testid="sight-search" />
           <div class="theme-tabs" role="tablist" aria-label="Sight themes" data-testid="theme-tabs">
-            <button v-for="(t, i) in tabs" :key="t.id" :id="`tab-${t.id}`" type="button" role="tab" class="theme-tab" :aria-selected="store.theme === t.id" :aria-controls="'sight-panel'"
+            <button v-for="(t, i) in tabs" :key="t.id" :id="`tab-${t.id}`" type="button" role="tab" class="theme-tab" :aria-selected="store.theme === t.id" :aria-controls="'sight-panel'" :title="t.limited ? 'Limited in the sample data' : undefined"
               :tabindex="store.theme === t.id ? 0 : -1" :data-testid="`tab-${t.id}`" @click="store.theme = t.id" @keydown="onTabKey($event, i)">
-              <span aria-hidden="true">{{ t.icon }}</span> <span>{{ t.label }}</span> <span class="theme-count" :aria-label="`${t.count} sights`">{{ t.count }}</span>
+              <Icon :name="themeIcon(t.id)" :size="16" /> <span>{{ t.label }}</span> <span class="theme-count" :aria-label="`${t.count} sights`">{{ t.count }}</span>
               <span v-if="t.limited" class="theme-limited" data-testid="limited-note">Limited in the sample data</span>
             </button>
           </div>
           <p v-if="mustMix" class="small mb-2" data-testid="theme-selected" aria-live="polite">Your must-visits: {{ mustMix }}.</p>
           <div id="sight-panel" role="tabpanel" :aria-labelledby="`tab-${store.theme}`" tabindex="-1" data-testid="sight-panel">
-            <div class="sight-grid" data-testid="sight-grid">
+            <p v-if="!visiblePlaces.length" role="status">No matching attractions. Try another search or category.</p><div class="sight-grid" data-testid="sight-grid">
               <AttractionCard v-for="p in visiblePlaces" :key="p.id" :place="p" :state="stateOf(p.id)" :start-weekday="store.form.startWeekday" :days="store.form.days" :fx="store.fx" compact
                 :highlight="highlightThemes.has(themeOf(p))" @update:state="setWish(p.id, $event)" />
             </div>
           </div>
         </div>
         <div class="plan-map-col stack">
-          <SightsMap :places="store.places" :wishlist="store.wishlist" :center="center" />
-          <section class="card-soft" aria-labelledby="prev-h" data-testid="rough-preview">
+          <details class="selection-map"><summary>Explore the attraction map</summary><SightsMap :places="store.places" :wishlist="store.wishlist" :center="center" /></details>
+          <section class="sticky-note" aria-labelledby="prev-h" data-testid="rough-preview">
             <h3 id="prev-h" class="h6">Rough preview <span class="badge-src badge-estimated">not a plan</span></h3>
             <p class="small mb-1" data-testid="preview-count"><strong>{{ preview.mustCount }}</strong> must visit · <strong>{{ preview.maybeCount }}</strong> include if it fits · at most <strong>{{ preview.maxFit }}</strong> sights fit in {{ store.form.days }} day(s) at this pace.</p>
             <p v-if="preview.mustOverCap" class="small mb-1" style="color: var(--amber)" data-testid="preview-overcap"><span aria-hidden="true">!</span> You marked more must-visits than fit at this pace; the planner will explain what cannot fit.</p>
@@ -319,6 +327,16 @@ async function sampleTrip() {
       </div>
     </section>
 
+    <details class="card-soft" data-title="worked_examples.exe" data-tone="peach" data-testid="worked-examples"><summary>Explore worked examples</summary>
+    <div class="card-soft d-flex flex-wrap gap-2 align-items-center" data-testid="demo-helpers">
+      <strong class="me-2">Or load a worked example:</strong>
+      <button class="btn btn-outline-primary btn-sm" @click="example('valid')" data-testid="load-example" :title="exLabel.title" :aria-describedby="'ex-note'">{{ exLabel.text }}</button>
+      <button class="btn btn-outline-secondary btn-sm" @click="example('impossible')" data-testid="load-impossible">Try an impossible {{ city?.display_name ?? 'city' }} trip</button>
+      <p id="ex-note" class="small muted mb-0 w-100" data-testid="example-note"><strong>About this example:</strong> this example uses a high value of time to illustrate the hotel trade-off. {{ exTradeoff }} It is not typical: on random trips the cheapest hotel was usually the best. See the <router-link to="/proof#hotel-value">Proof page</router-link>.
+        <span v-if="nudge" role="status" data-testid="example-loaded"> The example is loaded below: check it, then press <strong>Make it happen!</strong>.</span></p>
+    </div>
+    </details>
+
     <div class="plan-bar" data-testid="plan-bar">
       <div class="page-inner stack">
         <BusyNotice :error="busyError" @retry="plan" />
@@ -326,12 +344,12 @@ async function sampleTrip() {
         <PlanProgress />
         <div class="d-flex flex-wrap align-items-center gap-3">
           <button type="button" class="btn btn-primary btn-lg" :disabled="!!reason" :aria-describedby="reason ? 'plan-reason' : 'plan-summary'" @click="plan" data-testid="plan-trip">
-            {{ store.stage ? 'Planning…' : hasPlan ? 'Plan my trip again' : 'Plan my trip' }}
+            {{ store.stage ? 'Planning…' : 'Make it happen!' }}
           </button>
-          <span id="plan-summary" class="small" aria-live="polite" data-testid="plan-summary">{{ preview.total }} sight(s) in the running · {{ preview.mustCount }} must visit</span>
+          <span id="plan-summary" class="small" aria-live="polite" data-testid="plan-summary">{{ city?.display_name }} · {{ store.form.days }} days · {{ preview.mustCount }} must visit · {{ preview.total }} sights in the running</span>
           <span v-if="reason" id="plan-reason" class="small" data-testid="plan-reason"><span aria-hidden="true">!</span> {{ reason }}</span>
           <router-link v-if="hasPlan" to="/trip" class="small" data-testid="back-to-trip">Back to my trip</router-link>
-          <button type="button" class="btn btn-link btn-sm ms-auto" @click="startOver" data-testid="start-over">Start over</button>
+          <button type="button" class="btn btn-link btn-sm ms-auto" @click="startOver" data-testid="start-over">New adventure</button>
         </div>
       </div>
     </div>

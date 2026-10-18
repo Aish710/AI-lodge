@@ -6,9 +6,12 @@
 import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { dayColor, dayShape } from '../lib/mapstyle.js'
+import { dayColor, dayShape, shapeSvg } from '../lib/mapstyle.js'
 import { attachBaseLayer } from '../lib/tiles.js'
 import { THEMES, themeLabel, themeOf } from '../lib/themes.js'
+import Icon from './Icon.vue'
+import ShapeMark from './ShapeMark.vue'
+import { iconSvg } from '../lib/icons.js'
 
 const props = defineProps({ days: { type: Array, default: () => [] }, hotel: { type: Object, default: null }, placesById: { type: Object, required: true },
   selectedDay: { type: [String, Number], default: 'all' }, activeStop: { type: String, default: null } })
@@ -23,12 +26,12 @@ let fitted = ''
 const markers = new Map()   // attraction id -> Leaflet marker (the active-pin highlight and the card link use it)
 
 const CHIPS = [
-  { id: 'sightseeing', label: 'Attractions', icon: '🏛️', kind: 'theme' },
-  { id: 'food', label: 'Food', icon: '🍜', kind: 'theme' },
-  { id: 'shopping', label: 'Shopping', icon: '🛍️', kind: 'theme' },
-  { id: 'hotels', label: 'Hotels', icon: '🏨', kind: 'hotels' },
-  { id: 'saved', label: 'Saved', icon: '⭐', kind: 'only', hint: 'Show only your Must visit picks' },
-  { id: 'booking', label: 'Needs booking', icon: '🎟️', kind: 'only', hint: 'Show only sights that need advance booking' },
+  { id: 'sightseeing', label: 'Attractions', icon: 'temple', kind: 'theme' },
+  { id: 'food', label: 'Food', icon: 'bowl', kind: 'theme' },
+  { id: 'shopping', label: 'Shopping', icon: 'bag', kind: 'theme' },
+  { id: 'hotels', label: 'Hotels', icon: 'house', kind: 'hotels' },
+  { id: 'saved', label: 'Saved', icon: 'star', kind: 'only', hint: 'Show only your Must visit picks' },
+  { id: 'booking', label: 'Needs booking', icon: 'ticket', kind: 'only', hint: 'Show only sights that need advance booking' },
 ]
 const on = reactive({ sightseeing: true, food: true, shopping: true, hotels: true, saved: false, booking: false })
 
@@ -46,7 +49,7 @@ const counts = computed(() => ({
 const visibleStop = ({ s }) => on[themeOfStop(s)] && (!on.saved || s.is_must_visit) && (!on.booking || (s.uncertainty_flags ?? []).includes('advance_booking_required'))
 
 function pinIcon(num, color, shape, size = 56) {
-  const html = `<div class="pin-visual"><div class="pin pin-${shape}" style="background:${color};width:${size}px;height:${size}px"><span>${Number(num)}</span></div></div>`
+  const html = `<div class="pin-visual"><div class="pin pin-${shape}" style="background:${shapeSvg(shape, color) ? 'transparent' : color};width:${size}px;height:${size}px">${shapeSvg(shape, color, num) || `<span>${Number(num)}</span>`}</div></div>`
   const hit = 24
   return L.divIcon({ className: 'pin-hit-target', html, iconSize: [hit, hit], iconAnchor: [hit / 2, hit / 2], popupAnchor: [0, -hit / 2] })
 }
@@ -112,7 +115,7 @@ function draw(refit = true) {
   for (const it of items) {
     const at = placed.get(it.key)
     if (it.key === 'hotel') {
-      const m = L.marker(at, { icon: L.divIcon({ className: 'pin-hit-target', html: '<div class="pin-visual"><div class="pin pin-hotel" style="width:56px;height:56px"><span>H</span></div></div>', iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12] }),
+      const m = L.marker(at, { icon: L.divIcon({ className: 'pin-hit-target', html: `<div class="pin-visual"><div class="pin pin-hotel" style="width:56px;height:56px">${iconSvg('house', 30)}</div></div>`, iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12] }),
         title: `Hotel: ${hotel.name} (demo hotel)`, alt: `Hotel ${hotel.name}`, keyboard: true }).bindPopup(popup([hotel.name, 'Demo hotel'])).addTo(layer)
       m.getElement()?.setAttribute('aria-label', `Hotel: ${hotel.name} (demo hotel)`)
       continue
@@ -151,7 +154,10 @@ onMounted(() => {
   draw()
   map.on('zoomend', () => draw(false))            // the screen distance between pins changes with zoom
   // Leaflet must be told when its container changes size (layout settles after mount, window resizes), or tiles only fill part of the map.
-  ro = new ResizeObserver(() => { map?.invalidateSize(); draw(false) })
+  ro = new ResizeObserver(() => {
+    if (!el.value?.clientWidth || !el.value?.clientHeight) return
+    map?.invalidateSize(); fitted = ''; draw()
+  })
   ro.observe(el.value)
 })
 watch(() => [props.days, props.hotel, props.placesById, props.selectedDay], () => draw(), { deep: true })
@@ -163,17 +169,17 @@ onBeforeUnmount(() => { base?.dispose(); ro?.disconnect(); map?.remove(); map = 
   <div>
     <div class="map-chips mb-2" role="group" aria-label="Map filters" data-testid="map-chips">
       <button v-for="c in CHIPS" :key="c.id" type="button" class="map-chip" :aria-pressed="on[c.id]" :title="c.hint" :data-testid="`chip-${c.id}`" @click="on[c.id] = !on[c.id]">
-        <span aria-hidden="true">{{ c.icon }}</span> {{ c.label }} <span class="theme-count">{{ counts[c.id] }}</span>
+        <Icon :name="c.icon" :size="16" /> {{ c.label }} <span class="theme-count">{{ counts[c.id] }}</span>
       </button>
     </div>
     <div ref="el" class="map-wrap" :class="{ 'map-plain': tilesOff }" role="region" aria-label="Map of the itinerary: hotel and numbered stops per day. The day-by-day list next to it has the same information." data-testid="trip-map"></div>
     <p v-if="tilesOff" class="small muted mt-1 mb-0" role="status" data-testid="tiles-unavailable">Map tiles unavailable. The pins are still in the right places, and the list next to the map has the same information.</p>
     <div class="small muted mt-1" data-testid="map-legend">
       <span v-for="d in days" :key="d.day" class="me-3 d-inline-flex align-items-center gap-1">
-        <span class="marker" :class="`shape-${dayShape(d.day)}`" :style="{ '--day': dayColor(d.day), width: '16px', height: '16px', fontSize: '.6rem' }" aria-hidden="true"></span>
+        <ShapeMark :day="d.day" :size="20" />
         Day {{ d.day }} ({{ dayShape(d.day) }})
       </span>
-      <span class="d-inline-flex align-items-center gap-1"><span class="pin pin-hotel" style="width:16px;height:16px;font-size:.6rem" aria-hidden="true">H</span> Hotel · dashed line = to/from the hotel</span>
+      <span class="d-inline-flex align-items-center gap-1"><Icon name="house" :size="18" /> Hotel (house) · dashed line = to/from the hotel</span>
       <span class="d-block">"Saved" = your Must visit picks. No airports or stations: the sample data has none.</span>
     </div>
   </div>

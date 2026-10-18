@@ -10,5 +10,6 @@ const brand = () => ({
 
 export default defineConfig({
   plugins: [vue(), brand()],
+  build: { assetsInlineLimit: 0 },   // CSP font-src is 'self': never inline small fonts as data: URIs
   test: { environment: 'jsdom', include: ['tests/unit/**/*.test.js'], globals: false },
 })

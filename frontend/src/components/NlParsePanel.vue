@@ -1,6 +1,6 @@
 <script setup>
 // Create trip: free text -> POST /parse -> a PROPOSAL that fills the EDITABLE form below. Nothing is submitted by this panel.
-import { computed, ref } from 'vue'
+import { computed, ref, inject } from 'vue'
 import NameResolution from './NameResolution.vue'
 import ErrorPanel from './ErrorPanel.vue'
 import SwitchOffer from './SwitchOffer.vue'
@@ -19,6 +19,7 @@ import { originOf, parseState } from '../lib/rules.js'
 import { titleCase } from '../lib/format.js'
 
 const text = ref('')
+const revealSetup = inject('revealSetupSection', async () => {})
 const over = computed(() => text.value.length > maxInputChars)
 const state = computed(() => parseState(store.parseResult, store.health?.llm_limit_reached === true))
 const r = computed(() => store.parseResult)
@@ -52,13 +53,13 @@ const suggestions = computed(() => heardGroups.value.map((g) => suggestionFor(g.
 function accept(s) { store.form[s.field] = s.value; accepted.value.push(`${s.field === 'pace' ? 'Pace' : s.field} set to ${s.value}. You can change it in the form.`) }
 const assumed = computed(() => assumedList(r.value?.defaults_applied ?? []))
 const applied = ref(false)
-function apply() { applied.value = applyParseToForm(); accepted.value = []; document.getElementById('f-days')?.focus() }
-function changeField(id) { const el = document.getElementById(id); el?.closest('details')?.setAttribute('open', ''); if (el && !/^(INPUT|SELECT|TEXTAREA|BUTTON)$/.test(el.tagName)) el.setAttribute('tabindex', '-1'); el?.scrollIntoView?.({ block: 'center' }); el?.focus() }
+async function apply() { applied.value = applyParseToForm(); accepted.value = []; await revealSetup('essentials'); document.getElementById('f-days')?.focus() }
+async function changeField(id) { await revealSetup(id === 'sights-h' ? 'sights' : 'essentials'); const el = document.getElementById(id); el?.closest('details')?.setAttribute('open', ''); if (el && !/^(INPUT|SELECT|TEXTAREA|BUTTON)$/.test(el.tagName)) el.setAttribute('tabindex', '-1'); el?.scrollIntoView?.({ block: 'center' }); el?.focus() }
 const unresolved = computed(() => (r.value?.unresolved_names ?? []).filter((u) => !placed.value.some((p) => p.includes(u.input))))
 </script>
 <template>
   <section class="card-soft ai-card" aria-labelledby="nl-h" data-testid="nl-panel">
-    <h2 id="nl-h" class="h4 d-flex flex-wrap align-items-center gap-2">Ask the AI to set up your trip <AiMark kind="ai" /></h2>
+    <h2 id="nl-h" class="h4 d-flex flex-wrap align-items-center gap-2">Where to, friend? <AiMark kind="ai" /></h2>
     <p class="mb-1">The AI fills the form below. You check everything before anything is planned. <Hint text="Your text is cleaned before it is sent. Place descriptions are never sent." /></p>
     <AiLegend class="mb-2" />
     <div v-if="aiOffNote" class="d-flex flex-wrap gap-2 align-items-center mb-2" data-testid="ai-off-note">
@@ -123,7 +124,7 @@ const unresolved = computed(() => (r.value?.unresolved_names ?? []).filter((u) =
       <details class="small" data-testid="nl-raw-json"><summary>What the assistant extracted (before checking)</summary><pre class="json-box mb-0 mt-1" data-testid="nl-json">{{ json ?? 'nothing extracted' }}</pre></details>
       <div v-if="r.draft" class="d-flex flex-wrap align-items-center gap-2">
         <button type="button" class="btn btn-outline-primary" @click="apply" data-testid="nl-apply">Apply to my trip</button>
-        <span class="small" role="status" data-testid="nl-applied">{{ applied ? 'Form filled in below. Nothing has been planned yet.' : 'The form below is already filled in from this reading. Nothing is planned until you click "Plan my trip". Apply again after editing to restore it.' }}</span>
+        <span class="small" role="status" data-testid="nl-applied">{{ applied ? 'Form filled in below. Nothing has been planned yet.' : 'The form below is already filled in from this reading. Nothing is planned until you click "Make it happen!". Apply again after editing to restore it.' }}</span>
       </div>
     </div>
   </section>

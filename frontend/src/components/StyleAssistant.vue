@@ -1,6 +1,6 @@
 <script setup>
 // Describe your travel style in words. The AI only TAGS supported preferences; code turns them into settings, labelled "you said it" (explicit) or "suggested" (inferred, needs your tick).
-// Nothing is applied until you press Apply, and the plan is re-optimised only when you press "Plan my trip". A value you set yourself is kept unless you ask for it here.
+// Nothing is applied until you press Apply, and the plan is re-optimised only when you press "Make it happen!". A value you set yourself is kept unless you ask for it here.
 import { computed, nextTick, ref, watch } from 'vue'
 import { store, runStyleText, discardStyleProposal, applyStyleSettings, rateLimited, maxInputChars } from '../store.js'
 import AiMark from './AiMark.vue'
@@ -47,7 +47,7 @@ const chips = ['I prefer a slow trip with lots of breaks.', "I don't mind paying
           <ul v-if="p.clarifications.length" class="small"><li v-for="c in p.clarifications" :key="c">{{ c }}</li></ul>
           <div class="d-flex flex-wrap gap-2"><button type="button" class="btn btn-primary btn-sm" :disabled="!picked.length" data-testid="style-apply" @click="apply">Apply the ticked settings</button>
             <button type="button" class="btn btn-outline-secondary btn-sm" data-testid="style-cancel" @click="discardStyleProposal">Cancel</button></div>
-          <p class="small muted mt-1 mb-0">Applying only changes the form. Press "Plan my trip" to re-optimise.</p>
+          <p class="small muted mt-1 mb-0">Applying only changes the form. Press "Make it happen!" to re-optimise.</p>
         </template>
       </div>
     </template>

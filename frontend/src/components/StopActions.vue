@@ -1,4 +1,5 @@
 <script setup>
+import Icon from './Icon.vue'
 // Per-stop edit buttons. They only QUEUE an operation; nothing is sent until the user applies the tray, and the schedule is never edited here.
 import { computed, ref } from 'vue'
 import { DAY_PARTS, DAY_PART_LABELS } from '../lib/replan.js'
@@ -18,7 +19,7 @@ function queueMove() {
   <div class="stop-actions mt-1" :data-testid="`actions-${id}`">
     <div class="d-flex flex-wrap align-items-center gap-1">
       <button v-if="!locked" type="button" class="btn btn-sm btn-outline-secondary" :disabled="disabled" :aria-label="`Lock ${stop.start}: ${name}, day ${day}`"
-        @click="emit('op', { op: 'lock', attraction_id: id, day, start_time: stop.start })" data-testid="act-lock"><span aria-hidden="true">🔒</span> Lock {{ stop.start }}</button>
+        @click="emit('op', { op: 'lock', attraction_id: id, day, start_time: stop.start })" data-testid="act-lock"><Icon name="lock" :size="14" /> Lock {{ stop.start }}</button>
       <button v-else type="button" class="btn btn-sm btn-outline-secondary" :disabled="disabled" :aria-label="`Unlock ${name}`" @click="emit('op', { op: 'unlock', attraction_id: id })" data-testid="act-unlock"><span aria-hidden="true">🔓</span> Unlock</button>
       <details class="more-menu" :data-testid="`more-${id}`">
         <summary class="btn btn-sm btn-outline-secondary" :aria-label="`More actions for ${name}`"><span aria-hidden="true">⋯</span></summary>

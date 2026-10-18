@@ -6,6 +6,7 @@ import { store, switchHotel, solverBusy, rateLimited } from '../store.js'
 import { formatLocalMoney } from '../lib/format.js'
 import { cleanHotelText as ct } from '../lib/names.js'
 import { categoryOf } from '../lib/conflicts.js'
+import Icon from './Icon.vue'
 
 const results = computed(() => store.comparison?.results ?? [])
 const best = computed(() => store.comparison?.best_by_true_cost ?? null)
@@ -14,7 +15,8 @@ const blocked = (r) => (r.conflicts?.length ?? 0) > 0 && r.conflicts.every((c) =
 const disabled = computed(() => solverBusy.value || rateLimited.value)
 </script>
 <template>
-  <fieldset v-if="results.length" class="hotel-switch" data-testid="hotel-switch" :disabled="disabled">
+  <div v-if="results.length" class="window hotel-window" data-title="hotel_picker.exe" data-tone="pink">
+  <fieldset class="hotel-switch" data-testid="hotel-switch" :disabled="disabled">
     <legend class="h6 mb-2">Hotel <span class="muted fw-normal small">(demo hotels with sample prices)</span></legend>
     <div class="hotel-switch-options" role="radiogroup" aria-label="Hotel for this plan">
       <template v-for="r in results" :key="r.hotel_id">
@@ -22,11 +24,13 @@ const disabled = computed(() => solverBusy.value || rateLimited.value)
           :disabled="!r.feasible" @change="switchHotel(r.hotel_id)" :data-testid="`switch-${r.hotel_id}`" />
         <label class="hotel-switch-option" :for="`hs-${r.hotel_id}`">
           <span class="hotel-title">{{ ct(r.hotel_name) }}</span>
+          <Icon v-if="r.hotel_id === best" name="star" :size="26" class="best-star" />
           <span class="small muted">{{ money(r.nightly_rate_jpy) }}/night</span>
-          <span v-if="r.hotel_id === best" class="pill pill-must">Best overall</span>
+          <span v-if="r.hotel_id === best" class="pill pill-must">Lowest modelled score</span>
           <span v-if="!r.feasible" class="small" :data-blocked="blocked(r)">{{ blocked(r) ? 'Blocked by missing information' : 'No feasible plan' }}</span>
         </label>
       </template>
     </div>
   </fieldset>
+  </div>
 </template>

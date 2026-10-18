@@ -61,7 +61,7 @@ describe('theme tabs on the Plan screen', () => {
     expect(w.get('[data-testid=tab-sightseeing]').text()).toContain('7')
     expect(w.get('[data-testid=tab-shopping]').text()).toContain('2')
     expect(w.get('[data-testid=tab-food]').text()).toContain('1')
-    expect(w.get('[data-testid=tab-food]').find('[aria-hidden=true]').text()).toBeTruthy()     // an icon, never colour alone
+    expect(w.get('[data-testid=tab-food]').find('svg[aria-hidden=true]').exists()).toBe(true)     // an icon, never colour alone
   })
   it('filters the grid by theme and keeps the chosen tab in memory', async () => {
     seed('seoul')

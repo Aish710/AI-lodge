@@ -1,3 +1,4 @@
+import { tripSection, setupSection, disclose, allDays, mapView, timelineView } from './helpers.js'
 // The itinerary builder (real drag-and-drop between days, live feedback, keyboard use), the modelled cash total including rooms, the deduplicated "To check" block and the minimum-active-days rule.
 import { expect, test } from '@playwright/test'
 import { expectClean, planFromExample, PLAN_WAIT, stubTiles, watchConsole } from './helpers.js'
@@ -23,14 +24,19 @@ async function dragStop(page, stop, day) {
 async function openBuilder(page) {
   await page.goto('/')
   await planFromExample(page)
+  await allDays(page)
+  await timelineView(page)
   await page.getByTestId('ic-toggle').click()
+  await timelineView(page)
   await expect(page.getByTestId('ic-day-1')).toBeVisible()
+  await timelineView(page)
   await expect(page.getByTestId('ic-live')).toContainText(/Your draft/, { timeout: PLAN_WAIT })
 }
 
 test('drag a sight to another day: the lists change, the draft is re-checked live, and a screen-reader announcement is made', async ({ page }) => {
   const problems = watchConsole(page)
   await openBuilder(page)
+  await timelineView(page)
   const day1 = page.getByTestId('ic-day-1'), day2 = page.getByTestId('ic-day-2')
   const before1 = await day1.locator('[data-testid^="ic-stop-"]').count()
   const before2 = await day2.locator('[data-testid^="ic-stop-"]').count()
@@ -41,7 +47,9 @@ test('drag a sight to another day: the lists change, the draft is re-checked liv
   await expect(day2.locator(`[data-testid="ic-stop-${id}"]`)).toBeVisible()
   await expect(day1.locator('[data-testid^="ic-stop-"]')).toHaveCount(before1 - 1)
   await expect(day2.locator('[data-testid^="ic-stop-"]')).toHaveCount(before2 + 1)
+  await timelineView(page)
   await expect(page.getByTestId('ic-announce')).toContainText('is now day 2')
+  await timelineView(page)
   await expect(page.getByTestId('ic-live')).toContainText(/Your draft (works|has a problem)/, { timeout: PLAN_WAIT })
   expectClean(problems)
 })
@@ -52,11 +60,16 @@ test('live feedback shows each stop\'s time and states the problem on the stop t
   const n = await all.count()
   // move every sight onto day 1: whether or not it fits, the page must say so on the stop or in the status line, never silently
   for (let i = 1; i < 3; i++) {
+    await timelineView(page)
     const dayStops = page.getByTestId(`ic-day-${i + 1}`).locator('[data-testid^="ic-stop-"]')
+    await timelineView(page)
     while (await dayStops.count()) await dragStop(page, dayStops.first(), page.getByTestId('ic-day-1'))
   }
+  await timelineView(page)
   await expect(page.getByTestId('ic-day-1').locator('[data-testid^="ic-stop-"]')).toHaveCount(n)
+  await timelineView(page)
   await expect(page.getByTestId('ic-live')).toContainText(/Your draft (works|has a problem)/, { timeout: PLAN_WAIT })
+  await timelineView(page)
   const text = await page.getByTestId('ic-live').innerText()
   if (/has a problem/.test(text)) expect(await page.locator('[data-testid^="ic-problem-"]').count() + (text.match(/Check failed|does not fit|closed/g) ?? []).length).toBeGreaterThan(0)
   else await expect(page.locator('[data-testid^="ic-time-"]').first()).toBeVisible()
@@ -65,30 +78,40 @@ test('live feedback shows each stop\'s time and states the problem on the stop t
 test('keyboard only: focus a stop control, move it, hear it, and keep focus', async ({ page }) => {
   await openBuilder(page)
   await page.getByLabel('Add an attraction to day 1').selectOption({ index: 1 })
+  await timelineView(page)
   const add = page.getByTestId('ic-day-1').getByRole('button', { name: 'Add', exact: true })
   await add.focus()
   await page.keyboard.press('Enter')
+  await timelineView(page)
   await expect(page.getByTestId('ic-day-1').locator('[data-testid^="ic-stop-"]')).toHaveCount(2)
   const down = page.getByRole('button', { name: /^Move .* later on day 1$/ }).first()
   await down.focus()
   await page.keyboard.press('Enter')
+  await timelineView(page)
   await expect(page.getByTestId('ic-announce')).toContainText('position 2')
   expect(await page.evaluate(() => document.activeElement?.tagName)).toBe('BUTTON')
 })
 
 test('the Compare button still compares the same sights after drag-and-drop edits and says so honestly', async ({ page }) => {
   await openBuilder(page)
+  await timelineView(page)
   const day1 = page.getByTestId('ic-day-1')
+  await timelineView(page)
   await dragStop(page, day1.locator('[data-testid^="ic-stop-"]').first(), page.getByTestId('ic-day-3'))
+  await timelineView(page)
   await page.getByTestId('ic-compare').click()
+  await timelineView(page)
   await expect(page.getByTestId('ic-table')).toBeVisible({ timeout: PLAN_WAIT })
+  await timelineView(page)
   await expect(page.getByTestId('ic-verdict')).not.toBeEmpty()
+  await timelineView(page)
   await expect(page.getByTestId('ic-table')).toContainText('Generalised cost')
 })
 
 test('the spending tile includes rooms, shows its parts, and "To check before you go" lists each unverified item once', async ({ page }) => {
   await page.goto('/')
   await planFromExample(page)
+  await allDays(page)
   await expect(page.getByTestId('kpi-total')).toBeVisible()
   await expect(page.getByTestId('kpi-total-parts')).toContainText('rooms')
   await expect(page.getByTestId('totals')).toContainText('Active days')
@@ -102,6 +125,7 @@ test('the spending tile includes rooms, shows its parts, and "To check before yo
 
 test('minimum active days: the rule is applied by the planner and shown, and the form refuses a value above the trip length', async ({ page }) => {
   await page.goto('/')
+  await disclose(page, 'worked-examples')
   await page.getByTestId('load-example').click()
   await page.getByTestId('advanced').locator('summary').click()
   await page.getByTestId('min-active-days').fill('99')
@@ -109,7 +133,8 @@ test('minimum active days: the rule is applied by the planner and shown, and the
   await page.getByTestId('min-active-days').fill('3')
   await page.getByTestId('plan-trip').click()
   await expect(page).toHaveURL(/\/trip$/, { timeout: PLAN_WAIT })
-  await expect(page.getByTestId('totals')).toContainText(/Active days 3 of 3/)
+  await allDays(page)
+  await expect(page.getByTestId('kpi-active-days')).toHaveText('3 of 3')
 })
 
 test('phone width: the builder fits without sideways scrolling and its controls are all reachable', async ({ page }) => {
@@ -122,11 +147,17 @@ test('phone width: the builder fits without sideways scrolling and its controls 
 test('classic mode (for the usability study): no drag handles and no live feedback, the same arrow controls, the same optimiser comparison', async ({ page }) => {
   await page.goto('/?builder=classic')
   await planFromExample(page)
+  await allDays(page)
+  await timelineView(page)
   await page.getByTestId('ic-toggle').click()
+  await timelineView(page)
   await expect(page.getByTestId('ic-day-1')).toBeVisible()
   await expect(page.locator('.ic-handle')).toHaveCount(0)
+  await timelineView(page)
   await expect(page.getByTestId('ic-live')).toHaveCount(0)
   await expect(page.getByRole('button', { name: /^Move .* later on day 1$/ }).first()).toBeVisible()
+  await timelineView(page)
   await page.getByTestId('ic-compare').click()
+  await timelineView(page)
   await expect(page.getByTestId('ic-table')).toBeVisible({ timeout: PLAN_WAIT })
 })

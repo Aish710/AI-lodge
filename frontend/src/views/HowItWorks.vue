@@ -2,6 +2,15 @@
 import { computed } from 'vue'
 import { PITCH, PROJECT_NAME, REPO_URL } from '../brand.js'
 import { store } from '../store.js'
+import Icon from '../components/Icon.vue'
+const STEPS = [
+  { title: 'You say what you want', who: 'you', text: 'Type it in plain words, or fill the form yourself: days, pace, budget, must-see sights.' },
+  { title: 'The AI fills the form', who: 'AI', text: 'It reads your words and fills the fields. Code checks every value before anything is planned.' },
+  { title: 'You check everything', who: 'you', text: 'Nothing is planned until you confirm the form. A wrong city or a vague place? We ask you first.' },
+  { title: 'The optimiser plans', who: 'calculated', text: 'Compares each hotel and builds a day-by-day route that fits opening hours, travel time and pace.' },
+  { title: 'The validator checks it', who: 'calculated', text: 'An independently written validator re-checks the finished plan. Warnings about data are shown, never hidden.' },
+  { title: 'You tweak with words', who: 'AI', text: 'Ask the AI to move or drop a sight. It makes a proposal; nothing changes until you press Apply.' },
+]
 const relay = computed(() => (store.health?.llm_relay ? store.health.llm_endpoint : null))
 const cityNames = computed(() => (store.cities.length ? store.cities.map((c) => c.display_name).join(', ') : 'several sample cities'))
 </script>
@@ -11,13 +20,29 @@ const cityNames = computed(() => (store.cities.length ? store.cities.map((c) => 
       <p class="lead fw-semibold mb-1" data-testid="pitch">{{ PITCH }}</p>
       <p class="muted mb-0">{{ PROJECT_NAME }} plans a trip to one city at a time ({{ cityNames }}) by choosing the hotel and the itinerary together, then showing its working.</p></div>
 
-    <section class="card-soft" aria-labelledby="what-h">
+
+    <div class="how-grid" data-testid="how-path">
+      <ol class="how-steps list-unstyled mb-0" aria-label="The six steps">
+        <li v-for="(st, i) in STEPS" :key="st.title" :class="`tone-${i % 6}`">
+          <span class="step-num" aria-hidden="true">{{ i + 1 }}</span>
+          <div class="step-card"><div class="d-flex justify-content-between align-items-start gap-2"><h3 class="h6 mb-1"><span class="sr-only">Step {{ i + 1 }}: </span>{{ st.title }}</h3><span class="badge-src" :class="`bs-${st.who}`">{{ st.who }}</span></div><p class="small mb-0">{{ st.text }}</p></div>
+        </li>
+      </ol>
+      <aside class="how-side stack">
+        <section class="window" data-title="honest_bits.exe" data-tone="peach" aria-labelledby="hb-h"><h2 id="hb-h" class="h6">Things to know</h2>
+          <ul class="check-list list-unstyled mb-0"><li><Icon name="warn" /> Sights, prices and hotels are sample data</li><li><Icon name="warn" /> Travel times are estimates from straight-line distance</li><li><Icon name="warn" /> Your choices are not saved if you refresh</li></ul></section>
+        <section class="sticky-note"><h2 class="h6">What is true cost?</h2><p class="small mb-0">Cash cost is money you spend. The comparison figure (generalised cost) adds the value you put on your travel time. It is for comparing hotels and is never money you pay.</p></section>
+        <section class="window" data-title="ai_off.exe" data-tone="cyan" aria-labelledby="ao-h"><h2 id="ao-h" class="h6">AI switched off?</h2><p class="small">Everything still works. You fill the form by hand and get a template summary, with warnings added by code.</p>
+          <router-link to="/" class="btn btn-primary btn-sm">Back to planning</router-link></section>
+      </aside>
+    </div>
+    <section class="card-soft" data-title="what_it_is.exe" data-tone="cyan" aria-labelledby="what-h">
       <h2 id="what-h" class="h5">What it is</h2>
-      <p class="mb-2">Hotels that look cheap can cost more once travel time and fares are counted. The app plans the days around each hotel, then compares hotels by <strong>true cost</strong>: rooms + admissions + estimated transport + travel time valued at what an hour of your time is worth + a charge for each optional sight left out. Every line of that calculation is shown.</p>
+      <p class="mb-2">Hotels that look cheap can cost more once travel time and fares are counted. The app plans the days around each hotel, then compares hotels by <strong>generalised cost</strong>: rooms + admissions + estimated transport + travel time valued at what an hour of your time is worth + a charge for each optional sight left out. Every line of that calculation is shown.</p>
       <p class="mb-0">It is a hackathon project built on <strong>sample data</strong>: 10 to 12 sights and 3 made-up demo hotels per city, with prices, hours and travel times that are samples or estimates. It gives no live quotes and makes no bookings.</p>
     </section>
 
-    <section class="card-soft" aria-labelledby="arch-h" data-testid="architecture">
+    <section class="card-soft" data-title="how_it_works.exe" data-tone="pink" aria-labelledby="arch-h" data-testid="architecture">
       <h2 id="arch-h" class="h5">How it works</h2>
       <figure class="mb-2">
         <svg viewBox="0 0 760 250" role="img" aria-labelledby="arch-t arch-d" class="w-100" style="max-width:760px" font-family="Inter Variable, system-ui, sans-serif" font-size="13">
@@ -52,7 +77,7 @@ const cityNames = computed(() => (store.cities.length ? store.cities.map((c) => 
       </ol>
     </section>
 
-    <section class="card-soft" aria-labelledby="ai-h">
+    <section class="card-soft" data-title="ai_rules.exe" data-tone="lilac" aria-labelledby="ai-h">
       <h2 id="ai-h" class="h5">Exactly how the AI is used</h2>
       <ul class="mb-0">
         <li><strong>It parses language:</strong> free text into a draft of the trip form, or into proposed edits. Proposals fill an editable form or a queue; nothing runs until you confirm.</li>
@@ -64,7 +89,7 @@ const cityNames = computed(() => (store.cities.length ? store.cities.map((c) => 
       </ul>
     </section>
 
-    <section class="card-soft" aria-labelledby="lim-h">
+    <section class="card-soft" data-title="limitations.exe" data-tone="peach" aria-labelledby="lim-h">
       <h2 id="lim-h" class="h5">Limitations</h2>
       <ul class="mb-0">
         <li>Sample data only: made-up demo hotels, estimated prices, hours and travel times (straight-line distance, not real transit). Unknown prices and hours are shown as "unknown" and never assumed. No bookings, no live availability, no walking-distance limit yet.</li>
@@ -72,13 +97,13 @@ const cityNames = computed(() => (store.cities.length ? store.cities.map((c) => 
         <li>Detecting an unsupported city depends on the AI reporting it; with no AI, names that aren't in the selected city's data are reported as not found.</li>
         <li>The live AI evidence is small: a 20-check smoke test on one model, tuned on those checks (see the Proof page for the run history). It is not a benchmark of how well the AI reads real requests.</li>
         <li data-testid="interests-limit"><strong>Interests only highlight.</strong> Choosing "Most interested in" (or the AI reading interests from your text) marks matching sights and lists them first. It does not change the plan. The planner uses your Must visit / Include if it fits / Skip choices only.</li>
-        <li data-testid="cash-vs-true"><strong>Cash cost is not true cost.</strong> Cash cost is money spent (admissions, estimated transport, rooms). True cost adds the value you put on your travel time and a charge for optional sights left out; it exists only to compare hotels and is never money.</li>
+        <li data-testid="cash-vs-true"><strong>Cash cost is not generalised cost.</strong> Cash cost is money spent (admissions, estimated transport, rooms). Generalised cost adds the value you put on your travel time and a charge for optional sights left out; it exists only to compare hotels and is never money.</li>
         <li>Themes (Sightseeing, Shopping, Food &amp; drink) are a grouping in the interface, one primary theme per sight; the planner never sees them. Some themes are thin in the sample data and say so.</li>
         <li>On a free host the server sleeps when idle, so the first request can take about a minute.</li>
       </ul>
     </section>
 
-    <section id="privacy" class="card-soft" aria-labelledby="priv-h" data-testid="privacy">
+    <section id="privacy" class="card-soft" data-title="privacy.exe" data-tone="cyan" aria-labelledby="priv-h" data-testid="privacy">
       <h2 id="priv-h" class="h5">Privacy</h2>
       <ul class="mb-0">
         <li><strong>No accounts, and nothing is stored.</strong> There is no database. Plans are computed per request; the replanning API is stateless. This page keeps what you type in memory only (no cookies, no local storage) and "Reset" clears it.</li>

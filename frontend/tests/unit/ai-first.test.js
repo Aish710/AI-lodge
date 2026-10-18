@@ -30,7 +30,7 @@ afterEach(() => { vi.unstubAllGlobals(); resetAll(); store.health = null; store.
 describe('the Describe card is the first, primary card', () => {
   it('has the AI-first wording, no "(optional)", and the renamed button', () => {
     const w = mount(NlParsePanel)
-    expect(w.get('#nl-h').text()).toContain('Ask the AI to set up your trip')
+    expect(w.get('#nl-h').text()).toContain('Where to, friend?')
     expect(w.text()).not.toContain('(optional)')
     expect(w.text()).toContain('The AI fills the form below. You check everything before anything is planned.')
     expect(w.get('[data-testid=nl-extract]').text()).toBe('Ask the AI')
@@ -77,7 +77,7 @@ describe('What the AI understood', () => {
     expect(w.get('[data-testid=unresolved]').text()).toContain("not in this city's data")
     expect(w.findAll('[data-testid=candidate-chip]')).toHaveLength(2)         // the ambiguity is a choose-one, not a gate
     expect(w.get('[data-testid=nl-applied]').text()).toContain('already filled in')
-    expect(w.get('[data-testid=nl-applied]').text()).toContain('Nothing is planned until you click "Plan my trip"')
+    expect(w.get('[data-testid=nl-applied]').text()).toContain('Nothing is planned until you click "Make it happen!"')
     const apply = w.get('[data-testid=nl-apply]')
     expect(apply.attributes('disabled')).toBeUndefined()
     await apply.trigger('click')
@@ -167,10 +167,10 @@ describe('Your trip: ask the AI to change the plan', () => {
   })
 })
 
-describe('Explain this plan', () => {
+describe('Tell me why!', () => {
   it('is a prominent opt-in button; AI text carries the checked badge and the code warnings verbatim', () => {
     const w0 = mount(ExplainBlock, { props: { explanation: null } })
-    expect(w0.get('[data-testid=explain-button]').text()).toBe('Explain this plan')
+    expect(w0.get('[data-testid=explain-button]').text()).toBe('Tell me why!')
     const w = mount(ExplainBlock, { props: { explanation: { source: 'llm', text: 'ok', warnings: ['Unknown price: X'] } } })
     expect(w.get('[data-testid=explain-badge]').text()).toBe('AI-written, numbers checked')
     expect(w.get('[data-testid=explain-warnings]').text()).toContain('Unknown price: X')

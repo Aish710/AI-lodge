@@ -27,9 +27,15 @@ const trueCost = computed(() => {
 </script>
 <template>
   <section v-if="cs" class="card-soft cost-panel" aria-labelledby="cost-h" data-testid="cost-panel">
-    <h2 id="cost-h" class="h5">Cost, day by day <span class="badge-src badge-estimated">estimated</span></h2>
-    <div class="table-responsive">
-      <table class="table table-honest align-middle mb-2" style="min-width:0" data-testid="cost-table">
+    <h2 id="cost-h" class="h5">Your modelled spending</h2>
+    <dl class="spending-cards">
+      <div><dt>Demo hotel rooms</dt><dd>{{ money(cs.trip.rooms) }}</dd><span class="small muted">{{ money(cs.trip.nightly_rate) }} × {{ cs.trip.nights }} nights</span></div>
+      <div><dt>Known admissions</dt><dd>{{ money(cs.trip.admissions) }}</dd></div>
+      <div><dt>Estimated transport</dt><dd>{{ money(cs.trip.transport) }}</dd></div>
+      <div><dt>Modelled cash incl. rooms</dt><dd>{{ money(cs.trip.cash_total_with_rooms) }}</dd></div>
+    </dl>
+    <details data-testid="cash-breakdown"><summary>View detailed breakdown</summary><div class="table-responsive mt-3">
+      <table class="table table-honest align-middle mb-2" style="min-width:30rem" data-testid="cost-table">
         <caption class="sr-only">Cash cost per day: admissions, transport and the day total, in {{ cur }}.</caption>
         <thead><tr><th scope="col">Day</th><th scope="col" class="num">Admissions</th><th scope="col" class="num">Transport</th><th scope="col" class="num">Day total</th><th scope="col"><span class="sr-only">Share of the largest day</span></th></tr></thead>
         <tbody>
@@ -45,7 +51,7 @@ const trueCost = computed(() => {
           <tr class="fw-bold" data-testid="cost-trip-total"><th scope="row">Trip total in cash</th><td></td><td></td><td class="num" data-testid="trip-cash-total">{{ money(cs.trip.cash_total_with_rooms) }}</td><td></td></tr>
         </tbody>
       </table>
-    </div>
+    </div></details>
     <p v-if="cs.trip.unknown_price_count" class="small mb-2" style="color: var(--amber)" data-testid="cost-unknown"><span aria-hidden="true">!</span> {{ cs.trip.unknown_price_count }} {{ cs.trip.unknown_price_count === 1 ? 'price is' : 'prices are' }} unknown, not included: {{ names(cs.trip.unknown_price_ids).join(', ') }}.</p>
 
     <div v-if="budget !== null" class="mb-2" data-testid="budget-meter">

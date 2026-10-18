@@ -1,4 +1,5 @@
 <script setup>
+import { costTerms } from '../lib/costTerms.js'
 // Before / after / delta for an APPLIED replan. Everything comes from the server's diff; nothing is computed here except the direction cue.
 // A saving next to a "Not like-for-like" warning always carries that warning beside the number.
 import { computed } from 'vue'
@@ -17,7 +18,7 @@ const dayTime = (day, start) => `day ${day}, ${start}`
 <template>
   <section class="card-soft" aria-labelledby="diff-h" data-testid="diff-view">
     <h2 id="diff-h" class="h5">What changed</h2>
-    <p class="mb-2" data-testid="diff-summary">{{ result.summary }}</p>
+    <p class="mb-2" data-testid="diff-summary">{{ costTerms(result.summary) }}</p>
 
     <div v-if="diff.warnings.length" class="notice notice-warn mb-3" role="note" data-testid="diff-warnings">
       <span class="glyph" aria-hidden="true">!</span>

@@ -118,12 +118,12 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         <p v-if="fileNote.length" class="small muted mt-2 mb-0" data-testid="optional-missing">Not available in this build: {{ fileNote.join(', ') }}.</p>
       </section>
 
-      <section v-if="notes.length" class="card-soft" aria-labelledby="rtf-h" data-testid="read-first">
+      <section v-if="notes.length" class="card-soft" data-title="read_this_first.exe" data-tone="cyan" aria-labelledby="rtf-h" data-testid="read-first">
         <h2 id="rtf-h" class="h5">Read this first: the weak and neutral results</h2>
         <ul class="mb-0"><li v-for="x in notes" :key="x">{{ x }}</li></ul>
       </section>
 
-      <section class="card-soft" aria-labelledby="sc-h" data-testid="scenarios">
+      <section class="card-soft" data-title="scenarios.exe" data-tone="pink" aria-labelledby="sc-h" data-testid="scenarios">
         <h2 id="sc-h" class="h5">1. The 15 scenarios</h2>
         <p class="small muted">Rows marked "mocked" use a scripted stand-in for the AI: they verify the pipeline, not the model.</p>
         <div class="table-responsive"><table class="table table-honest align-middle mb-0">
@@ -135,7 +135,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         </table></div>
       </section>
 
-      <section class="card-soft" aria-labelledby="mt-h" data-testid="metrics">
+      <section class="card-soft" data-title="random_trips.exe" data-tone="lilac" aria-labelledby="mt-h" data-testid="metrics">
         <h2 id="mt-h" class="h5">2. Measured results ({{ n }} generated trips, sample data)</h2>
         <p class="small muted">Every figure states its N. Percentages that favour the product are rounded down, failure rates and costs up.</p>
 
@@ -170,7 +170,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         </ul>
 
         <div id="hotel-value" data-testid="hotel-value" style="scroll-margin-top: 70px">
-          <h3 class="h6">Hotel value: how often is the lowest-rate hotel NOT the best by true cost?</h3>
+          <h3 class="h6">Hotel value: how often is the lowest-rate hotel NOT the best by generalised cost?</h3>
           <p class="small muted">Hotels and rates are fictional and were tuned for the demo. This measures the model's behaviour on sample data, not real hotel markets. Only trips where all three hotels were feasible are counted.</p>
           <BarRow v-for="[v, e] in hv" :key="v" :label="`At ${formatJpy(Number(v))} an hour (N=${e.n_eligible} trips)`" :value="e.cheapest_by_rate_not_best" :max="e.n_eligible" :text="`${e.cheapest_by_rate_not_best} of ${e.n_eligible} (${pct(e.cheapest_by_rate_not_best, e.n_eligible)})`" tone="warn" />
           <p v-if="m.hotel_value.flip" class="small">The best hotel changed somewhere between ¥0 and ¥3,000 an hour in {{ m.hotel_value.flip.n_with_flip }} of {{ m.hotel_value.flip.n_analysed }} analysed trips; the median first change was at about {{ formatJpy(Math.floor(m.hotel_value.flip.first_flip_vot.median)) }} an hour ({{ m.hotel_value.flip.exact_crossing }} exact crossings, {{ m.hotel_value.flip.bisection_estimate }} estimates).</p>
@@ -185,7 +185,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         <p class="small mb-0">Solver status over trip solves: {{ Object.entries(m.solver_status.trip_solves).map(([k, v]) => `${k} ${v}`).join(', ') }}.</p>
       </section>
 
-      <section class="card-soft" aria-labelledby="ns-h" data-testid="not-shown">
+      <section class="card-soft" data-title="not_shown.exe" data-tone="peach" aria-labelledby="ns-h" data-testid="not-shown">
         <h2 id="ns-h" class="h5">3. What these numbers do not show</h2>
         <ul v-if="d.notShown?.length" class="mb-0">
           <li v-for="x in d.notShown" :key="x">{{ x }}</li>
@@ -194,7 +194,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         <p v-else class="mb-0 muted">The list was not found in the proof report.</p>
       </section>
 
-      <section class="card-soft" aria-labelledby="rk-h" data-testid="risks">
+      <section class="card-soft" data-title="risk_safeguard.exe" data-tone="cyan" aria-labelledby="rk-h" data-testid="risks">
         <h2 id="rk-h" class="h5">4. Risk, safeguard, test</h2>
         <template v-if="d.risks?.length">
           <p class="small">{{ d.risks.length }} risks are tracked, each with its safeguard and the test(s) that check it.</p>
@@ -206,7 +206,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         <p v-else class="mb-0 muted">The safety log was not found in this build.</p>
       </section>
 
-      <section class="card-soft" aria-labelledby="tt-h" data-testid="tests">
+      <section class="card-soft" data-title="how_we_tested.exe" data-tone="pink" aria-labelledby="tt-h" data-testid="tests">
         <h2 id="tt-h" class="h5">Test results</h2>
         <ul class="mb-0">
           <li v-if="d.tests.backend">Backend full suite (pytest): {{ d.tests.backend.passed }} passed, {{ d.tests.backend.failed }} failed, {{ d.tests.backend.skipped }} skipped of {{ d.tests.backend.total }} <span class="muted">({{ d.tests.backend.generated }}, {{ d.tests.backend.revision ?? 'revision unknown' }})</span></li>
@@ -220,7 +220,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         </ul>
       </section>
 
-      <section class="card-soft" aria-labelledby="hd-h" data-testid="hardening">
+      <section class="card-soft" data-title="api_hardening.exe" data-tone="lilac" aria-labelledby="hd-h" data-testid="hardening">
         <h2 id="hd-h" class="h5">5. API hardening results</h2>
         <p v-if="hardeningResult" class="mb-2"><strong>{{ hardeningResult[1] }} of {{ hardeningResult[2] }}</strong> abuse cases passed.</p>
         <details v-if="hardening.length"><summary class="fw-semibold">Every case</summary>
@@ -234,14 +234,14 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         <p v-else class="mb-0 muted">The hardening results were not found in this build.</p>
       </section>
 
-      <section class="card-soft" aria-labelledby="cl-h" data-testid="claims">
+      <section class="card-soft" data-title="claims.exe" data-tone="peach" aria-labelledby="cl-h" data-testid="claims">
         <h2 id="cl-h" class="h5">6. Claim sentences generated from the numbers</h2>
         <p class="small muted">Verbatim from README-claims.md. Each carries its N and its caveat.</p>
         <ul v-if="d.claims?.length" class="mb-0"><li v-for="c in d.claims" :key="c.id" class="mb-2" :data-testid="`claim-${c.id}`">{{ c.text }}</li></ul>
         <p v-else class="mb-0 muted">The claim sentences were not found in this build.</p>
       </section>
 
-      <section id="red-team" class="card-soft" aria-labelledby="rt-h" data-testid="red-team">
+      <section id="red-team" class="card-soft" data-title="red_team.exe" data-tone="cyan" aria-labelledby="rt-h" data-testid="red-team">
         <h2 id="rt-h" class="h5">Red team: attacks on the AI paths</h2>
         <template v-if="redteam">
           <p class="mb-2" data-testid="rt-simulated"><strong>Simulated models, not a real model.</strong> {{ redteam.runs }} runs: {{ attackCount }} attacks in English, Korean, Chinese and Malay, each sent through the real pipeline for every city to a deliberately gullible mock (it obeys the injection) and a harmless mock. A run counts as "affected" only if the final result a user would see changed: a safety flag set, a place from another city or from nowhere scheduled, an invented number, or the system prompt, a key or another user's data shown.</p>
@@ -275,7 +275,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         </div>
       </section>
 
-      <section v-if="itinRows.length" id="itinerary" class="card-soft" aria-labelledby="it-h" data-testid="itinerary-study">
+      <section v-if="itinRows.length" id="itinerary" class="card-soft" data-title="itinerary_study.exe" data-tone="pink" aria-labelledby="it-h" data-testid="itinerary-study">
         <h2 id="it-h" class="h5">Itinerary planning, separate from hotel choice</h2>
         <p class="small muted">Same trips, trip's own (fictional) hotel, data, constraints, estimated travel times and scoring for every arm. "Feasible" means every must-visit placed and no failed independent check. Matched routing re-solves the optimiser for exactly the sights a baseline placed, so any difference is order and day only. Seeded synthetic trips on sample data; not user-tested; each city on its own.</p>
         <div class="table-responsive"><table class="table table-honest align-middle" data-testid="itinerary-table">
@@ -288,7 +288,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
             <tbody><tr v-for="p in profRows" :key="p.city + p.label"><th scope="row">{{ cityLabel(p.city) }}</th><td>{{ p.label }}</td><td class="num">{{ p.comparable_trips }}</td><td class="num">{{ p.infeasible_with_profile }}</td><td class="num">{{ p.same_plan_as_no_profile }} of {{ p.feasible }}</td><td class="num">{{ p.changed_minutes.median ?? '-' }}</td></tr></tbody></table></div></details>
       </section>
 
-      <section v-if="baselineCities.length" id="baselines" class="card-soft" aria-labelledby="bl-h" data-testid="baselines">
+      <section v-if="baselineCities.length" id="baselines" class="card-soft" data-title="fair_baselines.exe" data-tone="lilac" aria-labelledby="bl-h" data-testid="baselines">
         <h2 id="bl-h" class="h5">Fair baselines: cheapest first, convenience first, joint</h2>
         <p class="small muted">Same sights, rules, estimated travel times and objective for all three; only the way the hotel is chosen differs. Seeded synthetic trips on sample data with made-up hotels, at each city's own default value of time. Not user-tested. Each city is reported on its own.</p>
         <div class="table-responsive"><table class="table table-honest align-middle" data-testid="baseline-table">
@@ -306,7 +306,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
           </ul></details>
       </section>
 
-      <section v-if="verification" id="data-verification" class="card-soft" aria-labelledby="dv-h" data-testid="data-verification">
+      <section v-if="verification" id="data-verification" class="card-soft" data-title="data_check.exe" data-tone="peach" aria-labelledby="dv-h" data-testid="data-verification">
         <h2 id="dv-h" class="h5">Data verification</h2>
         <p class="mb-2" data-testid="dv-sentence"><strong>{{ verification.readme_sentence }}.</strong></p>
         <p class="small muted">Counted by a script from the data files. "Source-checked" means an official page stated the value (the page and date are recorded in the data); "human-verified" means a person confirmed it. A field is a checkable group (hours and closing days, admission, advance booking, coordinates, name and area), an alias spelling, or a hotel rate; made-up hotel rates and our own visit-duration estimates are "not applicable".</p>
@@ -314,7 +314,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
           <tbody><tr v-for="(v, c) in verification.cities" :key="c"><th scope="row">{{ cityLabel(c) }}</th><td>{{ v.unchecked }}</td><td>{{ v.source_checked }}</td><td>{{ v.human_verified }}</td><td>{{ v.not_applicable }}</td></tr></tbody></table></div>
       </section>
 
-      <section id="user-test" class="card-soft" aria-labelledby="ut-h" data-testid="user-test">
+      <section id="user-test" class="card-soft" data-title="user_test.exe" data-tone="cyan" aria-labelledby="ut-h" data-testid="user-test">
         <h2 id="ut-h" class="h5">User test</h2>
         <p v-if="!userTest.rows" class="mb-0" data-testid="user-test-none"><strong>Not run yet.</strong> No one outside the team has tried the app under the written protocol, so there are no user figures here. Nothing is filled in until real results exist.</p>
         <template v-else>
@@ -329,7 +329,7 @@ const fileNote = computed(() => (ev.value?.missing ?? []).filter((x) => !x.requi
         </template>
       </section>
 
-      <section class="card-soft" aria-labelledby="lv-h" data-testid="live-eval">
+      <section class="card-soft" data-title="live_ai.exe" data-tone="pink" aria-labelledby="lv-h" data-testid="live-eval">
         <h2 id="lv-h" class="h5">7. Live AI evidence</h2>
         <p class="small" data-testid="live-framing"><strong>Tuned on these checks; small sample; one model, through a third-party gateway.</strong> The planner and the checks around the AI are tested with scripted stand-ins; this card is the only place a real model's behaviour is reported.</p>
 

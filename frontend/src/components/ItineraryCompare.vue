@@ -24,6 +24,26 @@ const adding = ref({})
 const live = computed(() => store.itin.live)
 const liveStop = (id) => live.value?.stops?.find((s) => s.id === id)
 const announce = ref('')
+const undoDraft = ref(null)
+watch(() => store.plan, () => { undoDraft.value = null })
+function resetDraft() {
+  undoDraft.value = store.itin.days?.map(d => [...d]) ?? null
+  startItinerary()
+  store.itin.days = store.plan.result.days.map(d => d.stops.map(s => s.attraction_id))
+  store.itin.result = null; schedule()
+}
+function undoEdit() {
+  if (!undoDraft.value) return
+  const current = store.itin.days.map(d => [...d])
+  store.itin.days = undoDraft.value; undoDraft.value = current
+  store.itin.result = null; schedule()
+}
+function showEditor() {
+  open.value = true
+  if (!store.itin.days) { startItinerary(); store.itin.days = store.plan.result.days.map(d => d.stops.map(s => s.attraction_id)) }
+  schedule()
+}
+defineExpose({ showEditor })
 
 let timer = null
 function schedule() { if (classic.value) return; clearTimeout(timer); timer = setTimeout(() => checkDraft(), 350) }       // debounced: no request per pixel of dragging
@@ -32,6 +52,7 @@ watch(() => store.itin.days, () => { if (open.value) schedule() }, { deep: true 
 
 function edit(next, id = null) {
   if (next === store.itin.days) return
+  undoDraft.value = store.itin.days.map(d => [...d])
   store.itin.days = next; store.itin.result = null
   if (id) announce.value = moveAnnouncement(nameOf(id), next, id)
 }
@@ -60,11 +81,12 @@ async function keyMove(next, id) { edit(next, id); await nextTick(); document.qu
 </script>
 <template>
   <section v-if="store.plan && store.planPrefs" class="card-soft" data-testid="itinerary-compare" aria-labelledby="ic-h">
-    <h2 id="ic-h" class="h5 mb-1">Compare with my itinerary</h2>
-    <p class="muted small mb-2">Already have a plan in mind? Drag sights between days (or use the arrows), see at once whether your draft works, then compare it with the optimiser's plan for the same sights. Estimated travel times from sample data.</p>
+    <h2 id="ic-h" class="h5 mb-1">Edit your itinerary</h2>
+    <p class="muted small mb-2">Arrange a separate draft, check whether it works, then compare it with a solver-checked plan. Your accepted trip stays unchanged until you choose a replacement.</p>
     <button type="button" class="btn btn-sm btn-outline-primary" :aria-expanded="open" data-testid="ic-toggle" @click="toggle">{{ open ? 'Hide my itinerary' : 'Arrange my own itinerary' }}</button>
 
     <div v-if="open && store.itin.days" class="mt-3">
+      <div class="d-flex gap-2 mb-3"><button type="button" class="btn btn-sm btn-outline-secondary" :disabled="!undoDraft" @click="undoEdit" data-testid="ic-undo">Undo last edit</button><button type="button" class="btn btn-sm btn-outline-secondary" @click="resetDraft" data-testid="ic-reset">Reset draft to current trip</button></div>
       <p class="visually-hidden" role="status" aria-live="polite" data-testid="ic-announce">{{ announce }}</p>
       <div v-if="!classic" class="small mb-2" :class="live?.feasible ? 'text-success' : ''" aria-live="polite" data-testid="ic-live">
         <template v-if="store.itin.liveBusy && !live">Checking your draft…</template>

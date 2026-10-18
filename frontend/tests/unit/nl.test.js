@@ -199,7 +199,7 @@ describe('diff, tray, dialog and stop actions render the safety cues', () => {
     expect(row.text()).toContain('decrease')
     expect(row.get('[data-testid=not-like-for-like]').text()).toContain('Not like-for-like')
     for (const wtext of applied.diff.warnings) expect(w.get('[data-testid=diff-warnings]').text()).toContain(wtext)
-    expect(w.get('[data-testid=diff-summary]').text()).toBe(applied.summary)
+    expect(w.get('[data-testid=diff-summary]').text()).toBe(applied.summary.replace('True cost', 'Generalised cost'))
     expect(w.get('[data-testid=diff-kept]').text()).toContain('Tokyo Skytree')
     expect(w.get('[data-testid=diff-removed]').text()).toContain('teamLab Planets')
     expect(w.get('[data-testid=diff-removed]').text()).toContain('removed by you')
