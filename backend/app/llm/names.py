@@ -91,6 +91,16 @@ def _resolve_in(raw: str, ds: Dataset, ids: list[str]) -> NameMatch:
     return m
 
 
+def stated_in_text(aid: str, raw: str, ds: Dataset, norm_text: str) -> bool:
+    """Did the USER write this place? True if the model's string, or any name or alias of the resolved place, appears in the user's (normalised) text.
+    A model that answers "the temple" with a specific temple from its own knowledge resolves to a real place the user never named; code must not add it."""
+    forms = {normalise(raw)}
+    if aid in ds.attractions:
+        a = ds.attractions[aid]
+        forms |= {normalise(x) for x in [a.name, *a.aliases]}
+    return any(f and f in norm_text for f in forms)
+
+
 def resolve_attraction(raw: str, ds: Dataset, scope_ids: list[str] | None = None) -> NameMatch:
     """Resolve against `scope_ids` (e.g. the current schedule) first, then the whole dataset."""
     if scope_ids:

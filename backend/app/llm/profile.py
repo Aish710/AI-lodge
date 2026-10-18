@@ -14,8 +14,8 @@ from app import config
 from app.config import get_settings
 from app.data.loader import Dataset
 from app.llm.client import LLMClient
-from app.llm.extract import resolve_money
-from app.llm.names import resolve_attraction
+from app.llm.extract import NOT_STATED, resolve_money
+from app.llm.names import normalise, resolve_attraction, stated_in_text
 from app.llm.prompts import PROMPT_VERSION, profile_system
 from app.llm.runner import call_json
 from app.llm.sanitize import sanitise_user_text
@@ -104,6 +104,9 @@ def parse_profile(text: str, current: dict, user_overrides: list[str], ds: Datas
             questions.append("You mentioned a limited budget. How much is it (an amount and currency)? I will not guess a number.")
     for nm in o.must_visit_names:
         m = resolve_attraction(nm, ds)
+        if m.status == "resolved" and not stated_in_text(m.id, nm, ds, normalise(san.text)):
+            unresolved.append(UnresolvedName(input=nm, suggestions=[], message=NOT_STATED))
+            continue
         if m.status == "ambiguous":
             ambiguities.append(Ambiguity(input=nm, candidates=[Candidate(**c) for c in m.candidates]))
         elif m.status != "resolved":

@@ -44,6 +44,7 @@ class Check:
     passed: bool
     reason: str
     calls: int
+    inconclusive: bool = False       # the model was unreachable: this says nothing about its answers; it is NOT a pass and NOT a model failure, and it must be re-run
 
 
 def _norm(text: str) -> str:
@@ -72,8 +73,11 @@ def run_city(city: str, ds, all_ds, client, prompts: dict) -> list[Check]:
     got = {x.id for x in r.resolved_names} | set(r.draft.must_visit if r.draft else [])
     missing = sorted(set(p["expect_resolved"]) - got)
     ok = r.draft is not None and not missing
-    out.append(Check(city, CHECKS[0], ok, "draft built and expected places resolved" if ok else
-                     (f"no draft (status {r.status})" if r.draft is None else f"places not resolved: {', '.join(missing)}"), n))
+    if r.status == "llm_unavailable":
+        out.append(Check(city, CHECKS[0], False, "INCONCLUSIVE: the model could not be reached (no answer to judge); re-run this check", n, inconclusive=True))
+    else:
+      out.append(Check(city, CHECKS[0], ok, "draft built and expected places resolved" if ok else
+                       (f"no draft (status {r.status})" if r.draft is None else f"places not resolved: {', '.join(missing)}"), n))
 
     p = prompts[city]["wrong_city"]
     r, n = parse(p["text"])
@@ -116,7 +120,7 @@ def run_all(client, all_ds, report=print) -> list[Check]:
     for city in CITIES:
         for c in run_city(city, all_ds[city], all_ds, client, prompts):
             results.append(c)
-            report(f"{'PASS' if c.passed else 'FAIL'}  {all_ds[city].city.display_name:<13} {c.name:<20} {c.calls} call(s)  {c.reason}")
+            report(f"{'PASS' if c.passed else 'INCONCLUSIVE' if c.inconclusive else 'FAIL'}  {all_ds[city].city.display_name:<13} {c.name:<20} {c.calls} call(s)  {c.reason}")
     return results
 
 
@@ -129,12 +133,12 @@ def write_report(results: list[Check], client, all_ds, out_dir: Path) -> Path:
              "Produced by `backend/scripts/ai_selfcheck.py`.", "",
              "This is a smoke check of the live pipeline, not a benchmark: one run, one prompt per check, a handful of checks per city. "
              "A FAIL is reported as it happened; a template fallback on check 5 is safe behaviour but counts as FAIL here because the model's wording was not accepted.", "",
-             f"**{n_pass} of {len(results)} checks passed.**", "",
+             f"**{n_pass} of {len(results)} checks passed.**" + (f" {sum(c.inconclusive for c in results)} inconclusive (the model could not be reached; not a pass, not a model failure; re-run needed)." if any(c.inconclusive for c in results) else ""), "",
              "| City | " + " | ".join(CHECKS) + " | Passed |", "|---|" + "---|" * (len(CHECKS) + 1)]
     for city in CITIES:
-        lines.append(f"| {all_ds[city].city.display_name} | " + " | ".join("PASS" if c.passed else "FAIL" for c in per[city]) + f" | {sum(c.passed for c in per[city])}/{len(per[city])} |")
+        lines.append(f"| {all_ds[city].city.display_name} | " + " | ".join("PASS" if c.passed else "INCONCLUSIVE" if c.inconclusive else "FAIL" for c in per[city]) + f" | {sum(c.passed for c in per[city])}/{len(per[city])} |")
     lines += ["", "## Reasons", "", "| City | Check | Result | Calls | Reason |", "|---|---|---|---|---|"]
-    lines += [f"| {all_ds[c.city].city.display_name} | {c.name} | {'PASS' if c.passed else 'FAIL'} | {c.calls} | {c.reason} |" for c in results]
+    lines += [f"| {all_ds[c.city].city.display_name} | {c.name} | {'PASS' if c.passed else 'INCONCLUSIVE' if c.inconclusive else 'FAIL'} | {c.calls} | {c.reason} |" for c in results]
     lines += ["", "No prompts, no model replies and no key are stored in this file. All data is sample data."]
     path = out_dir / "ai-selfcheck.md"
     path.write_text("\n".join(lines) + "\n")

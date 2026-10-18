@@ -14,7 +14,7 @@ from app.data.loader import Dataset
 from app.llm.client import LLMClient
 from app.llm.currency import resolve_currency, to_local
 from app.llm.destination import analyse, build_index, cross_city_hint
-from app.llm.names import resolve_attraction
+from app.llm.names import normalise, resolve_attraction, stated_in_text
 from app.llm.prompts import PROMPT_VERSION, extract_system
 from app.llm.runner import call_json
 from app.llm.sanitize import sanitise_user_text
@@ -88,11 +88,17 @@ def ambiguous_interests(interests: list[str], ds: Dataset, existing: list[Ambigu
     return out
 
 
-def resolve_list(names: list[str], ds: Dataset, scope_ids: list[str] | None = None, all_datasets: dict[str, Dataset] | None = None):
+NOT_STATED = "The AI suggested this place but you did not name it, so it was not added. Name the place you mean."
+
+
+def resolve_list(names: list[str], ds: Dataset, scope_ids: list[str] | None = None, all_datasets: dict[str, Dataset] | None = None, user_text: str | None = None):
     resolved, unresolved, ambiguities = [], [], []
+    norm_text = normalise(user_text) if user_text is not None else None
     for n in names:
         m = resolve_attraction(n, ds, scope_ids)
-        if m.status == "resolved":
+        if m.status == "resolved" and norm_text is not None and not stated_in_text(m.id, n, ds, norm_text):
+            unresolved.append(UnresolvedName(input=n, suggestions=[], message=NOT_STATED))
+        elif m.status == "resolved":
             resolved.append(ResolvedName(input=n, id=m.id, name=m.name, matched_as=m.matched_as, from_schedule=m.from_schedule))
         elif m.status == "ambiguous":
             ambiguities.append(Ambiguity(input=n, candidates=[Candidate(**c) for c in m.candidates]))
@@ -147,8 +153,8 @@ def extract_preferences(text: str, ds: Dataset, client: LLMClient | None, *, sta
                          "display_currency": ds.city.display_currency_code,
                          "sample_fx_to_display_currency": ds.city.sample_fx_to_display_currency}
 
-    must, must_unres, must_amb = resolve_list(ex.must_visit_names[:config.LLM_MAX_NAMES], ds, all_datasets=all_datasets)
-    skip, skip_unres, skip_amb = resolve_list(ex.skip_names[:config.LLM_MAX_NAMES], ds, all_datasets=all_datasets)
+    must, must_unres, must_amb = resolve_list(ex.must_visit_names[:config.LLM_MAX_NAMES], ds, all_datasets=all_datasets, user_text=san.text)
+    skip, skip_unres, skip_amb = resolve_list(ex.skip_names[:config.LLM_MAX_NAMES], ds, all_datasets=all_datasets, user_text=san.text)
     interest_amb = ambiguous_interests(ex.interests[:config.LLM_MAX_NAMES], ds, must_amb + skip_amb)
     both = {r.id for r in must} & {r.id for r in skip}
     for aid in sorted(both):

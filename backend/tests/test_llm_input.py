@@ -197,7 +197,7 @@ def test_unsupported_currency_asks_and_jpy_strict_budget_works():
 
 
 def test_must_and_skip_conflict_is_a_clarification():
-    r = extract_preferences("2 days", DS, MockLLM([extraction(must_visit_names=["Senso-ji"], skip_names=["Sensoji"])]))
+    r = extract_preferences("2 days, I want Senso-ji but skip Sensoji", DS, MockLLM([extraction(must_visit_names=["Senso-ji"], skip_names=["Sensoji"])]))
     assert r.status == "needs_clarification" and "both must-visit and skip" in " ".join(r.clarifications)
     assert "senso_ji" not in r.draft.must_visit and "senso_ji" not in r.draft.skip
 

@@ -139,3 +139,19 @@ def test_cli_opt_in_without_key_or_model_says_exactly_what_is_missing(tmp_path):
 def test_cli_plan_is_zero_calls_and_fits_the_cap():
     r = _cli("--plan")
     assert "Zero calls were made" in r.stdout and "hard cap 40" in r.stdout
+
+
+def test_a_model_that_could_not_be_reached_is_inconclusive_not_a_pass_and_not_a_model_failure(tmp_path):
+    class Flaky(RoutedMock):
+        def complete(self, system, messages, max_tokens):
+            if self.calls == 0:
+                self.calls += 1
+                raise LLMUnavailable("timeout")
+            return super().complete(system, messages, max_tokens)
+    client = lc.Capped(Flaky(), config.SELFCHECK_MAX_CALLS)
+    res = sc.run_all(client, ALL, report=lambda *_: None)
+    first = res[0]
+    assert first.inconclusive and not first.passed and "INCONCLUSIVE" in first.reason
+    assert sum(c.passed for c in res) == 19 and not any(c.inconclusive for c in res[1:])
+    text = sc.write_report(res, client, ALL, tmp_path).read_text()
+    assert "1 inconclusive" in text and "INCONCLUSIVE" in text
