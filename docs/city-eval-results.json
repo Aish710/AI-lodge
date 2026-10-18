@@ -1,10 +1,10 @@
 {
  "meta": {
-  "date": "2026-10-18 03:22 UTC",
-  "commit": "f7ce1d2",
+  "date": "2026-10-18 04:10 UTC",
+  "commit": "aa4946b",
   "seed": 20261014,
   "trips_per_added_city": 20,
-  "elapsed_seconds": 10.8
+  "elapsed_seconds": 10.7
  },
  "integrity": [
   {
@@ -840,7 +840,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0172,
+      "runtime_seconds": 0.0174,
       "solver_status": "OPTIMAL",
       "travel_minutes": 154,
       "total_jpy": 23,
@@ -1015,7 +1015,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0046,
+      "runtime_seconds": 0.0044,
       "solver_status": "OPTIMAL",
       "travel_minutes": 120,
       "total_jpy": 177,
@@ -1275,7 +1275,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0268,
+      "runtime_seconds": 0.0276,
       "solver_status": "OPTIMAL",
       "travel_minutes": 185,
       "total_jpy": 42,
@@ -1475,7 +1475,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.017,
+      "runtime_seconds": 0.0175,
       "solver_status": "OPTIMAL",
       "travel_minutes": 207,
       "total_jpy": 202,
@@ -1663,7 +1663,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0455,
+      "runtime_seconds": 0.0431,
       "solver_status": "OPTIMAL",
       "travel_minutes": 202,
       "total_jpy": 104,
@@ -1750,7 +1750,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0059,
+      "runtime_seconds": 0.0055,
       "solver_status": "OPTIMAL",
       "travel_minutes": 131,
       "total_jpy": 117,
@@ -1836,7 +1836,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0378,
+      "runtime_seconds": 0.0381,
       "solver_status": "OPTIMAL",
       "travel_minutes": 108,
       "total_jpy": 178,
@@ -1922,7 +1922,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0218,
+      "runtime_seconds": 0.0221,
       "solver_status": "OPTIMAL",
       "travel_minutes": 191,
       "total_jpy": 42,
@@ -2011,7 +2011,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0419,
+      "runtime_seconds": 0.0422,
       "solver_status": "OPTIMAL",
       "travel_minutes": 146,
       "total_jpy": 38,
@@ -2115,7 +2115,7 @@
       "conflict_codes": [
        "baseline_not_placed"
       ],
-      "runtime_seconds": 0.0,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 58,
       "total_jpy": 10,
@@ -2194,7 +2194,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0806,
+      "runtime_seconds": 0.081,
       "solver_status": "OPTIMAL",
       "travel_minutes": 175,
       "total_jpy": 87,
@@ -2371,7 +2371,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0487,
+      "runtime_seconds": 0.0494,
       "solver_status": "OPTIMAL",
       "travel_minutes": 139,
       "total_jpy": 195,
@@ -4353,8 +4353,8 @@
     "machine_dependent": {
      "solver_runtime_seconds": {
       "n": 20,
-      "mean": 0.023935,
-      "max": 0.0806
+      "mean": 0.023960000000000002,
+      "max": 0.081
      }
     }
    }
@@ -4938,7 +4938,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0176,
+      "runtime_seconds": 0.0197,
       "solver_status": "OPTIMAL",
       "travel_minutes": 136,
       "total_jpy": 39828,
@@ -5033,7 +5033,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0174,
+      "runtime_seconds": 0.0181,
       "solver_status": "OPTIMAL",
       "travel_minutes": 62,
       "total_jpy": 9311,
@@ -5201,7 +5201,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0037,
+      "runtime_seconds": 0.0038,
       "solver_status": "OPTIMAL",
       "travel_minutes": 0,
       "total_jpy": 0,
@@ -5239,7 +5239,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0001,
+      "runtime_seconds": 0.0,
       "solver_status": "N/A",
       "travel_minutes": 69,
       "total_jpy": 30523,
@@ -5273,7 +5273,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0052,
+      "runtime_seconds": 0.0053,
       "solver_status": "OPTIMAL",
       "travel_minutes": 0,
       "total_jpy": 0,
@@ -5361,7 +5361,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.031,
+      "runtime_seconds": 0.0311,
       "solver_status": "OPTIMAL",
       "travel_minutes": 138,
       "total_jpy": 8932,
@@ -5647,7 +5647,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0077,
+      "runtime_seconds": 0.0072,
       "solver_status": "OPTIMAL",
       "travel_minutes": 140,
       "total_jpy": 33001,
@@ -5830,7 +5830,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.029,
+      "runtime_seconds": 0.0292,
       "solver_status": "OPTIMAL",
       "travel_minutes": 69,
       "total_jpy": 6505,
@@ -5955,7 +5955,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0013,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 206,
       "total_jpy": 63222,
@@ -5993,7 +5993,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0092,
+      "runtime_seconds": 0.0093,
       "solver_status": "OPTIMAL",
       "travel_minutes": 41,
       "total_jpy": 4543,
@@ -6079,7 +6079,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0157,
+      "runtime_seconds": 0.0188,
       "solver_status": "OPTIMAL",
       "travel_minutes": 69,
       "total_jpy": 6505,
@@ -6165,7 +6165,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0296,
+      "runtime_seconds": 0.0302,
       "solver_status": "OPTIMAL",
       "travel_minutes": 139,
       "total_jpy": 8917,
@@ -6249,7 +6249,7 @@
       "conflict_codes": [
        "no_feasible_schedule"
       ],
-      "runtime_seconds": 0.0042,
+      "runtime_seconds": 0.0045,
       "solver_status": "INFEASIBLE",
       "travel_minutes": null,
       "total_jpy": null,
@@ -6346,7 +6346,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0125,
+      "runtime_seconds": 0.0127,
       "solver_status": "OPTIMAL",
       "travel_minutes": 62,
       "total_jpy": 9311,
@@ -6517,7 +6517,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0103,
+      "runtime_seconds": 0.0104,
       "solver_status": "OPTIMAL",
       "travel_minutes": 95,
       "total_jpy": 7409,
@@ -8261,8 +8261,8 @@
     "machine_dependent": {
      "solver_runtime_seconds": {
       "n": 20,
-      "mean": 0.010805,
-      "max": 0.031
+      "mean": 0.011165,
+      "max": 0.0311
      }
     }
    }
@@ -8848,7 +8848,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0727,
+      "runtime_seconds": 0.0722,
       "solver_status": "OPTIMAL",
       "travel_minutes": 165,
       "total_jpy": 78,
@@ -9031,7 +9031,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.01,
+      "runtime_seconds": 0.0099,
       "solver_status": "OPTIMAL",
       "travel_minutes": 113,
       "total_jpy": 80,
@@ -9190,7 +9190,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0175,
+      "runtime_seconds": 0.0174,
       "solver_status": "OPTIMAL",
       "travel_minutes": 112,
       "total_jpy": 48,
@@ -9281,7 +9281,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0893,
+      "runtime_seconds": 0.0885,
       "solver_status": "OPTIMAL",
       "travel_minutes": 208,
       "total_jpy": 101,
@@ -9374,7 +9374,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0433,
+      "runtime_seconds": 0.0426,
       "solver_status": "OPTIMAL",
       "travel_minutes": 219,
       "total_jpy": 94,
@@ -9517,7 +9517,7 @@
       "conflict_codes": [
        "nn_not_placed"
       ],
-      "runtime_seconds": 0.0002,
+      "runtime_seconds": 0.0001,
       "solver_status": "N/A",
       "travel_minutes": 189,
       "total_jpy": 118,
@@ -9572,7 +9572,7 @@
        2
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.012,
+      "runtime_seconds": 0.0119,
       "solver_status": "OPTIMAL",
       "travel_minutes": 115,
       "total_jpy": 53,
@@ -9664,7 +9664,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0501,
+      "runtime_seconds": 0.05,
       "solver_status": "OPTIMAL",
       "travel_minutes": 255,
       "total_jpy": 28,
@@ -9761,7 +9761,7 @@
        1
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0849,
+      "runtime_seconds": 0.0848,
       "solver_status": "OPTIMAL",
       "travel_minutes": 239,
       "total_jpy": 87,
@@ -9930,7 +9930,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.016,
+      "runtime_seconds": 0.0161,
       "solver_status": "OPTIMAL",
       "travel_minutes": 208,
       "total_jpy": 55,
@@ -10018,7 +10018,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0239,
+      "runtime_seconds": 0.0248,
       "solver_status": "OPTIMAL",
       "travel_minutes": 204,
       "total_jpy": 61,
@@ -10107,7 +10107,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0329,
+      "runtime_seconds": 0.0362,
       "solver_status": "OPTIMAL",
       "travel_minutes": 209,
       "total_jpy": 89,
@@ -10199,7 +10199,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0064,
+      "runtime_seconds": 0.0067,
       "solver_status": "OPTIMAL",
       "travel_minutes": 183,
       "total_jpy": 73,
@@ -10373,7 +10373,7 @@
        0
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0037,
+      "runtime_seconds": 0.0038,
       "solver_status": "OPTIMAL",
       "travel_minutes": 50,
       "total_jpy": 8,
@@ -10461,7 +10461,7 @@
        3
       ],
       "conflict_codes": [],
-      "runtime_seconds": 0.0213,
+      "runtime_seconds": 0.0211,
       "solver_status": "OPTIMAL",
       "travel_minutes": 204,
       "total_jpy": 61,
@@ -12542,8 +12542,8 @@
     "machine_dependent": {
      "solver_runtime_seconds": {
       "n": 20,
-      "mean": 0.03039,
-      "max": 0.0893
+      "mean": 0.03049,
+      "max": 0.0885
      }
     }
    }
